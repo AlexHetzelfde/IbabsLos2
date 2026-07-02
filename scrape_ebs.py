@@ -9,8 +9,16 @@ Haltes:
     Gedempte Gracht       NL:S:37223860
     Station Zaandam       NL:S:37220130   (alleen Provincialeweg)
 
-Resultaat: data/ebs_uitval.json (alleen geannuleerde ritten)
-           data/ebs_totaal_teller.json (totaal unieke ritten per dag)
+Resultaat:
+    data/ebs_uitval.json              — alleen geannuleerde ritten VAN VANDAAG
+    data/ebs_totaal_teller.json       — totaal unieke ritten VAN VANDAAG
+    data/ebs_percentage_historie.json — 1 samengevatte regel per afgesloten dag
+                                         (totaal, cancelled, pct) — groeit met
+                                         maar ~365 regels per jaar, blijft klein
+
+Zodra een nieuwe dag begint, wordt de vorige dag automatisch samengevat naar
+ebs_percentage_historie.json en verdwijnen de losse ritten uit ebs_uitval.json
+en ebs_totaal_teller.json. Zo groeien die twee bestanden nooit onbeperkt door.
 
 Elke rit is een uniek record op (journey_id + datum). Eén fysieke rit die
 op meerdere van de drie haltes stopt, wordt samengevoegd tot één record
@@ -24,9 +32,9 @@ Status per rit (op rit-niveau, "ergste" status wint over de haltes heen):
 Gebruik:
     python3 scrape_ebs.py
 
-Draai dit elke 15 minuten (bijv. via GitHub Actions cron) zodat ritten
-die kort van tevoren worden geannuleerd niet gemist worden voordat ze
-van het bord verdwijnen.
+Draai dit elke 15 minuten (bijv. via cron-jobs.org die een GitHub Actions
+workflow_dispatch triggert) zodat ritten die kort van tevoren worden
+geannuleerd niet gemist worden voordat ze van het bord verdwijnen.
 """
 
 import json
@@ -47,8 +55,9 @@ except ImportError:
 
 # ── CONFIGURATIE ──────────────────────────────────────────────────────────────
 BASE_URL = "https://drgl.nl"
-OUTPUT   = "data/ebs_uitval.json"
-TELLER_BESTAND = "data/ebs_totaal_teller.json"
+OUTPUT           = "data/ebs_uitval.json"
+TELLER_BESTAND   = "data/ebs_totaal_teller.json"
+HISTORIE_BESTAND = "data/ebs_percentage_historie.json"
 
 HALTES = [
     {"id": "NL:S:37223552", "naam": "De Vlinder"},
@@ -304,6 +313,53 @@ def bewaar_teller(teller):
         json.dump(teller, f, ensure_ascii=False, indent=2)
 
 
+# ── HISTORIE (1 samengevatte regel per afgesloten dag) ────────────────────────
+def laad_historie():
+    if not os.path.exists(HISTORIE_BESTAND):
+        return {}
+    with open(HISTORIE_BESTAND, encoding="utf-8") as f:
+        return json.load(f)
+
+
+def bewaar_historie(historie):
+    os.makedirs("data", exist_ok=True)
+    with open(HISTORIE_BESTAND, "w", encoding="utf-8") as f:
+        json.dump(historie, f, ensure_ascii=False, indent=2)
+
+
+def archiveer_oude_dagen(vandaag, teller, bestaand_ruw):
+    """
+    Zet elke dag die niet 'vandaag' is om in één samengevatte regel in
+    ebs_percentage_historie.json, en verwijdert die dag daarna uit de
+    teller. De aanroeper is verantwoordelijk voor het filteren van
+    bestaand_ruw (ebs_uitval.json) op alleen 'vandaag' ná deze aanroep.
+    """
+    oude_datums = {d for d in teller if d != vandaag}
+    oude_datums |= {r["datum"] for r in bestaand_ruw.values() if r["datum"] != vandaag}
+    if not oude_datums:
+        return teller
+
+    historie = laad_historie()
+    gewijzigd = False
+    for oude_datum in oude_datums:
+        if oude_datum in historie:
+            continue
+        totaal    = teller.get(oude_datum, {}).get("totaal", 0)
+        cancelled = sum(1 for r in bestaand_ruw.values() if r["datum"] == oude_datum)
+        pct = round(cancelled / totaal * 100, 1) if totaal else 0
+        historie[oude_datum] = {"totaal": totaal, "cancelled": cancelled, "pct": pct}
+        gewijzigd = True
+
+    if gewijzigd:
+        bewaar_historie(historie)
+        print(f"  Historie bijgewerkt met {len(oude_datums)} afgesloten dag(en)")
+
+    for oude_datum in oude_datums:
+        teller.pop(oude_datum, None)
+
+    return teller
+
+
 # ── HOOFDPROGRAMMA ────────────────────────────────────────────────────────────
 def main():
     nu = datetime.now()
@@ -333,8 +389,14 @@ def main():
     # Combineer alle vertrekken tot unieke ritten (ongeacht status)
     nieuwe_ritten = combineer_ritten(alle_vertrekken)
 
-    # ── TELLER BIJWERKEN ──────────────────────────────────
-    teller = laad_teller()
+    # ── OUDE DAGEN ARCHIVEREN & OPRUIMEN ──────────────────
+    # Alles wat nu nog in ebs_uitval.json / ebs_totaal_teller.json staat en
+    # niet van vandaag is, wordt samengevat naar de historie en daarna
+    # weggegooid, zodat beide bestanden nooit onbeperkt groeien.
+    teller       = laad_teller()
+    bestaand_ruw = load_existing()
+    teller       = archiveer_oude_dagen(vandaag, teller, bestaand_ruw)
+
     if vandaag not in teller:
         teller[vandaag] = {"totaal": 0, "journeys": []}
 
@@ -346,17 +408,20 @@ def main():
     if nieuwe_ids:
         teller[vandaag]["totaal"] += len(nieuwe_ids)
         teller[vandaag]["journeys"].extend(nieuwe_ids)
-        bewaar_teller(teller)
         print(f"  Teller: +{len(nieuwe_ids)} unieke ritten vandaag → totaal {teller[vandaag]['totaal']}")
 
-    # ── ALLEEN CANCELLED OPSLAAN ──────────────────────────
-    bestaand = load_existing()
-    bestaand = {rid: r for rid, r in bestaand.items() if r.get("status") == "cancelled"}
+    bewaar_teller(teller)
+
+    # ── ALLEEN CANCELLED VAN VANDAAG OPSLAAN ──────────────
+    bestaand = {
+        rid: r for rid, r in bestaand_ruw.items()
+        if r.get("status") == "cancelled" and r.get("datum") == vandaag
+    }
 
     nieuw_count = 0
     update_count = 0
     for rid, rit in nieuwe_ritten.items():
-        if rit["status"] != "cancelled":
+        if rit["status"] != "cancelled" or rit["datum"] != vandaag:
             continue
         rit["bijgewerkt"] = nu.strftime("%Y-%m-%d %H:%M:%S")
         if rid in bestaand:
@@ -377,11 +442,9 @@ def main():
     with open(OUTPUT, "w", encoding="utf-8") as f:
         json.dump(resultaat, f, ensure_ascii=False, indent=2)
 
-    cancelled_vandaag = [r for r in resultaat if r["datum"] == vandaag]
     print(f"\n✓ Weggeschreven naar {OUTPUT}")
     print(f"  {nieuw_count} nieuwe geannuleerde ritten · {update_count} bijgewerkt")
-    print(f"  {len(resultaat)} geannuleerde ritten totaal in JSON")
-    print(f"  Vandaag: {len(cancelled_vandaag)} cancelled")
+    print(f"  {len(resultaat)} geannuleerde ritten vandaag ({vandaag}) in JSON")
 
 
 if __name__ == "__main__":
