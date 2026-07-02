@@ -24,9 +24,8 @@
 <nav>
   <div class="tab active" data-tab="overzicht"     onclick="switchTab(this)">Overzicht</div>
   <div class="tab"        data-tab="vergaderingen"  onclick="switchTab(this)">Vergaderingen</div>
-  <!-- FIX: was "Moties & Stemmingen" — misleidend omdat Stemmingen een eigen tab heeft -->
   <div class="tab"        data-tab="moties"         onclick="switchTab(this)">Moties</div>
-  <div class="tab"        data-tab="bekendmakingen" onclick="switchTab(this)">Bekendmakingen</div>
+  <div class="tab"        data-tab="bekendmakingen" onclick="switchTab(this)">Camera's &amp; Sluitingen</div>
   <div class="tab"        data-tab="stemmingen"     onclick="switchTab(this)">Stemmingen</div>
   <div class="tab"        data-tab="raadsvragen"    onclick="switchTab(this)">Raadsvragen</div>
   <div class="tab"        data-tab="collegebrieven" onclick="switchTab(this)">Collegebrieven</div>
@@ -51,7 +50,7 @@
         <div class="stat-sub" id="statMsub">laden...</div>
       </div>
       <div class="stat">
-        <div class="stat-label">Bekendmakingen relevant</div>
+        <div class="stat-label">Camera's &amp; sluitingen</div>
         <div class="stat-value" id="statB">—</div>
         <div class="stat-sub" id="statBsub">na filter</div>
       </div>
@@ -76,7 +75,7 @@
       </div>
       <div class="card">
         <div class="card-header">
-          <span class="card-title">Recente bekendmakingen</span>
+          <span class="card-title">Camera's &amp; sluitingen — recent</span>
           <button class="card-link" onclick="switchTab(document.querySelector('[data-tab=bekendmakingen]'))">Alle →</button>
         </div>
         <div class="card-body" id="ovBk"><div class="empty">Laden...</div></div>
@@ -125,14 +124,12 @@
         <option value="ingetrokken">Ingetrokken</option>
       </select>
       <select class="filter-select" id="filterType" onchange="renderMoties()">
-        <!-- FIX: was "Motie & Amendement" — suggereert een actief filter terwijl het "toon alles" betekent -->
         <option value="">Alle typen</option>
         <option value="Motie">Alleen moties</option>
         <option value="Amendement">Alleen amendementen</option>
       </select>
     </div>
     <div class="card">
-      <!-- FIX: overflow-x wrapper zodat de tabel op smalle schermen scrollbaar is -->
       <div style="overflow-x: auto;">
         <table>
           <thead>
@@ -152,27 +149,53 @@
     </div>
   </div>
 
-  <!-- ── BEKENDMAKINGEN ── -->
+  <!-- ── CAMERA'S & SLUITINGEN ── -->
   <div class="tab-content" id="tab-bekendmakingen">
-    <div class="alert-info">Automatisch gefilterd op cameratoezicht, woningsluitingen &amp; dwangsommen.</div>
+    <div class="alert-info">Cameratoezicht via officielebekendmakingen.nl · woningsluitingen via De Orkaan (Zaanstad publiceert dit niet als officiële bekendmaking). Bijgehouden vanaf 1 juli 2026.</div>
+
     <div class="bk-stats-row" id="bkStatsRow">
-      <div class="bk-stat-card"><div class="bk-stat-label">Camera's totaal</div><div class="bk-stat-value" id="bkCamTotaal">—</div></div>
-      <div class="bk-stat-card"><div class="bk-stat-label">Gesloten woningen totaal</div><div class="bk-stat-value" id="bkWoningTotaal">—</div></div>
-      <div class="bk-stat-card"><div class="bk-stat-label">Dwangsommen</div><div class="bk-stat-value" id="bkDwangsom">—</div></div>
+      <div class="bk-stat-card">
+        <div class="bk-stat-label">Camera's nu actief</div>
+        <div class="bk-stat-value" id="bkCamActiefTotaal">—</div>
+      </div>
+      <div class="bk-stat-card">
+        <div class="bk-stat-label">Camera-locaties ooit (sinds 1 jul)</div>
+        <div class="bk-stat-value" id="bkCamTotaalOoit">—</div>
+      </div>
+      <div class="bk-stat-card">
+        <div class="bk-stat-label">Woningsluitingen</div>
+        <div class="bk-stat-value" id="bkWoningTotaal">—</div>
+      </div>
+    </div>
+
+    <!-- Camera's nu actief -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-header">
+        <span class="card-title">Camera's — nu actief</span>
+        <span style="font-size:11px;color:var(--muted);">automatisch bijgewerkt uit besluiten, incl. verlengingen</span>
+      </div>
+      <div id="camActiefList"><div class="empty">Laden...</div></div>
+    </div>
+
+    <div class="bk-charts-row">
+      <div class="card">
+        <div class="card-header"><span class="card-title">Camera's — geschiedenis</span></div>
+        <div id="camGeschiedenisChart" class="bk-bar-chart"><div class="empty">Laden...</div></div>
+      </div>
+      <div class="card"><div class="card-header"><span class="card-title">Woningsluitingen per maand</span></div><div class="bk-chart-container" id="bkWoningChart"></div></div>
     </div>
     <div class="bk-charts-row">
-      <div class="card"><div class="card-header"><span class="card-title">Camera's per maand</span></div><div class="bk-chart-container" id="bkCamChart"></div></div>
-      <div class="card"><div class="card-header"><span class="card-title">Gesloten woningen per maand</span></div><div class="bk-chart-container" id="bkWoningChart"></div></div>
-      <div class="card"><div class="card-header"><span class="card-title">Dwangsommen per maand</span></div><div class="bk-chart-container" id="bkDwangsomChart"></div></div>
+      <div class="card"><div class="card-header"><span class="card-title">Woningsluitingen per wijk</span></div><div id="bkWoningWijkChart" class="bk-bar-chart"></div></div>
     </div>
-    <div class="bk-charts-row">
-      <div class="card"><div class="card-header"><span class="card-title">Camera's per wijk</span></div><div id="bkCamWijkChart" class="bk-bar-chart"></div></div>
-      <div class="card"><div class="card-header"><span class="card-title">Gesloten woningen per wijk</span></div><div id="bkWoningWijkChart" class="bk-bar-chart"></div></div>
-    </div>
+
     <button class="btn-text" onclick="document.getElementById('bkLijstContainer').classList.toggle('hidden')">Toon / verberg onderliggende berichten</button>
     <div id="bkLijstContainer" class="hidden">
       <div class="card" style="margin-top:16px;">
-        <div class="card-header"><span class="card-title">Bekendmakingen</span><span class="card-link" id="bkCount" style="cursor:default;">—</span></div>
+        <div class="card-header"><span class="card-title">Camera's — geschiedenis (ruwe lijst)</span><span class="card-link" id="camGeschiedenisCount" style="cursor:default;">—</span></div>
+        <div id="camGeschiedenisLijst"><div class="empty">Laden...</div></div>
+      </div>
+      <div class="card" style="margin-top:16px;">
+        <div class="card-header"><span class="card-title">Woningsluitingen (ruwe lijst)</span><span class="card-link" id="bkCount" style="cursor:default;">—</span></div>
         <div id="bkList"><div class="empty">Laden...</div></div>
       </div>
     </div>
@@ -362,7 +385,7 @@
     <div id="uvLijst" style="margin-top:8px;"><div class="empty">Laden...</div></div>
   </div>
 </div>
-  
+
   <!-- ── FACTCHECK ── -->
   <div class="tab-content" id="tab-factcheck">
     <div class="factcheck-grid">
