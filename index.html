@@ -24,7 +24,9 @@
 <nav>
   <div class="tab active" data-tab="overzicht"     onclick="switchTab(this)">Overzicht</div>
   <div class="tab"        data-tab="vergaderingen"  onclick="switchTab(this)">Vergaderingen</div>
+  <!-- FIX: was "Moties & Stemmingen" — misleidend omdat Stemmingen een eigen tab heeft -->
   <div class="tab"        data-tab="moties"         onclick="switchTab(this)">Moties</div>
+  <!-- FIX: was "Bekendmakingen" — dwangsommen zijn eruit, woningsluiting komt nu van De Orkaan i.p.v. bekendmakingen.nl -->
   <div class="tab"        data-tab="bekendmakingen" onclick="switchTab(this)">Camera's &amp; Sluitingen</div>
   <div class="tab"        data-tab="stemmingen"     onclick="switchTab(this)">Stemmingen</div>
   <div class="tab"        data-tab="raadsvragen"    onclick="switchTab(this)">Raadsvragen</div>
@@ -49,6 +51,7 @@
         <div class="stat-value" id="statM">—</div>
         <div class="stat-sub" id="statMsub">laden...</div>
       </div>
+      <!-- FIX: was "Bekendmakingen relevant" — dekt de nieuwe lading (camera's + sluitingen) niet meer -->
       <div class="stat">
         <div class="stat-label">Camera's &amp; sluitingen</div>
         <div class="stat-value" id="statB">—</div>
@@ -124,12 +127,14 @@
         <option value="ingetrokken">Ingetrokken</option>
       </select>
       <select class="filter-select" id="filterType" onchange="renderMoties()">
+        <!-- FIX: was "Motie & Amendement" — suggereert een actief filter terwijl het "toon alles" betekent -->
         <option value="">Alle typen</option>
         <option value="Motie">Alleen moties</option>
         <option value="Amendement">Alleen amendementen</option>
       </select>
     </div>
     <div class="card">
+      <!-- FIX: overflow-x wrapper zodat de tabel op smalle schermen scrollbaar is -->
       <div style="overflow-x: auto;">
         <table>
           <thead>
@@ -150,6 +155,11 @@
   </div>
 
   <!-- ── CAMERA'S & SLUITINGEN ── -->
+  <!-- FIX: was "Bekendmakingen" met dwangsom/camera/woning gemengd uit één bron.
+       Dwangsom is eruit. Cameratoezicht komt nu uit de brede officielebekendmakingen-RSS
+       (met per-item fetch van start/einddatum + verlengingsdetectie op het "Camera:"-label).
+       Woningsluiting komt niet uit bekendmakingen.nl (Zaanstad publiceert dat daar niet),
+       maar wordt gescraped van De Orkaan. Beide vanaf 1 juli 2026. Zie scrape_besluiten.py. -->
   <div class="tab-content" id="tab-bekendmakingen">
     <div class="alert-info">Cameratoezicht via officielebekendmakingen.nl · woningsluitingen via De Orkaan (Zaanstad publiceert dit niet als officiële bekendmaking). Bijgehouden vanaf 1 juli 2026.</div>
 
@@ -168,7 +178,7 @@
       </div>
     </div>
 
-    <!-- Camera's nu actief -->
+    <!-- Camera's nu actief — momentopname, geen trend, dus een lijst i.p.v. grafiek -->
     <div class="card" style="margin-bottom:16px;">
       <div class="card-header">
         <span class="card-title">Camera's — nu actief</span>
@@ -385,7 +395,7 @@
     <div id="uvLijst" style="margin-top:8px;"><div class="empty">Laden...</div></div>
   </div>
 </div>
-
+  
   <!-- ── FACTCHECK ── -->
   <div class="tab-content" id="tab-factcheck">
     <div class="factcheck-grid">
