@@ -35,7 +35,7 @@ function getAllFracties() {
 }
 
 // ── STATE ─────────────────────────────────────────────────────────────────────
-let vergaderingen = [], moties = [], bekendmakingen = [], raadsvragen = [], collegebrieven = [], stemmingen = [], uitval = [];
+let vergaderingen = [], moties = [], camerasActief = [], camerasGeschiedenis = [], woningsluitingen = [], raadsvragen = [], collegebrieven = [], stemmingen = [], uitval = [];
 let huidigeClaims = [];
 let _chartFractie = null;
 let totaalTeller = {};
@@ -44,7 +44,7 @@ let totaalTeller = {};
 document.addEventListener('DOMContentLoaded', async () => {
   const savedKey = localStorage.getItem('zr_gemini_key');
   if (savedKey) document.getElementById('geminiKey').value = savedKey;
-  await Promise.all([loadVerg(), loadMoties(), loadBk(), loadRaadsvragen(), loadCollegebrieven(), loadStemmingen(), loadUitval()]);
+  await Promise.all([loadVerg(), loadMoties(), loadCamerasEnSluitingen(), loadRaadsvragen(), loadCollegebrieven(), loadStemmingen(), loadUitval()]);
   updateStats();
   renderOpgeslagenClaims();
   document.getElementById('headerMeta').textContent =
@@ -87,18 +87,40 @@ async function loadMoties() {
   }
 }
 
-async function loadBk() {
+async function loadCamerasEnSluitingen() {
   try {
-    const r = await fetch('./data/bekendmakingen.json');
+    const r = await fetch('./data/cameras_actief.json');
     if (!r.ok) throw new Error(r.status);
-    bekendmakingen = await r.json();
-    renderBekendmakingenDashboard(); renderOvBk(); renderBekendmakingenLijst();
+    camerasActief = await r.json();
   } catch (e) {
+    camerasActief = [];
+    document.getElementById('camActiefList').innerHTML =
+      e.message === '404'
+        ? '<div class="empty">Nog geen camera-data — draai eerst scrape_besluiten.py.</div>'
+        : `<div class="error-msg">Fout bij laden cameras_actief.json: ${e.message}</div>`;
+  }
+  try {
+    const r = await fetch('./data/cameras_geschiedenis.json');
+    if (!r.ok) throw new Error(r.status);
+    camerasGeschiedenis = await r.json();
+  } catch (e) {
+    camerasGeschiedenis = [];
+  }
+  try {
+    const r = await fetch('./data/woningsluitingen.json');
+    if (!r.ok) throw new Error(r.status);
+    woningsluitingen = await r.json();
+  } catch (e) {
+    woningsluitingen = [];
     document.getElementById('bkList').innerHTML =
       e.message === '404'
-        ? '<div class="empty">Nog geen bekendmakingen — draai eerst de scraper.</div>'
+        ? '<div class="empty">Nog geen woningsluitingen — draai eerst scrape_besluiten.py.</div>'
         : `<div class="error-msg">Fout: ${e.message}</div>`;
   }
+  renderBekendmakingenDashboard();
+  renderOvBk();
+  renderBekendmakingenLijst();
+  renderCamGeschiedenisLijst();
 }
 
 async function loadRaadsvragen() {
@@ -378,11 +400,9 @@ function updateStats() {
   const verw  = moties.filter(m => m.status === 'verworpen').length;
   document.getElementById('statMsub').textContent = aang + ' aangenomen · ' + verw + ' verworpen';
 
-  const cam   = bekendmakingen.filter(b => b.categorie === 'cameratoezicht').length;
-  const sluit = bekendmakingen.filter(b => b.categorie === 'woningsluiting').length;
-  const dwang = bekendmakingen.filter(b => b.categorie === 'dwangsom').length;
-  document.getElementById('statB').textContent = bekendmakingen.length;
-  document.getElementById('statBsub').textContent = cam + ' camera · ' + sluit + ' sluiting · ' + dwang + ' dwangsom';
+  const cameraNamenOoit = new Set([...camerasActief, ...camerasGeschiedenis].map(c => c.camera));
+  document.getElementById('statB').textContent = camerasActief.length + woningsluitingen.length;
+  document.getElementById('statBsub').textContent = camerasActief.length + ' camera actief (' + cameraNamenOoit.size + ' ooit) · ' + woningsluitingen.length + ' sluiting';
 
   document.getElementById('statC').textContent = collegebrieven.length;
   const totalClaims = collegebrieven.reduce((s, b) => s + (b.claims?.length || 0), 0);
@@ -948,7 +968,7 @@ function renderMotiesVisuals() {
     </div>`;
 }
 
-// ── BEKENDMAKINGEN ────────────────────────────────────────────────────────────
+// ── CAMERA'S & WONINGSLUITINGEN ────────────────────────────────────────────────
 const WIJK_MAP = {};
 function getWijkUitAdres(adres) {
   if (!adres) return null;
@@ -960,23 +980,63 @@ function telPerWijk(items) {
   items.forEach(b => { if (!b.adres) return; const wijk = getWijkUitAdres(b.adres); if (!wijk) return; map[wijk] = (map[wijk] || 0) + 1; });
   return map;
 }
+
+// Aantal dagen tussen twee ISO-datums (YYYY-MM-DD). Geeft 0 terug bij
+// ontbrekende/ongeldige datums i.p.v. te crashen op NaN.
+function dagenTussen(start, eind) {
+  if (!start || !eind) return 0;
+  const a = new Date(start), b = new Date(eind);
+  if (isNaN(a) || isNaN(b)) return 0;
+  return Math.max(0, Math.round((b - a) / 86400000));
+}
+
 function renderBekendmakingenDashboard() {
-  const cam = bekendmakingen.filter(b => b.categorie === 'cameratoezicht');
-  const woning = bekendmakingen.filter(b => b.categorie === 'woningsluiting');
-  const dwang = bekendmakingen.filter(b => b.categorie === 'dwangsom');
-  document.getElementById('bkCamTotaal').textContent  = cam.length;
-  document.getElementById('bkWoningTotaal').textContent = woning.length;
-  document.getElementById('bkDwangsom').textContent    = dwang.length;
+  const vandaag = new Date().toISOString().slice(0, 10);
+
+  // ── STAT-KAARTEN ────────────────────────────────────────────────────────
+  const cameraNamenOoit = new Set([...camerasActief, ...camerasGeschiedenis].map(c => c.camera));
+  document.getElementById('bkCamActiefTotaal').textContent  = camerasActief.length;
+  document.getElementById('bkCamTotaalOoit').textContent    = cameraNamenOoit.size;
+  document.getElementById('bkWoningTotaal').textContent     = woningsluitingen.length;
+
+  // ── CAMERA'S NU ACTIEF ──────────────────────────────────────────────────
+  const actiefLijst = [...camerasActief].sort((a, b) => a.eind.localeCompare(b.eind));
+  document.getElementById('camActiefList').innerHTML = actiefLijst.length === 0
+    ? '<div class="empty">Geen camera\'s op dit moment actief.</div>'
+    : actiefLijst.map(c => {
+        const dagenResterend = dagenTussen(vandaag, c.eind);
+        const bijnaVerlopen = dagenResterend <= 14;
+        return `<div class="bk-item">
+          <div class="bk-top">
+            <div>
+              <div class="bk-title-link" style="cursor:default;">📷 ${esc(c.camera)}</div>
+              <div class="bk-meta">
+                <span class="bk-date">${fmtDate(c.start,'full')} t/m ${fmtDate(c.eind,'full')}</span>
+                <span class="badge ${bijnaVerlopen ? 'badge-hold' : 'badge-go'}">${dagenResterend} dagen resterend</span>
+                ${c.keer_verlengd > 0 ? `<span class="badge badge-teal">${c.keer_verlengd}× verlengd</span>` : ''}
+              </div>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+
+  // ── CAMERA'S — GESCHIEDENIS (bar chart per locatie) ────────────────────
+  const geschiedenisData = {};
+  camerasGeschiedenis.forEach(c => {
+    const dagen = (c.periodes || []).reduce((som, p) => som + dagenTussen(p.start, p.eind), 0);
+    geschiedenisData[c.camera] = (geschiedenisData[c.camera] || 0) + (dagen || dagenTussen(c.start, c.eind));
+  });
+  tekenHorizontaleBalken('camGeschiedenisChart', geschiedenisData, 'dagen');
+
+  // ── WONINGSLUITINGEN — PER MAAND & PER WIJK ─────────────────────────────
   const nu = new Date();
   const maanden = [];
   for (let i = 5; i >= 0; i--) { const d = new Date(nu.getFullYear(), nu.getMonth() - i, 1); maanden.push({ maand: d.toISOString().slice(0, 7), count: 0 }); }
   const tel = (items) => { const m = {}; maanden.forEach(x => m[x.maand] = 0); items.forEach(b => { if (b.datum) { const k = b.datum.slice(0, 7); if (k in m) m[k]++; } }); return maanden.map(x => ({ maand: x.maand, count: m[x.maand] })); };
-  tekenLijnGrafiek('bkCamChart', tel(cam), "Camera's");
-  tekenLijnGrafiek('bkWoningChart', tel(woning), 'Woningsluitingen');
-  tekenLijnGrafiek('bkDwangsomChart', tel(dwang), 'Dwangsommen');
-  tekenHorizontaleBalken('bkCamWijkChart', telPerWijk(cam));
-  tekenHorizontaleBalken('bkWoningWijkChart', telPerWijk(woning));
+  tekenLijnGrafiek('bkWoningChart', tel(woningsluitingen), 'Woningsluitingen');
+  tekenHorizontaleBalken('bkWoningWijkChart', telPerWijk(woningsluitingen));
 }
+
 function tekenLijnGrafiek(containerId, data, label) {
   const container = document.getElementById(containerId);
   if (!container) return;
@@ -994,34 +1054,76 @@ function tekenLijnGrafiek(containerId, data, label) {
   const dots = pts.map(([x,y], i) => `<circle cx="${x}" cy="${y}" r="3" fill="white" stroke="#006B7B" stroke-width="2"><title>${data[i].count} in ${data[i].maand}</title></circle>`).join('');
   container.innerHTML = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;"><line x1="${PAD.l}" y1="${PAD.t}" x2="${PAD.l}" y2="${PAD.t+pH}" stroke="#D8D5CE" stroke-width="1"/><line x1="${PAD.l}" y1="${PAD.t+pH}" x2="${PAD.l+pW}" y2="${PAD.t+pH}" stroke="#D8D5CE" stroke-width="1"/>${yLabels}<polygon points="${area}" fill="#006B7B" fill-opacity="0.06"/><polyline points="${line}" fill="none" stroke="#006B7B" stroke-width="2.5" stroke-linejoin="round"/>${dots}${labels}</svg>`;
 }
-function tekenHorizontaleBalken(containerId, data) {
+function tekenHorizontaleBalken(containerId, data, eenheid) {
   const container = document.getElementById(containerId);
   if (!container) return;
   const entries = Object.entries(data).sort((a,b) => b[1]-a[1]);
   if (entries.length === 0) { container.innerHTML = '<div class="viz-empty">geen data</div>'; return; }
   const maxVal = entries[0][1];
-  container.innerHTML = entries.map(([wijk, count]) => `<div class="bk-bar-row"><div class="bk-bar-label">${esc(wijk)}</div><div class="bk-bar-track"><div class="bk-bar-fill" style="width:${Math.round(count/maxVal*100)}%"></div></div><div class="bk-bar-count">${count}</div></div>`).join('');
+  container.innerHTML = entries.map(([label, count]) => `<div class="bk-bar-row"><div class="bk-bar-label" title="${esc(label)}">${esc(label)}</div><div class="bk-bar-track"><div class="bk-bar-fill" style="width:${Math.round(count/maxVal*100)}%"></div></div><div class="bk-bar-count">${count}${eenheid ? '' : ''}</div></div>`).join('');
 }
+
 function renderOvBk() {
-  document.getElementById('ovBk').innerHTML = bekendmakingen.slice(0, 5).map(b => `
+  // Combineert de meest recente camera-aanwijzingen en woningsluitingen tot
+  // één overzichtslijstje, gesorteerd op datum.
+  const camItems = [...camerasActief, ...camerasGeschiedenis].map(c => ({
+    datum: c.start, titel: `Cameratoezicht ${c.camera}`, link: (c.periodes?.[0]?.link) || '#', type: 'Camera',
+  }));
+  const woningItems = woningsluitingen.map(w => ({
+    datum: w.datum, titel: w.titel, link: w.link || '#', type: 'Woningsluiting',
+  }));
+  const combined = [...camItems, ...woningItems]
+    .filter(x => x.datum)
+    .sort((a, b) => b.datum.localeCompare(a.datum))
+    .slice(0, 5);
+
+  document.getElementById('ovBk').innerHTML = combined.map(x => `
     <div class="mini-item">
-      <div class="mini-date">${fmtDate(b.datum, 'short')}</div>
+      <div class="mini-date">${fmtDate(x.datum, 'short')}</div>
       <div>
-        <div class="mini-title"><a href="${b.link || '#'}" target="_blank" style="color:inherit;text-decoration:none;">${esc(b.titel)}</a></div>
-        <div class="mini-type">${esc(catLabel(b.categorie || ''))}</div>
+        <div class="mini-title"><a href="${x.link}" target="_blank" style="color:inherit;text-decoration:none;">${esc(x.titel)}</a></div>
+        <div class="mini-type">${esc(x.type)}</div>
       </div>
     </div>`).join('') || '<div class="empty">Geen data</div>';
 }
+
+// Ruwe lijst — alleen woningsluitingen (camera-geschiedenis heeft z'n eigen lijst hieronder).
 function renderBekendmakingenLijst() {
-  document.getElementById('bkCount').textContent = bekendmakingen.length + ' bekendmakingen';
+  document.getElementById('bkCount').textContent = woningsluitingen.length + ' woningsluitingen';
   const lijst = document.getElementById('bkList');
-  if (!bekendmakingen.length) { lijst.innerHTML = '<div class="empty">Geen relevante bekendmakingen gevonden.</div>'; return; }
-  lijst.innerHTML = bekendmakingen.map(b => `
+  if (!woningsluitingen.length) { lijst.innerHTML = '<div class="empty">Geen woningsluitingen gevonden.</div>'; return; }
+  lijst.innerHTML = woningsluitingen.map(w => `
     <div class="bk-item">
       <div class="bk-top"><div>
-        <a class="bk-title-link" href="${b.link || '#'}" target="_blank">${esc(b.titel)}</a>
-        <div class="bk-meta"><span class="badge badge-teal">${esc(catLabel(b.categorie))}</span><span class="bk-date">${fmtDate(b.datum,'full')}</span>${b.adres ? `<span class="bk-date">📍 ${esc(b.adres)}</span>` : ''}</div>
-        ${b.omschrijving ? `<div class="bk-desc">${esc(b.omschrijving)}</div>` : ''}
+        <a class="bk-title-link" href="${w.link || '#'}" target="_blank">${esc(w.titel)}</a>
+        <div class="bk-meta">
+          <span class="badge badge-teal">Woningsluiting</span>
+          <span class="bk-date">${fmtDate(w.datum,'full')}</span>
+          ${w.adres ? `<span class="bk-date">📍 ${esc(w.adres)}</span>` : ''}
+          ${w.eind_datum ? `<span class="bk-date">tot ${fmtDate(w.eind_datum,'full')} (${w.eind_datum_type === 'geschat_uit_artikeltekst' ? 'geschat' : 'officieel'})</span>` : ''}
+        </div>
+        ${w.excerpt ? `<div class="bk-desc">${esc(w.excerpt)}</div>` : ''}
+      </div></div>
+    </div>`).join('');
+}
+
+// Ruwe lijst — camera-geschiedenis (verlopen camera's, incl. verlengingsgeschiedenis).
+function renderCamGeschiedenisLijst() {
+  const container = document.getElementById('camGeschiedenisLijst');
+  const teller     = document.getElementById('camGeschiedenisCount');
+  if (!container) return;
+  teller.textContent = camerasGeschiedenis.length + ' verlopen camera-locaties';
+  if (!camerasGeschiedenis.length) { container.innerHTML = '<div class="empty">Nog geen verlopen camera\'s.</div>'; return; }
+  container.innerHTML = [...camerasGeschiedenis].sort((a,b) => b.eind.localeCompare(a.eind)).map(c => `
+    <div class="bk-item">
+      <div class="bk-top"><div>
+        <div class="bk-title-link" style="cursor:default;">📷 ${esc(c.camera)}</div>
+        <div class="bk-meta">
+          <span class="badge badge-hold">Verlopen</span>
+          <span class="bk-date">${fmtDate(c.start,'full')} t/m ${fmtDate(c.eind,'full')}</span>
+          ${c.keer_verlengd > 0 ? `<span class="badge badge-teal">${c.keer_verlengd}× verlengd</span>` : ''}
+        </div>
+        ${(c.periodes || []).length > 1 ? `<div class="bk-desc">${c.periodes.length} periodes: ${c.periodes.map(p => `${p.start}–${p.eind}`).join(', ')}</div>` : ''}
       </div></div>
     </div>`).join('');
 }
@@ -1714,9 +1816,10 @@ function bouwEigenDataContext() {
     const recent = moties.slice(0, 20).map(m => `- ${m.datum || '?'}: "${m.titel}" (${m.partij || '?'}, ${m.status || 'onbekend'})`).join('\n');
     delen.push(`RECENTE MOTIES & STEMMINGEN:\n${recent}`);
   }
-  if (bekendmakingen.length) {
-    const recent = bekendmakingen.slice(0, 15).map(b => `- ${b.datum || '?'}: [${b.categorie}] ${b.titel}`).join('\n');
-    delen.push(`RECENTE BEKENDMAKINGEN (camera/sluiting/dwangsom):\n${recent}`);
+  if (camerasActief.length || woningsluitingen.length) {
+    const camLijst = camerasActief.slice(0, 10).map(c => `- cameratoezicht: ${c.camera} (${c.start} t/m ${c.eind})`).join('\n');
+    const woningLijst = woningsluitingen.slice(0, 10).map(w => `- ${w.datum || '?'}: woningsluiting ${w.titel}`).join('\n');
+    delen.push(`RECENTE CAMERA'S & WONINGSLUITINGEN:\n${camLijst}\n${woningLijst}`);
   }
   if (raadsvragen.length) {
     const recent = raadsvragen.slice(0, 10).map(r => `- ${r.datum_ingediend || '?'}: "${r.titel}" (${r.fractie || '?'})`).join('\n');
@@ -1850,9 +1953,4 @@ function fmtDate(s, mode) {
 // onclick-attributen bij fractienamen met apostrof (bv. "D'66")
 function esc(s) {
   return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-}
-
-function catLabel(cat) {
-  const labels = { cameratoezicht:'Camera', woningsluiting:'Woningsluiting', dwangsom:'Dwangsom' };
-  return labels[cat] || cat;
 }
