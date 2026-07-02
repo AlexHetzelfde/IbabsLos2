@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zaanstad Raad Monitor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-brand">
+    <div class="header-icon">🏛</div>
+    <span class="header-title">Zaanstad Raad Monitor</span>
+    <span class="header-sub">Gemeenteraad · Data · Factcheck</span>
+  </div>
+  <div class="header-meta" id="headerMeta">—</div>
+</header>
+
+<!-- TABS -->
+<nav>
+  <div class="tab active" data-tab="overzicht"     onclick="switchTab(this)">Overzicht</div>
+  <div class="tab"        data-tab="vergaderingen"  onclick="switchTab(this)">Vergaderingen</div>
+  <!-- FIX: was "Moties & Stemmingen" — misleidend omdat Stemmingen een eigen tab heeft -->
+  <div class="tab"        data-tab="moties"         onclick="switchTab(this)">Moties</div>
+  <div class="tab"        data-tab="bekendmakingen" onclick="switchTab(this)">Bekendmakingen</div>
+  <div class="tab"        data-tab="stemmingen"     onclick="switchTab(this)">Stemmingen</div>
+  <div class="tab"        data-tab="raadsvragen"    onclick="switchTab(this)">Raadsvragen</div>
+  <div class="tab"        data-tab="collegebrieven" onclick="switchTab(this)">Collegebrieven</div>
+  <div class="tab" data-tab="uitval"    onclick="switchTab(this)">🚌 Uitval</div>
+  <div class="tab"        data-tab="factcheck"      onclick="switchTab(this)">✦ Factcheck</div>
+</nav>
+
+<!-- MAIN -->
+<main>
+
+  <!-- ── OVERZICHT ── -->
+  <div class="tab-content active" id="tab-overzicht">
+    <div class="stats" id="statsGrid">
+      <div class="stat">
+        <div class="stat-label">Vergaderingen bijgehouden</div>
+        <div class="stat-value" id="statV">—</div>
+        <div class="stat-sub" id="statVsub">laden...</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Moties ingediend</div>
+        <div class="stat-value" id="statM">—</div>
+        <div class="stat-sub" id="statMsub">laden...</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Bekendmakingen relevant</div>
+        <div class="stat-value" id="statB">—</div>
+        <div class="stat-sub" id="statBsub">na filter</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Collegebrieven</div>
+        <div class="stat-value" id="statC">—</div>
+        <div class="stat-sub" id="statCsub">laden...</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Laatste vergadering</div>
+        <div class="stat-value" style="font-size:28px;padding-top:8px;" id="statL">—</div>
+        <div class="stat-sub" id="statLsub">laden...</div>
+      </div>
+    </div>
+    <div class="overview-grid">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Recente vergaderingen</span>
+          <button class="card-link" onclick="switchTab(document.querySelector('[data-tab=vergaderingen]'))">Alle →</button>
+        </div>
+        <div class="card-body" id="ovVerg"><div class="empty">Laden...</div></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Recente bekendmakingen</span>
+          <button class="card-link" onclick="switchTab(document.querySelector('[data-tab=bekendmakingen]'))">Alle →</button>
+        </div>
+        <div class="card-body" id="ovBk"><div class="empty">Laden...</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Recente collegebrieven met claims</span>
+        <button class="card-link" onclick="switchTab(document.querySelector('[data-tab=collegebrieven]'))">Alle →</button>
+      </div>
+      <div class="card-body" id="ovCb"><div class="empty">Laden...</div></div>
+    </div>
+  </div>
+
+  <!-- ── VERGADERINGEN ── -->
+  <div class="tab-content" id="tab-vergaderingen">
+    <div class="filter-bar">
+      <select class="filter-select" id="filterVergType" onchange="renderVerg()">
+        <option value="">Alle typen</option>
+        <option value="Raadsvergadering">Raadsvergadering</option>
+        <option value="Commissievergadering">Commissievergadering</option>
+        <option value="Presidium">Presidium</option>
+      </select>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Vergaderingen</span>
+        <span class="card-link" id="vergCount" style="cursor:default;">—</span>
+      </div>
+      <div id="vergList"><div class="empty">Laden...</div></div>
+    </div>
+  </div>
+
+  <!-- ── MOTIES ── -->
+  <div class="tab-content" id="tab-moties">
+    <div id="motiesViz"></div>
+    <div class="filter-bar">
+      <select class="filter-select" id="filterPartij" onchange="renderMoties()">
+        <option value="">Alle partijen</option>
+      </select>
+      <select class="filter-select" id="filterStatus" onchange="renderMoties()">
+        <option value="">Alle statussen</option>
+        <option value="aangenomen">Aangenomen</option>
+        <option value="verworpen">Verworpen</option>
+        <option value="aangehouden">Aangehouden</option>
+        <option value="ingetrokken">Ingetrokken</option>
+      </select>
+      <select class="filter-select" id="filterType" onchange="renderMoties()">
+        <!-- FIX: was "Motie & Amendement" — suggereert een actief filter terwijl het "toon alles" betekent -->
+        <option value="">Alle typen</option>
+        <option value="Motie">Alleen moties</option>
+        <option value="Amendement">Alleen amendementen</option>
+      </select>
+    </div>
+    <div class="card">
+      <!-- FIX: overflow-x wrapper zodat de tabel op smalle schermen scrollbaar is -->
+      <div style="overflow-x: auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Motie / Amendement</th>
+              <th>Partij</th>
+              <th>Datum</th>
+              <th>Status</th>
+              <th>Stemming</th>
+            </tr>
+          </thead>
+          <tbody id="motiesTable">
+            <tr><td colspan="5" class="empty">Laden...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── BEKENDMAKINGEN ── -->
+  <div class="tab-content" id="tab-bekendmakingen">
+    <div class="alert-info">Automatisch gefilterd op cameratoezicht, woningsluitingen &amp; dwangsommen.</div>
+    <div class="bk-stats-row" id="bkStatsRow">
+      <div class="bk-stat-card"><div class="bk-stat-label">Camera's totaal</div><div class="bk-stat-value" id="bkCamTotaal">—</div></div>
+      <div class="bk-stat-card"><div class="bk-stat-label">Gesloten woningen totaal</div><div class="bk-stat-value" id="bkWoningTotaal">—</div></div>
+      <div class="bk-stat-card"><div class="bk-stat-label">Dwangsommen</div><div class="bk-stat-value" id="bkDwangsom">—</div></div>
+    </div>
+    <div class="bk-charts-row">
+      <div class="card"><div class="card-header"><span class="card-title">Camera's per maand</span></div><div class="bk-chart-container" id="bkCamChart"></div></div>
+      <div class="card"><div class="card-header"><span class="card-title">Gesloten woningen per maand</span></div><div class="bk-chart-container" id="bkWoningChart"></div></div>
+      <div class="card"><div class="card-header"><span class="card-title">Dwangsommen per maand</span></div><div class="bk-chart-container" id="bkDwangsomChart"></div></div>
+    </div>
+    <div class="bk-charts-row">
+      <div class="card"><div class="card-header"><span class="card-title">Camera's per wijk</span></div><div id="bkCamWijkChart" class="bk-bar-chart"></div></div>
+      <div class="card"><div class="card-header"><span class="card-title">Gesloten woningen per wijk</span></div><div id="bkWoningWijkChart" class="bk-bar-chart"></div></div>
+    </div>
+    <button class="btn-text" onclick="document.getElementById('bkLijstContainer').classList.toggle('hidden')">Toon / verberg onderliggende berichten</button>
+    <div id="bkLijstContainer" class="hidden">
+      <div class="card" style="margin-top:16px;">
+        <div class="card-header"><span class="card-title">Bekendmakingen</span><span class="card-link" id="bkCount" style="cursor:default;">—</span></div>
+        <div id="bkList"><div class="empty">Laden...</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STEMMINGEN ── -->
+  <div class="tab-content" id="tab-stemmingen">
+    <div class="stats" id="stemStats" style="grid-template-columns:repeat(3,1fr);margin-bottom:16px;">
+      <div class="stat"><div class="stat-label">Stemmingen totaal</div><div class="stat-value" id="stemTotaal">—</div></div>
+      <div class="stat"><div class="stat-label">Unaniem voor</div><div class="stat-value" id="stemUnaniem">—</div></div>
+      <div class="stat"><div class="stat-label">Verdeeld</div><div class="stat-value" id="stemVerdeeld">—</div></div>
+    </div>
+
+    <div class="coalitie-stats" id="stemCoalitieStats"></div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-header">
+        <span class="card-title">Stemheatmap — fracties × stemmingen</span>
+        <span style="font-size:11px;color:var(--muted);display:flex;gap:10px;align-items:center;">
+          <span style="display:flex;align-items:center;gap:3px;"><span style="width:10px;height:10px;background:var(--go);display:inline-block;"></span> voor</span>
+          <span style="display:flex;align-items:center;gap:3px;"><span style="width:10px;height:10px;background:var(--stop);display:inline-block;"></span> tegen</span>
+          <span style="display:flex;align-items:center;gap:3px;"><span style="width:10px;height:10px;background:var(--hold);display:inline-block;"></span> onthouding</span>
+          <span style="display:flex;align-items:center;gap:3px;"><span style="width:10px;height:10px;background:var(--rule);display:inline-block;"></span> geen data</span>
+        </span>
+      </div>
+      <div id="stemHeatmap"></div>
+    </div>
+
+    <div class="viz-row" style="margin-bottom:16px;">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Fractie aan winnende kant</span>
+          <span style="font-size:11px;color:var(--muted);">hoe vaak mee met de meerderheid</span>
+        </div>
+        <div class="viz-bar-list" id="stemLoyaliteit"></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Stemgedrag matrix</span>
+          <span style="font-size:11px;color:var(--muted);">hoe vaak stemmen fracties samen — donkerder = vaker</span>
+        </div>
+        <div id="stemAllianties"></div>
+      </div>
+    </div>
+
+    <div class="viz-row" style="margin-bottom:16px;">
+      <div class="card">
+        <div class="card-header"><span class="card-title">Meest verdeelde stemmingen</span></div>
+        <div id="stemVerdeeldLijst"><div class="empty">Laden...</div></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">Stemmen per fractie</span></div>
+        <div id="stemFractieLijst"></div>
+      </div>
+    </div>
+
+    <div class="viz-row" style="margin-bottom:16px;">
+      <div class="card">
+        <div class="card-header"><span class="card-title">Aanwezigheid per stemdag</span></div>
+        <div id="stemAanwezigheid" class="raadslid-placeholder">
+          <strong>Presentiedata wordt geladen</strong>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Fractieloyaliteit</span>
+          <span style="font-size:11px;color:var(--muted);">hoe vaak stemt een raadslid met de eigen fractie mee</span>
+        </div>
+        <div id="stemLoyaliteitNieuw"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">Alle stemmingen</span><span class="card-link" id="stemCount" style="cursor:default;">—</span></div>
+      <div id="stemList"><div class="empty">Laden...</div></div>
+    </div>
+  </div>
+
+  <!-- ── RAADSVRAGEN ── -->
+  <div class="tab-content" id="tab-raadsvragen">
+    <div class="filter-bar">
+      <select class="filter-select" id="filterRvPartij" onchange="renderRaadsvragen()">
+        <option value="">Alle fracties</option>
+      </select>
+      <select class="filter-select" id="filterRvStatus" onchange="renderRaadsvragen()">
+        <option value="">Alle statussen</option>
+        <option value="beantwoord">Beantwoord</option>
+        <option value="in behandeling">In behandeling</option>
+      </select>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Raadsvragen</span><span class="card-link" id="rvCount" style="cursor:default;">—</span></div>
+      <div id="rvList"><div class="empty">Laden...</div></div>
+    </div>
+  </div>
+
+  <!-- ── COLLEGEBRIEVEN ── -->
+  <div class="tab-content" id="tab-collegebrieven">
+    <div class="cb-stats-row">
+      <div class="bk-stat-card"><div class="bk-stat-label">Brieven totaal</div><div class="bk-stat-value" id="cbTotaal">—</div></div>
+      <div class="bk-stat-card"><div class="bk-stat-label">Claims gevonden</div><div class="bk-stat-value" id="cbClaims">—</div></div>
+      <div class="bk-stat-card"><div class="bk-stat-label">Hoog prioriteit</div><div class="bk-stat-value" style="color:var(--stop);" id="cbHoog">—</div></div>
+    </div>
+    <div class="filter-bar">
+      <select class="filter-select" id="filterCbType" onchange="renderCollegebrieven()">
+        <option value="">Alle typen</option>
+        <option value="Raadsinformatiebrief">Raadsinformatiebrief</option>
+        <option value="Kennisgeving">Kennisgeving</option>
+      </select>
+      <select class="filter-select" id="filterCbPh" onchange="renderCollegebrieven()">
+        <option value="">Alle portefeuillehouders</option>
+      </select>
+      <select class="filter-select" id="filterCbClaims" onchange="renderCollegebrieven()">
+        <option value="">Alle brieven</option>
+        <option value="claims">Alleen met claims</option>
+        <option value="hoog">Alleen HOOG-prioriteit claims</option>
+      </select>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Collegebrieven</span>
+        <span class="card-link" id="cbCount" style="cursor:default;">—</span>
+      </div>
+      <div id="cbList"><div class="empty">Laden...</div></div>
+    </div>
+  </div>
+
+  <!-- ── UITVAL ── -->
+<div class="tab-content" id="tab-uitval">
+  <div class="stats" id="uitvalStats" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px;">
+    <div class="stat"><div class="stat-label">Uitgevallen ritten</div><div class="stat-value" id="uvTotaal">—</div><div class="stat-sub" id="uvPeriode">laden...</div></div>
+    <div class="stat"><div class="stat-label">Uitvalpercentage</div><div class="stat-value" style="color:var(--stop);" id="uvPct">—</div><div class="stat-sub" id="uvPctSub">van alle gescrapte ritten</div></div>
+    <div class="stat"><div class="stat-label">Meest getroffen lijn</div><div class="stat-value" style="font-size:36px;padding-top:10px;" id="uvTopLijn">—</div><div class="stat-sub" id="uvTopLijnSub">laden...</div></div>
+    <div class="stat"><div class="stat-label">Meest voorkomende oorzaak</div><div class="stat-value" style="font-size:20px;padding-top:14px;line-height:1.2;" id="uvTopOorzaak">—</div><div class="stat-sub" id="uvTopOorzaakSub">laden...</div></div>
+  </div>
+
+  <div class="viz-row" style="margin-bottom:16px;">
+    <div class="card">
+      <div class="card-header"><span class="card-title">Uitval per dag</span><span style="font-size:11px;color:var(--muted);">cancelled + verkort</span></div>
+      <div style="padding:12px 20px 0;" id="uvDagChart"><div class="empty">Laden...</div></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Uitval per dagdeel</span></div>
+      <div class="viz-bar-list" id="uvDagdeelChart"><div class="empty">Laden...</div></div>
+    </div>
+  </div>
+
+  <div class="viz-row" style="margin-bottom:16px;">
+    <div class="card">
+      <div class="card-header"><span class="card-title">Uitval per lijn</span></div>
+      <div class="viz-bar-list" id="uvLijnChart"><div class="empty">Laden...</div></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Uitval per halte</span><span style="font-size:11px;color:var(--muted);">per unieke rit (niet dubbel)</span></div>
+      <div class="viz-bar-list" id="uvHalteChart"><div class="empty">Laden...</div></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px;">
+    <div class="card-header"><span class="card-title">Uitval per oorzaakcategorie</span></div>
+    <div class="viz-bar-list" id="uvOorzaakChart"><div class="empty">Laden...</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">Uitgevallen ritten</span>
+      <span class="card-link" id="uvLijstCount" style="cursor:default;">—</span>
+    </div>
+    <div class="filter-bar" style="padding:12px 16px 0;">
+      <select class="filter-select" id="filterUvStatus" onchange="renderUitvalLijst()">
+        <option value="">Alle statussen</option>
+        <option value="cancelled">Alleen cancelled</option>
+        <option value="verkort">Alleen verkort</option>
+      </select>
+      <select class="filter-select" id="filterUvLijn" onchange="renderUitvalLijst()">
+        <option value="">Alle lijnen</option>
+      </select>
+      <select class="filter-select" id="filterUvDagdeel" onchange="renderUitvalLijst()">
+        <option value="">Alle dagdelen</option>
+        <option value="ochtendspits">Ochtendspits (7-9)</option>
+        <option value="dal">Dal (9-16)</option>
+        <option value="avondspits">Avondspits (16-19)</option>
+        <option value="avond">Avond (19-24)</option>
+        <option value="nacht">Nacht (0-7)</option>
+      </select>
+    </div>
+    <div id="uvLijst" style="margin-top:8px;"><div class="empty">Laden...</div></div>
+  </div>
+</div>
+  
+  <!-- ── FACTCHECK ── -->
+  <div class="tab-content" id="tab-factcheck">
+    <div class="factcheck-grid">
+      <div class="card">
+        <div class="card-header"><span class="card-title">Transcriptie invoeren</span></div>
+        <div class="card-body" style="padding:20px;">
+
+          <div class="form-group">
+            <label class="form-label">Gemini API key</label>
+            <input type="password" class="form-input" id="geminiKey" placeholder="AIzaSy..."
+              oninput="localStorage.setItem('zr_gemini_key', this.value)">
+            <span class="form-hint">Gratis via <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--teal)">aistudio.google.com</a> — alleen lokaal opgeslagen.</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Audio uploaden (optioneel, max 15 MB)</label>
+            <div class="audio-section" id="audioSection" onclick="document.getElementById('audioFile').click()">
+              <div class="audio-label-main">🎙 Klik om audiobestand te kiezen</div>
+              <div class="audio-label-sub">mp3 · m4a · wav · ogg — Gemini transcribeert automatisch</div>
+              <div class="audio-status" id="audioStatusMsg" style="display:none;"></div>
+            </div>
+            <input type="file" id="audioFile" accept="audio/*" style="display:none;" onchange="audioBestandGekozen()">
+            <button class="btn-secondary" id="transcribeBtn" style="display:none;" onclick="transcribeerAudio()">
+              Transcribeer audio →
+            </button>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Context (optioneel)</label>
+            <input type="text" class="form-input" id="fcContext" placeholder="bijv. vergadering 11 juni 2026 – Voorjaarsnota">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Transcriptie</label>
+            <textarea class="form-textarea" id="fcText" rows="12"
+              placeholder="Plak hier de transcriptie van de raadsvergadering..."></textarea>
+          </div>
+          <button class="btn-primary" id="fcBtn" onclick="analyseerFactcheck()">
+            Analyseer op verifieerbare claims →
+          </button>
+          <button class="btn-secondary" id="fcSaveBtn" style="display:none;" onclick="slaClaimsOp()">
+            ↓ Sla claims op voor kruisverificatie
+          </button>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Factcheck-suggesties</span>
+            <span class="card-link" style="cursor:default;" id="fcStatus">—</span>
+          </div>
+          <div id="claimsList">
+            <div class="factcheck-empty">
+              Vul links een transcriptie in en klik op Analyseer.<br><br>
+              Gemini identificeert verifieerbare claims en vergelijkt ze met je eigen data: moties, bekendmakingen, raadsvragen en eerdere opgeslagen claims.<br><br>
+              <em>De tool stelt alleen vragen voor, factchecken doe jij zelf.</em>
+            </div>
+          </div>
+        </div>
+
+        <div class="card saved-claims-section">
+          <div class="card-header">
+            <span class="card-title">Opgeslagen claims</span>
+            <button class="card-link" onclick="clearOpgeslagenClaims()">Wis alles</button>
+          </div>
+          <div id="savedClaimsList"><div class="empty" style="padding:16px;font-size:12px;">Nog geen claims opgeslagen.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
