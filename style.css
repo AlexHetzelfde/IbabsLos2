@@ -147,13 +147,13 @@ tbody tr:hover td { background: var(--paper); }
 .motie-title { font-weight: 600; margin-bottom: 2px; }
 .motie-desc  { font-size: 11px; color: var(--muted); }
 
-/* ── BEKENDMAKINGEN ── */
+/* ── CAMERA'S & SLUITINGEN (voorheen "bekendmakingen") ── */
 .bk-item { background: var(--white); border-bottom: 1px solid var(--rule); padding: 14px 20px; }
 .bk-item:last-child { border-bottom: none; }
 .bk-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
 .bk-title-link { font-size: 13px; font-weight: 600; color: var(--text); text-decoration: none; }
 .bk-title-link:hover { color: var(--teal); }
-.bk-meta { display: flex; align-items: center; gap: 8px; margin-top: 5px; }
+.bk-meta { display: flex; align-items: center; gap: 8px; margin-top: 5px; flex-wrap: wrap; }
 .bk-date { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); white-space: nowrap; }
 .bk-desc { font-size: 12px; color: var(--muted); margin-top: 5px; line-height: 1.5; }
 .alert-info { background: var(--teal-bg); border-left: 3px solid var(--teal); padding: 10px 16px; font-size: 12px; color: var(--teal); margin-bottom: 16px; }
@@ -170,7 +170,6 @@ tbody tr:hover td { background: var(--paper); }
 .viz-bar-list { padding: 8px 20px 12px; }
 .viz-bar-row { display: flex; align-items: center; gap: 10px; padding: 6px 0; border-bottom: 1px solid var(--rule); }
 .viz-bar-row:last-child { border-bottom: none; }
-/* FIX: was 110px, te krap voor lange fractienamen zoals "Forum voor Democratie" */
 .viz-bar-label { font-size: 12px; width: 140px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); flex-shrink: 0; }
 .viz-bar-track { flex: 1; height: 20px; background: var(--paper); border-radius: 2px; overflow: hidden; }
 .viz-bar-fill { height: 100%; border-radius: 1px; transition: width 0.5s ease; }
@@ -181,12 +180,11 @@ tbody tr:hover td { background: var(--paper); }
 .viz-stat-value { font-family: 'Barlow Condensed', sans-serif; font-size: 36px; font-weight: 800; line-height: 1; color: var(--navy); }
 .viz-stat-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
 .viz-empty { padding: 20px; text-align: center; color: var(--muted); font-size: 12px; }
-.stacked-bar-track { flex: 1; height: 12px; border-radius: 1px; overflow: hidden; display: flex; }
-.viz-legend { display: flex; gap: 16px; padding: 8px 0 2px; }
-.viz-legend-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--muted); }
-.viz-legend-dot { width: 10px; height: 10px; flex-shrink: 0; }
+/* FIX: .stacked-bar-track, .viz-legend*, .alliantie-item/.alliantie-pair zijn verwijderd —
+   dode CSS, nergens in app.js gebruikt. De legenda's en de allianties-tabel worden met
+   losse inline style-attributen gebouwd, niet met deze classes. */
 
-/* ── BEKENDMAKINGEN DASHBOARD ── */
+/* ── CAMERA'S & WONINGSLUITINGEN — STAT-KAARTEN & GRAFIEKEN ── */
 .bk-stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
 .bk-stat-card { background: var(--white); border: 1px solid var(--rule); padding: 20px 24px; text-align: center; }
 .bk-stat-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.7px; color: var(--muted); margin-bottom: 8px; }
@@ -195,7 +193,9 @@ tbody tr:hover td { background: var(--paper); }
 .bk-chart-container { width: 100%; height: 200px; padding: 8px; }
 .bk-bar-chart { padding: 12px 20px; min-height: 150px; }
 .bk-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-.bk-bar-label { width: 110px; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
+/* FIX: was 110px — te krap voor camera-locatienamen zoals "Poelenburg" of langere straatnamen,
+   zelfde probleem als eerder gefixt bij .viz-bar-label. Nu consistent op 140px. */
+.bk-bar-label { width: 140px; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
 .bk-bar-track { flex: 1; height: 16px; background: var(--paper); border-radius: 2px; overflow: hidden; }
 .bk-bar-fill { height: 100%; background: var(--teal); border-radius: 2px; transition: width 0.3s; }
 .bk-bar-count { width: 30px; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); }
@@ -277,9 +277,6 @@ tbody tr:hover td { background: var(--paper); }
 .coalitie-stat-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .8px; color: var(--muted); margin-bottom: 4px; }
 .coalitie-stat-value { font-family: 'Barlow Condensed', sans-serif; font-size: 36px; font-weight: 800; line-height: 1; }
 .coalitie-stat-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
-.alliantie-item { display: flex; align-items: center; gap: 10px; padding: 7px 20px; border-bottom: 1px solid var(--rule); }
-.alliantie-item:last-child { border-bottom: none; }
-.alliantie-pair { display: flex; align-items: center; gap: 5px; flex: 1; min-width: 0; overflow: hidden; }
 .raadslid-placeholder { padding: 24px 20px; text-align: center; color: var(--muted); font-size: 12px; line-height: 1.8; }
 .raadslid-placeholder strong { color: var(--navy); display: block; margin-bottom: 4px; font-size: 13px; }
 
@@ -291,11 +288,17 @@ tbody tr:hover td { background: var(--paper); }
   .viz-row { grid-template-columns: 1fr; }
   .viz-stat-row { grid-template-columns: 1fr 1fr; }
   .cb-stats-row { grid-template-columns: 1fr 1fr; }
+  .bk-stats-row { grid-template-columns: 1fr 1fr; }
   .coalitie-stats { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 600px) {
   main { padding: 12px; }
   .stats { grid-template-columns: 1fr 1fr; }
   .stat-value { font-size: 36px; }
+  /* FIX: .bk-stat-value had geen mobiele override — bleef op 52px terwijl
+     .bk-stats-row/.cb-stats-row op smalle schermen al bij 900px naar 2 kolommen
+     gaan. Op een telefoon (≤600px) kan 52px in een smal vak afknippen. */
+  .bk-stat-value { font-size: 32px; }
+  .bk-stats-row, .cb-stats-row { grid-template-columns: 1fr; }
   th, td { padding: 8px 10px; }
 }
