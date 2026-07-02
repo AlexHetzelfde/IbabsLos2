@@ -22,6 +22,11 @@ jobs:
           python-version: '3.12'
       - name: Dependencies installeren
         run: pip install pypdf --break-system-packages
+      - name: Dynamische startdatum (8 uur terug)
+        if: ${{ github.event.inputs.vanaf == '' }}
+        run: |
+          echo "SCRAPE_VANAF=$(date -u -d '8 hours ago' +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
+        shell: bash
       - name: Data-map aanmaken
         run: mkdir -p data
       - name: Besluiten scrapen (camera's & woningsluitingen)
