@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       vanaf:
-        description: 'Ophalen vanaf datum (YYYY-MM-DD) — leeg = standaard (8 uur terug)'
+        description: 'Ophalen vanaf datum (YYYY-MM-DD) — leeg = automatisch sinds laatste scrape'
         required: false
         default: ''
 jobs:
@@ -20,13 +20,20 @@ jobs:
           python-version: '3.12'
       - name: Dependencies installeren
         run: pip install pypdf --break-system-packages
-      - name: Dynamische startdatum (8 uur terug)
-        if: ${{ github.event.inputs.vanaf == '' }}
-        run: |
-          echo "SCRAPE_VANAF=$(date -u -d '8 hours ago' +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
-        shell: bash
       - name: Data-map aanmaken
         run: mkdir -p data
+      - name: Startdatum bepalen (sinds laatste scrape)
+        if: ${{ github.event.inputs.vanaf == '' }}
+        run: |
+          if [ -f data/.last_scrape_raadsdata ]; then
+            SCRAPE_VANAF=$(cat data/.last_scrape_raadsdata)
+            echo "Vorige scrape-tracker gevonden: vanaf $SCRAPE_VANAF"
+          else
+            SCRAPE_VANAF=$(date -u -d '8 hours ago' +'%Y-%m-%d')
+            echo "Geen tracker gevonden (eerste run) — val terug op 8 uur terug: $SCRAPE_VANAF"
+          fi
+          echo "SCRAPE_VANAF=$SCRAPE_VANAF" >> $GITHUB_ENV
+        shell: bash
       - name: Moties scrapen
         run: python scrape_moties.py
         env:
@@ -48,6 +55,8 @@ jobs:
           SCRAPE_VANAF: ${{ env.SCRAPE_VANAF || github.event.inputs.vanaf }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         continue-on-error: true
+      - name: Scrape-tracker bijwerken
+        run: date -u +'%Y-%m-%d' > data/.last_scrape_raadsdata
       - name: Wijzigingen committen en pushen
         run: |
           git config user.name  "github-actions[bot]"
@@ -57,7 +66,7 @@ jobs:
             echo "Geen wijzigingen om te committen, overslaan."
             exit 0
           fi
-          git commit -m "data: update $(date +'%Y-%m-%d')${SCRAPE_VANAF:+ (backfill vanaf $SCRAPE_VANAF)}"
+          git commit -m "data: update $(date +'%Y-%m-%d')${SCRAPE_VANAF:+ (vanaf $SCRAPE_VANAF)}"
           git pull --rebase --autostash
           git push
         env:
