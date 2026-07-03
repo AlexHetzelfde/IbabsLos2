@@ -15,18 +15,27 @@ jobs:
           python-version: '3.12'
       - name: Dependencies installeren
         run: pip install beautifulsoup4 --break-system-packages
-      - name: Dynamische startdatum (15 minuten terug)
-        if: ${{ github.event.inputs.vanaf == '' }}
-        run: |
-          echo "SCRAPE_VANAF=$(date -u -d '15 minutes ago' +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
-        shell: bash
       - name: Data-map aanmaken
         run: mkdir -p data
+      - name: Startdatum besluiten bepalen (sinds laatste scrape)
+        if: ${{ github.event.inputs.vanaf == '' }}
+        run: |
+          if [ -f data/.last_scrape_besluiten ]; then
+            SCRAPE_VANAF=$(cat data/.last_scrape_besluiten)
+            echo "Vorige scrape-tracker gevonden: vanaf $SCRAPE_VANAF"
+          else
+            SCRAPE_VANAF=$(date -u -d '15 minutes ago' +'%Y-%m-%d')
+            echo "Geen tracker gevonden (eerste run) — val terug op vandaag: $SCRAPE_VANAF"
+          fi
+          echo "SCRAPE_VANAF=$SCRAPE_VANAF" >> $GITHUB_ENV
+        shell: bash
       - name: Besluiten scrapen (camera's & woningsluitingen)
         run: python scrape_besluiten.py
         env:
           SCRAPE_VANAF: ${{ env.SCRAPE_VANAF || github.event.inputs.vanaf }}
         continue-on-error: true
+      - name: Besluiten-tracker bijwerken
+        run: date -u +'%Y-%m-%d' > data/.last_scrape_besluiten
       - name: EBS uitval scrapen
         run: python scrape_ebs.py
         continue-on-error: true
@@ -35,7 +44,7 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           FILES=""
-          for f in data/ebs_uitval.json data/ebs_totaal_teller.json data/ebs_percentage_historie.json data/cameras_actief.json data/cameras_geschiedenis.json data/woningsluitingen.json; do
+          for f in data/ebs_uitval.json data/ebs_totaal_teller.json data/ebs_percentage_historie.json data/cameras_actief.json data/cameras_geschiedenis.json data/woningsluitingen.json data/.last_scrape_besluiten; do
             [ -f "$f" ] && FILES="$FILES $f"
           done
           if [ -z "$FILES" ]; then
