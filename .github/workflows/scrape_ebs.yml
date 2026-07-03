@@ -15,13 +15,20 @@ jobs:
           python-version: '3.12'
       - name: Dependencies installeren
         run: pip install beautifulsoup4 --break-system-packages
+      - name: Dynamische startdatum (15 minuten terug)
+        if: ${{ github.event.inputs.vanaf == '' }}
+        run: |
+          echo "SCRAPE_VANAF=$(date -u -d '15 minutes ago' +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
+        shell: bash
       - name: Data-map aanmaken
         run: mkdir -p data
+      - name: Besluiten scrapen (camera's & woningsluitingen)
+        run: python scrape_besluiten.py
+        env:
+          SCRAPE_VANAF: ${{ env.SCRAPE_VANAF || github.event.inputs.vanaf }}
+        continue-on-error: true
       - name: EBS uitval scrapen
         run: python scrape_ebs.py
-        continue-on-error: true
-      - name: Bekendmakingen scrapen
-        run: python scrape_rss.py
         continue-on-error: true
       - name: Wijzigingen committen en pushen
         run: |
@@ -30,7 +37,6 @@ jobs:
 
           FILES=""
           [ -f data/ebs_uitval.json ] && FILES="$FILES data/ebs_uitval.json"
-          [ -f data/bekendmakingen.json ] && FILES="$FILES data/bekendmakingen.json"
 
           if [ -z "$FILES" ]; then
             echo "Geen databestanden gevonden om te committen, overslaan."
@@ -38,6 +44,6 @@ jobs:
           fi
 
           git add $FILES
-          git diff --staged --quiet || git commit -m "ebs+rss: update $(date +'%Y-%m-%d %H:%M')"
+          git diff --staged --quiet || git commit -m "ebs: update $(date +'%Y-%m-%d %H:%M')"
           git pull --rebase --autostash
           git push
