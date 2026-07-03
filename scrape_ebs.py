@@ -420,17 +420,27 @@ def main():
 
     nieuw_count = 0
     update_count = 0
+    hersteld_count = 0
     for rid, rit in nieuwe_ritten.items():
-        if rit["status"] != "cancelled" or rit["datum"] != vandaag:
+        if rit["datum"] != vandaag:
             continue
-        rit["bijgewerkt"] = nu.strftime("%Y-%m-%d %H:%M:%S")
-        if rid in bestaand:
-            rit["eerst_gezien"] = bestaand[rid].get("eerst_gezien", rit["bijgewerkt"])
-            update_count += 1
+
+        if rit["status"] == "cancelled":
+            rit["bijgewerkt"] = nu.strftime("%Y-%m-%d %H:%M:%S")
+            if rid in bestaand:
+                rit["eerst_gezien"] = bestaand[rid].get("eerst_gezien", rit["bijgewerkt"])
+                update_count += 1
+            else:
+                rit["eerst_gezien"] = rit["bijgewerkt"]
+                nieuw_count += 1
+            bestaand[rid] = rit
         else:
-            rit["eerst_gezien"] = rit["bijgewerkt"]
-            nieuw_count += 1
-        bestaand[rid] = rit
+            # Rit stond nog op het bord maar is niet (meer) cancelled — als hij
+            # eerder wél als cancelled was opgeslagen, is de annulering
+            # kennelijk teruggedraaid. Verwijder 'm dan uit de uitval-lijst.
+            if rid in bestaand:
+                del bestaand[rid]
+                hersteld_count += 1
 
     resultaat = sorted(
         bestaand.values(),
@@ -444,6 +454,8 @@ def main():
 
     print(f"\n✓ Weggeschreven naar {OUTPUT}")
     print(f"  {nieuw_count} nieuwe geannuleerde ritten · {update_count} bijgewerkt")
+    if hersteld_count:
+        print(f"  {hersteld_count} eerder geannuleerde rit(ten) bleken hersteld en zijn verwijderd")
     print(f"  {len(resultaat)} geannuleerde ritten vandaag ({vandaag}) in JSON")
 
 
