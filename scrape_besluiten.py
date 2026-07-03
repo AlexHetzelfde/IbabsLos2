@@ -24,14 +24,13 @@ Houdt twee dingen bij, allebei vanaf 1 juli 2026:
 
 Dwangsommen worden niet meer bijgehouden.
 
-LET OP — eerlijke disclaimer over de woningsluitingen-scraper:
-De Orkaan biedt geen RSS/API aan voor deze tag. Onderstaande parser is
-gebouwd op basis van de zichtbare, door tekst-extractie omgezette structuur
-van de pagina en gebruikt daarom META brede/vergevingsgezinde selectors met
-fallbacks. Bij de eerste run: check de printउutput. Als BEIDE_ORKAAN_ITEMS_GEVONDEN
-op 0 uitkomt, is de site-structuur anders dan aangenomen en moet je de
-selectors in `parse_orkaan_pagina()` aanpassen op basis van de echte HTML
-(view-source in je browser op de tag-pagina).
+LET OP over de woningsluitingen-scraper:
+De Orkaan biedt geen RSS/API aan voor deze tag. De parser in
+parse_orkaan_pagina() is gebouwd op de daadwerkelijke live HTML van
+deorkaan.nl/tag/woningsluiting/ (juli 2026): elk artikel staat in een
+<div class="mb-6 ..."> blok, de titel-link omhult de <h2> (dus <a href="..."><h2>Titel</h2></a>,
+niet andersom), en de publicatiedatum staat in een <span class="...text-xs">
+na een <img ... alt="date">, niet in een <time>-tag.
 
 Gebruik:
     python3 scrape_besluiten.py
@@ -379,42 +378,77 @@ def extract_duur_maanden(tekst):
 def parse_orkaan_pagina(html_text):
     """Parseert de artikel-blokken op de De Orkaan tag-pagina.
 
-    De structuur (WordPress-archief) is doorgaans:
-      <article ...> ... <h2 ...><a href="...">Titel</a></h2>
-        ... excerpt-tekst ... <time ...>5 december 2024</time> ...
-      </article>
+    Echte structuur (bevestigd op live HTML, juli 2026):
 
-    Omdat ik de exacte class-namen niet kon verifiëren (mijn fetch-tool
-    geeft alleen tekst-geëxtraheerde markdown terug, geen ruwe HTML), werkt
-    dit met brede fallback-patronen. Print bovenaan de run hoeveel items
-    gevonden zijn — als dat 0 is, moet dit met echte HTML in de hand
-    herschreven worden.
+        <div class="mb-6 pb-0 border-b border-gray-300">
+          <div class="sm:flex">
+            <div class="mr-6 block-item ...">
+              <a href="ARTIKEL_URL" class="overview-item">
+                <img ... class="post-thumb" ...>
+              </a>
+            </div>
+            <div class="flex-1">
+              <a class="text-lg font-bold leading-tight" href="ARTIKEL_URL">
+                <h2 class="overview-post-title mb-1">TITEL</h2>
+              </a>
+              EXCERPT-TEKST...
+              <div class="mt-4"><a href="ARTIKEL_URL" class="button">Lees meer</a></div>
+            </div>
+          </div>
+          <div class="sm:mt-1.5 meta ...">
+            ...
+            <div class="... flex items-center">
+              <img ... alt="date"/>
+              <span class="pt-0.5 text-xs">
+                  5 mei 2026            </span>
+            </div>
+          </div>
+        </div>
+
+    Twee dingen die eerder faalden en nu gefixt zijn:
+      1. De titel-link OMHULT de <h2> (<a href="..."><h2>Titel</h2></a>),
+         niet andersom zoals eerder aangenomen.
+      2. De datum staat niet in een <time>-tag maar in een <span> die volgt
+         op een <img alt="date">.
     """
     artikelen = []
 
-    # Splits ruwweg op <article ...> blokken; val terug op h2-koppen als er
-    # geen <article>-tags zijn.
-    blokken = re.split(r"(?=<article[\s>])", html_text)
+    # Elk artikel zit in een eigen <div class="mb-6 ...">-blok. Splits daarop.
+    blokken = re.split(r'(?=<div class="mb-6\b)', html_text)
     if len(blokken) <= 1:
-        blokken = re.split(r"(?=<h2[\s>])", html_text)
+        # Fallback voor het geval de class-naam wijzigt: val terug op de
+        # titel-link zelf als bloksplitser.
+        blokken = re.split(
+            r'(?=<a class="text-lg font-bold leading-tight")', html_text
+        )
 
     for blok in blokken:
+        # Titel-link omhult de <h2>: <a ... href="...">\s*<h2 ...>Titel</h2>\s*</a>
         m_link = re.search(
-            r'<h[23][^>]*>\s*<a[^>]+href="([^"]+)"[^>]*>\s*([^<]+?)\s*</a>',
+            r'<a[^>]+href="([^"]+)"[^>]*>\s*<h2[^>]*>\s*([^<]+?)\s*</h2>\s*</a>',
             blok, re.I,
         )
         if not m_link:
             continue
         link, titel = m_link.group(1).strip(), m_link.group(2).strip()
 
-        # Datum: <time ...>5 december 2024</time>  of  bijschrift met
-        # dag-maand-jaar los in de tekst.
-        m_datum = re.search(r"<time[^>]*>([^<]+)</time>", blok, re.I)
-        datum_tekst = m_datum.group(1) if m_datum else blok
-        datum = parse_dutch_datum(re.sub(r"<[^>]+>", " ", datum_tekst))
+        # Datum: <img ... alt="date"/> gevolgd door <span ...>5 mei 2026</span>
+        m_datum = re.search(
+            r'alt="date"[^>]*/?>\s*<span[^>]*>\s*([^<]+?)\s*</span>',
+            blok, re.I,
+        )
+        if m_datum:
+            datum = parse_dutch_datum(m_datum.group(1))
+        else:
+            # Fallback: zoek een losse "D maand JJJJ"-patroon in het hele blok.
+            datum = parse_dutch_datum(re.sub(r"<[^>]+>", " ", blok))
 
-        # Excerpt: eerste substantiële <p>-tekst na de titel.
-        m_excerpt = re.search(r"</h[23]>(.*?)(?:<a[^>]*>\s*Lees meer|$)", blok, re.I | re.S)
+        # Excerpt: platte tekst tussen het einde van de titel-<a> en de
+        # "Lees meer"-knop.
+        m_excerpt = re.search(
+            r'</h2>\s*</a>(.*?)(?:<div class="mt-4">|<a[^>]*>\s*Lees meer|$)',
+            blok, re.I | re.S,
+        )
         excerpt_html = m_excerpt.group(1) if m_excerpt else blok
         excerpt = re.sub(r"<[^>]+>", " ", excerpt_html)
         excerpt = re.sub(r"\s+", " ", excerpt).strip()
