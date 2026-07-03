@@ -34,16 +34,15 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-
           FILES=""
-          [ -f data/ebs_uitval.json ] && FILES="$FILES data/ebs_uitval.json"
-
+          for f in data/ebs_uitval.json data/ebs_totaal_teller.json data/ebs_percentage_historie.json data/cameras_actief.json data/cameras_geschiedenis.json data/woningsluitingen.json; do
+            [ -f "$f" ] && FILES="$FILES $f"
+          done
           if [ -z "$FILES" ]; then
             echo "Geen databestanden gevonden om te committen, overslaan."
             exit 0
           fi
-
           git add $FILES
-          git diff --staged --quiet || git commit -m "ebs: update $(date +'%Y-%m-%d %H:%M')"
+          git diff --staged --quiet || git commit -m "ebs+besluiten: update $(date +'%Y-%m-%d %H:%M')"
           git pull --rebase --autostash
           git push
