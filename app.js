@@ -153,6 +153,15 @@ async function loadStemmingen() {
 }
 
 async function loadUitval() {
+  // 1. Eerst de teller laden — renderUitval() heeft dit nodig
+  try {
+    const r = await fetch('./data/ebs_totaal_teller.json');
+    if (r.ok) totaalTeller = await r.json();
+  } catch (e) {
+    totaalTeller = {};
+  }
+
+  // 2. Dan pas de uitvaldata laden en renderen
   try {
     const r = await fetch('./data/ebs_uitval.json');
     if (!r.ok) throw new Error(r.status);
@@ -164,11 +173,6 @@ async function loadUitval() {
         ? '<div class="empty">Nog geen uitvaldata — draai eerst scrape_ebs.py.</div>'
         : `<div class="error-msg">Fout: ${e.message}</div>`;
   }
-  // 🆕 Teller voor totaal unieke ritten per dag laden
-  try {
-    const r = await fetch('./data/ebs_totaal_teller.json');
-    if (r.ok) totaalTeller = await r.json();
-  } catch (e) { /* bestand bestaat nog niet? dan blijft totaalTeller leeg */ }
 }
 
 // ── EBS UITVAL ────────────────────────────────────────────────────────────────
