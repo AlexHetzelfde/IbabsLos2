@@ -1825,6 +1825,13 @@ function bouwEigenDataContext() {
     const recent = raadsvragen.slice(0, 10).map(r => `- ${r.datum_ingediend || '?'}: "${r.titel}" (${r.fractie || '?'})`).join('\n');
     delen.push(`RECENTE RAADSVRAGEN:\n${recent}`);
   }
+  if (stemmingen.length) {
+    const recent = stemmingen.slice(0, 10).map(s => {
+      const uitslag = s.voor_pct != null ? `${s.voor_pct}% voor, ${s.tegen_pct || 0}% tegen` : (s.uitslag_tekst || s.uitslag || 'onbekend');
+      return `- ${s.datum || '?'}: "${s.titel}" — ${uitslag}`;
+    }).join('\n');
+    delen.push(`RECENTE STEMMINGEN:\n${recent}`);
+  }
   const cbClaims = collegebrieven.flatMap(b => (b.claims || []).map(c => `- ${b.datum}: "${c.claim}" (${b.titel})`)).slice(0, 15).join('\n');
   if (cbClaims) delen.push(`CLAIMS UIT COLLEGEBRIEVEN:\n${cbClaims}`);
   const storedClaims = JSON.parse(localStorage.getItem('zr_claims') || '[]');
