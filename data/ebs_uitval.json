@@ -1,5 +1,38 @@
 [
   {
+    "id": "EBS:1391:1159_2026-07-03",
+    "journey_id": "EBS:1391:1159",
+    "datum": "2026-07-03",
+    "lijn": "391",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "22:34",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Centraal"
+      }
+    ],
+    "eerste_tijd": "22:34",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-07-03 19:15:29",
+    "eerst_gezien": "2026-07-03 19:15:29"
+  },
+  {
     "id": "EBS:1069:1068_2026-07-03",
     "journey_id": "EBS:1069:1068",
     "datum": "2026-07-03",
@@ -44,12 +77,12 @@
     "eerst_gezien": "2026-07-03 19:00:55"
   },
   {
-    "id": "EBS:1394:1176_2026-07-03",
-    "journey_id": "EBS:1394:1176",
+    "id": "EBS:1069:1068_2026-07-03",
+    "journey_id": "EBS:1069:1068",
     "datum": "2026-07-03",
-    "lijn": "394",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
+    "lijn": "69",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Personeel",
@@ -60,21 +93,32 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "22:13",
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "22:27",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron C",
-        "bestemming": "Amsterdam Noorderpark"
+        "platform": "Perron I",
+        "bestemming": "Krommenie"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "22:29",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Krommenie"
       }
     ],
-    "eerste_tijd": "22:13",
+    "eerste_tijd": "22:27",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-07-03 18:45:29",
-    "eerst_gezien": "2026-07-03 18:45:29"
+    "bijgewerkt": "2026-07-03 19:15:29",
+    "eerst_gezien": "2026-07-03 19:15:29"
   },
   {
     "id": "EBS:1394:1176_2026-07-03",
@@ -110,12 +154,12 @@
     "eerst_gezien": "2026-07-03 19:00:55"
   },
   {
-    "id": "EBS:1111:1116_2026-07-03",
-    "journey_id": "EBS:1111:1116",
+    "id": "EBS:1394:1176_2026-07-03",
+    "journey_id": "EBS:1394:1176",
     "datum": "2026-07-03",
-    "lijn": "111",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
+    "lijn": "394",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Personeel",
@@ -128,30 +172,19 @@
       {
         "halte_id": "NL:S:37223552",
         "halte_naam": "De Vlinder",
-        "geplande_tijd": "21:04",
+        "geplande_tijd": "22:13",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron A",
-        "bestemming": "Zaandam Station"
-      },
-      {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "21:12",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Zaandam Station"
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Noorderpark"
       }
     ],
-    "eerste_tijd": "21:04",
+    "eerste_tijd": "22:13",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-07-03 18:45:29",
-    "eerst_gezien": "2026-07-03 18:45:29"
+    "bijgewerkt": "2026-07-03 19:15:29",
+    "eerst_gezien": "2026-07-03 19:15:29"
   },
   {
     "id": "EBS:1111:1116_2026-07-03",
