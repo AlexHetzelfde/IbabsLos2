@@ -33,12 +33,12 @@
     "eerst_gezien": "2026-07-04 09:45:31"
   },
   {
-    "id": "EBS:1395:6041_2026-07-04",
-    "journey_id": "EBS:1395:6041",
+    "id": "EBS:1801:6014_2026-07-04",
+    "journey_id": "EBS:1801:6014",
     "datum": "2026-07-04",
-    "lijn": "395",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
+    "lijn": "801",
+    "lijnkleur": "#f39200",
+    "categorie": "M-net",
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Personeel",
@@ -49,21 +49,21 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "12:26",
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "13:10",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron E",
-        "bestemming": "Zaandam ZMC"
+        "platform": "Perron G",
+        "bestemming": "Volendam"
       }
     ],
-    "eerste_tijd": "12:26",
+    "eerste_tijd": "13:10",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-07-04 09:30:50",
-    "eerst_gezien": "2026-07-04 09:30:50"
+    "bijgewerkt": "2026-07-04 10:00:57",
+    "eerst_gezien": "2026-07-04 10:00:57"
   },
   {
     "id": "EBS:1395:6041_2026-07-04",
@@ -94,6 +94,83 @@
       }
     ],
     "eerste_tijd": "12:26",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-07-04 09:45:31",
+    "eerst_gezien": "2026-07-04 09:45:31"
+  },
+  {
+    "id": "EBS:1395:6041_2026-07-04",
+    "journey_id": "EBS:1395:6041",
+    "datum": "2026-07-04",
+    "lijn": "395",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "12:26",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron E",
+        "bestemming": "Zaandam ZMC"
+      }
+    ],
+    "eerste_tijd": "12:26",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-07-04 10:00:57",
+    "eerst_gezien": "2026-07-04 10:00:57"
+  },
+  {
+    "id": "EBS:1069:6026_2026-07-04",
+    "journey_id": "EBS:1069:6026",
+    "datum": "2026-07-04",
+    "lijn": "69",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "12:12",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron I",
+        "bestemming": "Krommenie"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "12:15",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Krommenie"
+      }
+    ],
+    "eerste_tijd": "12:12",
     "dagdeel": "dal",
     "bijgewerkt": "2026-07-04 09:45:31",
     "eerst_gezien": "2026-07-04 09:45:31"
@@ -139,85 +216,8 @@
     ],
     "eerste_tijd": "12:12",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-07-04 09:30:50",
-    "eerst_gezien": "2026-07-04 09:30:50"
-  },
-  {
-    "id": "EBS:1069:6026_2026-07-04",
-    "journey_id": "EBS:1069:6026",
-    "datum": "2026-07-04",
-    "lijn": "69",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "12:12",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron I",
-        "bestemming": "Krommenie"
-      },
-      {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "12:15",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Krommenie"
-      }
-    ],
-    "eerste_tijd": "12:12",
-    "dagdeel": "dal",
-    "bijgewerkt": "2026-07-04 09:45:31",
-    "eerst_gezien": "2026-07-04 09:45:31"
-  },
-  {
-    "id": "EBS:1395:6040_2026-07-04",
-    "journey_id": "EBS:1395:6040",
-    "datum": "2026-07-04",
-    "lijn": "395",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "11:46",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron B",
-        "bestemming": "Amsterdam Sloterdijk"
-      }
-    ],
-    "eerste_tijd": "11:46",
-    "dagdeel": "dal",
-    "bijgewerkt": "2026-07-04 09:30:50",
-    "eerst_gezien": "2026-07-04 09:30:50"
+    "bijgewerkt": "2026-07-04 10:00:57",
+    "eerst_gezien": "2026-07-04 10:00:57"
   },
   {
     "id": "EBS:1395:6040_2026-07-04",
