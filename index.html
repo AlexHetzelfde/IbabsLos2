@@ -29,7 +29,6 @@
   <!-- FIX: was "Bekendmakingen" — dwangsommen zijn eruit, woningsluiting komt nu van De Orkaan i.p.v. bekendmakingen.nl -->
   <div class="tab"        data-tab="bekendmakingen" onclick="switchTab(this)">Camera's &amp; Sluitingen</div>
   <div class="tab"        data-tab="stemmingen"     onclick="switchTab(this)">Stemmingen</div>
-  <div class="tab"        data-tab="raadsvragen"    onclick="switchTab(this)">Raadsvragen</div>
   <div class="tab"        data-tab="collegebrieven" onclick="switchTab(this)">Collegebrieven</div>
   <div class="tab" data-tab="uitval"    onclick="switchTab(this)">🚌 Uitval</div>
   <div class="tab"        data-tab="factcheck"      onclick="switchTab(this)">✦ Factcheck</div>
@@ -281,24 +280,6 @@
     <div class="card">
       <div class="card-header"><span class="card-title">Alle stemmingen</span><span class="card-link" id="stemCount" style="cursor:default;">—</span></div>
       <div id="stemList"><div class="empty">Laden...</div></div>
-    </div>
-  </div>
-
-  <!-- ── RAADSVRAGEN ── -->
-  <div class="tab-content" id="tab-raadsvragen">
-    <div class="filter-bar">
-      <select class="filter-select" id="filterRvPartij" onchange="renderRaadsvragen()">
-        <option value="">Alle fracties</option>
-      </select>
-      <select class="filter-select" id="filterRvStatus" onchange="renderRaadsvragen()">
-        <option value="">Alle statussen</option>
-        <option value="beantwoord">Beantwoord</option>
-        <option value="in behandeling">In behandeling</option>
-      </select>
-    </div>
-    <div class="card">
-      <div class="card-header"><span class="card-title">Raadsvragen</span><span class="card-link" id="rvCount" style="cursor:default;">—</span></div>
-      <div id="rvList"><div class="empty">Laden...</div></div>
     </div>
   </div>
 
