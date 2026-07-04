@@ -1,6 +1,9 @@
 name: Scrape EBS uitval
 on:
   workflow_dispatch:
+concurrency:
+  group: scrape-ebs
+  cancel-in-progress: false
 jobs:
   scrape:
     runs-on: ubuntu-latest
