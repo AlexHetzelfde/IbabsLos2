@@ -35,16 +35,17 @@ function getAllFracties() {
 }
 
 // ── STATE ─────────────────────────────────────────────────────────────────────
-let vergaderingen = [], moties = [], camerasActief = [], camerasGeschiedenis = [], woningsluitingen = [], raadsvragen = [], collegebrieven = [], stemmingen = [], uitval = [];
+let vergaderingen = [], moties = [], camerasActief = [], camerasGeschiedenis = [], woningsluitingen = [], collegebrieven = [], stemmingen = [], uitval = [];
 let huidigeClaims = [];
 let _chartFractie = null;
 let totaalTeller = {};
+let percentageHistorie = {};
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async () => {
   const savedKey = localStorage.getItem('zr_gemini_key');
   if (savedKey) document.getElementById('geminiKey').value = savedKey;
-  await Promise.all([loadVerg(), loadMoties(), loadCamerasEnSluitingen(), loadRaadsvragen(), loadCollegebrieven(), loadStemmingen(), loadUitval()]);
+  await Promise.all([loadVerg(), loadMoties(), loadCamerasEnSluitingen(), loadCollegebrieven(), loadStemmingen(), loadUitval()]);
   updateStats();
   renderOpgeslagenClaims();
   document.getElementById('headerMeta').textContent =
@@ -153,19 +154,34 @@ async function loadStemmingen() {
 }
 
 async function loadUitval() {
-  // 1. Eerst de teller laden — renderUitval() heeft dit nodig
+  // 1. Teller + percentage-historie laden — renderUitval() heeft dit nodig
   try {
     const r = await fetch('./data/ebs_totaal_teller.json');
     if (r.ok) totaalTeller = await r.json();
   } catch (e) {
     totaalTeller = {};
   }
+  try {
+    const r = await fetch('./data/ebs_percentage_historie.json');
+    if (r.ok) percentageHistorie = await r.json();
+  } catch (e) {
+    percentageHistorie = {};
+  }
 
-  // 2. Dan pas de uitvaldata laden en renderen
+  // 2. Dan pas de uitvaldata laden, dedupliceren en renderen
   try {
     const r = await fetch('./data/ebs_uitval.json');
     if (!r.ok) throw new Error(r.status);
-    uitval = await r.json();
+    const ruw = await r.json();
+    // FIX: vangnet tegen historische duplicaten (ontstaan door overlappende
+    // workflow-runs vóór de concurrency-fix in scrape_ebs.yml). Zelfde "id",
+    // ander "bijgewerkt" — hou per id alleen de laatst bijgewerkte versie aan.
+    const laatsteVersie = {};
+    ruw.forEach(rit => {
+      const bestaand = laatsteVersie[rit.id];
+      if (!bestaand || rit.bijgewerkt > bestaand.bijgewerkt) laatsteVersie[rit.id] = rit;
+    });
+    uitval = Object.values(laatsteVersie);
     renderUitval();
   } catch (e) {
     document.getElementById('uvLijst').innerHTML =
@@ -178,20 +194,24 @@ async function loadUitval() {
 // ── EBS UITVAL ────────────────────────────────────────────────────────────────
 function renderUitval() {
   const uitgevallen = uitval.filter(r => r.status === 'cancelled' || r.status === 'verkort');
-    // ── STATS ─────────────────────────────────────────────────────────────────
-  const vandaag = new Date().toISOString().slice(0, 10);
-  let totaalRittenVandaag = uitval.length; // fallback als teller ontbreekt
-  if (totaalTeller && totaalTeller[vandaag]) {
-    totaalRittenVandaag = totaalTeller[vandaag].totaal;
-  }
+  // ── STATS ─────────────────────────────────────────────────────────────────
+  const datums = [...new Set(uitval.map(r => r.datum))].sort();
+
+  // FIX: was uitgevallen.length (hele periode) gedeeld door totaal-van-alleen-
+  // vandaag — twee tijdvakken door elkaar. Nu: som het totaal aantal ritten op
+  // over exact dezelfde dagen als de uitvaldata beslaat.
+  let totaalRittenPeriode = 0;
+  datums.forEach(d => {
+    if (percentageHistorie[d]) totaalRittenPeriode += percentageHistorie[d].totaal;
+    else if (totaalTeller[d]) totaalRittenPeriode += totaalTeller[d].totaal;
+  });
 
   document.getElementById('uvTotaal').textContent = uitgevallen.length;
-  const pct = totaalRittenVandaag ? Math.round(uitgevallen.length / totaalRittenVandaag * 100) : 0;
+  const pct = totaalRittenPeriode ? Math.round(uitgevallen.length / totaalRittenPeriode * 100) : 0;
   document.getElementById('uvPct').textContent = pct + '%';
-  const datums = [...new Set(uitval.map(r => r.datum))].sort();
   document.getElementById('uvPeriode').textContent =
     datums.length ? datums[0] + ' t/m ' + datums[datums.length - 1] : 'geen data';
-
+  
   const lijnTeller = {};
   uitgevallen.forEach(r => { lijnTeller[r.lijn] = (lijnTeller[r.lijn] || 0) + 1; });
   const topLijnEntry = Object.entries(lijnTeller).sort((a,b) => b[1]-a[1])[0];
@@ -1824,10 +1844,6 @@ function bouwEigenDataContext() {
     const camLijst = camerasActief.slice(0, 10).map(c => `- cameratoezicht: ${c.camera} (${c.start} t/m ${c.eind})`).join('\n');
     const woningLijst = woningsluitingen.slice(0, 10).map(w => `- ${w.datum || '?'}: woningsluiting ${w.titel}`).join('\n');
     delen.push(`RECENTE CAMERA'S & WONINGSLUITINGEN:\n${camLijst}\n${woningLijst}`);
-  }
-  if (raadsvragen.length) {
-    const recent = raadsvragen.slice(0, 10).map(r => `- ${r.datum_ingediend || '?'}: "${r.titel}" (${r.fractie || '?'})`).join('\n');
-    delen.push(`RECENTE RAADSVRAGEN:\n${recent}`);
   }
   if (stemmingen.length) {
     const recent = stemmingen.slice(0, 10).map(s => {
