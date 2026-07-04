@@ -158,13 +158,6 @@ tbody tr:hover td { background: var(--paper); }
 .bk-desc { font-size: 12px; color: var(--muted); margin-top: 5px; line-height: 1.5; }
 .alert-info { background: var(--teal-bg); border-left: 3px solid var(--teal); padding: 10px 16px; font-size: 12px; color: var(--teal); margin-bottom: 16px; }
 
-/* ── RAADSVRAGEN ── */
-.rv-item { background: var(--white); border-bottom: 1px solid var(--rule); padding: 14px 20px; }
-.rv-item:last-child { border-bottom: none; }
-.rv-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
-.rv-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-.rv-date { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); }
-
 /* ── VISUALISATIES ── */
 .viz-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
 .viz-bar-list { padding: 8px 20px 12px; }
