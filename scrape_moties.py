@@ -48,6 +48,13 @@ MOTIES_COLUMNS = [
     ("registrationdate",           True),
 ]
 
+# Statussen die DEFINITIEF zijn — een motie met zo'n status verandert niet
+# meer, dus die mag overgeslagen worden bij een volgende run. Let op: als
+# "aangehouden" bij Zaanstad een tussentijdse status kan zijn die later
+# alsnog in stemming komt (en dus verandert naar aangenomen/verworpen),
+# hoort die NIET in deze set — check dit tegen je eigen moties.json.
+DEFINITIEVE_STATUSSEN = {"aangenomen", "verworpen", "ingetrokken"}
+
 
 def build_moties_body(start, draw):
     params = [("draw", str(draw))]
@@ -229,8 +236,27 @@ def main():
 
     # Per motie detailpagina ophalen voor uitslag + stemresultaten
     print("Detailpagina's ophalen...")
+    overgeslagen = 0
     for i, row in enumerate(recente_rows):
         m = parse_motie(row)
+
+        # FIX: sla moties over die al een DEFINITIEVE uitslag hebben — die
+        # verandert niet meer. Voorkomt dat elke run opnieuw de detailpagina
+        # van allang afgehandelde moties wordt gefetched. Zelfde patroon als
+        # scrape_stemmingen.py, maar hier expliciet beperkt tot definitieve
+        # statussen (zie DEFINITIEVE_STATUSSEN hierboven) — een motie die nog
+        # "in behandeling" is of geen status heeft, wordt gewoon opnieuw
+        # gecontroleerd.
+        bestaande_motie = bestaand.get(m["id"])
+        al_verwerkt = (
+            bestaande_motie is not None
+            and (bestaande_motie.get("status") or "") in DEFINITIEVE_STATUSSEN
+        )
+        if al_verwerkt:
+            print(f"  [{i+1}/{len(recente_rows)}] {m['datum']} {m['titel'][:50]} → al definitief verwerkt, overgeslagen")
+            overgeslagen += 1
+            continue
+
         print(f"  [{i+1}/{len(recente_rows)}] {m['datum']} {m['titel'][:50]}", end=" ", flush=True)
         detail = fetch_stemming_detail(opener, m["id"])
         m.update(detail)
@@ -250,7 +276,7 @@ def main():
         json.dump(resultaat, f, ensure_ascii=False, indent=2)
 
     print(f"\n✓ Weggeschreven naar {OUTPUT}")
-    print(f"  {len(recente_rows)} moties verwerkt")
+    print(f"  {len(recente_rows)} moties bekeken, {overgeslagen} overgeslagen (al definitief)")
     print(f"  {len(resultaat)} totaal in JSON")
     met_status = sum(1 for m in resultaat if m.get("status"))
     print(f"  {met_status}/{len(resultaat)} met stemuitslag")
