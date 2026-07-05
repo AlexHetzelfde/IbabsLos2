@@ -79,15 +79,24 @@ PRIO_SCORE = {"HOOG": 75, "MIDDEL": 45, "LAAG": 20}
 # wordt die zin als claim opgeslagen. Eén match per zin volstaat.
 #
 CODE_PATRONEN = [
-    # Geldbedragen — altijd HOOG, altijd controleerbaar
+    # Geldbedragen met €-teken — FIX: eist een cijfer aan het eind, zodat een
+    # zin-afsluitende punt ("€500.") niet wordt meegepakt in het bedrag.
     (
-        r'€\s*[\d.,]+(?:\s*(?:miljoen|mln|duizend|k))?',
+        r'€\s*\d(?:[\d.,]*\d)?(?:\s*(?:miljoen|miljard|mln|mld|duizend|k))?',
         "HOOG",
         "Controleer bedrag via gemeentebegroting, raadsstuk of jaarverslag"
     ),
-    # Percentages
+    # Geldbedragen zonder €-teken maar met "euro" voluit geschreven —
+    # NIEUW: dit gat bestond nog niet. "2 miljoen euro" werd eerder gemist.
     (
-        r'\b\d+[,.]\d+\s*%|\b\d+\s*%',
+        r'\b\d+(?:[\d.,]*\d)?\s*(?:euro|miljoen\s+euro|miljard\s+euro)\b',
+        "HOOG",
+        "Controleer bedrag via gemeentebegroting, raadsstuk of jaarverslag"
+    ),
+    # Percentages — FIX: "procent" voluit geschreven werd eerder gemist,
+    # alleen het %-teken werd herkend.
+    (
+        r'\b\d+(?:[,.]\d+)?\s*(?:%|procent)\b',
         "HOOG",
         "Controleer percentage via bron, onderzoeksrapport of CBS-data"
     ),
@@ -134,6 +143,14 @@ CODE_PATRONEN = [
         r'besluit\s+[A-Z][a-z]+|verordening\s+[a-z])',
         "LAAG",
         "Controleer wetsartikel of beleidsdocument via overheid.nl of gemeentearchief"
+    ),
+    # Vage grote hoeveelheden zonder concreet getal — NIEUW. Dit is precies
+    # het soort taalgebruik dat onderbouwing ontwijkt: "honderden meldingen"
+    # klinkt concreet maar bevat geen controleerbaar getal.
+    (
+        r'\b(?:tientallen|honderden|duizenden|miljoenen)\b',
+        "LAAG",
+        "Vage hoeveelheid zonder concreet getal — vraag om het exacte aantal"
     ),
     # Vage superlatieven zonder onderbouwing
     (
@@ -478,8 +495,15 @@ def main():
 
         print(f"  [{i+1}/{len(relevante_rows)}] {datum} — {titel[:55]}", end=" ", flush=True)
 
-        # Overslaan als al verwerkt met claims
-        if item_id in bestaand and bestaand[item_id].get("claims"):
+        # Overslaan als al verwerkt.
+        # FIX: was `bestaand[item_id].get("claims")` — een lege lijst ([])
+        # is falsy in Python, dus brieven zonder claims werden ELKE run
+        # opnieuw volledig herverwerkt (PDF opnieuw downloaden, tekst
+        # opnieuw extraheren, en bij een Gemini-key elke run opnieuw een
+        # AI-call voor dezelfde brief). Nu checken we op AANWEZIGHEID van
+        # de key, niet op de waarheid van de inhoud — "verwerkt met 0
+        # claims" telt nu ook terecht als klaar.
+        if item_id in bestaand and "claims" in bestaand[item_id]:
             print("→ al verwerkt, overgeslagen")
             continue
 
