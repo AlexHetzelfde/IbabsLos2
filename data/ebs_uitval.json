@@ -12,39 +12,6 @@
       "Logistiek"
     ],
     "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "22:48",
-        "vertraging_min": -2,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron E",
-        "bestemming": "Marken"
-      }
-    ],
-    "eerste_tijd": "22:48",
-    "dagdeel": "avond",
-    "bijgewerkt": "2026-07-05 20:45:34",
-    "eerst_gezien": "2026-07-05 20:45:34"
-  },
-  {
-    "id": "EBS:1111:7113_2026-07-05",
-    "journey_id": "EBS:1111:7113",
-    "datum": "2026-07-05",
-    "lijn": "111",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
     "terminus_alert": "Terminates at Vijfhoek",
     "advies": null,
     "haltes": [
@@ -1329,5 +1296,38 @@
     "dagdeel": "dal",
     "bijgewerkt": "2026-07-05 07:01:01",
     "eerst_gezien": "2026-07-05 07:01:01"
+  },
+  {
+    "id": "EBS:1111:7118_2026-07-05",
+    "journey_id": "EBS:1111:7118",
+    "datum": "2026-07-05",
+    "lijn": "111",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "00:26",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Zaandam Station"
+      }
+    ],
+    "eerste_tijd": "00:26",
+    "dagdeel": "nacht",
+    "bijgewerkt": "2026-07-05 21:01:08",
+    "eerst_gezien": "2026-07-05 21:01:08"
   }
 ]
