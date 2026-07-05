@@ -1,5 +1,82 @@
 [
   {
+    "id": "EBS:1801:7018_2026-07-05",
+    "journey_id": "EBS:1801:7018",
+    "datum": "2026-07-05",
+    "lijn": "801",
+    "lijnkleur": "#f39200",
+    "categorie": "M-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "14:10",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron G",
+        "bestemming": "Volendam"
+      }
+    ],
+    "eerste_tijd": "14:10",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-07-05 10:45:32",
+    "eerst_gezien": "2026-07-05 10:45:32"
+  },
+  {
+    "id": "EBS:1064:7023_2026-07-05",
+    "journey_id": "EBS:1064:7023",
+    "datum": "2026-07-05",
+    "lijn": "64",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": "Terminates at Vinkenstraat",
+    "advies": "Advice: In verband met werkzaamheden rondom de George Gershwinstraat rijdt bus 64 een andere route. Meer info: www.meerplus.nl",
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "13:59",
+        "vertraging_min": 0,
+        "status": "verkort",
+        "vertrokken": false,
+        "realtime": true,
+        "platform": null,
+        "bestemming": "Zaandijk Rooswijk"
+      },
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "14:06",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron H",
+        "bestemming": "Zaandijk Rooswijk"
+      }
+    ],
+    "eerste_tijd": "13:59",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-07-05 10:45:32",
+    "eerst_gezien": "2026-07-05 10:45:32"
+  },
+  {
     "id": "EBS:1394:7053_2026-07-05",
     "journey_id": "EBS:1394:7053",
     "datum": "2026-07-05",
@@ -33,12 +110,12 @@
     "eerst_gezien": "2026-07-05 10:30:53"
   },
   {
-    "id": "EBS:1069:7023_2026-07-05",
-    "journey_id": "EBS:1069:7023",
+    "id": "EBS:1394:7053_2026-07-05",
+    "journey_id": "EBS:1394:7053",
     "datum": "2026-07-05",
-    "lijn": "69",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
+    "lijn": "394",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Personeel",
@@ -49,9 +126,20 @@
     "advies": null,
     "haltes": [
       {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "13:48",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron E",
+        "bestemming": "Zaandam Station"
+      },
+      {
         "halte_id": "NL:S:37223860",
         "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "13:32",
+        "geplande_tijd": "14:02",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
@@ -60,10 +148,10 @@
         "bestemming": "Zaandam Station"
       }
     ],
-    "eerste_tijd": "13:32",
+    "eerste_tijd": "13:48",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-07-05 10:15:31",
-    "eerst_gezien": "2026-07-05 10:15:31"
+    "bijgewerkt": "2026-07-05 10:45:32",
+    "eerst_gezien": "2026-07-05 10:45:32"
   },
   {
     "id": "EBS:1069:7023_2026-07-05",
@@ -94,6 +182,94 @@
       }
     ],
     "eerste_tijd": "13:32",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-07-05 10:30:53",
+    "eerst_gezien": "2026-07-05 10:30:53"
+  },
+  {
+    "id": "EBS:1069:7023_2026-07-05",
+    "journey_id": "EBS:1069:7023",
+    "datum": "2026-07-05",
+    "lijn": "69",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "13:32",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Zaandam Station"
+      }
+    ],
+    "eerste_tijd": "13:32",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-07-05 10:45:32",
+    "eerst_gezien": "2026-07-05 10:45:32"
+  },
+  {
+    "id": "EBS:1394:7048_2026-07-05",
+    "journey_id": "EBS:1394:7048",
+    "datum": "2026-07-05",
+    "lijn": "394",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "12:52",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Noorderpark"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "12:54",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Amsterdam Noorderpark"
+      },
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "13:12",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Noorderpark"
+      }
+    ],
+    "eerste_tijd": "12:52",
     "dagdeel": "dal",
     "bijgewerkt": "2026-07-05 10:30:53",
     "eerst_gezien": "2026-07-05 10:30:53"
@@ -150,63 +326,8 @@
     ],
     "eerste_tijd": "12:52",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-07-05 10:15:31",
-    "eerst_gezien": "2026-07-05 10:15:31"
-  },
-  {
-    "id": "EBS:1394:7048_2026-07-05",
-    "journey_id": "EBS:1394:7048",
-    "datum": "2026-07-05",
-    "lijn": "394",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "12:52",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron C",
-        "bestemming": "Amsterdam Noorderpark"
-      },
-      {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "12:54",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Amsterdam Noorderpark"
-      },
-      {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "13:12",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron C",
-        "bestemming": "Amsterdam Noorderpark"
-      }
-    ],
-    "eerste_tijd": "12:52",
-    "dagdeel": "dal",
-    "bijgewerkt": "2026-07-05 10:30:53",
-    "eerst_gezien": "2026-07-05 10:30:53"
+    "bijgewerkt": "2026-07-05 10:45:32",
+    "eerst_gezien": "2026-07-05 10:45:32"
   },
   {
     "id": "EBS:1801:7010_2026-07-05",
