@@ -33,6 +33,50 @@
     "eerst_gezien": "2026-07-06 06:01:13"
   },
   {
+    "id": "EBS:1065:1017_2026-07-06",
+    "journey_id": "EBS:1065:1017",
+    "datum": "2026-07-06",
+    "lijn": "65",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "09:19",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron E",
+        "bestemming": "Beverwijk"
+      },
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "09:38",
+        "vertraging_min": 0,
+        "status": "gereden",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron F",
+        "bestemming": "Beverwijk"
+      }
+    ],
+    "eerste_tijd": "09:19",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-07-06 06:15:30",
+    "eerst_gezien": "2026-07-06 06:15:30"
+  },
+  {
     "id": "EBS:1111:8023_2026-07-06",
     "journey_id": "EBS:1111:8023",
     "datum": "2026-07-06",
@@ -49,17 +93,6 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "08:01",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Marken"
-      },
-      {
         "halte_id": "NL:S:37223552",
         "halte_naam": "De Vlinder",
         "geplande_tijd": "08:16",
@@ -71,10 +104,10 @@
         "bestemming": "Marken"
       }
     ],
-    "eerste_tijd": "08:01",
+    "eerste_tijd": "08:16",
     "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-07-06 06:01:13",
-    "eerst_gezien": "2026-07-06 06:01:13"
+    "bijgewerkt": "2026-07-06 06:15:30",
+    "eerst_gezien": "2026-07-06 06:15:30"
   },
   {
     "id": "EBS:1111:8023_2026-07-06",
