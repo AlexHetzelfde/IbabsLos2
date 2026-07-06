@@ -1,5 +1,38 @@
 [
   {
+    "id": "EBS:1111:8132_2026-07-06",
+    "journey_id": "EBS:1111:8132",
+    "datum": "2026-07-06",
+    "lijn": "111",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "22:56",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Zaandam Station"
+      }
+    ],
+    "eerste_tijd": "22:56",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-07-06 19:31:10",
+    "eerst_gezien": "2026-07-06 19:31:10"
+  },
+  {
     "id": "EBS:1111:8124_2026-07-06",
     "journey_id": "EBS:1111:8124",
     "datum": "2026-07-06",
@@ -42,39 +75,6 @@
     "dagdeel": "avond",
     "bijgewerkt": "2026-07-06 19:01:02",
     "eerst_gezien": "2026-07-06 19:01:02"
-  },
-  {
-    "id": "EBS:1111:8127_2026-07-06",
-    "journey_id": "EBS:1111:8127",
-    "datum": "2026-07-06",
-    "lijn": "111",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "21:18",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron E",
-        "bestemming": "Marken"
-      }
-    ],
-    "eerste_tijd": "21:18",
-    "dagdeel": "avond",
-    "bijgewerkt": "2026-07-06 19:15:35",
-    "eerst_gezien": "2026-07-06 19:15:35"
   },
   {
     "id": "EBS:1111:8127_2026-07-06",
