@@ -48,6 +48,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   await Promise.all([loadVerg(), loadMoties(), loadCamerasEnSluitingen(), loadCollegebrieven(), loadStemmingen(), loadUitval()]);
   updateStats();
   renderOpgeslagenClaims();
+  // NIEUW: cross-dataset visualisaties — pas renderen als alle bronnen binnen zijn
+  renderActiviteitHeatmap();
+  renderOnderwerpenChart();
   document.getElementById('headerMeta').textContent =
     vergaderingen[0]?.bijgewerkt ? 'bijgewerkt ' + vergaderingen[0].bijgewerkt : '';
 });
@@ -66,6 +69,9 @@ async function loadVerg() {
     if (!r.ok) throw new Error(r.status);
     vergaderingen = await r.json();
     renderVerg(); renderOvVerg();
+    // NIEUW #2 + #6
+    renderVergDuurChart();
+    renderSpreektijdRanglijst();
   } catch (e) {
     document.getElementById('vergList').innerHTML =
       e.message === '404'
@@ -80,6 +86,8 @@ async function loadMoties() {
     if (!r.ok) throw new Error(r.status);
     moties = await r.json();
     renderMoties(); renderMotiesVisuals(); populatePartijFilter();
+    // NIEUW #12
+    renderMotieAmendementViz();
   } catch (e) {
     document.getElementById('motiesTable').innerHTML =
       `<tr><td colspan="5" class="${e.message === '404' ? 'empty' : 'error-msg'}">
@@ -122,6 +130,9 @@ async function loadCamerasEnSluitingen() {
   renderOvBk();
   renderBekendmakingenLijst();
   renderCamGeschiedenisLijst();
+  // NIEUW #22 + #23
+  renderCamVerlengingChart();
+  renderWoningsluitingDuurChart();
 }
 
 async function loadRaadsvragen() {
@@ -145,6 +156,8 @@ async function loadStemmingen() {
     stemmingen = await r.json();
     renderStemmingen();
     renderStemStats();
+    // NIEUW #10 + #11
+    renderCoalitieTijdChart();
   } catch (e) {
     document.getElementById('stemList').innerHTML =
       e.message === '404'
@@ -197,9 +210,6 @@ function renderUitval() {
   // ── STATS ─────────────────────────────────────────────────────────────────
   const datums = [...new Set(uitval.map(r => r.datum))].sort();
 
-  // FIX: was uitgevallen.length (hele periode) gedeeld door totaal-van-alleen-
-  // vandaag — twee tijdvakken door elkaar. Nu: som het totaal aantal ritten op
-  // over exact dezelfde dagen als de uitvaldata beslaat.
   let totaalRittenPeriode = 0;
   datums.forEach(d => {
     if (percentageHistorie[d]) totaalRittenPeriode += percentageHistorie[d].totaal;
@@ -211,7 +221,7 @@ function renderUitval() {
   document.getElementById('uvPct').textContent = pct + '%';
   document.getElementById('uvPeriode').textContent =
     datums.length ? datums[0] + ' t/m ' + datums[datums.length - 1] : 'geen data';
-  
+
   const lijnTeller = {};
   uitgevallen.forEach(r => { lijnTeller[r.lijn] = (lijnTeller[r.lijn] || 0) + 1; });
   const topLijnEntry = Object.entries(lijnTeller).sort((a,b) => b[1]-a[1])[0];
@@ -315,12 +325,8 @@ function renderUitval() {
     }).join('') || '<div class="viz-empty">Geen data</div>';
 
   // ── UITVAL PER HALTE ──────────────────────────────────────────────────────
-  // We tellen per unieke rit (journey_id) het aantal haltes dat de rit aandoet
-  // bij ons — NIET het totaal aangetikte ritten per halte (dat zou dubbel tellen).
-  // Wat we wél tonen: bij welke halte is de uitval als EERST gesignaleerd?
   const halteTeller = {};
   uitgevallen.forEach(r => {
-    // Gebruik de vroegste halte als "primaire" halte voor deze rit
     const eersteHalte = (r.haltes || [])[0];
     if (eersteHalte) {
       halteTeller[eersteHalte.halte_naam] = (halteTeller[eersteHalte.halte_naam] || 0) + 1;
@@ -403,6 +409,9 @@ async function loadCollegebrieven() {
     if (!r.ok) throw new Error(r.status);
     collegebrieven = await r.json();
     renderCollegebrieven(); populateCbFilters(); renderOvCb(); renderCbStats();
+    // NIEUW #16 + #17
+    renderPortefeuillehouderDashboard();
+    renderGeldChart();
   } catch (e) {
     document.getElementById('cbList').innerHTML =
       e.message === '404'
@@ -438,6 +447,120 @@ function updateStats() {
     document.getElementById('statL').textContent = d.toLocaleDateString('nl-NL', { day: 'numeric', month: 'short' });
     document.getElementById('statLsub').textContent = v.type || '';
   }
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW #1 — ACTIVITEITSHEATMAP (Overzicht-tab)
+// GitHub-stijl dag-blokjes over de laatste ~53 weken, kleur = som van
+// vergaderingen + moties + collegebrieven + stemmingen op die dag.
+// ══════════════════════════════════════════════════════════════════════════
+function renderActiviteitHeatmap() {
+  const el = document.getElementById('activiteitHeatmap');
+  if (!el) return;
+
+  const telling = {};
+  const tel = (datum) => { if (!datum) return; const d = datum.slice(0, 10); telling[d] = (telling[d] || 0) + 1; };
+  vergaderingen.forEach(v => tel(v.datum));
+  moties.forEach(m => tel(m.datum));
+  collegebrieven.forEach(b => tel(b.datum));
+  stemmingen.forEach(s => tel(s.datum));
+
+  if (!Object.keys(telling).length) { el.innerHTML = '<div class="viz-empty">Nog geen data om activiteit te tonen</div>'; return; }
+
+  const vandaag = new Date();
+  const start = new Date(vandaag);
+  start.setDate(start.getDate() - 370);
+  // Uitlijnen op maandag zodat elke week-kolom netjes 7 dagen bevat
+  const startDagIndex = (start.getDay() + 6) % 7; // 0 = maandag
+  start.setDate(start.getDate() - startDagIndex);
+
+  const dagen = [];
+  for (let d = new Date(start); d <= vandaag; d.setDate(d.getDate() + 1)) {
+    const iso = d.toISOString().slice(0, 10);
+    dagen.push({ datum: iso, count: telling[iso] || 0 });
+  }
+
+  const maxC = Math.max(...dagen.map(d => d.count), 1);
+  const kleur = c => {
+    if (!c) return 'var(--rule)';
+    const r = c / maxC;
+    if (r > 0.75) return 'var(--navy)';
+    if (r > 0.5)  return 'var(--teal)';
+    if (r > 0.25) return '#5FA8B3';
+    return '#BFE0E5';
+  };
+
+  const weken = [];
+  for (let i = 0; i < dagen.length; i += 7) weken.push(dagen.slice(i, i + 7));
+
+  const maandNamenKort = ['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];
+  let vorigeMaand = -1;
+  const maandLabelsHtml = weken.map(week => {
+    const maand = new Date(week[0].datum + 'T00:00:00').getMonth();
+    let label = '';
+    if (maand !== vorigeMaand) { label = maandNamenKort[maand]; vorigeMaand = maand; }
+    return `<div style="width:13px;font-size:9px;">${label}</div>`;
+  }).join('');
+
+  const flatCells = weken.map(week => week.map(dag =>
+    `<div class="heatmap-cell" style="background:${kleur(dag.count)};" title="${dag.datum}: ${dag.count} activiteit${dag.count === 1 ? '' : 'en'}"></div>`
+  ).join('')).join('');
+
+  el.innerHTML = `
+    <div class="heatmap-wrap">
+      <div class="heatmap-month-labels">${maandLabelsHtml}</div>
+      <div class="heatmap-grid">${flatCells}</div>
+      <div class="heatmap-legend">minder
+        <div class="heatmap-cell" style="background:var(--rule);"></div>
+        <div class="heatmap-cell" style="background:#BFE0E5;"></div>
+        <div class="heatmap-cell" style="background:#5FA8B3;"></div>
+        <div class="heatmap-cell" style="background:var(--teal);"></div>
+        <div class="heatmap-cell" style="background:var(--navy);"></div>
+      meer</div>
+    </div>`;
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW #15 — ONDERWERPENRANGLIJST (Overzicht-tab)
+// Simpele keyword-telling op titels van alle databronnen — werkt zonder AI.
+// ══════════════════════════════════════════════════════════════════════════
+const ONDERWERP_KEYWORDS = {
+  'Wonen':                ['woning', 'wonen', 'huur', 'appartement', 'volkshuisvesting'],
+  'Veiligheid':           ['veilig', 'ondermijning', 'crimine', 'politie', 'handhaving'],
+  'Jeugd & onderwijs':    ['jeugd', 'onderwijs', 'school', 'kinderopvang', 'leerplicht'],
+  'Verkeer & mobiliteit':  ['verkeer', 'fiets', 'mobiliteit', 'parkeren', 'weg', 'brug'],
+  'Zorg':                 ['zorg', 'ggd', 'gezondheid', 'vaccinatie', 'wmo'],
+  'Financiën':            ['begroting', 'financ', 'budget', 'subsidie', 'krediet'],
+  'Milieu & duurzaamheid':['milieu', 'duurzaa', 'klimaat', 'energie', 'circulaire'],
+  'Cultuur & erfgoed':    ['cultuur', 'erfgoed', 'monument', 'museum'],
+  'Economie':             ['economie', 'onderneming', 'bedrijv', 'toerisme'],
+  'Bestuur':              ['bestuur', 'college', 'portefeuille', 'verordening'],
+};
+
+function renderOnderwerpenChart() {
+  const el = document.getElementById('onderwerpenChart');
+  if (!el) return;
+
+  const titels = [
+    ...vergaderingen.map(v => v.titel),
+    ...vergaderingen.flatMap(v => (v.agendapunten || []).map(a => a.titel)),
+    ...moties.map(m => m.titel),
+    ...collegebrieven.map(b => b.titel),
+    ...stemmingen.map(s => s.titel),
+  ].filter(Boolean).join(' \n ').toLowerCase();
+
+  const tellingen = Object.entries(ONDERWERP_KEYWORDS).map(([naam, keywords]) => {
+    const count = keywords.reduce((som, kw) => som + Math.max(0, titels.split(kw).length - 1), 0);
+    return { naam, count };
+  }).filter(t => t.count > 0).sort((a, b) => b.count - a.count);
+
+  if (!tellingen.length) { el.innerHTML = '<div class="viz-empty">Geen onderwerpen herkend</div>'; return; }
+  const maxC = tellingen[0].count;
+  el.innerHTML = tellingen.map(t => `<div class="viz-bar-row">
+    <div class="viz-bar-label" style="width:170px;">${esc(t.naam)}</div>
+    <div class="viz-bar-track"><div class="viz-bar-fill" style="width:${Math.round(t.count/maxC*100)}%;background:var(--teal);"></div></div>
+    <div class="viz-bar-pct">${t.count}</div>
+  </div>`).join('');
 }
 
 // ── VERGADERINGEN ─────────────────────────────────────────────────────────────
@@ -572,6 +695,167 @@ function renderOvVerg() {
       </div>`).join('') || '<div class="empty">Geen data</div>';
 }
 
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW #2 — VERGADERDUUR DOOR DE TIJD (Vergaderingen-tab)
+// eind − start per vergadering, kleur = type.
+// ══════════════════════════════════════════════════════════════════════════
+function renderVergDuurChart() {
+  const el = document.getElementById('vergDuurChart');
+  if (!el) return;
+
+  const data = vergaderingen
+    .filter(v => v.start && v.eind)
+    .map(v => {
+      const start = new Date(v.start), eind = new Date(v.eind);
+      const minuten = Math.round((eind - start) / 60000);
+      return { datum: v.datum, minuten, type: v.type };
+    })
+    .filter(d => d.minuten > 0 && d.minuten < 720) // sanity check: max 12 uur
+    .sort((a, b) => a.datum.localeCompare(b.datum));
+
+  if (data.length < 2) { el.innerHTML = '<div class="viz-empty">Onvoldoende data — start/eind ontbreken bij te veel vergaderingen</div>'; return; }
+
+  const W = 680, H = 220, PAD = { t: 14, r: 16, b: 34, l: 40 };
+  const pW = W - PAD.l - PAD.r, pH = H - PAD.t - PAD.b;
+  const maxMin = Math.max(...data.map(d => d.minuten)) * 1.1;
+  const slot = pW / data.length;
+  const barW = Math.max(4, Math.min(22, slot * 0.6));
+
+  const bars = data.map((d, i) => {
+    const x = PAD.l + i * slot + (slot - barW) / 2;
+    const h = Math.round((d.minuten / maxMin) * pH);
+    const y = PAD.t + pH - h;
+    const kleur = d.type === 'Raadsvergadering' ? 'var(--navy)' : d.type === 'Commissievergadering' ? 'var(--teal)' : 'var(--hold)';
+    return `<rect x="${x}" y="${y}" width="${barW}" height="${h}" fill="${kleur}" opacity="0.85" rx="1">
+      <title>${d.datum}: ${Math.floor(d.minuten/60)}u${String(d.minuten%60).padStart(2,'0')} — ${esc(d.type||'')}</title></rect>`;
+  }).join('');
+
+  const yTicks = [0, Math.round(maxMin/2), Math.round(maxMin)].map(v => {
+    const y = PAD.t + pH - (v/maxMin)*pH;
+    return `<line x1="${PAD.l}" y1="${y}" x2="${PAD.l+pW}" y2="${y}" stroke="var(--rule)" stroke-width="0.5"/>
+            <text x="${PAD.l-6}" y="${y+3}" text-anchor="end" font-size="9" fill="var(--muted)">${Math.round(v/60)}u</text>`;
+  }).join('');
+
+  const stapX = Math.max(1, Math.ceil(data.length / 8));
+  const xLabels = data.map((d, i) => {
+    if (i % stapX !== 0) return '';
+    const x = PAD.l + i * slot + slot / 2;
+    return `<text x="${x}" y="${H-8}" text-anchor="middle" font-size="9" fill="var(--muted)">${fmtDate(d.datum,'short')}</text>`;
+  }).join('');
+
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:${H}px;">
+    ${yTicks}
+    <line x1="${PAD.l}" y1="${PAD.t}" x2="${PAD.l}" y2="${PAD.t+pH}" stroke="var(--rule)" stroke-width="1"/>
+    <line x1="${PAD.l}" y1="${PAD.t+pH}" x2="${PAD.l+pW}" y2="${PAD.t+pH}" stroke="var(--rule)" stroke-width="1"/>
+    ${bars}${xLabels}
+  </svg>
+  <div class="svg-chart-legend">
+    <span><span class="dot" style="background:var(--navy);"></span>Raadsvergadering</span>
+    <span><span class="dot" style="background:var(--teal);"></span>Commissievergadering</span>
+    <span><span class="dot" style="background:var(--hold);"></span>Overig</span>
+  </div>`;
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW #6 — SPREEKTIJD-RANGLIJST (Vergaderingen-tab)
+// LET OP: "tijd" in agendapunten[].sprekers[] kan een tijdstip zijn (bv.
+// "20:14", moment waarop iemand begon) of een duur. We detecteren dit
+// automatisch: bij een uur-waarde ≥6 gaan we uit van een tijdstip en
+// berekenen we de duur als het verschil met de volgende spreker in
+// hetzelfde agendapunt. Kan dat niet betrouwbaar (bv. alleen 1 spreker,
+// of geen "tijd"-veld), dan vallen we terug op "aantal keer aan het
+// woord" — dat wordt dan duidelijk in de UI vermeld.
+// Koppeling raadslid → fractie gebeurt via de raadsleden-lijsten in
+// stemmingen.json (beste-poging matching op achternaam, want de exacte
+// schrijfwijze in agendapunten kan afwijken).
+// ══════════════════════════════════════════════════════════════════════════
+function bouwRaadslidFractieLookup() {
+  const map = {};
+  stemmingen.forEach(s => {
+    [...(s.raadsleden_voor || []), ...(s.raadsleden_tegen || []), ...(s.raadsleden_onthouding || [])].forEach(r => {
+      const achternaam = (r.naam.split(',')[0] || r.naam).trim().toLowerCase();
+      if (achternaam) map[achternaam] = r.fractie;
+    });
+  });
+  return map;
+}
+
+function zoekFractieVoorSpreker(naam, lookup) {
+  if (!naam) return null;
+  const naamLower = naam.toLowerCase().replace(/[.,]/g, '');
+  const woorden = naamLower.split(/\s+/).filter(Boolean);
+  for (const w of woorden) { if (lookup[w]) return lookup[w]; }
+  for (const [achternaam, fractie] of Object.entries(lookup)) {
+    if (achternaam && naamLower.includes(achternaam)) return fractie;
+  }
+  return null;
+}
+
+function parseSpreektijdWaarde(tijdStr) {
+  if (!tijdStr) return null;
+  const m = String(tijdStr).match(/^(\d{1,2}):(\d{2})$/);
+  if (!m) return null;
+  const a = parseInt(m[1]), b = parseInt(m[2]);
+  if (a > 23 || b > 59) return null;
+  if (a >= 6) return { type: 'tijdstip', seconden: a * 3600 + b * 60 };
+  return { type: 'duur', seconden: a * 60 + b };
+}
+
+function renderSpreektijdRanglijst() {
+  const el = document.getElementById('spreektijdChart');
+  if (!el) return;
+  const groepering = document.getElementById('toggleSpreektijdGroepering')?.value || 'fractie';
+  const lookup = bouwRaadslidFractieLookup();
+
+  let voorbeeld = null;
+  vergaderingen.forEach(v => (v.agendapunten || []).forEach(ap => (ap.sprekers || []).forEach(s => {
+    if (voorbeeld === null) { const p = parseSpreektijdWaarde(s.tijd); if (p) voorbeeld = p.type; }
+  })));
+
+  if (voorbeeld === null) { el.innerHTML = '<div class="viz-empty">Geen sprekersdata beschikbaar in de agendapunten</div>'; return; }
+
+  const teller = {};
+  let eenheid;
+
+  if (voorbeeld === 'tijdstip') {
+    eenheid = 'sec';
+    vergaderingen.forEach(v => (v.agendapunten || []).forEach(ap => {
+      const sprekers = (ap.sprekers || [])
+        .map(s => ({ naam: s.naam, parsed: parseSpreektijdWaarde(s.tijd) }))
+        .filter(s => s.parsed);
+      for (let i = 0; i < sprekers.length; i++) {
+        const huidig = sprekers[i], volgende = sprekers[i + 1];
+        let duur = volgende ? volgende.parsed.seconden - huidig.parsed.seconden : NaN;
+        if (!(duur > 0 && duur <= 1800)) duur = 90; // fallback bij ontbrekende/onlogische volgende timestamp
+        const fractie = zoekFractieVoorSpreker(huidig.naam, lookup);
+        const key = groepering === 'fractie' ? (fractie || 'Onbekend') : huidig.naam;
+        teller[key] = (teller[key] || 0) + duur;
+      }
+    }));
+  } else {
+    eenheid = 'keer';
+    vergaderingen.forEach(v => (v.agendapunten || []).forEach(ap => (ap.sprekers || []).forEach(s => {
+      const fractie = zoekFractieVoorSpreker(s.naam, lookup);
+      const key = groepering === 'fractie' ? (fractie || 'Onbekend') : s.naam;
+      teller[key] = (teller[key] || 0) + 1;
+    })));
+  }
+
+  const rijen = Object.entries(teller).sort((a, b) => b[1] - a[1]).slice(0, 15);
+  if (!rijen.length) { el.innerHTML = '<div class="viz-empty">Geen sprekersdata te koppelen aan fracties</div>'; return; }
+  const maxV = rijen[0][1];
+  el.innerHTML = rijen.map(([naam, v]) => {
+    const label = eenheid === 'sec' ? `${Math.floor(v/60)}m ${v%60}s` : `${v}x`;
+    return `<div class="viz-bar-row">
+      <div class="viz-bar-label" style="width:180px;" title="${esc(naam)}">${esc(naam)}</div>
+      <div class="viz-bar-track"><div class="viz-bar-fill" style="width:${Math.round(v/maxV*100)}%;background:var(--teal);"></div></div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);width:60px;text-align:right;flex-shrink:0;">${label}</div>
+    </div>`;
+  }).join('') + (eenheid === 'keer'
+    ? '<div style="padding:8px 20px 0;font-size:10px;color:var(--muted);">⚠ Het "tijd"-veld leek geen spreekduur te zijn — geteld op aantal keer aan het woord in plaats van spreektijd.</div>'
+    : '');
+}
+
 // ── MOTIES ────────────────────────────────────────────────────────────────────
 function populatePartijFilter() {
   const sel = document.getElementById('filterPartij');
@@ -583,7 +867,6 @@ function renderMoties() {
   const partij = document.getElementById('filterPartij').value;
   const status = document.getElementById('filterStatus').value;
   const type   = document.getElementById('filterType').value;
-  // FIX: was `m.status` (falsy op lege string), nu expliciet null-check
   let f = moties.filter(m => m.status != null);
   if (partij) f = f.filter(m => m.partij === partij);
   if (status) f = f.filter(m => m.status === status);
@@ -617,21 +900,144 @@ function stemmingBar(m) {
   </div>`;
 }
 
+// NIEUW #13: scatter herbouwd als losstaande, herbruikbare functie zodat we
+//'m kunnen filteren op type (Motie/Amendement) zonder renderMotiesVisuals
+// opnieuw te draaien.
+const PARTIJ_KORT_GLOBAL = {
+  'GROENLINKS – PvdA': 'GL-PvdA', 'Groenlinks/PvdA': 'GL-PvdA',
+  'Democratisch Zaanstad': 'DZ', 'Forum voor Democratie': 'FvD',
+  'Forum voor democratie': 'FvD', 'Partij voor de Dieren': 'PvdD',
+  'ChristenUnie': 'CU', 'Lokaal Zaans': 'LZ', 'Groep de Boer': 'GdB',
+};
+function kortGlobal(naam) { return PARTIJ_KORT_GLOBAL[naam] || naam; }
+
+function berekenPartijStatsVoorType(typeFilter) {
+  const stats = {};
+  moties.forEach(m => {
+    if (!m.partij) return;
+    if (typeFilter && m.type !== typeFilter) return;
+    if (!stats[m.partij]) stats[m.partij] = { totaal: 0, aangenomen: 0, verworpen: 0 };
+    const s = stats[m.partij];
+    s.totaal++;
+    if (m.status === 'aangenomen') s.aangenomen++;
+    if (m.status === 'verworpen')  s.verworpen++;
+  });
+  return Object.entries(stats).map(([naam, s]) => {
+    const ms = s.aangenomen + s.verworpen;
+    return { naam, ...s, pct: ms > 0 ? Math.round(s.aangenomen / ms * 100) : null };
+  });
+}
+
+function bouwScatterSVG(typeFilter) {
+  const scatter = berekenPartijStatsVoorType(typeFilter).filter(p => p.pct !== null && p.totaal >= 2);
+  if (scatter.length < 3) return '<div class="viz-empty">Onvoldoende data voor deze weergave</div>';
+
+  const W = 680, H = 320;
+  const PAD = { t:28, r:24, b:44, l:40 };
+  const pW = W - PAD.l - PAD.r, pH = H - PAD.t - PAD.b;
+  const maxX = Math.max(...scatter.map(p => p.totaal)) * 1.12;
+  const maxTot = Math.max(...scatter.map(p => p.totaal));
+  const midX = PAD.l + pW / 2;
+  const midY = PAD.t + pH / 2;
+  const maxR = 17, minR = 5;
+
+  const qBg = `
+    <rect x="${PAD.l}" y="${PAD.t}" width="${pW/2}" height="${pH/2}" fill="#E6F4EC" opacity="0.25"/>
+    <rect x="${midX}" y="${PAD.t}" width="${pW/2}" height="${pH/2}" fill="#E6F4EC" opacity="0.42"/>
+    <rect x="${PAD.l}" y="${midY}" width="${pW/2}" height="${pH/2}" fill="#FAE9E9" opacity="0.15"/>
+    <rect x="${midX}" y="${midY}" width="${pW/2}" height="${pH/2}" fill="#FAE9E9" opacity="0.25"/>
+    <line x1="${midX}" y1="${PAD.t}" x2="${midX}" y2="${PAD.t+pH}" stroke="var(--rule)" stroke-width="1" stroke-dasharray="4,3"/>
+    <line x1="${PAD.l}" y1="${midY}" x2="${PAD.l+pW}" y2="${midY}" stroke="var(--rule)" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="${PAD.l+6}" y="${PAD.t+13}" font-size="9" fill="var(--go)" font-weight="700" opacity="0.6">SELECTIEF · RAAK</text>
+    <text x="${midX+6}" y="${PAD.t+13}" font-size="9" fill="var(--go)" font-weight="700" opacity="0.85">ACTIEF · EFFECTIEF</text>
+    <text x="${PAD.l+6}" y="${PAD.t+pH-5}" font-size="9" fill="var(--stop)" font-weight="700" opacity="0.45">WEINIG · LAAG SUCCES</text>
+    <text x="${midX+6}" y="${PAD.t+pH-5}" font-size="9" fill="var(--stop)" font-weight="700" opacity="0.6">VEEL · LAAG SUCCES</text>`;
+
+  const yTicks = [0, 25, 50, 75, 100].map(v => {
+    const y = PAD.t + pH - (v / 100) * pH;
+    return `<line x1="${PAD.l}" y1="${y}" x2="${PAD.l+pW}" y2="${y}" stroke="var(--rule)" stroke-width="0.5"/>
+            <text x="${PAD.l-5}" y="${y+3}" text-anchor="end" font-size="9" fill="var(--muted)">${v}%</text>`;
+  }).join('');
+
+  const xStep = Math.max(1, Math.ceil(maxX / 5 / 5) * 5);
+  const xTicks = Array.from({length: 7}, (_, i) => i * xStep)
+    .filter(v => v <= maxX)
+    .map(v => {
+      const x = PAD.l + (v / maxX) * pW;
+      return `<line x1="${x}" y1="${PAD.t+pH}" x2="${x}" y2="${PAD.t+pH+4}" stroke="var(--rule)" stroke-width="1"/>
+              <text x="${x}" y="${PAD.t+pH+14}" text-anchor="middle" font-size="9" fill="var(--muted)">${v}</text>`;
+    }).join('');
+
+  const axisLabels = `
+    <text x="${PAD.l+pW/2}" y="${H-2}" text-anchor="middle" font-size="10" fill="var(--muted)">Aantal ingediend →</text>
+    <text x="10" y="${PAD.t+pH/2}" text-anchor="middle" font-size="10" fill="var(--muted)" transform="rotate(-90,10,${PAD.t+pH/2})">Slagings% →</text>`;
+
+  const sorted = [...scatter].sort((a, b) => b.totaal - a.totaal);
+  const dotData = sorted.map(p => {
+    const x = Math.round(PAD.l + (p.totaal / maxX) * pW);
+    const y = Math.round(PAD.t + pH - (p.pct / 100) * pH);
+    const r = Math.round(minR + (p.totaal / maxTot) * (maxR - minR));
+    const k = kortGlobal(p.naam);
+    const useLeft = x + r + 4 + k.length * 6.5 > W - 10;
+    const lx = useLeft ? x - r - 4 : x + r + 4;
+    const anchor = useLeft ? 'end' : 'start';
+    return { p, x, y, r, k, lx, ly: y, anchor };
+  });
+
+  const geplaatst = [];
+  dotData.forEach(d => {
+    const lw = d.k.length * 6.5 + 8;
+    const lh = 24;
+    let ly = d.y;
+    for (let poging = 0; poging < 16; poging++) {
+      const botst = geplaatst.some(g => Math.abs(d.lx - g.lx) < lw && Math.abs(ly - g.ly) < lh);
+      if (!botst) break;
+      ly = d.y + (poging % 2 === 0 ? -1 : 1) * Math.ceil((poging + 1) / 2) * lh;
+    }
+    d.ly = ly;
+    geplaatst.push({ lx: d.lx, ly });
+  });
+
+  const dots = dotData.map(({ p, x, y, r, k, lx, ly, anchor }) => {
+    const isC  = COALITIE_FRACTIES.has(p.naam);
+    const fill = isC ? '#006B7B' : '#0D1B2A';
+    const op   = isC ? 0.82 : 0.62;
+    const heeftLijn = Math.abs(ly - y) > 6;
+    return `<g>
+      <circle cx="${x}" cy="${y}" r="${r}" fill="${fill}" fill-opacity="${op}" stroke="${fill}" stroke-width="1.5" stroke-opacity="0.3">
+        <title>${p.naam}: ${p.totaal} ingediend — ${p.pct}% aangenomen (${p.aangenomen} van ${p.aangenomen+p.verworpen} met uitslag)</title>
+      </circle>
+      ${heeftLijn ? `<line x1="${lx}" y1="${y}" x2="${lx}" y2="${ly}" stroke="var(--rule)" stroke-width="0.8" stroke-dasharray="2,2"/>` : ''}
+      <text x="${lx}" y="${ly+3}" text-anchor="${anchor}" font-size="10" fill="var(--text)" font-weight="600">${esc(k)}</text>
+      <text x="${lx}" y="${ly+13}" text-anchor="${anchor}" font-size="9" fill="var(--muted)">${p.pct}%</text>
+    </g>`;
+  }).join('');
+
+  return `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:${H}px;overflow:visible;">
+    ${qBg}
+    <line x1="${PAD.l}" y1="${PAD.t}" x2="${PAD.l}" y2="${PAD.t+pH}" stroke="var(--rule)" stroke-width="1.5"/>
+    <line x1="${PAD.l}" y1="${PAD.t+pH}" x2="${PAD.l+pW}" y2="${PAD.t+pH}" stroke="var(--rule)" stroke-width="1.5"/>
+    ${yTicks}${xTicks}${axisLabels}${dots}
+  </svg>
+  <div class="svg-chart-legend">
+    <span><span class="dot" style="background:#006B7B;opacity:.82;border-radius:50%;"></span>Coalitie</span>
+    <span><span class="dot" style="background:#0D1B2A;opacity:.62;border-radius:50%;"></span>Oppositie</span>
+    <span>· cirkelgrootte = aantal ingediend</span>
+  </div>`;
+}
+
+function switchScatterType(val) {
+  const container = document.getElementById('scatterContainer');
+  if (container) container.innerHTML = bouwScatterSVG(val || null);
+}
+
 // ── MOTIES VISUALISATIES ──────────────────────────────────────────────────────
 function renderMotiesVisuals() {
   const el = document.getElementById('motiesViz');
   if (!el || !moties.length) return;
 
   const maandNamen = ['Jan','Feb','Mrt','Apr','Mei','Jun','Jul','Aug','Sep','Okt','Nov','Dec'];
-  const PARTIJ_KORT = {
-    'GROENLINKS – PvdA': 'GL-PvdA', 'Groenlinks/PvdA': 'GL-PvdA',
-    'Democratisch Zaanstad': 'DZ', 'Forum voor Democratie': 'FvD',
-    'Forum voor democratie': 'FvD', 'Partij voor de Dieren': 'PvdD',
-    'ChristenUnie': 'CU', 'Lokaal Zaans': 'LZ', 'Groep de Boer': 'GdB',
-  };
-  const kort = naam => PARTIJ_KORT[naam] || naam;
 
-  // ── DATA ─────────────────────────────────────────────────────────────────
   const partijStats = {};
   moties.forEach(m => {
     if (!m.partij) return;
@@ -699,113 +1105,6 @@ function renderMotiesVisuals() {
   const pctGlobaal  = metStatus ? Math.round(aangenomen / metStatus * 100) : 0;
   const meestActief = partijLijst.reduce((a, b) => b.totaal > a.totaal ? b : a, partijLijst[0] || { naam:'—', totaal:0 });
 
-  // ── SCATTER SVG ──────────────────────────────────────────────────────────
-  function scatterSVG() {
-    const scatter = partijLijst.filter(p => p.pct !== null && p.totaal >= 2);
-    if (scatter.length < 3) return '<div class="viz-empty">Onvoldoende data</div>';
-
-    const W = 680, H = 320;
-    const PAD = { t:28, r:24, b:44, l:40 };
-    const pW = W - PAD.l - PAD.r, pH = H - PAD.t - PAD.b;
-    const maxX = Math.max(...scatter.map(p => p.totaal)) * 1.12;
-    const maxTot = Math.max(...scatter.map(p => p.totaal));
-    const midX = PAD.l + pW / 2;
-    const midY = PAD.t + pH / 2;
-    const maxR = 17, minR = 5;
-
-    const qBg = `
-      <rect x="${PAD.l}" y="${PAD.t}" width="${pW/2}" height="${pH/2}" fill="#E6F4EC" opacity="0.25"/>
-      <rect x="${midX}" y="${PAD.t}" width="${pW/2}" height="${pH/2}" fill="#E6F4EC" opacity="0.42"/>
-      <rect x="${PAD.l}" y="${midY}" width="${pW/2}" height="${pH/2}" fill="#FAE9E9" opacity="0.15"/>
-      <rect x="${midX}" y="${midY}" width="${pW/2}" height="${pH/2}" fill="#FAE9E9" opacity="0.25"/>
-      <line x1="${midX}" y1="${PAD.t}" x2="${midX}" y2="${PAD.t+pH}" stroke="var(--rule)" stroke-width="1" stroke-dasharray="4,3"/>
-      <line x1="${PAD.l}" y1="${midY}" x2="${PAD.l+pW}" y2="${midY}" stroke="var(--rule)" stroke-width="1" stroke-dasharray="4,3"/>
-      <text x="${PAD.l+6}" y="${PAD.t+13}" font-size="9" fill="var(--go)" font-weight="700" opacity="0.6">SELECTIEF · RAAK</text>
-      <text x="${midX+6}" y="${PAD.t+13}" font-size="9" fill="var(--go)" font-weight="700" opacity="0.85">ACTIEF · EFFECTIEF</text>
-      <text x="${PAD.l+6}" y="${PAD.t+pH-5}" font-size="9" fill="var(--stop)" font-weight="700" opacity="0.45">WEINIG · LAAG SUCCES</text>
-      <text x="${midX+6}" y="${PAD.t+pH-5}" font-size="9" fill="var(--stop)" font-weight="700" opacity="0.6">VEEL · LAAG SUCCES</text>`;
-
-    const yTicks = [0, 25, 50, 75, 100].map(v => {
-      const y = PAD.t + pH - (v / 100) * pH;
-      return `<line x1="${PAD.l}" y1="${y}" x2="${PAD.l+pW}" y2="${y}" stroke="var(--rule)" stroke-width="0.5"/>
-              <text x="${PAD.l-5}" y="${y+3}" text-anchor="end" font-size="9" fill="var(--muted)">${v}%</text>`;
-    }).join('');
-
-    const xStep = Math.ceil(maxX / 5 / 5) * 5;
-    const xTicks = Array.from({length: 7}, (_, i) => i * xStep)
-      .filter(v => v <= maxX)
-      .map(v => {
-        const x = PAD.l + (v / maxX) * pW;
-        return `<line x1="${x}" y1="${PAD.t+pH}" x2="${x}" y2="${PAD.t+pH+4}" stroke="var(--rule)" stroke-width="1"/>
-                <text x="${x}" y="${PAD.t+pH+14}" text-anchor="middle" font-size="9" fill="var(--muted)">${v}</text>`;
-      }).join('');
-
-    const axisLabels = `
-      <text x="${PAD.l+pW/2}" y="${H-2}" text-anchor="middle" font-size="10" fill="var(--muted)">Aantal ingediend →</text>
-      <text x="10" y="${PAD.t+pH/2}" text-anchor="middle" font-size="10" fill="var(--muted)" transform="rotate(-90,10,${PAD.t+pH/2})">Slagings% →</text>`;
-
-    // Eerste pass: bereken alle dot- en labelposities
-    const sorted = [...scatter].sort((a, b) => b.totaal - a.totaal);
-    const dotData = sorted.map(p => {
-      const x = Math.round(PAD.l + (p.totaal / maxX) * pW);
-      const y = Math.round(PAD.t + pH - (p.pct / 100) * pH);
-      const r = Math.round(minR + (p.totaal / maxTot) * (maxR - minR));
-      const k = kort(p.naam);
-      const useLeft = x + r + 4 + k.length * 6.5 > W - 10;
-      const lx = useLeft ? x - r - 4 : x + r + 4;
-      const anchor = useLeft ? 'end' : 'start';
-      return { p, x, y, r, k, lx, ly: y, anchor };
-    });
-
-    // Tweede pass: label collision detection — verschuif labels verticaal bij overlap
-    const geplaatst = [];
-    dotData.forEach(d => {
-      const lw = d.k.length * 6.5 + 8;
-      const lh = 24;
-      let ly = d.y;
-      for (let poging = 0; poging < 16; poging++) {
-        const botst = geplaatst.some(g =>
-          Math.abs(d.lx - g.lx) < lw && Math.abs(ly - g.ly) < lh
-        );
-        if (!botst) break;
-        // Wissel boven/onder: even pogingen omhoog, oneven omlaag
-        ly = d.y + (poging % 2 === 0 ? -1 : 1) * Math.ceil((poging + 1) / 2) * lh;
-      }
-      d.ly = ly;
-      geplaatst.push({ lx: d.lx, ly });
-    });
-
-    // Genereer SVG — grote dots eerst zodat kleine er bovenop vallen
-    const dots = dotData.map(({ p, x, y, r, k, lx, ly, anchor }) => {
-      const isC  = COALITIE_FRACTIES.has(p.naam);
-      const fill = isC ? '#006B7B' : '#0D1B2A';
-      const op   = isC ? 0.82 : 0.62;
-      const heeftLijn = Math.abs(ly - y) > 6;
-      return `<g>
-        <circle cx="${x}" cy="${y}" r="${r}" fill="${fill}" fill-opacity="${op}" stroke="${fill}" stroke-width="1.5" stroke-opacity="0.3">
-          <title>${p.naam}: ${p.totaal} ingediend — ${p.pct}% aangenomen (${p.aangenomen} van ${p.aangenomen+p.verworpen} met uitslag)</title>
-        </circle>
-        ${heeftLijn ? `<line x1="${lx}" y1="${y}" x2="${lx}" y2="${ly}" stroke="var(--rule)" stroke-width="0.8" stroke-dasharray="2,2"/>` : ''}
-        <text x="${lx}" y="${ly+3}" text-anchor="${anchor}" font-size="10" fill="var(--text)" font-weight="600">${esc(k)}</text>
-        <text x="${lx}" y="${ly+13}" text-anchor="${anchor}" font-size="9" fill="var(--muted)">${p.pct}%</text>
-      </g>`;
-    }).join('');
-
-    // FIX: sluitende > van de <svg>-openingstag was weggevallen, waardoor qBg
-    // als attribuut werd geïnterpreteerd en de hele scatter chart niet renderde.
-    return `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:${H}px;overflow:visible;">
-      ${qBg}
-      <line x1="${PAD.l}" y1="${PAD.t}" x2="${PAD.l}" y2="${PAD.t+pH}" stroke="var(--rule)" stroke-width="1.5"/>
-      <line x1="${PAD.l}" y1="${PAD.t+pH}" x2="${PAD.l+pW}" y2="${PAD.t+pH}" stroke="var(--rule)" stroke-width="1.5"/>
-      ${yTicks}${xTicks}${axisLabels}${dots}
-    </svg>
-    <div style="display:flex;gap:16px;padding:4px 0 10px;font-size:11px;color:var(--muted);">
-      <span style="display:flex;align-items:center;gap:5px;"><span style="width:10px;height:10px;background:#006B7B;border-radius:50%;display:inline-block;opacity:.82;"></span>Coalitie</span>
-      <span style="display:flex;align-items:center;gap:5px;"><span style="width:10px;height:10px;background:#0D1B2A;border-radius:50%;display:inline-block;opacity:.62;"></span>Oppositie</span>
-      <span>· cirkelgrootte = aantal ingediend</span>
-    </div>`;
-  }
-
   // ── TREND SVG ─────────────────────────────────────────────────────────────
   function trendSVG() {
     if (maandLijst.length < 2) return '<div class="viz-empty">Onvoldoende data</div>';
@@ -821,7 +1120,6 @@ function renderMotiesVisuals() {
       const mn  = parseInt(maand.split('-')[1]);
       const yr  = maand.split('-')[0].slice(2);
       const yBase = PAD.t + pH;
-      // Stacked from bottom: aangenomen (groen) → verworpen (rood) → rest (grijs)
       const hAng  = Math.round((d.aangenomen / maxC) * pH);
       const hVer  = Math.round((d.verworpen  / maxC) * pH);
       const hRest = Math.round((d.totaal     / maxC) * pH) - hAng - hVer;
@@ -856,50 +1154,50 @@ function renderMotiesVisuals() {
 
   // ── DIVERGENDE BALK ───────────────────────────────────────────────────────
   function divergingHTML() {
-  if (!nauwste.length) return '<div class="viz-empty">Geen stemmingsdata — voor_pct ontbreekt in moties.json</div>';
+    if (!nauwste.length) return '<div class="viz-empty">Geen stemmingsdata — voor_pct ontbreekt in moties.json</div>';
 
-  const rows = nauwste.map(m => {
-    const tp = m.tegen_pct || 0;
-    const vp = m.voor_pct  || 0;
-    const isAan  = m.status === 'aangenomen';
-    const sKleur = isAan ? 'var(--go)' : 'var(--stop)';
-    const sLabel = isAan ? '✓ Aangenomen' : '✗ Verworpen';
-    const titel  = m.titel.replace(/^[A-Z0-9]+(?:\s+\([^)]+\))?\s+/i, '');
-    return `
-      <div style="display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--rule);">
-        <div style="width:200px;flex-shrink:0;">
-          <div style="font-size:11px;font-weight:600;line-height:1.35;color:var(--text);">${esc(titel)}</div>
-          <div style="font-size:10px;color:var(--muted);margin-top:2px;">${fmtDate(m.datum,'short')} · marge ${m.marge}%</div>
-        </div>
-        <div style="flex:1;display:flex;align-items:center;height:22px;">
-          <div style="flex:1;display:flex;justify-content:flex-end;height:100%;">
-            <div style="width:${tp}%;height:100%;background:var(--stop);opacity:0.78;border-radius:2px 0 0 2px;display:flex;align-items:center;justify-content:flex-end;padding-right:3px;">
-              ${tp > 18 ? `<span style="font-size:9px;color:white;font-weight:700;">${tp}%</span>` : ''}
+    const rows = nauwste.map(m => {
+      const tp = m.tegen_pct || 0;
+      const vp = m.voor_pct  || 0;
+      const isAan  = m.status === 'aangenomen';
+      const sKleur = isAan ? 'var(--go)' : 'var(--stop)';
+      const sLabel = isAan ? '✓ Aangenomen' : '✗ Verworpen';
+      const titel  = m.titel.replace(/^[A-Z0-9]+(?:\s+\([^)]+\))?\s+/i, '');
+      return `
+        <div style="display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--rule);">
+          <div style="width:200px;flex-shrink:0;">
+            <div style="font-size:11px;font-weight:600;line-height:1.35;color:var(--text);">${esc(titel)}</div>
+            <div style="font-size:10px;color:var(--muted);margin-top:2px;">${fmtDate(m.datum,'short')} · marge ${m.marge}%</div>
+          </div>
+          <div style="flex:1;display:flex;align-items:center;height:22px;">
+            <div style="flex:1;display:flex;justify-content:flex-end;height:100%;">
+              <div style="width:${tp}%;height:100%;background:var(--stop);opacity:0.78;border-radius:2px 0 0 2px;display:flex;align-items:center;justify-content:flex-end;padding-right:3px;">
+                ${tp > 18 ? `<span style="font-size:9px;color:white;font-weight:700;">${tp}%</span>` : ''}
+              </div>
+            </div>
+            <div style="width:2px;height:26px;background:var(--ink2);flex-shrink:0;"></div>
+            <div style="flex:1;height:100%;">
+              <div style="width:${vp}%;height:100%;background:var(--go);opacity:0.82;border-radius:0 2px 2px 0;display:flex;align-items:center;padding-left:3px;">
+                ${vp > 18 ? `<span style="font-size:9px;color:white;font-weight:700;">${vp}%</span>` : ''}
+              </div>
             </div>
           </div>
-          <div style="width:2px;height:26px;background:var(--ink2);flex-shrink:0;"></div>
-          <div style="flex:1;height:100%;">
-            <div style="width:${vp}%;height:100%;background:var(--go);opacity:0.82;border-radius:0 2px 2px 0;display:flex;align-items:center;padding-left:3px;">
-              ${vp > 18 ? `<span style="font-size:9px;color:white;font-weight:700;">${vp}%</span>` : ''}
-            </div>
-          </div>
-        </div>
-        <div style="width:96px;flex-shrink:0;font-size:11px;font-weight:700;color:${sKleur};">${sLabel}</div>
-      </div>`;
-  }).join('');
+          <div style="width:96px;flex-shrink:0;font-size:11px;font-weight:700;color:${sKleur};">${sLabel}</div>
+        </div>`;
+    }).join('');
 
-  return `<div style="padding:0 20px 12px;">
-    <div style="display:flex;gap:12px;padding-bottom:8px;border-bottom:2px solid var(--rule);margin-bottom:2px;">
-      <div style="width:200px;flex-shrink:0;"></div>
-      <div style="flex:1;display:flex;">
-        <div style="flex:1;text-align:center;font-size:10px;font-weight:700;color:var(--stop);letter-spacing:.5px;">← TEGEN</div>
-        <div style="flex:1;text-align:center;font-size:10px;font-weight:700;color:var(--go);letter-spacing:.5px;">VOOR →</div>
+    return `<div style="padding:0 20px 12px;">
+      <div style="display:flex;gap:12px;padding-bottom:8px;border-bottom:2px solid var(--rule);margin-bottom:2px;">
+        <div style="width:200px;flex-shrink:0;"></div>
+        <div style="flex:1;display:flex;">
+          <div style="flex:1;text-align:center;font-size:10px;font-weight:700;color:var(--stop);letter-spacing:.5px;">← TEGEN</div>
+          <div style="flex:1;text-align:center;font-size:10px;font-weight:700;color:var(--go);letter-spacing:.5px;">VOOR →</div>
+        </div>
+        <div style="width:96px;flex-shrink:0;"></div>
       </div>
-      <div style="width:96px;flex-shrink:0;"></div>
-    </div>
-    ${rows}
-  </div>`;
-}
+      ${rows}
+    </div>`;
+  }
 
   // ── HTML ──────────────────────────────────────────────────────────────────
   const maxInd = topIndieners[0]?.totaal || 1;
@@ -927,9 +1225,16 @@ function renderMotiesVisuals() {
     <div class="card" style="margin-bottom:16px;">
       <div class="card-header">
         <span class="card-title">Effectiviteit × Volume</span>
-        <span style="font-size:11px;color:var(--muted);">wie dient veel in én haalt het door de raad?</span>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:11px;color:var(--muted);">wie dient veel in én haalt het door de raad?</span>
+          <select class="filter-select" style="font-size:11px;padding:4px 8px;" onchange="switchScatterType(this.value)">
+            <option value="">Alle typen</option>
+            <option value="Motie">Alleen moties</option>
+            <option value="Amendement">Alleen amendementen</option>
+          </select>
+        </div>
       </div>
-      <div style="padding:12px 20px 0;">${scatterSVG()}</div>
+      <div style="padding:12px 20px 0;" id="scatterContainer">${bouwScatterSVG(null)}</div>
     </div>
 
     <div class="card" style="margin-bottom:16px;">
@@ -992,6 +1297,64 @@ function renderMotiesVisuals() {
     </div>`;
 }
 
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW #12 — MOTIE VS AMENDEMENT SLAGINGSPERCENTAGE (Moties-tab)
+// ══════════════════════════════════════════════════════════════════════════
+function renderMotieAmendementViz() {
+  const el = document.getElementById('motieAmendementViz');
+  if (!el) return;
+  if (!moties.length) { el.innerHTML = '<div class="viz-empty">Geen motiedata</div>'; return; }
+
+  function slagingspercentage(type) {
+    const subset = moties.filter(m => m.type === type && (m.status === 'aangenomen' || m.status === 'verworpen'));
+    const aangenomen = subset.filter(m => m.status === 'aangenomen').length;
+    return { totaal: subset.length, aangenomen, pct: subset.length ? Math.round(aangenomen/subset.length*100) : null };
+  }
+  const motieStat = slagingspercentage('Motie');
+  const amendStat = slagingspercentage('Amendement');
+
+  const totaalHtml = `<div class="type-compare-row">
+    <div class="type-compare-card">
+      <div class="type-compare-label">Moties</div>
+      <div class="type-compare-value" style="color:var(--go);">${motieStat.pct ?? '—'}${motieStat.pct != null ? '%' : ''}</div>
+      <div class="type-compare-sub">${motieStat.aangenomen} van ${motieStat.totaal} aangenomen</div>
+    </div>
+    <div class="type-compare-card">
+      <div class="type-compare-label">Amendementen</div>
+      <div class="type-compare-value" style="color:var(--teal);">${amendStat.pct ?? '—'}${amendStat.pct != null ? '%' : ''}</div>
+      <div class="type-compare-sub">${amendStat.aangenomen} van ${amendStat.totaal} aangenomen</div>
+    </div>
+  </div>`;
+
+  const fracties = [...new Set(moties.map(m => m.partij).filter(Boolean))];
+  const perFractieRows = fracties.map(f => {
+    const berekenPct = (type) => {
+      const s = moties.filter(m => m.partij === f && m.type === type && (m.status === 'aangenomen' || m.status === 'verworpen'));
+      const a = s.filter(m => m.status === 'aangenomen').length;
+      return s.length ? Math.round(a / s.length * 100) : null;
+    };
+    return { f, mPct: berekenPct('Motie'), aPct: berekenPct('Amendement') };
+  }).filter(r => r.mPct !== null || r.aPct !== null)
+    .sort((a, b) => (b.mPct ?? -1) - (a.mPct ?? -1));
+
+  const fractieHtml = perFractieRows.length ? `<div style="padding:0 20px 16px;overflow-x:auto;">
+    <table style="width:100%;border-collapse:collapse;font-size:12px;">
+      <thead><tr>
+        <th style="text-align:left;padding:8px 0;">Fractie</th>
+        <th style="text-align:right;">Motie %</th>
+        <th style="text-align:right;">Amendement %</th>
+      </tr></thead>
+      <tbody>${perFractieRows.map(r => `<tr>
+        <td style="padding:6px 0;border-bottom:1px solid var(--rule);">${esc(r.f)}</td>
+        <td style="text-align:right;border-bottom:1px solid var(--rule);color:var(--go);">${r.mPct != null ? r.mPct+'%' : '—'}</td>
+        <td style="text-align:right;border-bottom:1px solid var(--rule);color:var(--teal);">${r.aPct != null ? r.aPct+'%' : '—'}</td>
+      </tr>`).join('')}</tbody>
+    </table>
+  </div>` : '';
+
+  el.innerHTML = totaalHtml + fractieHtml;
+}
+
 // ── CAMERA'S & WONINGSLUITINGEN ────────────────────────────────────────────────
 const WIJK_MAP = {};
 function getWijkUitAdres(adres) {
@@ -1005,8 +1368,6 @@ function telPerWijk(items) {
   return map;
 }
 
-// Aantal dagen tussen twee ISO-datums (YYYY-MM-DD). Geeft 0 terug bij
-// ontbrekende/ongeldige datums i.p.v. te crashen op NaN.
 function dagenTussen(start, eind) {
   if (!start || !eind) return 0;
   const a = new Date(start), b = new Date(eind);
@@ -1017,13 +1378,11 @@ function dagenTussen(start, eind) {
 function renderBekendmakingenDashboard() {
   const vandaag = new Date().toISOString().slice(0, 10);
 
-  // ── STAT-KAARTEN ────────────────────────────────────────────────────────
   const cameraNamenOoit = new Set([...camerasActief, ...camerasGeschiedenis].map(c => c.camera));
   document.getElementById('bkCamActiefTotaal').textContent  = camerasActief.length;
   document.getElementById('bkCamTotaalOoit').textContent    = cameraNamenOoit.size;
   document.getElementById('bkWoningTotaal').textContent     = woningsluitingen.length;
 
-  // ── CAMERA'S NU ACTIEF ──────────────────────────────────────────────────
   const actiefLijst = [...camerasActief].sort((a, b) => a.eind.localeCompare(b.eind));
   document.getElementById('camActiefList').innerHTML = actiefLijst.length === 0
     ? '<div class="empty">Geen camera\'s op dit moment actief.</div>'
@@ -1044,7 +1403,6 @@ function renderBekendmakingenDashboard() {
         </div>`;
       }).join('');
 
-  // ── CAMERA'S — GESCHIEDENIS (bar chart per locatie) ────────────────────
   const geschiedenisData = {};
   camerasGeschiedenis.forEach(c => {
     const dagen = (c.periodes || []).reduce((som, p) => som + dagenTussen(p.start, p.eind), 0);
@@ -1052,7 +1410,6 @@ function renderBekendmakingenDashboard() {
   });
   tekenHorizontaleBalken('camGeschiedenisChart', geschiedenisData, 'dagen');
 
-  // ── WONINGSLUITINGEN — PER MAAND & PER WIJK ─────────────────────────────
   const nu = new Date();
   const maanden = [];
   for (let i = 5; i >= 0; i--) { const d = new Date(nu.getFullYear(), nu.getMonth() - i, 1); maanden.push({ maand: d.toISOString().slice(0, 7), count: 0 }); }
@@ -1088,8 +1445,6 @@ function tekenHorizontaleBalken(containerId, data, eenheid) {
 }
 
 function renderOvBk() {
-  // Combineert de meest recente camera-aanwijzingen en woningsluitingen tot
-  // één overzichtslijstje, gesorteerd op datum.
   const camItems = [...camerasActief, ...camerasGeschiedenis].map(c => ({
     datum: c.start, titel: `Cameratoezicht ${c.camera}`, link: (c.periodes?.[0]?.link) || '#', type: 'Camera',
   }));
@@ -1111,7 +1466,6 @@ function renderOvBk() {
     </div>`).join('') || '<div class="empty">Geen data</div>';
 }
 
-// Ruwe lijst — alleen woningsluitingen (camera-geschiedenis heeft z'n eigen lijst hieronder).
 function renderBekendmakingenLijst() {
   document.getElementById('bkCount').textContent = woningsluitingen.length + ' woningsluitingen';
   const lijst = document.getElementById('bkList');
@@ -1131,7 +1485,6 @@ function renderBekendmakingenLijst() {
     </div>`).join('');
 }
 
-// Ruwe lijst — camera-geschiedenis (verlopen camera's, incl. verlengingsgeschiedenis).
 function renderCamGeschiedenisLijst() {
   const container = document.getElementById('camGeschiedenisLijst');
   const teller     = document.getElementById('camGeschiedenisCount');
@@ -1150,6 +1503,51 @@ function renderCamGeschiedenisLijst() {
         ${(c.periodes || []).length > 1 ? `<div class="bk-desc">${c.periodes.length} periodes: ${c.periodes.map(p => `${p.start}–${p.eind}`).join(', ')}</div>` : ''}
       </div></div>
     </div>`).join('');
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW #22 — CAMERA-VERLENGINGSRANGLIJST (Camera's & Sluitingen-tab)
+// "Tijdelijk" wordt structureel: welke locaties worden het vaakst verlengd.
+// ══════════════════════════════════════════════════════════════════════════
+function renderCamVerlengingChart() {
+  const el = document.getElementById('camVerlengingChart');
+  if (!el) return;
+  const map = {};
+  [...camerasActief, ...camerasGeschiedenis].forEach(c => {
+    map[c.camera] = Math.max(map[c.camera] || 0, c.keer_verlengd || 0);
+  });
+  const rijen = Object.entries(map).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]);
+  if (!rijen.length) { el.innerHTML = '<div class="viz-empty">Geen verlengingen geregistreerd</div>'; return; }
+  const maxV = rijen[0][1];
+  el.innerHTML = rijen.map(([camera, n]) => `<div class="bk-bar-row">
+    <div class="bk-bar-label" title="${esc(camera)}">${esc(camera)}</div>
+    <div class="bk-bar-track"><div class="bk-bar-fill" style="width:${Math.round(n/maxV*100)}%;"></div></div>
+    <div class="bk-bar-count">${n}×</div>
+  </div>`).join('');
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW #23 — WONINGSLUITINGSDUUR-HISTOGRAM (Camera's & Sluitingen-tab)
+// ══════════════════════════════════════════════════════════════════════════
+function renderWoningsluitingDuurChart() {
+  const el = document.getElementById('woningsluitingDuurChart');
+  if (!el) return;
+  const buckets = { '0–30 dagen': 0, '30–90 dagen': 0, '90+ dagen': 0, 'Onbekend (geen einddatum)': 0 };
+  woningsluitingen.forEach(w => {
+    if (!w.eind_datum) { buckets['Onbekend (geen einddatum)']++; return; }
+    const dagen = dagenTussen(w.datum, w.eind_datum);
+    if (dagen <= 30) buckets['0–30 dagen']++;
+    else if (dagen <= 90) buckets['30–90 dagen']++;
+    else buckets['90+ dagen']++;
+  });
+  const entries = Object.entries(buckets).filter(([, v]) => v > 0);
+  if (!entries.length) { el.innerHTML = '<div class="viz-empty">Geen woningsluitingen beschikbaar</div>'; return; }
+  const maxV = Math.max(...entries.map(([, v]) => v));
+  el.innerHTML = entries.map(([label, n]) => `<div class="viz-bar-row">
+    <div class="viz-bar-label" style="width:200px;">${esc(label)}</div>
+    <div class="viz-bar-track"><div class="viz-bar-fill" style="width:${Math.round(n/maxV*100)}%;background:var(--hold);"></div></div>
+    <div class="viz-bar-pct">${n}</div>
+  </div>`).join('');
 }
 
 // ── RAADSVRAGEN ───────────────────────────────────────────────────────────────
@@ -1231,6 +1629,85 @@ function renderStemStats() {
       <div class="coalitie-stat-sub">${meerderheid}</div>
     </div>
   `;
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW #10 + #11 — COALITIE VS. OPPOSITIE & POLARISATIE DOOR DE TIJD
+// Per maand: % stemmingen waarin coalitie en oppositie aan dezelfde kant
+// staan (i.p.v. tegenover elkaar), plus % unanieme stemmingen.
+// ══════════════════════════════════════════════════════════════════════════
+function renderCoalitieTijdChart() {
+  const el = document.getElementById('coalitieTijdChart');
+  if (!el) return;
+  const metData = stemmingen.filter(s => s.fracties_voor || s.fracties_tegen);
+  if (metData.length < 2) { el.innerHTML = '<div class="viz-empty">Onvoldoende stemmingsdata</div>'; return; }
+
+  const alleFracties = getAllFracties();
+  const maandMap = {};
+  metData.forEach(s => {
+    if (!s.datum) return;
+    const maand = s.datum.slice(0, 7);
+    if (!maandMap[maand]) maandMap[maand] = { totaal: 0, unaniem: 0, samen: 0, vergelijkbaar: 0 };
+    const md = maandMap[maand];
+    md.totaal++;
+    if (s.voor_pct === 100) md.unaniem++;
+
+    const { voor, tegen } = getStemSets(s);
+    const cFracties = [...COALITIE_FRACTIES].filter(f => voor.has(f) || tegen.has(f));
+    const oFracties = alleFracties.filter(f => !COALITIE_FRACTIES.has(f) && (voor.has(f) || tegen.has(f)));
+    if (!cFracties.length || !oFracties.length) return;
+    md.vergelijkbaar++;
+    const cVoor = cFracties.filter(f => voor.has(f)).length;
+    const oVoor = oFracties.filter(f => voor.has(f)).length;
+    const cStandpunt = cVoor >= cFracties.length - cVoor ? 'voor' : 'tegen';
+    const oStandpunt = oVoor >= oFracties.length - oVoor ? 'voor' : 'tegen';
+    if (cStandpunt === oStandpunt) md.samen++;
+  });
+
+  const maandLijst = Object.entries(maandMap).sort((a, b) => a[0].localeCompare(b[0]));
+  if (maandLijst.length < 2) { el.innerHTML = '<div class="viz-empty">Onvoldoende maanden met data</div>'; return; }
+
+  const maandNamenKort = ['Jan','Feb','Mrt','Apr','Mei','Jun','Jul','Aug','Sep','Okt','Nov','Dec'];
+  const W = 680, H = 220, PAD = { t: 16, r: 16, b: 30, l: 36 };
+  const pW = W - PAD.l - PAD.r, pH = H - PAD.t - PAD.b;
+
+  const puntenVoor = getter => maandLijst.map(([maand, d], i) => {
+    const x = PAD.l + (i / (maandLijst.length - 1)) * pW;
+    const noemer = getter === 'samen' ? d.vergelijkbaar : d.totaal;
+    const pct = noemer ? (d[getter] / noemer) * 100 : 0;
+    const y = PAD.t + pH - (pct / 100) * pH;
+    return [x, y, Math.round(pct)];
+  });
+  const samenPts   = puntenVoor('samen');
+  const unaniemPts = puntenVoor('unaniem');
+
+  const lijn = (arr, kleur) =>
+    `<polyline points="${arr.map(([x,y]) => `${x},${y}`).join(' ')}" fill="none" stroke="${kleur}" stroke-width="2.5" stroke-linejoin="round"/>` +
+    arr.map(([x, y, pct], i) => `<circle cx="${x}" cy="${y}" r="3" fill="white" stroke="${kleur}" stroke-width="2"><title>${maandLijst[i][0]}: ${pct}%</title></circle>`).join('');
+
+  const yTicks = [0, 25, 50, 75, 100].map(v => {
+    const y = PAD.t + pH - (v/100)*pH;
+    return `<line x1="${PAD.l}" y1="${y}" x2="${PAD.l+pW}" y2="${y}" stroke="var(--rule)" stroke-width="0.5"/>
+            <text x="${PAD.l-5}" y="${y+3}" text-anchor="end" font-size="9" fill="var(--muted)">${v}%</text>`;
+  }).join('');
+  const xLabels = maandLijst.map(([maand], i) => {
+    const x = PAD.l + (i / (maandLijst.length - 1)) * pW;
+    const mn = parseInt(maand.split('-')[1]);
+    return `<text x="${x}" y="${H-8}" text-anchor="middle" font-size="9" fill="var(--muted)">${maandNamenKort[mn-1]}</text>`;
+  }).join('');
+
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:${H}px;">
+    ${yTicks}
+    <line x1="${PAD.l}" y1="${PAD.t}" x2="${PAD.l}" y2="${PAD.t+pH}" stroke="var(--rule)" stroke-width="1"/>
+    <line x1="${PAD.l}" y1="${PAD.t+pH}" x2="${PAD.l+pW}" y2="${PAD.t+pH}" stroke="var(--rule)" stroke-width="1"/>
+    ${lijn(samenPts, 'var(--teal)')}
+    ${lijn(unaniemPts, 'var(--go)')}
+    ${xLabels}
+  </svg>
+  <div class="svg-chart-legend">
+    <span><span class="dot" style="background:var(--teal);"></span>% coalitie &amp; oppositie stemmen samen (zelfde kant)</span>
+    <span><span class="dot" style="background:var(--go);"></span>% unanieme stemmingen</span>
+  </div>`;
 }
 
 function renderStemmingen() {
@@ -1319,6 +1796,9 @@ function renderStemmingen() {
 
   // ── FRACTIELOYALITEIT ──────────────────────────────────────────────────────
   renderFractieloyaliteit();
+
+  // ── NIEUW #8: MEEST ONAFHANKELIJKE RAADSLEDEN ────────────────────────────
+  renderOnafhankelijkeRaadsledenChart();
 
   // ── ALLE STEMMINGEN LIJST ─────────────────────────────────────────────────
   renderStemLijst();
@@ -1498,7 +1978,7 @@ async function renderAanwezigheid() {
       const totaal = r.aanwezig + r.afwezig;
       html += `<tr><td>${esc(r.naam)}</td><td>${esc(r.fractie || '')}</td><td style="text-align:right;">${r.aanwezig}</td><td style="text-align:right;">${r.afwezig}</td><td style="text-align:right;">${totaal}</td></tr>`;
     });
-    html += '</tbody></table></div><div style="margin-top:6px;font-size:10px;color:var(--muted);">Aanwezigheid per stemdag (deelname aan stemmingen).</div>';
+    html += '</tbody></table></div><div style="margin-top:6px;font-size:10px;color:var(--muted);">Aanwezigheid per stemdag (deelname aan stemmingen). ⚠ Dit is een momentopname over de hele periode — een tijdlijn per raadslid vergt een uitbreiding van de scraper (raadsleden_presentie.json bevat nu geen datums per stemdag).</div>';
     container.innerHTML = html;
     container.classList.remove('raadslid-placeholder');
   } catch (e) {
@@ -1506,13 +1986,11 @@ async function renderAanwezigheid() {
   }
 }
 
-function renderFractieloyaliteit() {
-  const container = document.getElementById('stemLoyaliteitNieuw');
-  if (!container) return;
-  if (!stemmingen.some(s => (s.raadsleden_voor || []).length > 0)) {
-    container.innerHTML = '<div class="raadslid-placeholder"><strong>Geen raadsledendata</strong>Zorg dat de scraper raadsleden per stemming vastlegt.</div>';
-    return;
-  }
+// NIEUW: gedeelde berekening voor zowel de fractieloyaliteit-tabel als de
+// "meest onafhankelijke raadsleden"-ranglijst (#8), zodat de logica maar
+// op één plek staat.
+function berekenFractieloyaliteitData() {
+  if (!stemmingen.some(s => (s.raadsleden_voor || []).length > 0)) return [];
   const allFracties = getAllFracties();
   const ledenMap = {};
   stemmingen.forEach(s => {
@@ -1535,7 +2013,6 @@ function renderFractieloyaliteit() {
       if (!ledenMap[naam]) ledenMap[naam] = { naam, fractie: raadslid.fractie, conform: 0, afwijkend: 0, details: [] };
       const fp = fractieStandpunt[raadslid.fractie];
       if (!fp) return;
-      // FIX: onthouding telde eerder altijd als 'tegen'; nu expliciet overgeslagen
       const isVoor  = (s.raadsleden_voor || []).find(r => r.naam === naam);
       const isTegen = (s.raadsleden_tegen || []).find(r => r.naam === naam);
       if (!isVoor && !isTegen) return; // onthouding overslaan voor loyaliteitsberekening
@@ -1544,12 +2021,21 @@ function renderFractieloyaliteit() {
       else { ledenMap[naam].afwijkend++; ledenMap[naam].details.push({ stemming: s.titel, datum: s.datum, eigen: eigenStem, fractie: fp }); }
     });
   });
-  const lijst = Object.values(ledenMap).filter(l => (l.conform + l.afwijkend) > 0).sort((a, b) => {
+  return Object.values(ledenMap).filter(l => (l.conform + l.afwijkend) > 0).sort((a, b) => {
     const pctA = a.conform / (a.conform + a.afwijkend);
     const pctB = b.conform / (b.conform + b.afwijkend);
     return pctA - pctB;
   });
-  if (!lijst.length) { container.innerHTML = '<div class="viz-empty">Geen data</div>'; return; }
+}
+
+function renderFractieloyaliteit() {
+  const container = document.getElementById('stemLoyaliteitNieuw');
+  if (!container) return;
+  const lijst = berekenFractieloyaliteitData();
+  if (!lijst.length) {
+    container.innerHTML = '<div class="raadslid-placeholder"><strong>Geen raadsledendata</strong>Zorg dat de scraper raadsleden per stemming vastlegt.</div>';
+    return;
+  }
   let html = '<div style="padding:8px 16px 12px;">';
   lijst.forEach(l => {
     const totaal = l.conform + l.afwijkend;
@@ -1574,6 +2060,29 @@ function renderFractieloyaliteit() {
   });
   html += '</div>';
   container.innerHTML = html;
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW #8 — MEEST ONAFHANKELIJKE RAADSLEDEN (Stemmingen-tab)
+// Top-5 op afwijkingspercentage t.o.v. de eigen fractie, minimaal 3
+// stemmingen om ruis van eenmalige uitschieters te voorkomen.
+// ══════════════════════════════════════════════════════════════════════════
+function renderOnafhankelijkeRaadsledenChart() {
+  const el = document.getElementById('onafhankelijkeRaadsledenChart');
+  if (!el) return;
+  const lijst = berekenFractieloyaliteitData().filter(l => (l.conform + l.afwijkend) >= 3);
+  if (!lijst.length) { el.innerHTML = '<div class="viz-empty">Onvoldoende data (minimaal 3 stemmingen per raadslid nodig)</div>'; return; }
+  const top5 = lijst.slice(0, 5); // al oplopend gesorteerd op conform% → eerste = meest afwijkend
+  el.innerHTML = top5.map((l, i) => {
+    const totaal = l.conform + l.afwijkend;
+    const afwijkPct = Math.round(l.afwijkend / totaal * 100);
+    return `<div class="viz-bar-row">
+      <div class="rank-badge ${i === 0 ? 'rank-1' : ''}">${i+1}</div>
+      <div class="viz-bar-label" style="width:190px;">${esc(l.naam)} <span style="color:var(--muted);font-weight:400;">(${esc(l.fractie)})</span></div>
+      <div class="viz-bar-track"><div class="viz-bar-fill" style="width:${afwijkPct}%;background:var(--hold);"></div></div>
+      <div class="viz-bar-pct">${afwijkPct}%</div>
+    </div>`;
+  }).join('');
 }
 
 function renderStemLijst() {
@@ -1774,6 +2283,82 @@ function renderOvCb() {
   }).join('');
 }
 
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW #16 — PORTEFEUILLEHOUDER-DASHBOARD (Collegebrieven-tab)
+// ══════════════════════════════════════════════════════════════════════════
+function renderPortefeuillehouderDashboard() {
+  const el = document.getElementById('portefeuillehouderDashboard');
+  if (!el) return;
+  if (!collegebrieven.length) { el.innerHTML = '<div class="viz-empty">Geen collegebrieven</div>'; return; }
+
+  const map = {};
+  collegebrieven.forEach(b => {
+    const namen = (b.portefeuillehouder || 'Onbekend').split(', ').map(n => n.trim()).filter(Boolean);
+    const lengte = (b.tekst || '').split(/\s+/).filter(Boolean).length;
+    const hoogClaims = (b.claims || []).filter(c => c.prioriteit === 'HOOG').length;
+    namen.forEach(naam => {
+      if (!map[naam]) map[naam] = { brieven: 0, hoogTotaal: 0, lengteTotaal: 0 };
+      map[naam].brieven++;
+      map[naam].hoogTotaal += hoogClaims;
+      map[naam].lengteTotaal += lengte;
+    });
+  });
+
+  const rijen = Object.entries(map).sort((a, b) => b[1].brieven - a[1].brieven);
+  el.innerHTML = `<div class="ph-dash-grid">` + rijen.map(([naam, d]) => `
+    <div class="ph-dash-card">
+      <div class="ph-dash-name">${esc(naam)}</div>
+      <div class="ph-dash-row"><span>Brieven</span><strong>${d.brieven}</strong></div>
+      <div class="ph-dash-row"><span>Gem. HOOG-claims</span><strong>${(d.hoogTotaal / d.brieven).toFixed(1)}</strong></div>
+      <div class="ph-dash-row"><span>Gem. brieflengte</span><strong>${Math.round(d.lengteTotaal / d.brieven)} woorden</strong></div>
+    </div>`).join('') + `</div>`;
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW #17 — GELD GENOEMD DOOR HET COLLEGE (Collegebrieven-tab)
+// €-bedragen geëxtraheerd uit claims[].claim, per portefeuillehouder.
+// ══════════════════════════════════════════════════════════════════════════
+function parseEuroBedrag(str) {
+  const m = String(str || '').match(/€\s?([\d.,]+)\s?(mln|miljoen|mld|miljard)?/i);
+  if (!m) return null;
+  let getal = m[1];
+  const eenheid = (m[2] || '').toLowerCase();
+  if (eenheid) {
+    getal = parseFloat(getal.replace(/\./g, '').replace(',', '.'));
+    getal *= eenheid.startsWith('mld') ? 1_000_000_000 : 1_000_000;
+  } else {
+    getal = parseFloat(getal.replace(/\./g, '').replace(',', '.'));
+  }
+  return isNaN(getal) ? null : getal;
+}
+
+function fmtEuroKort(v) {
+  if (v >= 1_000_000) return '€' + (v / 1_000_000).toFixed(1).replace('.', ',') + ' mln';
+  return '€' + Math.round(v).toLocaleString('nl-NL');
+}
+
+function renderGeldChart() {
+  const el = document.getElementById('geldChart');
+  if (!el) return;
+  const perPh = {};
+  collegebrieven.forEach(b => {
+    const namen = (b.portefeuillehouder || 'Onbekend').split(', ').map(n => n.trim()).filter(Boolean);
+    (b.claims || []).forEach(c => {
+      const bedrag = parseEuroBedrag(c.claim);
+      if (bedrag == null) return;
+      namen.forEach(naam => { perPh[naam] = (perPh[naam] || 0) + bedrag; });
+    });
+  });
+  const rijen = Object.entries(perPh).sort((a, b) => b[1] - a[1]);
+  if (!rijen.length) { el.innerHTML = '<div class="viz-empty">Geen €-bedragen herkend in claims</div>'; return; }
+  const maxV = rijen[0][1];
+  el.innerHTML = rijen.map(([naam, bedrag]) => `<div class="viz-bar-row">
+    <div class="viz-bar-label" style="width:170px;">${esc(naam)}</div>
+    <div class="viz-bar-track"><div class="viz-bar-fill" style="width:${Math.round(bedrag/maxV*100)}%;background:var(--go);"></div></div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);width:80px;text-align:right;flex-shrink:0;">${fmtEuroKort(bedrag)}</div>
+  </div>`).join('') + '<div style="padding:8px 20px 0;font-size:10px;color:var(--muted);">Bedragen automatisch herkend via regex op claim-teksten — controleer bij twijfel de brontekst.</div>';
+}
+
 // ── FACTCHECK ─────────────────────────────────────────────────────────────────
 function audioBestandGekozen() {
   const file = document.getElementById('audioFile').files[0];
@@ -1834,6 +2419,10 @@ async function transcribeerAudio() {
   btn.disabled = false;
 }
 
+// NIEUW #28: bouwEigenDataContext uitgebreid met een apart, makkelijk te
+// matchen blok met €-bedragen per portefeuillehouder (zelfde extractie als
+// renderGeldChart), zodat Gemini exacte-bedrag-matches kan maken i.p.v.
+// alleen losse tekstuele gelijkenis.
 function bouwEigenDataContext() {
   const delen = [];
   if (moties.length) {
@@ -1852,8 +2441,22 @@ function bouwEigenDataContext() {
     }).join('\n');
     delen.push(`RECENTE STEMMINGEN:\n${recent}`);
   }
-  const cbClaims = collegebrieven.flatMap(b => (b.claims || []).map(c => `- ${b.datum}: "${c.claim}" (${b.titel})`)).slice(0, 15).join('\n');
-  if (cbClaims) delen.push(`CLAIMS UIT COLLEGEBRIEVEN:\n${cbClaims}`);
+  const cbClaims = collegebrieven.flatMap(b => (b.claims || []).map(c => `- ${b.datum}: "${c.claim}" (${b.titel}, ${b.portefeuillehouder || 'onbekend'})`)).slice(0, 15).join('\n');
+  if (cbClaims) delen.push(`CLAIMS UIT COLLEGEBRIEVEN (met datum, brieftitel en portefeuillehouder):\n${cbClaims}`);
+
+  // NIEUW: geldbedragen expliciet apart, zodat exacte-bedrag-matching makkelijker is
+  const perPhBedrag = {};
+  collegebrieven.forEach(b => {
+    (b.claims || []).forEach(c => {
+      const bedrag = parseEuroBedrag(c.claim);
+      if (bedrag == null) return;
+      const key = b.portefeuillehouder || 'Onbekend';
+      perPhBedrag[key] = (perPhBedrag[key] || 0) + bedrag;
+    });
+  });
+  const geldLijst = Object.entries(perPhBedrag).map(([ph, bedrag]) => `- ${ph}: ${fmtEuroKort(bedrag)}`).join('\n');
+  if (geldLijst) delen.push(`EERDER GENOEMDE €-BEDRAGEN PER PORTEFEUILLEHOUDER:\n${geldLijst}`);
+
   const storedClaims = JSON.parse(localStorage.getItem('zr_claims') || '[]');
   if (storedClaims.length) {
     const recent = storedClaims.slice(0, 10).map(c => `- ${c.datum}: "${c.claim}" (bron: ${c.bron_titel || '?'})`).join('\n');
@@ -1877,13 +2480,18 @@ async function analyseerFactcheck() {
   status.textContent = 'Gemini is aan het werk…';
   lijst.innerHTML = '<div class="factcheck-empty">Claims worden geïdentificeerd en gecheckt tegen eigen data...</div>';
   const eigenData = bouwEigenDataContext();
+  // NIEUW #28: expliciete matching-criteria i.p.v. vage "vind je een relatie"-instructie
   const prompt = `Je bent een factcheck-assistent voor een journalist die gemeenteraadsvergaderingen van Zaanstad analyseert.
 ${context ? 'Context: ' + context : ''}
 
 Analyseer de transcriptie en identificeer alle feitelijke claims die verifieerbaar zijn.
 Denk aan: getallen, percentages, datums, tijdlijnen, beloftes van het college, budgetten, aantallen woningen, criminaliteitscijfers.
 
-${eigenData ? `Vergelijk elke claim met de onderstaande eigen data. Voeg per claim een "kruischeck" toe als je een directe relatie vindt (bevestiging, tegenspraak, of herhaling van eerdere claim). Als er geen relatie is, laat kruischeck leeg.\n\n${eigenData}` : ''}
+${eigenData ? `Vergelijk elke claim met de onderstaande eigen data. Gebruik hierbij deze prioriteitsvolgorde voor een kruischeck:
+1. Exact dezelfde €-bedragen of aantallen (sterkste match — noem het exacte bedrag/aantal en de bron expliciet).
+2. Dezelfde portefeuillehouder of hetzelfde onderwerp binnen een vergelijkbare periode (datum dicht bij elkaar).
+3. Tegenstrijdige cijfers over hetzelfde onderwerp (meld dit als "tegenspraak" met beide waarden genoemd).
+Noem in de kruischeck altijd expliciet WELK stuk eigen data overeenkomt (bijv. brieftitel, motienummer of datum) zodat de journalist het direct kan terugvinden. Als er geen duidelijke relatie is op basis van bovenstaande criteria, laat kruischeck leeg — verzin geen zwakke verbanden.\n\n${eigenData}` : ''}
 
 Geef voor elke claim:
 - De exacte claim
@@ -1976,8 +2584,6 @@ function fmtDate(s, mode) {
   } catch { return s; }
 }
 
-// FIX: enkelvoudige aanhalingstekens toegevoegd (&#39;) — breekt anders
-// onclick-attributen bij fractienamen met apostrof (bv. "D'66")
 function esc(s) {
   return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
