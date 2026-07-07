@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      actions: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -60,7 +61,6 @@ jobs:
             exit 0
           fi
           git commit -m "ebs+besluiten: update $(date +'%Y-%m-%d %H:%M')"
-
           # Retry-logica: scrape.yml (raadsdata) en deze workflow draaien
           # onafhankelijk van elkaar en kunnen dus tegelijk pushen. Bij een
           # botsing opnieuw pullen/rebasen en tot 5x proberen, met oplopende
@@ -81,3 +81,8 @@ jobs:
             sleep "$wacht"
             git pull --rebase --autostash
           done
+      - name: Deploy triggeren
+        if: success()
+        run: gh workflow run static.yml
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
