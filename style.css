@@ -124,7 +124,6 @@ main { max-width: 1160px; margin: 0 auto; padding: 24px; }
 .speaker-time { font-family: 'JetBrains Mono', monospace; font-weight: 600; color: var(--teal); }
 
 /* ── BADGE ── */
-/* FIX: flex-shrink:0 voorkomt dat badges comprimeren naast lange titels in meeting/cb-rijen */
 .badge { font-size: 10px; font-weight: 700; padding: 2px 7px; letter-spacing: 0.3px; flex-shrink: 0; }
 .badge-teal  { background: var(--teal-bg); color: var(--teal); }
 .badge-go    { background: var(--go-bg);   color: var(--go); }
@@ -147,7 +146,7 @@ tbody tr:hover td { background: var(--paper); }
 .motie-title { font-weight: 600; margin-bottom: 2px; }
 .motie-desc  { font-size: 11px; color: var(--muted); }
 
-/* ── CAMERA'S & SLUITINGEN (voorheen "bekendmakingen") ── */
+/* ── CAMERA'S & SLUITINGEN ── */
 .bk-item { background: var(--white); border-bottom: 1px solid var(--rule); padding: 14px 20px; }
 .bk-item:last-child { border-bottom: none; }
 .bk-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
@@ -173,9 +172,6 @@ tbody tr:hover td { background: var(--paper); }
 .viz-stat-value { font-family: 'Barlow Condensed', sans-serif; font-size: 36px; font-weight: 800; line-height: 1; color: var(--navy); }
 .viz-stat-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
 .viz-empty { padding: 20px; text-align: center; color: var(--muted); font-size: 12px; }
-/* FIX: .stacked-bar-track, .viz-legend*, .alliantie-item/.alliantie-pair zijn verwijderd —
-   dode CSS, nergens in app.js gebruikt. De legenda's en de allianties-tabel worden met
-   losse inline style-attributen gebouwd, niet met deze classes. */
 
 /* ── CAMERA'S & WONINGSLUITINGEN — STAT-KAARTEN & GRAFIEKEN ── */
 .bk-stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
@@ -186,8 +182,6 @@ tbody tr:hover td { background: var(--paper); }
 .bk-chart-container { width: 100%; height: 200px; padding: 8px; }
 .bk-bar-chart { padding: 12px 20px; min-height: 150px; }
 .bk-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-/* FIX: was 110px — te krap voor camera-locatienamen zoals "Poelenburg" of langere straatnamen,
-   zelfde probleem als eerder gefixt bij .viz-bar-label. Nu consistent op 140px. */
 .bk-bar-label { width: 140px; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
 .bk-bar-track { flex: 1; height: 16px; background: var(--paper); border-radius: 2px; overflow: hidden; }
 .bk-bar-fill { height: 100%; background: var(--teal); border-radius: 2px; transition: width 0.3s; }
@@ -273,7 +267,59 @@ tbody tr:hover td { background: var(--paper); }
 .raadslid-placeholder { padding: 24px 20px; text-align: center; color: var(--muted); font-size: 12px; line-height: 1.8; }
 .raadslid-placeholder strong { color: var(--navy); display: block; margin-bottom: 4px; font-size: 13px; }
 
-/* ── RESPONSIVE ── */
+/* ══════════════════════════════════════════════════════════════════════
+   NIEUW — grafieken toegevoegd op verzoek (activiteit, spreektijd,
+   motie/amendement, coalitie-over-tijd, onafhankelijke raadsleden,
+   camera-verlengingen, woningsluitingsduur, portefeuillehouder, geld)
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* #1 Activiteitsheatmap (GitHub-stijl) */
+.heatmap-wrap { padding: 16px 20px; overflow-x: auto; }
+.heatmap-grid { display: grid; grid-auto-flow: column; grid-template-rows: repeat(7, 13px); gap: 3px; }
+.heatmap-cell {
+  width: 13px; height: 13px; border-radius: 2px; background: var(--rule);
+  cursor: default; transition: transform 0.1s;
+}
+.heatmap-cell:hover { transform: scale(1.35); outline: 1px solid var(--navy); }
+.heatmap-month-labels { display: flex; gap: 3px; margin-bottom: 6px; font-size: 10px; color: var(--muted); }
+.heatmap-legend { display: flex; align-items: center; gap: 4px; margin-top: 10px; font-size: 10px; color: var(--muted); }
+.heatmap-legend .heatmap-cell { cursor: default; }
+.heatmap-legend .heatmap-cell:hover { transform: none; outline: none; }
+
+/* #2 Vergaderduur / #10-11 Coalitie-tijdlijn / generieke SVG-tijdlijnkaarten */
+.svg-chart-legend { display: flex; gap: 16px; padding: 4px 0 10px; font-size: 10px; color: var(--muted); flex-wrap: wrap; }
+.svg-chart-legend span { display: flex; align-items: center; gap: 4px; }
+.svg-chart-legend .dot { width: 8px; height: 8px; display: inline-block; border-radius: 1px; }
+
+/* #6 Spreektijd-ranglijst — hergebruikt .viz-bar-row/.viz-bar-track, geen extra classes nodig */
+
+/* #12 Motie vs amendement */
+.type-compare-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-bottom: 12px; }
+.type-compare-card { background: var(--white); padding: 18px 20px; text-align: center; }
+.type-compare-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); margin-bottom: 6px; }
+.type-compare-value { font-family: 'Barlow Condensed', sans-serif; font-size: 44px; font-weight: 800; line-height: 1; }
+.type-compare-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+/* #8 Onafhankelijke raadsleden ranking — rank badge naast bestaande bar-row */
+.rank-badge {
+  width: 22px; height: 22px; border-radius: 50%; background: var(--navy); color: var(--white);
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.rank-badge.rank-1 { background: var(--hold); }
+
+/* #16 Portefeuillehouder-dashboard */
+.ph-dash-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1px; background: var(--rule); border-top: 1px solid var(--rule); }
+.ph-dash-card { background: var(--white); padding: 16px 20px; }
+.ph-dash-name { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+.ph-dash-row { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); padding: 3px 0; border-bottom: 1px solid var(--paper); }
+.ph-dash-row:last-child { border-bottom: none; }
+.ph-dash-row strong { color: var(--text); font-family: 'JetBrains Mono', monospace; }
+
+/* #17 Geld genoemd door college — reuses svg-chart-legend */
+
+/* #23 Woningsluitingsduur-histogram — reuses .viz-bar-row */
+
 @media (max-width: 900px) {
   .stats { grid-template-columns: 1fr 1fr 1fr; }
   .overview-grid { grid-template-columns: 1fr; }
@@ -283,15 +329,15 @@ tbody tr:hover td { background: var(--paper); }
   .cb-stats-row { grid-template-columns: 1fr 1fr; }
   .bk-stats-row { grid-template-columns: 1fr 1fr; }
   .coalitie-stats { grid-template-columns: 1fr 1fr; }
+  .type-compare-row { grid-template-columns: 1fr; }
 }
 @media (max-width: 600px) {
   main { padding: 12px; }
   .stats { grid-template-columns: 1fr 1fr; }
   .stat-value { font-size: 36px; }
-  /* FIX: .bk-stat-value had geen mobiele override — bleef op 52px terwijl
-     .bk-stats-row/.cb-stats-row op smalle schermen al bij 900px naar 2 kolommen
-     gaan. Op een telefoon (≤600px) kan 52px in een smal vak afknippen. */
   .bk-stat-value { font-size: 32px; }
   .bk-stats-row, .cb-stats-row { grid-template-columns: 1fr; }
   th, td { padding: 8px 10px; }
+  .heatmap-cell { width: 10px; height: 10px; }
+  .heatmap-grid { grid-template-rows: repeat(7, 10px); gap: 2px; }
 }
