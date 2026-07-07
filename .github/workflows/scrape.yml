@@ -6,6 +6,11 @@ on:
         description: 'Ophalen vanaf datum (YYYY-MM-DD) — leeg = automatisch sinds laatste scrape'
         required: false
         default: ''
+
+concurrency:
+  group: scrape-raadsdata
+  cancel-in-progress: false
+
 jobs:
   scrape:
     runs-on: ubuntu-latest
