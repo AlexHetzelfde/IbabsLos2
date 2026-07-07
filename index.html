@@ -24,9 +24,7 @@
 <nav>
   <div class="tab active" data-tab="overzicht"     onclick="switchTab(this)">Overzicht</div>
   <div class="tab"        data-tab="vergaderingen"  onclick="switchTab(this)">Vergaderingen</div>
-  <!-- FIX: was "Moties & Stemmingen" — misleidend omdat Stemmingen een eigen tab heeft -->
   <div class="tab"        data-tab="moties"         onclick="switchTab(this)">Moties</div>
-  <!-- FIX: was "Bekendmakingen" — dwangsommen zijn eruit, woningsluiting komt nu van De Orkaan i.p.v. bekendmakingen.nl -->
   <div class="tab"        data-tab="bekendmakingen" onclick="switchTab(this)">Camera's &amp; Sluitingen</div>
   <div class="tab"        data-tab="stemmingen"     onclick="switchTab(this)">Stemmingen</div>
   <div class="tab"        data-tab="collegebrieven" onclick="switchTab(this)">Collegebrieven</div>
@@ -50,7 +48,6 @@
         <div class="stat-value" id="statM">—</div>
         <div class="stat-sub" id="statMsub">laden...</div>
       </div>
-      <!-- FIX: was "Bekendmakingen relevant" — dekt de nieuwe lading (camera's + sluitingen) niet meer -->
       <div class="stat">
         <div class="stat-label">Camera's &amp; sluitingen</div>
         <div class="stat-value" id="statB">—</div>
@@ -67,6 +64,25 @@
         <div class="stat-sub" id="statLsub">laden...</div>
       </div>
     </div>
+
+    <!-- NIEUW #1: Activiteitsheatmap (GitHub-stijl) -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-header">
+        <span class="card-title">Activiteit door het jaar</span>
+        <span style="font-size:11px;color:var(--muted);">vergaderingen · moties · brieven · besluiten samen</span>
+      </div>
+      <div id="activiteitHeatmap"><div class="empty">Laden...</div></div>
+    </div>
+
+    <!-- NIEUW #15: Onderwerpenranglijst -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-header">
+        <span class="card-title">Onderwerpenranglijst</span>
+        <span style="font-size:11px;color:var(--muted);">keyword-telling op titels, alle databronnen</span>
+      </div>
+      <div class="viz-bar-list" id="onderwerpenChart"><div class="empty">Laden...</div></div>
+    </div>
+
     <div class="overview-grid">
       <div class="card">
         <div class="card-header">
@@ -102,6 +118,31 @@
         <option value="Presidium">Presidium</option>
       </select>
     </div>
+
+    <!-- NIEUW #2: Vergaderduur door de tijd -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-header">
+        <span class="card-title">Vergaderduur door de tijd</span>
+        <span style="font-size:11px;color:var(--muted);">eind − start, raad vs. commissie</span>
+      </div>
+      <div style="padding:12px 20px 0;" id="vergDuurChart"><div class="empty">Laden...</div></div>
+    </div>
+
+    <!-- NIEUW #6: Spreektijd-ranglijst -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-header">
+        <span class="card-title">Spreektijd-ranglijst</span>
+        <span style="font-size:11px;color:var(--muted);">per raadslid, geaggregeerd per fractie</span>
+      </div>
+      <div class="filter-bar" style="padding:12px 16px 0;">
+        <select class="filter-select" id="toggleSpreektijdGroepering" onchange="renderSpreektijdRanglijst()">
+          <option value="fractie">Per fractie</option>
+          <option value="raadslid">Per raadslid</option>
+        </select>
+      </div>
+      <div class="viz-bar-list" id="spreektijdChart"><div class="empty">Laden...</div></div>
+    </div>
+
     <div class="card">
       <div class="card-header">
         <span class="card-title">Vergaderingen</span>
@@ -114,6 +155,16 @@
   <!-- ── MOTIES ── -->
   <div class="tab-content" id="tab-moties">
     <div id="motiesViz"></div>
+
+    <!-- NIEUW #12: Motie vs amendement slagingspercentage -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-header">
+        <span class="card-title">Motie vs. amendement — slagingspercentage</span>
+        <span style="font-size:11px;color:var(--muted);">totaal, en per fractie</span>
+      </div>
+      <div id="motieAmendementViz"><div class="empty">Laden...</div></div>
+    </div>
+
     <div class="filter-bar">
       <select class="filter-select" id="filterPartij" onchange="renderMoties()">
         <option value="">Alle partijen</option>
@@ -126,14 +177,12 @@
         <option value="ingetrokken">Ingetrokken</option>
       </select>
       <select class="filter-select" id="filterType" onchange="renderMoties()">
-        <!-- FIX: was "Motie & Amendement" — suggereert een actief filter terwijl het "toon alles" betekent -->
         <option value="">Alle typen</option>
         <option value="Motie">Alleen moties</option>
         <option value="Amendement">Alleen amendementen</option>
       </select>
     </div>
     <div class="card">
-      <!-- FIX: overflow-x wrapper zodat de tabel op smalle schermen scrollbaar is -->
       <div style="overflow-x: auto;">
         <table>
           <thead>
@@ -154,11 +203,6 @@
   </div>
 
   <!-- ── CAMERA'S & SLUITINGEN ── -->
-  <!-- FIX: was "Bekendmakingen" met dwangsom/camera/woning gemengd uit één bron.
-       Dwangsom is eruit. Cameratoezicht komt nu uit de brede officielebekendmakingen-RSS
-       (met per-item fetch van start/einddatum + verlengingsdetectie op het "Camera:"-label).
-       Woningsluiting komt niet uit bekendmakingen.nl (Zaanstad publiceert dat daar niet),
-       maar wordt gescraped van De Orkaan. Beide vanaf 1 juli 2026. Zie scrape_besluiten.py. -->
   <div class="tab-content" id="tab-bekendmakingen">
     <div class="alert-info">Cameratoezicht via officielebekendmakingen.nl · woningsluitingen via De Orkaan (Zaanstad publiceert dit niet als officiële bekendmaking). Bijgehouden vanaf 1 juli 2026.</div>
 
@@ -177,7 +221,6 @@
       </div>
     </div>
 
-    <!-- Camera's nu actief — momentopname, geen trend, dus een lijst i.p.v. grafiek -->
     <div class="card" style="margin-bottom:16px;">
       <div class="card-header">
         <span class="card-title">Camera's — nu actief</span>
@@ -195,6 +238,24 @@
     </div>
     <div class="bk-charts-row">
       <div class="card"><div class="card-header"><span class="card-title">Woningsluitingen per wijk</span></div><div id="bkWoningWijkChart" class="bk-bar-chart"></div></div>
+
+      <!-- NIEUW #22: Camera-verlengingsranglijst -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Camera-verlengingsranglijst</span>
+          <span style="font-size:11px;color:var(--muted);">"tijdelijk" wordt structureel</span>
+        </div>
+        <div id="camVerlengingChart" class="bk-bar-chart"><div class="empty">Laden...</div></div>
+      </div>
+    </div>
+
+    <!-- NIEUW #23: Woningsluitingsduur-histogram -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-header">
+        <span class="card-title">Woningsluitingsduur</span>
+        <span style="font-size:11px;color:var(--muted);">buckets: 0–30 / 30–90 / 90+ dagen</span>
+      </div>
+      <div class="viz-bar-list" id="woningsluitingDuurChart"><div class="empty">Laden...</div></div>
     </div>
 
     <button class="btn-text" onclick="document.getElementById('bkLijstContainer').classList.toggle('hidden')">Toon / verberg onderliggende berichten</button>
@@ -219,6 +280,15 @@
     </div>
 
     <div class="coalitie-stats" id="stemCoalitieStats"></div>
+
+    <!-- NIEUW #10 + #11: Coalitie-vs-oppositie wig & polarisatie door de tijd -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-header">
+        <span class="card-title">Coalitie vs. oppositie &amp; polarisatie door de tijd</span>
+        <span style="font-size:11px;color:var(--muted);">% samen/tegenover elkaar en % unaniem, per maand</span>
+      </div>
+      <div style="padding:12px 20px 0;" id="coalitieTijdChart"><div class="empty">Laden...</div></div>
+    </div>
 
     <div class="card" style="margin-bottom:16px;">
       <div class="card-header">
@@ -261,6 +331,15 @@
       </div>
     </div>
 
+    <!-- NIEUW #8: "Meest onafhankelijke raadsleden" hall of fame -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-header">
+        <span class="card-title">Meest onafhankelijke raadsleden</span>
+        <span style="font-size:11px;color:var(--muted);">top-5 op afwijkingspercentage t.o.v. eigen fractie</span>
+      </div>
+      <div class="viz-bar-list" id="onafhankelijkeRaadsledenChart"><div class="empty">Laden...</div></div>
+    </div>
+
     <div class="viz-row" style="margin-bottom:16px;">
       <div class="card">
         <div class="card-header"><span class="card-title">Aanwezigheid per stemdag</span></div>
@@ -290,6 +369,25 @@
       <div class="bk-stat-card"><div class="bk-stat-label">Claims gevonden</div><div class="bk-stat-value" id="cbClaims">—</div></div>
       <div class="bk-stat-card"><div class="bk-stat-label">Hoog prioriteit</div><div class="bk-stat-value" style="color:var(--stop);" id="cbHoog">—</div></div>
     </div>
+
+    <!-- NIEUW #16: Portefeuillehouder-dashboard -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-header">
+        <span class="card-title">Portefeuillehouder-dashboard</span>
+        <span style="font-size:11px;color:var(--muted);">brieven · gem. HOOG-claims · gem. brieflengte</span>
+      </div>
+      <div id="portefeuillehouderDashboard"><div class="empty">Laden...</div></div>
+    </div>
+
+    <!-- NIEUW #17: Geld genoemd door het college -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-header">
+        <span class="card-title">Geld genoemd door het college</span>
+        <span style="font-size:11px;color:var(--muted);">€-bedragen uit claims, per portefeuillehouder</span>
+      </div>
+      <div style="padding:12px 20px 0;" id="geldChart"><div class="empty">Laden...</div></div>
+    </div>
+
     <div class="filter-bar">
       <select class="filter-select" id="filterCbType" onchange="renderCollegebrieven()">
         <option value="">Alle typen</option>
@@ -376,7 +474,7 @@
     <div id="uvLijst" style="margin-top:8px;"><div class="empty">Laden...</div></div>
   </div>
 </div>
-  
+
   <!-- ── FACTCHECK ── -->
   <div class="tab-content" id="tab-factcheck">
     <div class="factcheck-grid">
