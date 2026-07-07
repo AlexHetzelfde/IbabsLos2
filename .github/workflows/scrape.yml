@@ -6,11 +6,9 @@ on:
         description: 'Ophalen vanaf datum (YYYY-MM-DD) — leeg = automatisch sinds laatste scrape'
         required: false
         default: ''
-
 concurrency:
   group: scrape-raadsdata
   cancel-in-progress: false
-
 jobs:
   scrape:
     runs-on: ubuntu-latest
@@ -72,7 +70,26 @@ jobs:
             exit 0
           fi
           git commit -m "data: update $(date +'%Y-%m-%d')${SCRAPE_VANAF:+ (vanaf $SCRAPE_VANAF)}"
-          git pull --rebase --autostash
-          git push
+
+          # Retry-logica: als een andere workflow (bv. scrape-ebs) tussentijds
+          # heeft gepusht, faalt een kale 'git push' zonder hernieuwde poging.
+          # Hier: bij falen opnieuw pullen/rebasen en tot 5x proberen, met
+          # oplopende wachttijd, voordat de stap alsnog faalt.
+          MAX_POGINGEN=5
+          WACHTTIJDEN=(3 6 12 20 30)
+          for ((poging=1; poging<=MAX_POGINGEN; poging++)); do
+            if git push; then
+              echo "Push gelukt (poging $poging)"
+              break
+            fi
+            if [ "$poging" -eq "$MAX_POGINGEN" ]; then
+              echo "Push definitief mislukt na $MAX_POGINGEN pogingen"
+              exit 1
+            fi
+            wacht=${WACHTTIJDEN[$((poging-1))]}
+            echo "Push mislukt (poging $poging/$MAX_POGINGEN) — ${wacht}s wachten en opnieuw pullen/rebasen"
+            sleep "$wacht"
+            git pull --rebase --autostash
+          done
         env:
           SCRAPE_VANAF: ${{ env.SCRAPE_VANAF || github.event.inputs.vanaf }}
