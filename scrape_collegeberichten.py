@@ -70,6 +70,44 @@ COLUMNS = [
 # ── PRIORITEITSSCORES ─────────────────────────────────────────────────────────
 PRIO_SCORE = {"HOOG": 75, "MIDDEL": 45, "LAAG": 20}
 
+# ── RETRY-HELPER ──────────────────────────────────────────────────────────────
+def open_met_retry(opener, req, timeout=30, retries=3, wachttijden=(2, 5, 10)):
+    """
+    Voert opener.open(req) uit met retries bij tijdelijke netwerkfouten
+    (timeouts, 5xx-serverfouten, connectieproblemen). Geeft de response
+    terug bij succes, of raised de laatste fout na alle pogingen.
+    """
+    laatste_fout = None
+    for poging in range(1, retries + 1):
+        try:
+            return opener.open(req, timeout=timeout)
+        except Exception as e:
+            laatste_fout = e
+            if poging < retries:
+                wacht = wachttijden[min(poging - 1, len(wachttijden) - 1)]
+                print(f"(poging {poging}/{retries} mislukt: {e} — {wacht}s wachten)", end=" ", flush=True)
+                time.sleep(wacht)
+    raise laatste_fout
+
+
+def urlopen_met_retry(req, timeout=30, retries=3, wachttijden=(2, 5, 10)):
+    """
+    Zelfde als open_met_retry, maar voor kale urllib.request.urlopen-calls
+    (dus zonder cookiejar-opener) — gebruikt bij de Gemini-call.
+    """
+    laatste_fout = None
+    for poging in range(1, retries + 1):
+        try:
+            return urllib.request.urlopen(req, timeout=timeout)
+        except Exception as e:
+            laatste_fout = e
+            if poging < retries:
+                wacht = wachttijden[min(poging - 1, len(wachttijden) - 1)]
+                print(f"(poging {poging}/{retries} mislukt: {e} — {wacht}s wachten)", end=" ", flush=True)
+                time.sleep(wacht)
+    raise laatste_fout
+
+
 # ── CODE-GEBASEERDE CLAIMDETECTIE ─────────────────────────────────────────────
 #
 # Elk patroon is een tuple van:
@@ -254,7 +292,7 @@ Tekst:
     )
 
     try:
-        with urllib.request.urlopen(req, timeout=30) as resp:
+        with urlopen_met_retry(req, timeout=30) as resp:
             data = json.loads(resp.read().decode("utf-8"))
         raw   = data["candidates"][0]["content"]["parts"][0]["text"]
         match = re.search(r"\[[\s\S]*\]", raw)
@@ -266,7 +304,7 @@ Tekst:
             c["kruischeck"] = c.get("kruischeck") or None
         return ai_claims
     except Exception as e:
-        print(f"  (Gemini mislukt: {e})")
+        print(f"  (Gemini mislukt na retries: {e})")
         return []
 
 
@@ -339,10 +377,10 @@ def haal_document_id(opener, item_id):
     url = f"{BASE_URL}/Reports/Item/{item_id}"
     req = urllib.request.Request(url, headers={**HEADERS, "Accept": "text/html"})
     try:
-        with opener.open(req, timeout=20) as resp:
+        with open_met_retry(opener, req, timeout=20) as resp:
             html = resp.read().decode("utf-8", errors="replace")
     except Exception as e:
-        print(f"(detailpagina mislukt: {e})")
+        print(f"(detailpagina mislukt na retries: {e})")
         return None
 
     m = re.search(
@@ -375,14 +413,14 @@ def download_pdf(opener, item_id, document_id):
         }
     )
     try:
-        with opener.open(req, timeout=30) as resp:
+        with open_met_retry(opener, req, timeout=30) as resp:
             data = resp.read()
             if data[:4] != b'%PDF':
                 print(f"(geen PDF ontvangen, eerste bytes: {data[:20]})")
                 return None
             return data
     except Exception as e:
-        print(f"(PDF download mislukt: {e})")
+        print(f"(PDF download mislukt na retries: {e})")
         return None
 
 
@@ -432,9 +470,11 @@ def main():
     opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar))
     print("Sessie ophalen...", end=" ", flush=True)
     try:
-        opener.open(urllib.request.Request(
-            LIJST_PAGE_URL, headers={"User-Agent": HEADERS["User-Agent"]}
-        ), timeout=15)
+        open_met_retry(
+            opener,
+            urllib.request.Request(LIJST_PAGE_URL, headers={"User-Agent": HEADERS["User-Agent"]}),
+            timeout=15,
+        )
         print("OK")
     except Exception as e:
         print(f"MISLUKT ({e}) — doorgaan zonder sessie")
@@ -446,7 +486,7 @@ def main():
         req = urllib.request.Request(
             LIJST_DATA_URL, data=build_lijst_body(0, 1), headers=lijst_headers
         )
-        with opener.open(req, timeout=30) as resp:
+        with open_met_retry(opener, req, timeout=30) as resp:
             first = json.loads(resp.read().decode("utf-8"))
     except Exception as e:
         print(f"\nFout bij ophalen lijst: {e}")
@@ -456,15 +496,33 @@ def main():
     all_rows = list(first.get("data", []))
     print(f"OK — {total} items totaal")
 
-    # Resterende pagina's
+    # Resterende pagina's — met early-stop: de lijst komt aflopend gesorteerd
+    # binnen op registrationdate (zie order[0]), dus zodra een hele pagina
+    # ouder is dan grens hoeven we niet verder te pagineren. Dit scheelt hier
+    # het meest: bij 4690 items werden voorheen alle ~47 pagina's opgehaald
+    # ook als alleen de eerste paar pagina's relevant waren.
     draw, start = 2, PAGE_SIZE
     while start < total:
         req = urllib.request.Request(
             LIJST_DATA_URL, data=build_lijst_body(start, draw), headers=lijst_headers
         )
-        with opener.open(req, timeout=30) as resp:
-            page = json.loads(resp.read().decode("utf-8"))
-        all_rows.extend(page.get("data", []))
+        try:
+            with open_met_retry(opener, req, timeout=30) as resp:
+                page = json.loads(resp.read().decode("utf-8"))
+        except Exception as e:
+            print(f"\nFout bij ophalen pagina (start={start}): {e} — stoppen met pagineren")
+            break
+
+        rows = page.get("data", [])
+        all_rows.extend(rows)
+
+        if rows and all(
+            (parse_datum(r.get("registrationdate")) or "9999-99-99") < grens
+            for r in rows
+        ):
+            print(f"  (pagina bij start={start} volledig ouder dan {grens} — paginering gestopt)")
+            break
+
         draw += 1; start += PAGE_SIZE
         time.sleep(0.3)
 
