@@ -55,6 +55,29 @@ jobs:
             exit 0
           fi
           git add $FILES
-          git diff --staged --quiet || git commit -m "ebs+besluiten: update $(date +'%Y-%m-%d %H:%M')"
-          git pull --rebase --autostash
-          git push
+          if git diff --staged --quiet; then
+            echo "Geen wijzigingen om te committen, overslaan."
+            exit 0
+          fi
+          git commit -m "ebs+besluiten: update $(date +'%Y-%m-%d %H:%M')"
+
+          # Retry-logica: scrape.yml (raadsdata) en deze workflow draaien
+          # onafhankelijk van elkaar en kunnen dus tegelijk pushen. Bij een
+          # botsing opnieuw pullen/rebasen en tot 5x proberen, met oplopende
+          # wachttijd, voordat de stap alsnog faalt.
+          MAX_POGINGEN=5
+          WACHTTIJDEN=(3 6 12 20 30)
+          for ((poging=1; poging<=MAX_POGINGEN; poging++)); do
+            if git push; then
+              echo "Push gelukt (poging $poging)"
+              break
+            fi
+            if [ "$poging" -eq "$MAX_POGINGEN" ]; then
+              echo "Push definitief mislukt na $MAX_POGINGEN pogingen"
+              exit 1
+            fi
+            wacht=${WACHTTIJDEN[$((poging-1))]}
+            echo "Push mislukt (poging $poging/$MAX_POGINGEN) — ${wacht}s wachten en opnieuw pullen/rebasen"
+            sleep "$wacht"
+            git pull --rebase --autostash
+          done
