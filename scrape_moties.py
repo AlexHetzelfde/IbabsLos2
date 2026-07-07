@@ -56,6 +56,26 @@ MOTIES_COLUMNS = [
 DEFINITIEVE_STATUSSEN = {"aangenomen", "verworpen", "ingetrokken"}
 
 
+# ── RETRY-HELPER ──────────────────────────────────────────────────────────────
+def open_met_retry(opener, req, timeout=30, retries=3, wachttijden=(2, 5, 10)):
+    """
+    Voert opener.open(req) uit met retries bij tijdelijke netwerkfouten
+    (timeouts, 5xx-serverfouten, connectieproblemen). Geeft de response
+    terug bij succes, of raised de laatste fout na alle pogingen.
+    """
+    laatste_fout = None
+    for poging in range(1, retries + 1):
+        try:
+            return opener.open(req, timeout=timeout)
+        except Exception as e:
+            laatste_fout = e
+            if poging < retries:
+                wacht = wachttijden[min(poging - 1, len(wachttijden) - 1)]
+                print(f"(poging {poging}/{retries} mislukt: {e} — {wacht}s wachten)", end=" ", flush=True)
+                time.sleep(wacht)
+    raise laatste_fout
+
+
 def build_moties_body(start, draw):
     params = [("draw", str(draw))]
     for i, (name, has_pipe) in enumerate(MOTIES_COLUMNS):
@@ -90,9 +110,10 @@ def fetch_stemming_detail(opener, motie_id):
     url = f"{BASE_URL}/Reports/Item/{motie_id}"
     req = urllib.request.Request(url, headers={**HEADERS, "Accept": "text/html"})
     try:
-        with opener.open(req, timeout=20) as resp:
+        with open_met_retry(opener, req, timeout=20) as resp:
             html = resp.read().decode("utf-8")
     except Exception as e:
+        print(f"(detailpagina mislukt na retries: {e})", end=" ")
         return {}
 
     result = {}
@@ -189,9 +210,11 @@ def main():
     jar    = http.cookiejar.CookieJar()
     opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar))
     try:
-        opener.open(urllib.request.Request(
-            MOTIES_PAGE_URL, headers={"User-Agent": HEADERS["User-Agent"]}
-        ), timeout=15)
+        open_met_retry(
+            opener,
+            urllib.request.Request(MOTIES_PAGE_URL, headers={"User-Agent": HEADERS["User-Agent"]}),
+            timeout=15,
+        )
     except Exception:
         pass
 
@@ -202,7 +225,7 @@ def main():
         req = urllib.request.Request(
             MOTIES_DATA_URL, data=build_moties_body(0, 1), headers=moties_headers
         )
-        with opener.open(req, timeout=30) as resp:
+        with open_met_retry(opener, req, timeout=30) as resp:
             first = json.loads(resp.read().decode("utf-8"))
     except Exception as e:
         print(f"\nFout: {e}")
@@ -212,14 +235,31 @@ def main():
     all_rows = list(first.get("data", []))
     print(f"OK — {total} totaal")
 
+    # Resterende pagina's — met early-stop: de lijst komt aflopend gesorteerd
+    # binnen op registrationdate (zie order[0]), dus zodra een hele pagina
+    # ouder is dan grens_datum hoeven we niet verder te pagineren.
     draw, start = 2, PAGE_SIZE
     while start < total:
         req = urllib.request.Request(
             MOTIES_DATA_URL, data=build_moties_body(start, draw), headers=moties_headers
         )
-        with opener.open(req, timeout=30) as resp:
-            page = json.loads(resp.read().decode("utf-8"))
-        all_rows.extend(page.get("data", []))
+        try:
+            with open_met_retry(opener, req, timeout=30) as resp:
+                page = json.loads(resp.read().decode("utf-8"))
+        except Exception as e:
+            print(f"\nFout bij ophalen pagina (start={start}): {e} — stoppen met pagineren")
+            break
+
+        rows = page.get("data", [])
+        all_rows.extend(rows)
+
+        if rows and all(
+            (parse_datum(r.get("registrationdate")) or "9999-99-99") < grens_datum
+            for r in rows
+        ):
+            print(f"  (pagina bij start={start} volledig ouder dan {grens_datum} — paginering gestopt)")
+            break
+
         draw += 1; start += PAGE_SIZE
         time.sleep(0.3)
 
