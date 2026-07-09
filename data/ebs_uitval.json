@@ -1,11 +1,11 @@
 [
   {
-    "id": "EBS:1391:8025_2026-07-09",
-    "journey_id": "EBS:1391:8025",
+    "id": "EBS:1111:8024_2026-07-09",
+    "journey_id": "EBS:1111:8024",
     "datum": "2026-07-09",
-    "lijn": "391",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
+    "lijn": "111",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Personeel",
@@ -18,19 +18,30 @@
       {
         "halte_id": "NL:S:37223552",
         "halte_naam": "De Vlinder",
-        "geplande_tijd": "08:55",
+        "geplande_tijd": "09:33",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron D",
-        "bestemming": "Zaanse Schans"
+        "platform": "Perron A",
+        "bestemming": "Zaandam Station"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "09:43",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Zaandam Station"
       }
     ],
-    "eerste_tijd": "08:55",
-    "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-07-09 05:50:32",
-    "eerst_gezien": "2026-07-09 05:50:32"
+    "eerste_tijd": "09:33",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-07-09 06:15:35",
+    "eerst_gezien": "2026-07-09 06:15:35"
   },
   {
     "id": "EBS:1391:8025_2026-07-09",
@@ -64,6 +75,39 @@
     "dagdeel": "ochtendspits",
     "bijgewerkt": "2026-07-09 06:01:32",
     "eerst_gezien": "2026-07-09 06:01:32"
+  },
+  {
+    "id": "EBS:1391:8025_2026-07-09",
+    "journey_id": "EBS:1391:8025",
+    "datum": "2026-07-09",
+    "lijn": "391",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "08:55",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron D",
+        "bestemming": "Zaanse Schans"
+      }
+    ],
+    "eerste_tijd": "08:55",
+    "dagdeel": "ochtendspits",
+    "bijgewerkt": "2026-07-09 06:15:35",
+    "eerst_gezien": "2026-07-09 06:15:35"
   },
   {
     "id": "EBS:1111:8019_2026-07-09",
