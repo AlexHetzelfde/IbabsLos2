@@ -44,8 +44,8 @@
     "eerst_gezien": "2026-07-09 20:31:01"
   },
   {
-    "id": "EBS:1394:8146_2026-07-09",
-    "journey_id": "EBS:1394:8146",
+    "id": "EBS:1394:8145_2026-07-09",
+    "journey_id": "EBS:1394:8145",
     "datum": "2026-07-09",
     "lijn": "394",
     "lijnkleur": "#e1251b",
@@ -62,19 +62,30 @@
       {
         "halte_id": "NL:S:37223552",
         "halte_naam": "De Vlinder",
-        "geplande_tijd": "23:13",
+        "geplande_tijd": "23:47",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron C",
-        "bestemming": "Amsterdam Noorderpark"
+        "platform": "Perron E",
+        "bestemming": "Zaandam Station"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "23:59",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Zaandam Station"
       }
     ],
-    "eerste_tijd": "23:13",
+    "eerste_tijd": "23:47",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-07-09 20:15:32",
-    "eerst_gezien": "2026-07-09 20:15:32"
+    "bijgewerkt": "2026-07-09 20:45:33",
+    "eerst_gezien": "2026-07-09 20:45:33"
   },
   {
     "id": "EBS:1394:8146_2026-07-09",
@@ -110,12 +121,12 @@
     "eerst_gezien": "2026-07-09 20:31:01"
   },
   {
-    "id": "EBS:1065:1058_2026-07-09",
-    "journey_id": "EBS:1065:1058",
+    "id": "EBS:1394:8146_2026-07-09",
+    "journey_id": "EBS:1394:8146",
     "datum": "2026-07-09",
-    "lijn": "65",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
+    "lijn": "394",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Personeel",
@@ -126,21 +137,21 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "22:32",
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "23:13",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron B",
-        "bestemming": "Zaandam"
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Noorderpark"
       }
     ],
-    "eerste_tijd": "22:32",
+    "eerste_tijd": "23:13",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-07-09 20:15:32",
-    "eerst_gezien": "2026-07-09 20:15:32"
+    "bijgewerkt": "2026-07-09 20:45:33",
+    "eerst_gezien": "2026-07-09 20:45:33"
   },
   {
     "id": "EBS:1065:1058_2026-07-09",
@@ -1109,5 +1120,49 @@
     "dagdeel": "nacht",
     "bijgewerkt": "2026-07-09 03:01:10",
     "eerst_gezien": "2026-07-09 03:01:10"
+  },
+  {
+    "id": "EBS:1394:8152_2026-07-09",
+    "journey_id": "EBS:1394:8152",
+    "datum": "2026-07-09",
+    "lijn": "394",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "00:10",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Noorderpark"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "00:12",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Amsterdam Noorderpark"
+      }
+    ],
+    "eerste_tijd": "00:10",
+    "dagdeel": "nacht",
+    "bijgewerkt": "2026-07-09 20:45:33",
+    "eerst_gezien": "2026-07-09 20:45:33"
   }
 ]
