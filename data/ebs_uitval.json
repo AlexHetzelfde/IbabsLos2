@@ -1,5 +1,82 @@
 [
   {
+    "id": "EBS:1064:1060_2026-07-10",
+    "journey_id": "EBS:1064:1060",
+    "datum": "2026-07-10",
+    "lijn": "64",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "20:55",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron B",
+        "bestemming": "Zaandam Kogerveld"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "20:59",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Zaandam Kogerveld"
+      }
+    ],
+    "eerste_tijd": "20:55",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-07-10 17:31:10",
+    "eerst_gezien": "2026-07-10 17:31:10"
+  },
+  {
+    "id": "EBS:1063:1055_2026-07-10",
+    "journey_id": "EBS:1063:1055",
+    "datum": "2026-07-10",
+    "lijn": "63",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Materieel",
+      "Storing"
+    ],
+    "oorzaak_raw": "Cause: Materieel, Storing",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "19:25",
+        "vertraging_min": 12,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron E",
+        "bestemming": "Assendelft"
+      }
+    ],
+    "eerste_tijd": "19:25",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-07-10 17:31:10",
+    "eerst_gezien": "2026-07-10 17:31:10"
+  },
+  {
     "id": "EBS:1069:1047_2026-07-10",
     "journey_id": "EBS:1069:1047",
     "datum": "2026-07-10",
