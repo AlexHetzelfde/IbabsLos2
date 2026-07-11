@@ -33,8 +33,8 @@
     "eerst_gezien": "2026-07-11 03:45:53"
   },
   {
-    "id": "EBS:1065:6000_2026-07-11",
-    "journey_id": "EBS:1065:6000",
+    "id": "EBS:1065:6001_2026-07-11",
+    "journey_id": "EBS:1065:6001",
     "datum": "2026-07-11",
     "lijn": "65",
     "lijnkleur": "#004899",
@@ -49,32 +49,21 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "06:23",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron E",
-        "bestemming": "Beverwijk"
-      },
-      {
         "halte_id": "NL:S:37220130",
         "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "06:40",
+        "geplande_tijd": "07:32",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron F",
-        "bestemming": "Beverwijk"
+        "platform": "Perron B",
+        "bestemming": "Zaandam"
       }
     ],
-    "eerste_tijd": "06:23",
-    "dagdeel": "nacht",
-    "bijgewerkt": "2026-07-11 03:31:04",
-    "eerst_gezien": "2026-07-11 03:31:04"
+    "eerste_tijd": "07:32",
+    "dagdeel": "ochtendspits",
+    "bijgewerkt": "2026-07-11 04:01:15",
+    "eerst_gezien": "2026-07-11 04:01:15"
   },
   {
     "id": "EBS:1065:6000_2026-07-11",
@@ -119,5 +108,49 @@
     "dagdeel": "nacht",
     "bijgewerkt": "2026-07-11 03:45:53",
     "eerst_gezien": "2026-07-11 03:45:53"
+  },
+  {
+    "id": "EBS:1065:6000_2026-07-11",
+    "journey_id": "EBS:1065:6000",
+    "datum": "2026-07-11",
+    "lijn": "65",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "06:23",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron E",
+        "bestemming": "Beverwijk"
+      },
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "06:40",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron F",
+        "bestemming": "Beverwijk"
+      }
+    ],
+    "eerste_tijd": "06:23",
+    "dagdeel": "nacht",
+    "bijgewerkt": "2026-07-11 04:01:15",
+    "eerst_gezien": "2026-07-11 04:01:15"
   }
 ]
