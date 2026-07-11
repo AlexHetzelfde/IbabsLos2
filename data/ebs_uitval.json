@@ -1,7 +1,7 @@
 [
   {
-    "id": "EBS:1394:6140_2026-07-11",
-    "journey_id": "EBS:1394:6140",
+    "id": "EBS:1394:6141_2026-07-11",
+    "journey_id": "EBS:1394:6141",
     "datum": "2026-07-11",
     "lijn": "394",
     "lijnkleur": "#e1251b",
@@ -18,19 +18,30 @@
       {
         "halte_id": "NL:S:37223552",
         "halte_naam": "De Vlinder",
-        "geplande_tijd": "21:43",
+        "geplande_tijd": "22:17",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron C",
-        "bestemming": "Amsterdam Noorderpark"
+        "platform": "Perron E",
+        "bestemming": "Zaandam Station"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "22:29",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Zaandam Station"
       }
     ],
-    "eerste_tijd": "21:43",
+    "eerste_tijd": "22:17",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-07-11 18:30:57",
-    "eerst_gezien": "2026-07-11 18:30:57"
+    "bijgewerkt": "2026-07-11 19:01:07",
+    "eerst_gezien": "2026-07-11 19:01:07"
   },
   {
     "id": "EBS:1394:6140_2026-07-11",
@@ -64,6 +75,39 @@
     "dagdeel": "avond",
     "bijgewerkt": "2026-07-11 18:45:33",
     "eerst_gezien": "2026-07-11 18:45:33"
+  },
+  {
+    "id": "EBS:1394:6140_2026-07-11",
+    "journey_id": "EBS:1394:6140",
+    "datum": "2026-07-11",
+    "lijn": "394",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "21:43",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Noorderpark"
+      }
+    ],
+    "eerste_tijd": "21:43",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-07-11 19:01:07",
+    "eerst_gezien": "2026-07-11 19:01:07"
   },
   {
     "id": "EBS:1391:6100_2026-07-11",
