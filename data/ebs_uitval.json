@@ -29,8 +29,8 @@
     ],
     "eerste_tijd": "23:52",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-07-12 21:01:12",
-    "eerst_gezien": "2026-07-12 21:01:12"
+    "bijgewerkt": "2026-07-12 21:15:49",
+    "eerst_gezien": "2026-07-12 21:15:49"
   },
   {
     "id": "EBS:1391:7117_2026-07-12",
@@ -62,8 +62,8 @@
     ],
     "eerste_tijd": "23:52",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-07-12 21:15:49",
-    "eerst_gezien": "2026-07-12 21:15:49"
+    "bijgewerkt": "2026-07-12 21:31:23",
+    "eerst_gezien": "2026-07-12 21:31:23"
   },
   {
     "id": "EBS:1391:7116_2026-07-12",
@@ -704,12 +704,12 @@
     "eerst_gezien": "2026-07-12 21:15:49"
   },
   {
-    "id": "EBS:1067:7032_2026-07-12",
-    "journey_id": "EBS:1067:7032",
+    "id": "EBS:1391:7122_2026-07-12",
+    "journey_id": "EBS:1391:7122",
     "datum": "2026-07-12",
-    "lijn": "67",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
+    "lijn": "391",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Personeel",
@@ -720,21 +720,21 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "00:19",
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "00:34",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron A",
-        "bestemming": "Purmerend via Wormerveer"
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Centraal"
       }
     ],
-    "eerste_tijd": "00:19",
+    "eerste_tijd": "00:34",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-07-12 21:01:12",
-    "eerst_gezien": "2026-07-12 21:01:12"
+    "bijgewerkt": "2026-07-12 21:31:23",
+    "eerst_gezien": "2026-07-12 21:31:23"
   },
   {
     "id": "EBS:1067:7032_2026-07-12",
@@ -768,5 +768,38 @@
     "dagdeel": "nacht",
     "bijgewerkt": "2026-07-12 21:15:49",
     "eerst_gezien": "2026-07-12 21:15:49"
+  },
+  {
+    "id": "EBS:1067:7032_2026-07-12",
+    "journey_id": "EBS:1067:7032",
+    "datum": "2026-07-12",
+    "lijn": "67",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "00:19",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Purmerend via Wormerveer"
+      }
+    ],
+    "eerste_tijd": "00:19",
+    "dagdeel": "nacht",
+    "bijgewerkt": "2026-07-12 21:31:23",
+    "eerst_gezien": "2026-07-12 21:31:23"
   }
 ]
