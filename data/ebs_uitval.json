@@ -1,5 +1,38 @@
 [
   {
+    "id": "EBS:1069:1059_2026-07-15",
+    "journey_id": "EBS:1069:1059",
+    "datum": "2026-07-15",
+    "lijn": "69",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "20:57",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Zaandam Station"
+      }
+    ],
+    "eerste_tijd": "20:57",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-07-15 17:30:59",
+    "eerst_gezien": "2026-07-15 17:30:59"
+  },
+  {
     "id": "EBS:1067:1054_2026-07-15",
     "journey_id": "EBS:1067:1054",
     "datum": "2026-07-15",
@@ -33,48 +66,37 @@
     "eerst_gezien": "2026-07-15 17:15:32"
   },
   {
-    "id": "EBS:1069:1056_2026-07-15",
-    "journey_id": "EBS:1069:1056",
+    "id": "EBS:1067:1054_2026-07-15",
+    "journey_id": "EBS:1067:1054",
     "datum": "2026-07-15",
-    "lijn": "69",
+    "lijn": "67",
     "lijnkleur": "#004899",
     "categorie": "M-net",
     "status": "cancelled",
     "oorzaak_categorieen": [
-      "Personeel",
+      "Materieel",
       "Logistiek"
     ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "oorzaak_raw": "Cause: Materieel, Logistiek",
     "terminus_alert": null,
     "advies": null,
     "haltes": [
       {
         "halte_id": "NL:S:37220130",
         "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "19:27",
+        "geplande_tijd": "20:19",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron I",
-        "bestemming": "Krommenie"
-      },
-      {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "19:29",
-        "vertraging_min": 1,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Krommenie"
+        "platform": "Perron A",
+        "bestemming": "Purmerend via Wormerveer"
       }
     ],
-    "eerste_tijd": "19:27",
+    "eerste_tijd": "20:19",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-07-15 17:01:08",
-    "eerst_gezien": "2026-07-15 17:01:08"
+    "bijgewerkt": "2026-07-15 17:30:59",
+    "eerst_gezien": "2026-07-15 17:30:59"
   },
   {
     "id": "EBS:1069:1056_2026-07-15",
