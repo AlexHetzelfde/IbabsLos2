@@ -1,7 +1,7 @@
 [
   {
-    "id": "EBS:1067:1044_2026-07-15",
-    "journey_id": "EBS:1067:1044",
+    "id": "EBS:1067:1050_2026-07-15",
+    "journey_id": "EBS:1067:1050",
     "datum": "2026-07-15",
     "lijn": "67",
     "lijnkleur": "#004899",
@@ -9,16 +9,16 @@
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Materieel",
-      "Logistiek"
+      "Storing"
     ],
-    "oorzaak_raw": "Cause: Materieel, Logistiek",
+    "oorzaak_raw": "Cause: Materieel, Storing",
     "terminus_alert": null,
     "advies": null,
     "haltes": [
       {
         "halte_id": "NL:S:37220130",
         "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "17:16",
+        "geplande_tijd": "18:47",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
@@ -27,10 +27,43 @@
         "bestemming": "Purmerend via Wormerveer"
       }
     ],
-    "eerste_tijd": "17:16",
+    "eerste_tijd": "18:47",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-07-15 15:01:06",
-    "eerst_gezien": "2026-07-15 15:01:06"
+    "bijgewerkt": "2026-07-15 15:31:02",
+    "eerst_gezien": "2026-07-15 15:31:02"
+  },
+  {
+    "id": "EBS:1391:8097_2026-07-15",
+    "journey_id": "EBS:1391:8097",
+    "datum": "2026-07-15",
+    "lijn": "391",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Materieel",
+      "Schade"
+    ],
+    "oorzaak_raw": "Cause: Materieel, Schade",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "17:57",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron D",
+        "bestemming": "Zaanse Schans"
+      }
+    ],
+    "eerste_tijd": "17:57",
+    "dagdeel": "avondspits",
+    "bijgewerkt": "2026-07-15 15:31:02",
+    "eerst_gezien": "2026-07-15 15:31:02"
   },
   {
     "id": "EBS:1067:1044_2026-07-15",
@@ -97,6 +130,39 @@
     "dagdeel": "avondspits",
     "bijgewerkt": "2026-07-15 15:15:31",
     "eerst_gezien": "2026-07-15 15:15:31"
+  },
+  {
+    "id": "EBS:1391:8092_2026-07-15",
+    "journey_id": "EBS:1391:8092",
+    "datum": "2026-07-15",
+    "lijn": "391",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Materieel",
+      "Schade"
+    ],
+    "oorzaak_raw": "Cause: Materieel, Schade",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "17:04",
+        "vertraging_min": 32,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Centraal"
+      }
+    ],
+    "eerste_tijd": "17:04",
+    "dagdeel": "avondspits",
+    "bijgewerkt": "2026-07-15 15:31:02",
+    "eerst_gezien": "2026-07-15 15:31:02"
   },
   {
     "id": "EBS:1067:1042_2026-07-15",
