@@ -1,1 +1,35 @@
-[]
+[
+  {
+    "id": "EBS:1111:8023_2026-07-16",
+    "journey_id": "EBS:1111:8023",
+    "datum": "2026-07-16",
+    "lijn": "111",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "07:59",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron D",
+        "bestemming": "Marken"
+      }
+    ],
+    "eerste_tijd": "07:59",
+    "dagdeel": "ochtendspits",
+    "bijgewerkt": "2026-07-16 04:31:28",
+    "eerst_gezien": "2026-07-16 04:31:28"
+  }
+]
