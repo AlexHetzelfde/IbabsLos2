@@ -33,8 +33,8 @@
     "eerst_gezien": "2026-07-18 17:00:45"
   },
   {
-    "id": "EBS:1065:6046_2026-07-18",
-    "journey_id": "EBS:1065:6046",
+    "id": "EBS:1065:6047_2026-07-18",
+    "journey_id": "EBS:1065:6047",
     "datum": "2026-07-18",
     "lijn": "65",
     "lijnkleur": "#004899",
@@ -49,32 +49,21 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "19:23",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron E",
-        "bestemming": "Beverwijk"
-      },
-      {
         "halte_id": "NL:S:37220130",
         "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "19:40",
+        "geplande_tijd": "20:32",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron F",
-        "bestemming": "Beverwijk"
+        "platform": "Perron B",
+        "bestemming": "Zaandam"
       }
     ],
-    "eerste_tijd": "19:23",
+    "eerste_tijd": "20:32",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-07-18 16:45:28",
-    "eerst_gezien": "2026-07-18 16:45:28"
+    "bijgewerkt": "2026-07-18 17:15:33",
+    "eerst_gezien": "2026-07-18 17:15:33"
   },
   {
     "id": "EBS:1065:6046_2026-07-18",
@@ -121,37 +110,48 @@
     "eerst_gezien": "2026-07-18 17:00:45"
   },
   {
-    "id": "EBS:1391:6092_2026-07-18",
-    "journey_id": "EBS:1391:6092",
+    "id": "EBS:1065:6046_2026-07-18",
+    "journey_id": "EBS:1065:6046",
     "datum": "2026-07-18",
-    "lijn": "391",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
+    "lijn": "65",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Personeel",
-      "-"
+      "Logistiek"
     ],
-    "oorzaak_raw": "Cause: Personeel, -",
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
     "terminus_alert": null,
     "advies": null,
     "haltes": [
       {
         "halte_id": "NL:S:37223552",
         "halte_naam": "De Vlinder",
-        "geplande_tijd": "19:22",
+        "geplande_tijd": "19:23",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron D",
-        "bestemming": "Zaanse Schans"
+        "platform": "Perron E",
+        "bestemming": "Beverwijk"
+      },
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "19:40",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron F",
+        "bestemming": "Beverwijk"
       }
     ],
-    "eerste_tijd": "19:22",
+    "eerste_tijd": "19:23",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-07-18 16:45:28",
-    "eerst_gezien": "2026-07-18 16:45:28"
+    "bijgewerkt": "2026-07-18 17:15:33",
+    "eerst_gezien": "2026-07-18 17:15:33"
   },
   {
     "id": "EBS:1391:6092_2026-07-18",
@@ -185,6 +185,39 @@
     "dagdeel": "avond",
     "bijgewerkt": "2026-07-18 17:00:45",
     "eerst_gezien": "2026-07-18 17:00:45"
+  },
+  {
+    "id": "EBS:1391:6092_2026-07-18",
+    "journey_id": "EBS:1391:6092",
+    "datum": "2026-07-18",
+    "lijn": "391",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "-"
+    ],
+    "oorzaak_raw": "Cause: Personeel, -",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "19:22",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron D",
+        "bestemming": "Zaanse Schans"
+      }
+    ],
+    "eerste_tijd": "19:22",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-07-18 17:15:33",
+    "eerst_gezien": "2026-07-18 17:15:33"
   },
   {
     "id": "EBS:1391:6093_2026-07-18",
