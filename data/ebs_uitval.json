@@ -1,11 +1,11 @@
 [
   {
-    "id": "EBS:1395:7008_2026-07-19",
-    "journey_id": "EBS:1395:7008",
+    "id": "EBS:1063:7006_2026-07-19",
+    "journey_id": "EBS:1063:7006",
     "datum": "2026-07-19",
-    "lijn": "395",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
+    "lijn": "63",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Personeel",
@@ -18,19 +18,19 @@
       {
         "halte_id": "NL:S:37223552",
         "halte_naam": "De Vlinder",
-        "geplande_tijd": "09:37",
+        "geplande_tijd": "10:19",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron B",
-        "bestemming": "Amsterdam Sloterdijk"
+        "platform": "Perron E",
+        "bestemming": "Assendelft"
       }
     ],
-    "eerste_tijd": "09:37",
+    "eerste_tijd": "10:19",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-07-19 06:30:40",
-    "eerst_gezien": "2026-07-19 06:30:40"
+    "bijgewerkt": "2026-07-19 07:00:42",
+    "eerst_gezien": "2026-07-19 07:00:42"
   },
   {
     "id": "EBS:1395:7008_2026-07-19",
@@ -66,8 +66,8 @@
     "eerst_gezien": "2026-07-19 06:45:34"
   },
   {
-    "id": "EBS:1395:7005_2026-07-19",
-    "journey_id": "EBS:1395:7005",
+    "id": "EBS:1395:7008_2026-07-19",
+    "journey_id": "EBS:1395:7008",
     "datum": "2026-07-19",
     "lijn": "395",
     "lijnkleur": "#e1251b",
@@ -84,19 +84,19 @@
       {
         "halte_id": "NL:S:37223552",
         "halte_naam": "De Vlinder",
-        "geplande_tijd": "09:02",
+        "geplande_tijd": "09:37",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron E",
-        "bestemming": "Zaandam ZMC"
+        "platform": "Perron B",
+        "bestemming": "Amsterdam Sloterdijk"
       }
     ],
-    "eerste_tijd": "09:02",
+    "eerste_tijd": "09:37",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-07-19 06:30:40",
-    "eerst_gezien": "2026-07-19 06:30:40"
+    "bijgewerkt": "2026-07-19 07:00:42",
+    "eerst_gezien": "2026-07-19 07:00:42"
   },
   {
     "id": "EBS:1395:7005_2026-07-19",
@@ -130,6 +130,39 @@
     "dagdeel": "dal",
     "bijgewerkt": "2026-07-19 06:45:34",
     "eerst_gezien": "2026-07-19 06:45:34"
+  },
+  {
+    "id": "EBS:1395:7005_2026-07-19",
+    "journey_id": "EBS:1395:7005",
+    "datum": "2026-07-19",
+    "lijn": "395",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "-"
+    ],
+    "oorzaak_raw": "Cause: Personeel, -",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "09:02",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron E",
+        "bestemming": "Zaandam ZMC"
+      }
+    ],
+    "eerste_tijd": "09:02",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-07-19 07:00:42",
+    "eerst_gezien": "2026-07-19 07:00:42"
   },
   {
     "id": "EBS:1395:7004_2026-07-19",
