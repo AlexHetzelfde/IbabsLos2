@@ -1,11 +1,11 @@
 [
   {
-    "id": "EBS:1391:8113_2026-07-22",
-    "journey_id": "EBS:1391:8113",
+    "id": "EBS:1111:8127_2026-07-22",
+    "journey_id": "EBS:1111:8127",
     "datum": "2026-07-22",
-    "lijn": "391",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
+    "lijn": "111",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Personeel",
@@ -16,21 +16,32 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "19:52",
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "21:03",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
         "platform": "Perron D",
-        "bestemming": "Zaanse Schans"
+        "bestemming": "Marken"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "21:05",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Marken"
       }
     ],
-    "eerste_tijd": "19:52",
+    "eerste_tijd": "21:03",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-07-22 17:15:26",
-    "eerst_gezien": "2026-07-22 17:15:26"
+    "bijgewerkt": "2026-07-22 17:45:29",
+    "eerst_gezien": "2026-07-22 17:45:29"
   },
   {
     "id": "EBS:1391:8113_2026-07-22",
@@ -66,12 +77,12 @@
     "eerst_gezien": "2026-07-22 17:30:31"
   },
   {
-    "id": "EBS:1064:1055_2026-07-22",
-    "journey_id": "EBS:1064:1055",
+    "id": "EBS:1391:8113_2026-07-22",
+    "journey_id": "EBS:1391:8113",
     "datum": "2026-07-22",
-    "lijn": "64",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
+    "lijn": "391",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Personeel",
@@ -79,35 +90,24 @@
     ],
     "oorzaak_raw": "Cause: Personeel, Logistiek",
     "terminus_alert": null,
-    "advies": "Advice: In verband met werkzaamheden rondom de George Gershwinstraat rijdt bus 64 een andere route. Meer info: www.meerplus.nl",
+    "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "19:37",
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "19:52",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": null,
-        "bestemming": "Zaandijk Rooswijk"
-      },
-      {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "19:42",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron H",
-        "bestemming": "Zaandijk Rooswijk"
+        "platform": "Perron D",
+        "bestemming": "Zaanse Schans"
       }
     ],
-    "eerste_tijd": "19:37",
+    "eerste_tijd": "19:52",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-07-22 17:15:26",
-    "eerst_gezien": "2026-07-22 17:15:26"
+    "bijgewerkt": "2026-07-22 17:45:29",
+    "eerst_gezien": "2026-07-22 17:45:29"
   },
   {
     "id": "EBS:1064:1055_2026-07-22",
