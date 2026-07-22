@@ -1,11 +1,11 @@
 [
   {
-    "id": "EBS:1063:1051_2026-07-22",
-    "journey_id": "EBS:1063:1051",
+    "id": "EBS:1391:8108_2026-07-22",
+    "journey_id": "EBS:1391:8108",
     "datum": "2026-07-22",
-    "lijn": "63",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
+    "lijn": "391",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Personeel",
@@ -18,19 +18,19 @@
       {
         "halte_id": "NL:S:37223552",
         "halte_naam": "De Vlinder",
-        "geplande_tijd": "18:28",
-        "vertraging_min": 0,
+        "geplande_tijd": "19:04",
+        "vertraging_min": 2,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron E",
-        "bestemming": "Assendelft"
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Centraal"
       }
     ],
-    "eerste_tijd": "18:28",
-    "dagdeel": "avondspits",
-    "bijgewerkt": "2026-07-22 15:15:25",
-    "eerst_gezien": "2026-07-22 15:15:25"
+    "eerste_tijd": "19:04",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-07-22 15:45:25",
+    "eerst_gezien": "2026-07-22 15:45:25"
   },
   {
     "id": "EBS:1063:1051_2026-07-22",
@@ -61,6 +61,83 @@
       }
     ],
     "eerste_tijd": "18:28",
+    "dagdeel": "avondspits",
+    "bijgewerkt": "2026-07-22 15:30:32",
+    "eerst_gezien": "2026-07-22 15:30:32"
+  },
+  {
+    "id": "EBS:1391:8099_2026-07-22",
+    "journey_id": "EBS:1391:8099",
+    "datum": "2026-07-22",
+    "lijn": "391",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "18:12",
+        "vertraging_min": 14,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron D",
+        "bestemming": "Zaanse Schans"
+      }
+    ],
+    "eerste_tijd": "18:12",
+    "dagdeel": "avondspits",
+    "bijgewerkt": "2026-07-22 15:45:25",
+    "eerst_gezien": "2026-07-22 15:45:25"
+  },
+  {
+    "id": "EBS:1064:1049_2026-07-22",
+    "journey_id": "EBS:1064:1049",
+    "datum": "2026-07-22",
+    "lijn": "64",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": "Advice: In verband met werkzaamheden rondom de George Gershwinstraat rijdt bus 64 een andere route. Meer info: www.meerplus.nl",
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "18:10",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Zaandijk Rooswijk"
+      },
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "18:16",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron H",
+        "bestemming": "Zaandijk Rooswijk"
+      }
+    ],
+    "eerste_tijd": "18:10",
     "dagdeel": "avondspits",
     "bijgewerkt": "2026-07-22 15:30:32",
     "eerst_gezien": "2026-07-22 15:30:32"
@@ -106,85 +183,8 @@
     ],
     "eerste_tijd": "18:10",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-07-22 15:15:25",
-    "eerst_gezien": "2026-07-22 15:15:25"
-  },
-  {
-    "id": "EBS:1064:1049_2026-07-22",
-    "journey_id": "EBS:1064:1049",
-    "datum": "2026-07-22",
-    "lijn": "64",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": "Advice: In verband met werkzaamheden rondom de George Gershwinstraat rijdt bus 64 een andere route. Meer info: www.meerplus.nl",
-    "haltes": [
-      {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "18:10",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Zaandijk Rooswijk"
-      },
-      {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "18:16",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron H",
-        "bestemming": "Zaandijk Rooswijk"
-      }
-    ],
-    "eerste_tijd": "18:10",
-    "dagdeel": "avondspits",
-    "bijgewerkt": "2026-07-22 15:30:32",
-    "eerst_gezien": "2026-07-22 15:30:32"
-  },
-  {
-    "id": "EBS:1065:1046_2026-07-22",
-    "journey_id": "EBS:1065:1046",
-    "datum": "2026-07-22",
-    "lijn": "65",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "18:05",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron B",
-        "bestemming": "Zaandam"
-      }
-    ],
-    "eerste_tijd": "18:05",
-    "dagdeel": "avondspits",
-    "bijgewerkt": "2026-07-22 15:15:25",
-    "eerst_gezien": "2026-07-22 15:15:25"
+    "bijgewerkt": "2026-07-22 15:45:25",
+    "eerst_gezien": "2026-07-22 15:45:25"
   },
   {
     "id": "EBS:1065:1046_2026-07-22",
@@ -249,8 +249,8 @@
     ],
     "eerste_tijd": "17:46",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-07-22 15:15:25",
-    "eerst_gezien": "2026-07-22 15:15:25"
+    "bijgewerkt": "2026-07-22 15:30:32",
+    "eerst_gezien": "2026-07-22 15:30:32"
   },
   {
     "id": "EBS:1067:1046_2026-07-22",
@@ -282,8 +282,8 @@
     ],
     "eerste_tijd": "17:46",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-07-22 15:30:32",
-    "eerst_gezien": "2026-07-22 15:30:32"
+    "bijgewerkt": "2026-07-22 15:45:25",
+    "eerst_gezien": "2026-07-22 15:45:25"
   },
   {
     "id": "EBS:1065:1047_2026-07-22",
