@@ -1,5 +1,49 @@
 [
   {
+    "id": "EBS:1064:1030_2026-07-23",
+    "journey_id": "EBS:1064:1030",
+    "datum": "2026-07-23",
+    "lijn": "64",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "14:07",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron B",
+        "bestemming": "Zaandam"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "14:11",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Zaandam"
+      }
+    ],
+    "eerste_tijd": "14:07",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-07-23 10:45:26",
+    "eerst_gezien": "2026-07-23 10:45:26"
+  },
+  {
     "id": "EBS:1067:1030_2026-07-23",
     "journey_id": "EBS:1067:1030",
     "datum": "2026-07-23",
@@ -31,6 +75,39 @@
     "dagdeel": "dal",
     "bijgewerkt": "2026-07-23 10:30:34",
     "eerst_gezien": "2026-07-23 10:30:34"
+  },
+  {
+    "id": "EBS:1067:1030_2026-07-23",
+    "journey_id": "EBS:1067:1030",
+    "datum": "2026-07-23",
+    "lijn": "67",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Materieel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Materieel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "13:47",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Purmerend via Wormerveer"
+      }
+    ],
+    "eerste_tijd": "13:47",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-07-23 10:45:26",
+    "eerst_gezien": "2026-07-23 10:45:26"
   },
   {
     "id": "EBS:1801:1210_2026-07-23",
