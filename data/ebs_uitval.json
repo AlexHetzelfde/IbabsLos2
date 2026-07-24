@@ -1,11 +1,11 @@
 [
   {
-    "id": "EBS:1394:8008_2026-07-24",
-    "journey_id": "EBS:1394:8008",
+    "id": "EBS:1069:1006_2026-07-24",
+    "journey_id": "EBS:1069:1006",
     "datum": "2026-07-24",
-    "lijn": "394",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
+    "lijn": "69",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Personeel",
@@ -18,30 +18,63 @@
       {
         "halte_id": "NL:S:37220130",
         "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "05:56",
+        "geplande_tijd": "06:51",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron C",
-        "bestemming": "Amsterdam Noorderpark"
+        "platform": "Perron I",
+        "bestemming": "Krommenie"
       },
       {
         "halte_id": "NL:S:37223860",
         "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "05:58",
+        "geplande_tijd": "06:53",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
         "platform": null,
-        "bestemming": "Amsterdam Noorderpark"
+        "bestemming": "Krommenie"
       }
     ],
-    "eerste_tijd": "05:56",
+    "eerste_tijd": "06:51",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-07-24 02:30:33",
-    "eerst_gezien": "2026-07-24 02:30:33"
+    "bijgewerkt": "2026-07-24 03:00:43",
+    "eerst_gezien": "2026-07-24 03:00:43"
+  },
+  {
+    "id": "EBS:1391:8006_2026-07-24",
+    "journey_id": "EBS:1391:8006",
+    "datum": "2026-07-24",
+    "lijn": "391",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "06:19",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Centraal"
+      }
+    ],
+    "eerste_tijd": "06:19",
+    "dagdeel": "nacht",
+    "bijgewerkt": "2026-07-24 03:00:43",
+    "eerst_gezien": "2026-07-24 03:00:43"
   },
   {
     "id": "EBS:1394:8008_2026-07-24",
@@ -99,8 +132,8 @@
     "eerst_gezien": "2026-07-24 02:45:30"
   },
   {
-    "id": "EBS:1394:8001_2026-07-24",
-    "journey_id": "EBS:1394:8001",
+    "id": "EBS:1394:8008_2026-07-24",
+    "journey_id": "EBS:1394:8008",
     "datum": "2026-07-24",
     "lijn": "394",
     "lijnkleur": "#e1251b",
@@ -115,32 +148,43 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "05:37",
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "05:56",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron E",
-        "bestemming": "Zaandam Station"
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Noorderpark"
       },
       {
         "halte_id": "NL:S:37223860",
         "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "05:50",
+        "geplande_tijd": "05:58",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
         "platform": null,
-        "bestemming": "Zaandam Station"
+        "bestemming": "Amsterdam Noorderpark"
+      },
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "06:13",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Noorderpark"
       }
     ],
-    "eerste_tijd": "05:37",
+    "eerste_tijd": "05:56",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-07-24 02:30:33",
-    "eerst_gezien": "2026-07-24 02:30:33"
+    "bijgewerkt": "2026-07-24 03:00:43",
+    "eerst_gezien": "2026-07-24 03:00:43"
   },
   {
     "id": "EBS:1394:8001_2026-07-24",
@@ -187,8 +231,8 @@
     "eerst_gezien": "2026-07-24 02:45:30"
   },
   {
-    "id": "EBS:1394:8000_2026-07-24",
-    "journey_id": "EBS:1394:8000",
+    "id": "EBS:1394:8001_2026-07-24",
+    "journey_id": "EBS:1394:8001",
     "datum": "2026-07-24",
     "lijn": "394",
     "lijnkleur": "#e1251b",
@@ -205,19 +249,30 @@
       {
         "halte_id": "NL:S:37223552",
         "halte_naam": "De Vlinder",
-        "geplande_tijd": "05:04",
+        "geplande_tijd": "05:37",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron C",
-        "bestemming": "Amsterdam Noorderpark"
+        "platform": "Perron E",
+        "bestemming": "Zaandam Station"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "05:50",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Zaandam Station"
       }
     ],
-    "eerste_tijd": "05:04",
+    "eerste_tijd": "05:37",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-07-24 02:30:33",
-    "eerst_gezien": "2026-07-24 02:30:33"
+    "bijgewerkt": "2026-07-24 03:00:43",
+    "eerst_gezien": "2026-07-24 03:00:43"
   },
   {
     "id": "EBS:1394:8000_2026-07-24",
@@ -251,5 +306,38 @@
     "dagdeel": "nacht",
     "bijgewerkt": "2026-07-24 02:45:30",
     "eerst_gezien": "2026-07-24 02:45:30"
+  },
+  {
+    "id": "EBS:1394:8000_2026-07-24",
+    "journey_id": "EBS:1394:8000",
+    "datum": "2026-07-24",
+    "lijn": "394",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "05:04",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Noorderpark"
+      }
+    ],
+    "eerste_tijd": "05:04",
+    "dagdeel": "nacht",
+    "bijgewerkt": "2026-07-24 03:00:43",
+    "eerst_gezien": "2026-07-24 03:00:43"
   }
 ]
