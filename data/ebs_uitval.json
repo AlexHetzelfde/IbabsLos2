@@ -1,7 +1,7 @@
 [
   {
-    "id": "EBS:1391:6120_2026-07-25",
-    "journey_id": "EBS:1391:6120",
+    "id": "EBS:1391:6129_2026-07-25",
+    "journey_id": "EBS:1391:6129",
     "datum": "2026-07-25",
     "lijn": "391",
     "lijnkleur": "#e1251b",
@@ -18,19 +18,19 @@
       {
         "halte_id": "NL:S:37223552",
         "halte_naam": "De Vlinder",
-        "geplande_tijd": "22:52",
+        "geplande_tijd": "23:34",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron D",
-        "bestemming": "Zaanse Schans"
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Centraal"
       }
     ],
-    "eerste_tijd": "22:52",
+    "eerste_tijd": "23:34",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-07-25 19:46:11",
-    "eerst_gezien": "2026-07-25 19:46:11"
+    "bijgewerkt": "2026-07-25 20:15:25",
+    "eerst_gezien": "2026-07-25 20:15:25"
   },
   {
     "id": "EBS:1391:6120_2026-07-25",
@@ -66,8 +66,8 @@
     "eerst_gezien": "2026-07-25 20:00:37"
   },
   {
-    "id": "EBS:1391:6121_2026-07-25",
-    "journey_id": "EBS:1391:6121",
+    "id": "EBS:1391:6120_2026-07-25",
+    "journey_id": "EBS:1391:6120",
     "datum": "2026-07-25",
     "lijn": "391",
     "lijnkleur": "#e1251b",
@@ -84,19 +84,19 @@
       {
         "halte_id": "NL:S:37223552",
         "halte_naam": "De Vlinder",
-        "geplande_tijd": "22:04",
+        "geplande_tijd": "22:52",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron C",
-        "bestemming": "Amsterdam Centraal"
+        "platform": "Perron D",
+        "bestemming": "Zaanse Schans"
       }
     ],
-    "eerste_tijd": "22:04",
+    "eerste_tijd": "22:52",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-07-25 19:46:11",
-    "eerst_gezien": "2026-07-25 19:46:11"
+    "bijgewerkt": "2026-07-25 20:15:25",
+    "eerst_gezien": "2026-07-25 20:15:25"
   },
   {
     "id": "EBS:1391:6121_2026-07-25",
@@ -130,6 +130,39 @@
     "dagdeel": "avond",
     "bijgewerkt": "2026-07-25 20:00:37",
     "eerst_gezien": "2026-07-25 20:00:37"
+  },
+  {
+    "id": "EBS:1391:6121_2026-07-25",
+    "journey_id": "EBS:1391:6121",
+    "datum": "2026-07-25",
+    "lijn": "391",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "22:04",
+        "vertraging_min": 11,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Centraal"
+      }
+    ],
+    "eerste_tijd": "22:04",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-07-25 20:15:25",
+    "eerst_gezien": "2026-07-25 20:15:25"
   },
   {
     "id": "EBS:1394:6130_2026-07-25",
