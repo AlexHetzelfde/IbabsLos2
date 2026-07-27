@@ -24,6 +24,15 @@ Houdt twee dingen bij, allebei vanaf 1 juli 2026:
 
 Dwangsommen worden niet meer bijgehouden.
 
+LET OP over de camera-RSS-feed (FIX juli 2026):
+De <title>-tag van elk RSS-item bevat NIET de beschrijvende tekst, alleen
+het publicatienummer, bijv. "gmb-2026-364272 : Zaanstad". De beschrijvende
+tekst ("Aanwijzingsbesluit tijdelijk cameratoezicht Elzenstraat...") staat
+in de <description>-tag. Eerdere versies van dit script filterden op
+"cameratoezicht" in de titel, wat structureel nooit matchte — vandaar dat
+er altijd 0 nieuwe items werden gevonden ondanks een gevulde feed. De filter
+kijkt nu naar de description i.p.v. de titel.
+
 LET OP over de woningsluitingen-scraper:
 De Orkaan biedt geen RSS/API aan voor deze tag. De parser in
 parse_orkaan_pagina() is gebouwd op de daadwerkelijke live HTML van
@@ -184,26 +193,51 @@ def parse_dutch_datum(tekst):
 # ─────────────────────────────────────────────────────────────────────────────
 
 def fetch_camera_rss():
+    """Haalt de RSS-feed op en geeft per item titel, beschrijving, link en
+    publicatiedatum terug.
+
+    FIX: de <title>-tag bevat alleen het publicatienummer (bijv.
+    "gmb-2026-364272 : Zaanstad"), NIET de beschrijvende tekst. Die staat in
+    <description> (bijv. "Aanwijzingsbesluit tijdelijk cameratoezicht
+    Elzenstraat in Wormerveer"). We halen dus expliciet ook de description
+    op, en filteren daar verderop in verwerk_cameratoezicht() op.
+    """
     print("Camera-RSS ophalen...")
     data = http_get(CAMERA_RSS_URL)
     root = ET.fromstring(data)
     items = []
     for item in root.iter("item"):
         titel = (item.findtext("title") or "").strip()
+        beschrijving = (item.findtext("description") or "").strip()
         link  = (item.findtext("link") or "").strip()
         datum = parse_rss_datum(item.findtext("pubDate") or "")
-        items.append({"titel": titel, "link": link, "pubdate": datum})
+        items.append({
+            "titel": titel,
+            "beschrijving": beschrijving,
+            "link": link,
+            "pubdate": datum,
+        })
     if not items:
         # Atom-fallback, zelfde patroon als de oude scraper.
-        for entry in root.iter("{http://www.w3.org/2005/Atom}entry"):
-            titel = (entry.findtext("{http://www.w3.org/2005/Atom}title") or "").strip()
-            link_el = entry.find("{http://www.w3.org/2005/Atom}link")
+        ns = "{http://www.w3.org/2005/Atom}"
+        for entry in root.iter(f"{ns}entry"):
+            titel = (entry.findtext(f"{ns}title") or "").strip()
+            beschrijving = (
+                entry.findtext(f"{ns}summary") or
+                entry.findtext(f"{ns}content") or ""
+            ).strip()
+            link_el = entry.find(f"{ns}link")
             link = link_el.get("href", "") if link_el is not None else ""
             datum = parse_rss_datum(
-                entry.findtext("{http://www.w3.org/2005/Atom}published") or
-                entry.findtext("{http://www.w3.org/2005/Atom}updated") or ""
+                entry.findtext(f"{ns}published") or
+                entry.findtext(f"{ns}updated") or ""
             )
-            items.append({"titel": titel, "link": link, "pubdate": datum})
+            items.append({
+                "titel": titel,
+                "beschrijving": beschrijving,
+                "link": link,
+                "pubdate": datum,
+            })
     print(f"  {len(items)} items in feed")
     return items
 
@@ -257,7 +291,7 @@ def fetch_camera_besluit(link):
         # op de titel zonder "Aanwijzingsbesluit (verlenging) tijdelijk
         # cameratoezicht" / "in/te <plaats>" als benadering.
         schoon = re.sub(
-            r"(?i)aanwijzing(s)?besluit\s+(verlenging\s+)?tijdelijk\s+cameratoezicht\s*",
+            r"(?i)aanwijzing(s)?besluit\s+(extra\s+)?(verlenging\s+)?tijdelijk\s+cameratoezicht\s*",
             "", titel_meta
         )
         schoon = re.sub(r"(?i)\s+(in|te)\s+Zaandam.*$", "", schoon).strip()
@@ -298,9 +332,12 @@ def verwerk_cameratoezicht():
                 verwerkte_links.add(p["link"])
 
     feed_items = fetch_camera_rss()
+    # FIX: filter op de beschrijving, niet op de titel — zie toelichting
+    # bij fetch_camera_rss(). De <title>-tag bevat alleen het
+    # publicatienummer en matcht daardoor nooit op "cameratoezicht".
     camera_items = [
         it for it in feed_items
-        if "cameratoezicht" in it["titel"].lower()
+        if "cameratoezicht" in it["beschrijving"].lower()
         and it["link"] not in verwerkte_links
         and (it["pubdate"] or "9999-99-99") >= grens
     ]
@@ -309,7 +346,7 @@ def verwerk_cameratoezicht():
     actief_map = {normaliseer_label(c["camera"]): c for c in actief}
 
     for item in camera_items:
-        print(f"  → {item['titel']}")
+        print(f"  → {item['beschrijving']}")
         besluit = fetch_camera_besluit(item["link"])
         time.sleep(1)  # vriendelijk zijn voor de server
         if not besluit:
