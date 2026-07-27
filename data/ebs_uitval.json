@@ -33,37 +33,37 @@
     "eerst_gezien": "2026-07-27 12:30:34"
   },
   {
-    "id": "EBS:1067:1038_2026-07-27",
-    "journey_id": "EBS:1067:1038",
+    "id": "EBS:1391:8082_2026-07-27",
+    "journey_id": "EBS:1391:8082",
     "datum": "2026-07-27",
-    "lijn": "67",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
+    "lijn": "391",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
     "status": "cancelled",
     "oorzaak_categorieen": [
-      "Materieel",
+      "Personeel",
       "Logistiek"
     ],
-    "oorzaak_raw": "Cause: Materieel, Logistiek",
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
     "terminus_alert": null,
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "15:46",
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "15:49",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron A",
-        "bestemming": "Purmerend via Wormerveer"
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Centraal"
       }
     ],
-    "eerste_tijd": "15:46",
+    "eerste_tijd": "15:49",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-07-27 12:15:25",
-    "eerst_gezien": "2026-07-27 12:15:25"
+    "bijgewerkt": "2026-07-27 12:45:23",
+    "eerst_gezien": "2026-07-27 12:45:23"
   },
   {
     "id": "EBS:1067:1038_2026-07-27",
@@ -99,48 +99,37 @@
     "eerst_gezien": "2026-07-27 12:30:34"
   },
   {
-    "id": "EBS:1111:8083_2026-07-27",
-    "journey_id": "EBS:1111:8083",
+    "id": "EBS:1067:1038_2026-07-27",
+    "journey_id": "EBS:1067:1038",
     "datum": "2026-07-27",
-    "lijn": "111",
+    "lijn": "67",
     "lijnkleur": "#004899",
     "categorie": "M-net",
     "status": "cancelled",
     "oorzaak_categorieen": [
-      "Personeel",
+      "Materieel",
       "Logistiek"
     ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "oorzaak_raw": "Cause: Materieel, Logistiek",
     "terminus_alert": null,
     "advies": null,
     "haltes": [
       {
         "halte_id": "NL:S:37220130",
         "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "15:28",
+        "geplande_tijd": "15:46",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron D",
-        "bestemming": "Marken"
-      },
-      {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "15:30",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Marken"
+        "platform": "Perron A",
+        "bestemming": "Purmerend via Wormerveer"
       }
     ],
-    "eerste_tijd": "15:28",
+    "eerste_tijd": "15:46",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-07-27 12:15:25",
-    "eerst_gezien": "2026-07-27 12:15:25"
+    "bijgewerkt": "2026-07-27 12:45:23",
+    "eerst_gezien": "2026-07-27 12:45:23"
   },
   {
     "id": "EBS:1111:8083_2026-07-27",
@@ -198,12 +187,12 @@
     "eerst_gezien": "2026-07-27 12:30:34"
   },
   {
-    "id": "EBS:1391:8073_2026-07-27",
-    "journey_id": "EBS:1391:8073",
+    "id": "EBS:1111:8083_2026-07-27",
+    "journey_id": "EBS:1111:8083",
     "datum": "2026-07-27",
-    "lijn": "391",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
+    "lijn": "111",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Personeel",
@@ -214,21 +203,43 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "14:55",
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "15:28",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
         "platform": "Perron D",
-        "bestemming": "Zaanse Schans"
+        "bestemming": "Marken"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "15:30",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Marken"
+      },
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "15:47",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron E",
+        "bestemming": "Marken"
       }
     ],
-    "eerste_tijd": "14:55",
+    "eerste_tijd": "15:28",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-07-27 12:15:25",
-    "eerst_gezien": "2026-07-27 12:15:25"
+    "bijgewerkt": "2026-07-27 12:45:23",
+    "eerst_gezien": "2026-07-27 12:45:23"
   },
   {
     "id": "EBS:1391:8073_2026-07-27",
@@ -262,6 +273,39 @@
     "dagdeel": "dal",
     "bijgewerkt": "2026-07-27 12:30:34",
     "eerst_gezien": "2026-07-27 12:30:34"
+  },
+  {
+    "id": "EBS:1391:8073_2026-07-27",
+    "journey_id": "EBS:1391:8073",
+    "datum": "2026-07-27",
+    "lijn": "391",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "14:55",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron D",
+        "bestemming": "Zaanse Schans"
+      }
+    ],
+    "eerste_tijd": "14:55",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-07-27 12:45:23",
+    "eerst_gezien": "2026-07-27 12:45:23"
   },
   {
     "id": "EBS:1067:1028_2026-07-27",
