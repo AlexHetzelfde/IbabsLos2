@@ -39,28 +39,54 @@ jobs:
           echo "SCRAPE_VANAF=$SCRAPE_VANAF" >> $GITHUB_ENV
         shell: bash
       - name: Moties scrapen
+        id: moties
         run: python scrape_moties.py
         env:
           SCRAPE_VANAF: ${{ env.SCRAPE_VANAF || github.event.inputs.vanaf }}
         continue-on-error: true
       - name: Vergaderingen scrapen
+        id: vergaderingen
         run: python scrape_vergaderingen.py
         env:
           SCRAPE_VANAF: ${{ env.SCRAPE_VANAF || github.event.inputs.vanaf }}
         continue-on-error: true
       - name: Stemmingen scrapen
+        id: stemmingen
         run: python scrape_stemmingen.py
         env:
           SCRAPE_VANAF: ${{ env.SCRAPE_VANAF || github.event.inputs.vanaf }}
         continue-on-error: true
       - name: Collegeberichten scrapen
+        id: collegeberichten
         run: python scrape_collegeberichten.py
         env:
           SCRAPE_VANAF: ${{ env.SCRAPE_VANAF || github.event.inputs.vanaf }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         continue-on-error: true
+      - name: Camera's en woningsluitingen scrapen
+        id: besluiten
+        run: python scrape_besluiten.py
+        continue-on-error: true
       - name: Scrape-tracker bijwerken
+        # LET OP: alleen bijwerken als geen enkele scraper is gefaald.
+        # Anders schuift de "sinds laatste scrape"-datum stilzwijgend op
+        # over een venster dat nooit succesvol is opgehaald.
+        if: |
+          steps.moties.outcome == 'success' &&
+          steps.vergaderingen.outcome == 'success' &&
+          steps.stemmingen.outcome == 'success' &&
+          steps.collegeberichten.outcome == 'success' &&
+          steps.besluiten.outcome == 'success'
         run: date -u +'%Y-%m-%d' > data/.last_scrape_raadsdata
+      - name: Waarschuwen bij gefaalde scraper
+        if: |
+          steps.moties.outcome == 'failure' ||
+          steps.vergaderingen.outcome == 'failure' ||
+          steps.stemmingen.outcome == 'failure' ||
+          steps.collegeberichten.outcome == 'failure' ||
+          steps.besluiten.outcome == 'failure'
+        run: |
+          echo "::warning::Eén of meer scrapers zijn gefaald — scrape-tracker NIET bijgewerkt, zodat het gemiste venster bij de volgende run opnieuw wordt geprobeerd."
       - name: Wijzigingen committen en pushen
         run: |
           git config user.name  "github-actions[bot]"
@@ -71,10 +97,6 @@ jobs:
             exit 0
           fi
           git commit -m "data: update $(date +'%Y-%m-%d')${SCRAPE_VANAF:+ (vanaf $SCRAPE_VANAF)}"
-          # Retry-logica: als een andere workflow (bv. scrape-ebs) tussentijds
-          # heeft gepusht, faalt een kale 'git push' zonder hernieuwde poging.
-          # Hier: bij falen opnieuw pullen/rebasen en tot 5x proberen, met
-          # oplopende wachttijd, voordat de stap alsnog faalt.
           MAX_POGINGEN=5
           WACHTTIJDEN=(3 6 12 20 30)
           for ((poging=1; poging<=MAX_POGINGEN; poging++)); do
