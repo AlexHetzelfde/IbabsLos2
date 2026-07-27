@@ -12,13 +12,27 @@ Haltes:
 Resultaat:
     data/ebs_uitval.json              — alleen geannuleerde ritten VAN VANDAAG
     data/ebs_totaal_teller.json       — totaal unieke ritten VAN VANDAAG
-    data/ebs_percentage_historie.json — 1 samengevatte regel per afgesloten dag
-                                         (totaal, cancelled, pct) — groeit met
-                                         maar ~365 regels per jaar, blijft klein
+    data/ebs_percentage_historie.json — 1 samengevatte regel per afgesloten dag:
+                                         totaal, cancelled, verkort, pct, PLUS
+                                         een compacte uitsplitsing per lijn,
+                                         oorzaak, halte en dagdeel (per_lijn,
+                                         per_oorzaak, per_halte, per_dagdeel).
+                                         Dit blijft klein: de grootte groeit
+                                         met het aantal DISTINCTE lijnen/
+                                         oorzaken/haltes/dagdelen (vrijwel
+                                         constant), niet met het aantal
+                                         ritten. Losse ritten worden dus NIET
+                                         voor altijd bewaard, maar de
+                                         belangrijkste dimensies wel — zodat
+                                         het dashboard cumulatief kan blijven
+                                         tonen "per lijn", "per oorzaak" etc.
+                                         over de hele meetperiode, i.p.v.
+                                         alleen over vandaag.
 
 Zodra een nieuwe dag begint, wordt de vorige dag automatisch samengevat naar
-ebs_percentage_historie.json en verdwijnen de losse ritten uit ebs_uitval.json
-en ebs_totaal_teller.json. Zo groeien die twee bestanden nooit onbeperkt door.
+ebs_percentage_historie.json (inclusief de uitsplitsingen hierboven) en
+verdwijnen de losse ritten uit ebs_uitval.json en ebs_totaal_teller.json.
+Zo groeien die twee bestanden nooit onbeperkt door.
 
 Elke rit is een uniek record op (journey_id + datum). Eén fysieke rit die
 op meerdere van de drie haltes stopt, wordt samengevoegd tot één record
@@ -327,12 +341,66 @@ def bewaar_historie(historie):
         json.dump(historie, f, ensure_ascii=False, indent=2)
 
 
+# ── NIEUW: COMPACTE PER-DAG AGGREGATEN (per lijn/oorzaak/halte/dagdeel) ───────
+def _tel_enkelvoudig(ritten, sleutel_fn):
+    """Telt ritten op een sleutel die per rit precies 1 waarde oplevert
+    (bijv. lijn, halte, dagdeel). None-waarden worden overgeslagen."""
+    teller = {}
+    for r in ritten:
+        sleutel = sleutel_fn(r)
+        if sleutel is None:
+            continue
+        teller[sleutel] = teller.get(sleutel, 0) + 1
+    return teller
+
+
+def _tel_meervoudig(ritten, lijst_fn):
+    """Telt ritten op een sleutel die per rit meerdere waarden kan opleveren
+    (bijv. oorzaak_categorieen: een rit kan meerdere oorzaken hebben)."""
+    teller = {}
+    for r in ritten:
+        for sleutel in lijst_fn(r):
+            teller[sleutel] = teller.get(sleutel, 0) + 1
+    return teller
+
+
+def bouw_dag_aggregaat(oude_datum, teller, bestaand_ruw):
+    """
+    Bouwt een compact aggregaat voor één afgesloten dag: totalen plus een
+    uitsplitsing per lijn/oorzaak/halte/dagdeel. Dit bevat GEEN losse
+    ritten meer (geen bestemming, geen exacte tijden, geen journey_id) —
+    alleen tellingen. De grootte van dit aggregaat groeit met het aantal
+    DISTINCTE lijnen/oorzaken/haltes/dagdelen, wat in de praktijk vrijwel
+    constant is, ongeacht hoeveel ritten er die dag waren.
+    """
+    ritten_die_dag = [r for r in bestaand_ruw.values() if r["datum"] == oude_datum]
+    uitgevallen = [r for r in ritten_die_dag if r["status"] in ("cancelled", "verkort")]
+
+    totaal    = teller.get(oude_datum, {}).get("totaal", 0)
+    cancelled = sum(1 for r in ritten_die_dag if r["status"] == "cancelled")
+    verkort   = sum(1 for r in ritten_die_dag if r["status"] == "verkort")
+
+    return {
+        "totaal":      totaal,
+        "cancelled":   cancelled,
+        "verkort":     verkort,
+        "pct":         round((cancelled + verkort) / totaal * 100, 1) if totaal else 0,
+        "per_lijn":    _tel_enkelvoudig(uitgevallen, lambda r: r["lijn"]),
+        "per_oorzaak": _tel_meervoudig(uitgevallen, lambda r: r["oorzaak_categorieen"] or []),
+        "per_halte":   _tel_enkelvoudig(uitgevallen, lambda r: (r["haltes"] or [{}])[0].get("halte_naam")),
+        "per_dagdeel": _tel_enkelvoudig(uitgevallen, lambda r: r["dagdeel"]),
+    }
+
+
 def archiveer_oude_dagen(vandaag, teller, bestaand_ruw):
     """
-    Zet elke dag die niet 'vandaag' is om in één samengevatte regel in
-    ebs_percentage_historie.json, en verwijdert die dag daarna uit de
-    teller. De aanroeper is verantwoordelijk voor het filteren van
-    bestaand_ruw (ebs_uitval.json) op alleen 'vandaag' ná deze aanroep.
+    Zet elke dag die niet 'vandaag' is om in één samengevat aggregaat in
+    ebs_percentage_historie.json (totalen + per_lijn/oorzaak/halte/dagdeel),
+    en verwijdert die dag daarna uit de teller. De aanroeper is
+    verantwoordelijk voor het filteren van bestaand_ruw (ebs_uitval.json)
+    op alleen 'vandaag' ná deze aanroep — dat is het enige moment waarop
+    de losse ritten van de oude dag nog beschikbaar zijn om te aggregeren,
+    dus dit MOET gebeuren vóórdat ze elders worden weggegooid.
     """
     oude_datums = {d for d in teller if d != vandaag}
     oude_datums |= {r["datum"] for r in bestaand_ruw.values() if r["datum"] != vandaag}
@@ -344,15 +412,12 @@ def archiveer_oude_dagen(vandaag, teller, bestaand_ruw):
     for oude_datum in oude_datums:
         if oude_datum in historie:
             continue
-        totaal    = teller.get(oude_datum, {}).get("totaal", 0)
-        cancelled = sum(1 for r in bestaand_ruw.values() if r["datum"] == oude_datum)
-        pct = round(cancelled / totaal * 100, 1) if totaal else 0
-        historie[oude_datum] = {"totaal": totaal, "cancelled": cancelled, "pct": pct}
+        historie[oude_datum] = bouw_dag_aggregaat(oude_datum, teller, bestaand_ruw)
         gewijzigd = True
 
     if gewijzigd:
         bewaar_historie(historie)
-        print(f"  Historie bijgewerkt met {len(oude_datums)} afgesloten dag(en)")
+        print(f"  Historie bijgewerkt met {len(oude_datums)} afgesloten dag(en) (incl. per_lijn/oorzaak/halte/dagdeel)")
 
     for oude_datum in oude_datums:
         teller.pop(oude_datum, None)
@@ -391,8 +456,9 @@ def main():
 
     # ── OUDE DAGEN ARCHIVEREN & OPRUIMEN ──────────────────
     # Alles wat nu nog in ebs_uitval.json / ebs_totaal_teller.json staat en
-    # niet van vandaag is, wordt samengevat naar de historie en daarna
-    # weggegooid, zodat beide bestanden nooit onbeperkt groeien.
+    # niet van vandaag is, wordt samengevat naar de historie (incl. de
+    # per_lijn/oorzaak/halte/dagdeel-uitsplitsing) en daarna weggegooid,
+    # zodat beide bestanden nooit onbeperkt groeien.
     teller       = laad_teller()
     bestaand_ruw = load_existing()
     teller       = archiveer_oude_dagen(vandaag, teller, bestaand_ruw)
