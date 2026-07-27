@@ -66,6 +66,8 @@ jobs:
       - name: Camera's en woningsluitingen scrapen
         id: besluiten
         run: python scrape_besluiten.py
+        env:
+          SCRAPE_VANAF: ""
         continue-on-error: true
       - name: Scrape-tracker bijwerken
         # LET OP: alleen bijwerken als geen enkele scraper is gefaald.
