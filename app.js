@@ -207,37 +207,58 @@ async function loadUitval() {
 // ── EBS UITVAL ────────────────────────────────────────────────────────────────
 function renderUitval() {
   const uitgevallen = uitval.filter(r => r.status === 'cancelled' || r.status === 'verkort');
-  // ── STATS ─────────────────────────────────────────────────────────────────
-  const datums = [...new Set(uitval.map(r => r.datum))].sort();
 
-  let totaalRittenPeriode = 0;
-  datums.forEach(d => {
-    if (percentageHistorie[d]) totaalRittenPeriode += percentageHistorie[d].totaal;
-    else if (totaalTeller[d]) totaalRittenPeriode += totaalTeller[d].totaal;
+  // ── CUMULATIEVE TELLERS (historie + vandaag) ──────────────────────────────
+  const lijnTeller = {}, oorzaakTeller = {}, halteTeller = {}, dagdeelTeller = {};
+  let totaalCumulatief = 0, cancelledCumulatief = 0;
+
+  const optellenIn = (doel, bron) => {
+    if (!bron) return; // oude historie-regels (vóór deze wijziging) hebben deze velden niet
+    Object.entries(bron).forEach(([k, v]) => { doel[k] = (doel[k] || 0) + v; });
+  };
+
+  const alleDatums = Object.keys(percentageHistorie).sort();
+  alleDatums.forEach(d => {
+    const dag = percentageHistorie[d];
+    totaalCumulatief    += dag.totaal || 0;
+    cancelledCumulatief += (dag.cancelled || 0) + (dag.verkort || 0);
+    optellenIn(lijnTeller,    dag.per_lijn);
+    optellenIn(oorzaakTeller, dag.per_oorzaak);
+    optellenIn(halteTeller,   dag.per_halte);
+    optellenIn(dagdeelTeller, dag.per_dagdeel);
   });
 
-  document.getElementById('uvTotaal').textContent = uitgevallen.length;
-  const pct = totaalRittenPeriode ? Math.round(uitgevallen.length / totaalRittenPeriode * 100) : 0;
+  // Vandaag is nog niet gearchiveerd in percentageHistorie — apart optellen
+  const vandaagKey = Object.keys(totaalTeller)[0];
+  if (vandaagKey) totaalCumulatief += totaalTeller[vandaagKey].totaal || 0;
+  cancelledCumulatief += uitgevallen.length;
+  const lijnKleurMap = {}; // kleur is niet opgeslagen in de historie, alleen bekend uit vandaag
+  uitgevallen.forEach(r => {
+    lijnTeller[r.lijn] = (lijnTeller[r.lijn] || 0) + 1;
+    if (r.lijn && r.lijnkleur) lijnKleurMap[r.lijn] = r.lijnkleur;
+    (r.oorzaak_categorieen || []).forEach(o => { oorzaakTeller[o] = (oorzaakTeller[o] || 0) + 1; });
+    const eersteHalte = (r.haltes || [])[0];
+    if (eersteHalte) halteTeller[eersteHalte.halte_naam] = (halteTeller[eersteHalte.halte_naam] || 0) + 1;
+    dagdeelTeller[r.dagdeel] = (dagdeelTeller[r.dagdeel] || 0) + 1;
+  });
+
+  // ── STATS ─────────────────────────────────────────────────────────────────
+  document.getElementById('uvTotaal').textContent = cancelledCumulatief;
+  const pct = totaalCumulatief ? Math.round(cancelledCumulatief / totaalCumulatief * 100) : 0;
   document.getElementById('uvPct').textContent = pct + '%';
   document.getElementById('uvPeriode').textContent =
-    datums.length ? datums[0] + ' t/m ' + datums[datums.length - 1] : 'geen data';
+    alleDatums.length ? alleDatums[0] + ' t/m vandaag' : (vandaagKey ? vandaagKey + ' t/m vandaag' : 'geen data');
 
-  const lijnTeller = {};
-  uitgevallen.forEach(r => { lijnTeller[r.lijn] = (lijnTeller[r.lijn] || 0) + 1; });
   const topLijnEntry = Object.entries(lijnTeller).sort((a,b) => b[1]-a[1])[0];
   if (topLijnEntry) {
     document.getElementById('uvTopLijn').textContent = topLijnEntry[0];
-    document.getElementById('uvTopLijnSub').textContent = topLijnEntry[1] + ' uitvallen';
+    document.getElementById('uvTopLijnSub').textContent = topLijnEntry[1] + ' uitvallen (cumulatief)';
   }
 
-  const oorzaakTeller = {};
-  uitgevallen.forEach(r => (r.oorzaak_categorieen || []).forEach(o => {
-    oorzaakTeller[o] = (oorzaakTeller[o] || 0) + 1;
-  }));
   const topOorzaakEntry = Object.entries(oorzaakTeller).sort((a,b) => b[1]-a[1])[0];
   if (topOorzaakEntry) {
     document.getElementById('uvTopOorzaak').textContent = topOorzaakEntry[0];
-    document.getElementById('uvTopOorzaakSub').textContent = topOorzaakEntry[1] + 'x geregistreerd';
+    document.getElementById('uvTopOorzaakSub').textContent = topOorzaakEntry[1] + 'x geregistreerd (cumulatief)';
   }
 
   // ── UITVAL PER DAG (SVG) ──────────────────────────────────────────────────
@@ -294,11 +315,9 @@ function renderUitval() {
       </div>`;
   }
 
-  // ── UITVAL PER DAGDEEL ────────────────────────────────────────────────────
+  // ── UITVAL PER DAGDEEL (cumulatief) ───────────────────────────────────────
   const dagdeelVolgorde = ['ochtendspits','dal','avondspits','avond','nacht','onbekend'];
   const dagdeelLabels   = { ochtendspits:'Ochtendspits (7–9)', dal:'Dal (9–16)', avondspits:'Avondspits (16–19)', avond:'Avond (19–24)', nacht:'Nacht (0–7)', onbekend:'Onbekend' };
-  const dagdeelTeller = {};
-  uitgevallen.forEach(r => { dagdeelTeller[r.dagdeel] = (dagdeelTeller[r.dagdeel] || 0) + 1; });
   const maxDd = Math.max(...Object.values(dagdeelTeller), 1);
   document.getElementById('uvDagdeelChart').innerHTML = dagdeelVolgorde
     .filter(d => dagdeelTeller[d] > 0)
@@ -308,13 +327,12 @@ function renderUitval() {
       <div class="viz-bar-pct">${dagdeelTeller[d]}</div>
     </div>`).join('') || '<div class="viz-empty">Geen data</div>';
 
-  // ── UITVAL PER LIJN ───────────────────────────────────────────────────────
+  // ── UITVAL PER LIJN (cumulatief) ──────────────────────────────────────────
   const maxLijn = Math.max(...Object.values(lijnTeller), 1);
   const lijnLijst = Object.entries(lijnTeller).sort((a,b) => b[1]-a[1]);
   document.getElementById('uvLijnChart').innerHTML = lijnLijst
     .map(([lijn, n]) => {
-      const rit = uitgevallen.find(r => r.lijn === lijn);
-      const kleur = rit?.lijnkleur || 'var(--navy)';
+      const kleur = lijnKleurMap[lijn] || 'var(--navy)';
       return `<div class="viz-bar-row">
         <div style="width:52px;flex-shrink:0;display:flex;align-items:center;">
           <span class="badge" style="background:${kleur};color:#fff;font-size:11px;font-weight:700;">${esc(lijn)}</span>
@@ -324,14 +342,7 @@ function renderUitval() {
       </div>`;
     }).join('') || '<div class="viz-empty">Geen data</div>';
 
-  // ── UITVAL PER HALTE ──────────────────────────────────────────────────────
-  const halteTeller = {};
-  uitgevallen.forEach(r => {
-    const eersteHalte = (r.haltes || [])[0];
-    if (eersteHalte) {
-      halteTeller[eersteHalte.halte_naam] = (halteTeller[eersteHalte.halte_naam] || 0) + 1;
-    }
-  });
+  // ── UITVAL PER HALTE (cumulatief) ─────────────────────────────────────────
   const maxHalte = Math.max(...Object.values(halteTeller), 1);
   document.getElementById('uvHalteChart').innerHTML = Object.entries(halteTeller)
     .sort((a,b) => b[1]-a[1])
