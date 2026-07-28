@@ -262,13 +262,20 @@ function renderUitval() {
   }
 
   // ── UITVAL PER DAG (SVG) ──────────────────────────────────────────────────
+  // Cumulatief: eerst de afgesloten dagen uit percentageHistorie, dan vandaag
+  // erbovenop — anders toont deze grafiek altijd maar 1 dag (want ebs_uitval.json
+  // bevat alleen de losse ritten van vandaag).
   const dagMap = {};
-  uitval.forEach(r => {
-    if (!dagMap[r.datum]) dagMap[r.datum] = { totaal: 0, cancelled: 0, verkort: 0 };
-    dagMap[r.datum].totaal++;
-    if (r.status === 'cancelled') dagMap[r.datum].cancelled++;
-    if (r.status === 'verkort')   dagMap[r.datum].verkort++;
+  Object.entries(percentageHistorie).forEach(([datum, d]) => {
+    dagMap[datum] = { totaal: d.totaal || 0, cancelled: d.cancelled || 0, verkort: d.verkort || 0 };
   });
+  if (vandaagKey) {
+    dagMap[vandaagKey] = {
+      totaal: totaalTeller[vandaagKey]?.totaal || 0,
+      cancelled: uitval.filter(r => r.status === 'cancelled').length,
+      verkort: uitval.filter(r => r.status === 'verkort').length,
+    };
+  }
   const dagLijst = Object.entries(dagMap).sort((a,b) => a[0].localeCompare(b[0]));
   const dagEl = document.getElementById('uvDagChart');
 
