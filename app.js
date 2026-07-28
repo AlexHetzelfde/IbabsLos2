@@ -36,7 +36,6 @@ function getAllFracties() {
 
 // ── STATE ─────────────────────────────────────────────────────────────────────
 let vergaderingen = [], moties = [], camerasActief = [], camerasGeschiedenis = [], woningsluitingen = [], collegebrieven = [], stemmingen = [], uitval = [];
-let _uvDagPeriodeDagen = 7; // default: laatste 7 dagen, tegen de wall-of-bars
 let huidigeClaims = [];
 let _chartFractie = null;
 let totaalTeller = {};
@@ -134,6 +133,13 @@ async function loadCamerasEnSluitingen() {
   // NIEUW #22 + #23
   renderCamVerlengingChart();
   renderWoningsluitingDuurChart();
+  // NIEUW: plaats, reden-classificatie, cumulatieve dagen, overlap
+  renderCamPlaatsChart();
+  renderEindDatumTypeChart();
+  renderCamRedenChart();
+  renderWoningRedenChart();
+  renderCamDagenTijdChart();
+  renderOverlapLijst();
 }
 
 async function loadRaadsvragen() {
@@ -205,110 +211,6 @@ async function loadUitval() {
   }
 }
 
-const UV_DAG_PERIODES = [
-  { label: '24u',   dagen: 1 },
-  { label: '3d',    dagen: 3 },
-  { label: '7d',    dagen: 7 },
-  { label: '2w',    dagen: 14 },
-  { label: '1m',    dagen: 30 },
-  { label: '3m',    dagen: 90 },
-  { label: '6m',    dagen: 180 },
-  { label: '1jaar', dagen: 365 },
-  { label: 'Alles', dagen: null },
-];
-
-function renderUvDagPeriodeButtons() {
-  const el = document.getElementById('uvDagPeriodeButtons');
-  if (!el) return;
-  el.innerHTML = UV_DAG_PERIODES.map(p => `
-    <button type="button"
-      class="filter-select"
-      style="cursor:pointer;${_uvDagPeriodeDagen === p.dagen ? 'background:var(--teal);color:white;font-weight:700;' : ''}"
-      onclick="setUvDagPeriode(${p.dagen})">${p.label}</button>
-  `).join('');
-}
-
-function setUvDagPeriode(dagen) {
-  _uvDagPeriodeDagen = dagen;
-  renderUvDagPeriodeButtons();
-  renderUvDagChart();
-}
-
-function renderUvDagChart() {
-  const dagEl = document.getElementById('uvDagChart');
-  if (!dagEl) return;
-
-  const dagMap = {};
-  Object.entries(percentageHistorie).forEach(([datum, d]) => {
-    dagMap[datum] = { totaal: d.totaal || 0, cancelled: d.cancelled || 0, verkort: d.verkort || 0 };
-  });
-  const vandaagKey = Object.keys(totaalTeller)[0];
-  if (vandaagKey) {
-    dagMap[vandaagKey] = {
-      totaal: totaalTeller[vandaagKey]?.totaal || 0,
-      cancelled: uitval.filter(r => r.status === 'cancelled').length,
-      verkort: uitval.filter(r => r.status === 'verkort').length,
-    };
-  }
-
-  let dagLijst = Object.entries(dagMap).sort((a,b) => a[0].localeCompare(b[0]));
-
-  if (_uvDagPeriodeDagen != null) {
-    const grens = new Date();
-    grens.setDate(grens.getDate() - (_uvDagPeriodeDagen - 1));
-    const grensStr = grens.toISOString().slice(0, 10);
-    dagLijst = dagLijst.filter(([datum]) => datum >= grensStr);
-  }
-
-  if (dagLijst.length < 1) {
-    dagEl.innerHTML = '<div class="viz-empty">Onvoldoende data voor deze periode</div>';
-    return;
-  }
-
-  const W = 680, H = 180;
-  const PAD = { t: 10, r: 16, b: 36, l: 36 };
-  const pW = W - PAD.l - PAD.r, pH = H - PAD.t - PAD.b;
-  const maxC = Math.max(...dagLijst.map(([,d]) => d.cancelled + d.verkort), 1);
-  const slot = pW / dagLijst.length;
-  const barW = Math.max(3, Math.floor(slot * 0.6));
-  const labelStap = Math.max(1, Math.ceil(dagLijst.length / 20));
-
-  const bars = dagLijst.map(([datum, d], i) => {
-    const x    = PAD.l + i * slot + (slot - barW) / 2;
-    const yB   = PAD.t + pH;
-    const hCan = Math.round((d.cancelled / maxC) * pH);
-    const hVer = Math.round((d.verkort   / maxC) * pH);
-    const dd   = datum.slice(5);
-    const label = (i % labelStap === 0)
-      ? `<text x="${x+barW/2}" y="${H-4}" text-anchor="middle" font-size="9" fill="var(--muted)">${dd}</text>`
-      : '';
-    return `
-      <rect x="${x}" y="${yB - hCan}" width="${barW}" height="${hCan}" fill="var(--stop)" opacity="0.82" rx="1">
-        <title>${datum}: ${d.cancelled} cancelled</title></rect>
-      <rect x="${x}" y="${yB - hCan - hVer}" width="${barW}" height="${hVer}" fill="var(--hold)" opacity="0.75">
-        <title>${datum}: ${d.verkort} verkort</title></rect>
-      ${label}`;
-  }).join('');
-
-  const yTicks = [0, Math.ceil(maxC/2), maxC].map(v => {
-    const y = PAD.t + pH - (v/maxC)*pH;
-    return `<line x1="${PAD.l}" y1="${y}" x2="${PAD.l+pW}" y2="${y}" stroke="var(--rule)" stroke-width="0.5"/>
-            <text x="${PAD.l-4}" y="${y+3}" text-anchor="end" font-size="9" fill="var(--muted)">${v}</text>`;
-  }).join('');
-
-  dagEl.innerHTML = `
-    <svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:${H}px;">
-      ${yTicks}
-      <line x1="${PAD.l}" y1="${PAD.t}" x2="${PAD.l}" y2="${PAD.t+pH}" stroke="var(--rule)" stroke-width="1"/>
-      <line x1="${PAD.l}" y1="${PAD.t+pH}" x2="${PAD.l+pW}" y2="${PAD.t+pH}" stroke="var(--rule)" stroke-width="1"/>
-      ${bars}
-    </svg>
-    <div style="display:flex;gap:16px;padding:4px 0 12px;font-size:10px;color:var(--muted);">
-      <span style="display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;background:var(--stop);opacity:.82;display:inline-block;"></span>Cancelled</span>
-      <span style="display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;background:var(--hold);opacity:.75;display:inline-block;"></span>Verkort</span>
-    </div>`;
-}
-
 // ── EBS UITVAL ────────────────────────────────────────────────────────────────
 function renderUitval() {
   const uitgevallen = uitval.filter(r => r.status === 'cancelled' || r.status === 'verkort');
@@ -367,9 +269,59 @@ function renderUitval() {
   }
 
   // ── UITVAL PER DAG (SVG) ──────────────────────────────────────────────────
-  renderUvDagPeriodeButtons();
-  renderUvDagChart();
-  
+  const dagMap = {};
+  uitval.forEach(r => {
+    if (!dagMap[r.datum]) dagMap[r.datum] = { totaal: 0, cancelled: 0, verkort: 0 };
+    dagMap[r.datum].totaal++;
+    if (r.status === 'cancelled') dagMap[r.datum].cancelled++;
+    if (r.status === 'verkort')   dagMap[r.datum].verkort++;
+  });
+  const dagLijst = Object.entries(dagMap).sort((a,b) => a[0].localeCompare(b[0]));
+  const dagEl = document.getElementById('uvDagChart');
+
+  if (dagLijst.length < 1) {
+    dagEl.innerHTML = '<div class="viz-empty">Onvoldoende data</div>';
+  } else {
+    const W = 680, H = 180;
+    const PAD = { t: 10, r: 16, b: 36, l: 36 };
+    const pW = W - PAD.l - PAD.r, pH = H - PAD.t - PAD.b;
+    const maxC = Math.max(...dagLijst.map(([,d]) => d.cancelled + d.verkort), 1);
+    const slot = pW / dagLijst.length;
+    const barW = Math.max(6, Math.floor(slot * 0.6));
+
+    const bars = dagLijst.map(([datum, d], i) => {
+      const x    = PAD.l + i * slot + (slot - barW) / 2;
+      const yB   = PAD.t + pH;
+      const hCan = Math.round((d.cancelled / maxC) * pH);
+      const hVer = Math.round((d.verkort   / maxC) * pH);
+      const dd   = datum.slice(5); // MM-DD
+      return `
+        <rect x="${x}" y="${yB - hCan}" width="${barW}" height="${hCan}" fill="var(--stop)" opacity="0.82" rx="1">
+          <title>${datum}: ${d.cancelled} cancelled</title></rect>
+        <rect x="${x}" y="${yB - hCan - hVer}" width="${barW}" height="${hVer}" fill="var(--hold)" opacity="0.75">
+          <title>${datum}: ${d.verkort} verkort</title></rect>
+        <text x="${x+barW/2}" y="${H-4}" text-anchor="middle" font-size="9" fill="var(--muted)">${dd}</text>`;
+    }).join('');
+
+    const yTicks = [0, Math.ceil(maxC/2), maxC].map(v => {
+      const y = PAD.t + pH - (v/maxC)*pH;
+      return `<line x1="${PAD.l}" y1="${y}" x2="${PAD.l+pW}" y2="${y}" stroke="var(--rule)" stroke-width="0.5"/>
+              <text x="${PAD.l-4}" y="${y+3}" text-anchor="end" font-size="9" fill="var(--muted)">${v}</text>`;
+    }).join('');
+
+    dagEl.innerHTML = `
+      <svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:${H}px;">
+        ${yTicks}
+        <line x1="${PAD.l}" y1="${PAD.t}" x2="${PAD.l}" y2="${PAD.t+pH}" stroke="var(--rule)" stroke-width="1"/>
+        <line x1="${PAD.l}" y1="${PAD.t+pH}" x2="${PAD.l+pW}" y2="${PAD.t+pH}" stroke="var(--rule)" stroke-width="1"/>
+        ${bars}
+      </svg>
+      <div style="display:flex;gap:16px;padding:4px 0 12px;font-size:10px;color:var(--muted);">
+        <span style="display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;background:var(--stop);opacity:.82;display:inline-block;"></span>Cancelled</span>
+        <span style="display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;background:var(--hold);opacity:.75;display:inline-block;"></span>Verkort</span>
+      </div>`;
+  }
+
   // ── UITVAL PER DAGDEEL (cumulatief) ───────────────────────────────────────
   const dagdeelVolgorde = ['ochtendspits','dal','avondspits','avond','nacht','onbekend'];
   const dagdeelLabels   = { ochtendspits:'Ochtendspits (7–9)', dal:'Dal (9–16)', avondspits:'Avondspits (16–19)', avond:'Avond (19–24)', nacht:'Nacht (0–7)', onbekend:'Onbekend' };
@@ -1422,15 +1374,25 @@ function renderMotieAmendementViz() {
 }
 
 // ── CAMERA'S & WONINGSLUITINGEN ────────────────────────────────────────────────
-const WIJK_MAP = {};
 function getWijkUitAdres(adres) {
+  // LEGACY FALLBACK: pakt het eerste woord van het adres (meestal gewoon de
+  // straatnaam, geen echte wijk). Blijft alleen bestaan voor records die
+  // gescraped zijn vóór de scraper een los "plaats"-veld ging invullen.
+  // Voor nieuwe data wordt dit niet meer gebruikt — zie telPerPlaats().
   if (!adres) return null;
-  for (const [straat, wijk] of Object.entries(WIJK_MAP)) { if (adres.toLowerCase().includes(straat.toLowerCase())) return wijk; }
   return adres.split(' ')[0] || adres;
 }
-function telPerWijk(items) {
+function telPerPlaats(items) {
+  // Groepeert op het "plaats"-veld (Zaandam/Wormerveer/Assendelft/...) dat
+  // de scraper nu invult. Voor oudere records zonder dat veld valt dit
+  // terug op de kapotte adres-fallback hierboven, zodat oude data niet
+  // stilzwijgend verdwijnt uit de chart — het wordt dan gewoon minder
+  // precies gegroepeerd, net als voorheen.
   const map = {};
-  items.forEach(b => { if (!b.adres) return; const wijk = getWijkUitAdres(b.adres); if (!wijk) return; map[wijk] = (map[wijk] || 0) + 1; });
+  items.forEach(b => {
+    const plaats = b.plaats || getWijkUitAdres(b.adres) || 'Onbekend';
+    map[plaats] = (map[plaats] || 0) + 1;
+  });
   return map;
 }
 
@@ -1481,7 +1443,7 @@ function renderBekendmakingenDashboard() {
   for (let i = 5; i >= 0; i--) { const d = new Date(nu.getFullYear(), nu.getMonth() - i, 1); maanden.push({ maand: d.toISOString().slice(0, 7), count: 0 }); }
   const tel = (items) => { const m = {}; maanden.forEach(x => m[x.maand] = 0); items.forEach(b => { if (b.datum) { const k = b.datum.slice(0, 7); if (k in m) m[k]++; } }); return maanden.map(x => ({ maand: x.maand, count: m[x.maand] })); };
   tekenLijnGrafiek('bkWoningChart', tel(woningsluitingen), 'Woningsluitingen');
-  tekenHorizontaleBalken('bkWoningWijkChart', telPerWijk(woningsluitingen));
+  tekenHorizontaleBalken('bkWoningWijkChart', telPerPlaats(woningsluitingen));
 }
 
 function tekenLijnGrafiek(containerId, data, label) {
@@ -1578,17 +1540,172 @@ function renderCamGeschiedenisLijst() {
 function renderCamVerlengingChart() {
   const el = document.getElementById('camVerlengingChart');
   if (!el) return;
+  // FIX: was gebaseerd op keer_verlengd (telt alleen titels met het woord
+  // "verlenging"). Miste daardoor heraanwijzingen die de gemeente anders
+  // labelt, bijv. "extra tijdelijk cameratoezicht" (zie Elzenstraat, 27 juli
+  // 2026). periodes.length - 1 telt élke heraanwijzing, ongeacht bewoording.
   const map = {};
   [...camerasActief, ...camerasGeschiedenis].forEach(c => {
-    map[c.camera] = Math.max(map[c.camera] || 0, c.keer_verlengd || 0);
+    const aantalHeraanwijzingen = (c.periodes || []).length - 1;
+    if (aantalHeraanwijzingen > 0) map[c.camera] = aantalHeraanwijzingen;
   });
-  const rijen = Object.entries(map).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]);
-  if (!rijen.length) { el.innerHTML = '<div class="viz-empty">Geen verlengingen geregistreerd</div>'; return; }
+  const rijen = Object.entries(map).sort((a, b) => b[1] - a[1]);
+  if (!rijen.length) { el.innerHTML = '<div class="viz-empty">Geen heraanwijzingen geregistreerd</div>'; return; }
   const maxV = rijen[0][1];
   el.innerHTML = rijen.map(([camera, n]) => `<div class="bk-bar-row">
     <div class="bk-bar-label" title="${esc(camera)}">${esc(camera)}</div>
     <div class="bk-bar-track"><div class="bk-bar-fill" style="width:${Math.round(n/maxV*100)}%;"></div></div>
     <div class="bk-bar-count">${n}×</div>
+  </div>`).join('');
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW — CAMERA'S PER PLAATS
+// Hergebruikt telPerPlaats(), dezelfde functie als de wijk-fix hierboven.
+// ══════════════════════════════════════════════════════════════════════════
+function renderCamPlaatsChart() {
+  const el = document.getElementById('camPlaatsChart');
+  if (!el) return;
+  tekenHorizontaleBalken('camPlaatsChart', telPerPlaats([...camerasActief, ...camerasGeschiedenis]));
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW — WONINGSLUITING: OFFICIËLE VS. GESCHATTE EINDDATUM
+// Datakwaliteit in één oogopslag, gebaseerd op het bestaande eind_datum_type-veld.
+// ══════════════════════════════════════════════════════════════════════════
+function renderEindDatumTypeChart() {
+  const el = document.getElementById('eindDatumTypeChart');
+  if (!el) return;
+  const metEinddatum = woningsluitingen.filter(w => w.eind_datum);
+  const officieel = metEinddatum.filter(w => w.eind_datum_type !== 'geschat_uit_artikeltekst').length;
+  const geschat   = metEinddatum.filter(w => w.eind_datum_type === 'geschat_uit_artikeltekst').length;
+  const onbekend  = woningsluitingen.length - metEinddatum.length;
+  const totaal    = woningsluitingen.length || 1;
+  const rijen = [
+    ['Officieel bekend', officieel, 'var(--go)'],
+    ['Geschat uit artikeltekst', geschat, 'var(--hold)'],
+    ['Onbekend (geen einddatum)', onbekend, 'var(--rule)'],
+  ].filter(([, n]) => n > 0);
+  if (!rijen.length) { el.innerHTML = '<div class="viz-empty">Geen woningsluitingen</div>'; return; }
+  el.innerHTML = rijen.map(([label, n, kleur]) => `<div class="viz-bar-row">
+    <div class="viz-bar-label" style="width:200px;">${esc(label)}</div>
+    <div class="viz-bar-track"><div class="viz-bar-fill" style="width:${Math.round(n/totaal*100)}%;background:${kleur};"></div></div>
+    <div class="viz-bar-pct">${n}</div>
+  </div>`).join('');
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW — REDEN VOOR CAMERATOEZICHT
+// Aggregeert reden_categorieen die scrape_besluiten.py per periode opslaat
+// (geclassificeerd uit de "Overwegende dat"-tekst van het besluit). Ontbreekt
+// bij besluiten die vóór deze scraper-update zijn gescraped.
+// ══════════════════════════════════════════════════════════════════════════
+function renderCamRedenChart() {
+  const el = document.getElementById('camRedenChart');
+  if (!el) return;
+  const teller = {};
+  [...camerasActief, ...camerasGeschiedenis].forEach(c => {
+    (c.periodes || []).forEach(p => {
+      (p.reden_categorieen || []).forEach(cat => { teller[cat] = (teller[cat] || 0) + 1; });
+    });
+  });
+  const entries = Object.entries(teller).sort((a, b) => b[1] - a[1]);
+  if (!entries.length) { el.innerHTML = '<div class="viz-empty">Geen reden-classificatie beschikbaar (alleen besluiten gescraped na de scraper-update hebben dit veld)</div>'; return; }
+  const maxV = entries[0][1];
+  el.innerHTML = entries.map(([cat, n]) => `<div class="viz-bar-row">
+    <div class="viz-bar-label" style="width:170px;">${esc(cat)}</div>
+    <div class="viz-bar-track"><div class="viz-bar-fill" style="width:${Math.round(n/maxV*100)}%;background:var(--stop);"></div></div>
+    <div class="viz-bar-pct">${n}</div>
+  </div>`).join('');
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW — REDEN VOOR WONINGSLUITING
+// Zelfde keyword-classificatie-stijl als ONDERWERP_KEYWORDS, toegepast op
+// het bestaande excerpt-veld — geen scraper-wijziging nodig, data lag er al.
+// ══════════════════════════════════════════════════════════════════════════
+const WONING_REDEN_KEYWORDS = {
+  'Drugs':                ['drugs', 'verdovende middelen', 'hennep', 'cocaïne', 'harddrugs'],
+  'Wapens/schietincident': ['vuurwapen', 'wapen', 'wapens', 'beschoten', 'schietincident'],
+  'Steekincident':         ['steekincident', 'gestoken', 'mes'],
+  'Overlast':              ['overlast', 'wanordelijkheden'],
+  'Geweld/bedreiging':     ['geweld', 'bedreiging', 'mishandeling'],
+};
+function renderWoningRedenChart() {
+  const el = document.getElementById('woningRedenChart');
+  if (!el) return;
+  const teller = {};
+  woningsluitingen.forEach(w => {
+    const tekst = ((w.titel || '') + ' ' + (w.excerpt || '')).toLowerCase();
+    Object.entries(WONING_REDEN_KEYWORDS).forEach(([cat, kws]) => {
+      if (kws.some(kw => tekst.includes(kw))) teller[cat] = (teller[cat] || 0) + 1;
+    });
+  });
+  const entries = Object.entries(teller).sort((a, b) => b[1] - a[1]);
+  if (!entries.length) { el.innerHTML = '<div class="viz-empty">Geen reden herkend in artikel-excerpts</div>'; return; }
+  const maxV = entries[0][1];
+  el.innerHTML = entries.map(([cat, n]) => `<div class="viz-bar-row">
+    <div class="viz-bar-label" style="width:170px;">${esc(cat)}</div>
+    <div class="viz-bar-track"><div class="viz-bar-fill" style="width:${Math.round(n/maxV*100)}%;background:var(--hold);"></div></div>
+    <div class="viz-bar-pct">${n}</div>
+  </div>`).join('');
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW — CUMULATIEVE CAMERA-DAGEN DOOR DE TIJD
+// Som van actieve camera-dagen per maand, cumulatief — groeit cameratoezicht
+// in Zaanstad? Elke periode telt mee in de maand van zijn startdatum
+// (vereenvoudiging: geen dag-voor-dag-verdeling over meerdere maanden).
+// ══════════════════════════════════════════════════════════════════════════
+function renderCamDagenTijdChart() {
+  const el = document.getElementById('camDagenTijdChart');
+  if (!el) return;
+  const perMaand = {};
+  [...camerasActief, ...camerasGeschiedenis].forEach(c => (c.periodes || []).forEach(p => {
+    if (!p.start) return;
+    const maand = p.start.slice(0, 7);
+    const dagen = dagenTussen(p.start, p.eind || p.start) + 1;
+    perMaand[maand] = (perMaand[maand] || 0) + dagen;
+  }));
+  const maanden = Object.keys(perMaand).sort();
+  if (maanden.length < 2) { el.innerHTML = '<div class="viz-empty">Onvoldoende data</div>'; return; }
+  let cumulatief = 0;
+  const data = maanden.map(m => { cumulatief += perMaand[m]; return { maand: m, count: cumulatief }; });
+  tekenLijnGrafiek('camDagenTijdChart', data, 'Cumulatieve camera-dagen');
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW — STRATEN MET ZOWEL CAMERATOEZICHT ALS WONINGSLUITING
+// Matcht op de kernstraatnaam van het camera-label tegen het adres-veld van
+// woningsluitingen. Zuiver stringmatch — geen garantie op 100% precisie,
+// maar met straatnamen die specifiek genoeg zijn (min. 4 tekens) is de kans
+// op valse positieven laag.
+// ══════════════════════════════════════════════════════════════════════════
+function kernStraatVanCamera(cameraLabel) {
+  return (cameraLabel || '').split(/\s+(in|te)\s+/i)[0].trim();
+}
+function renderOverlapLijst() {
+  const el = document.getElementById('overlapLijst');
+  if (!el) return;
+  const alleCameras = [...camerasActief, ...camerasGeschiedenis];
+  const matches = [];
+  alleCameras.forEach(c => {
+    const kern = kernStraatVanCamera(c.camera).toLowerCase();
+    if (kern.length < 4) return;
+    woningsluitingen.forEach(w => {
+      if (w.adres && w.adres.toLowerCase().includes(kern)) matches.push({ camera: c.camera, woning: w });
+    });
+  });
+  if (!matches.length) { el.innerHTML = '<div class="empty">Geen overlap gevonden tussen camera- en woningsluitingslocaties.</div>'; return; }
+  el.innerHTML = matches.map(m => `<div class="bk-item">
+    <div class="bk-top"><div>
+      <div class="bk-title-link" style="cursor:default;">📷 ${esc(m.camera)} ↔ 🏠 ${esc(m.woning.adres)}</div>
+      <div class="bk-meta">
+        <span class="bk-date">${fmtDate(m.woning.datum, 'full')}</span>
+        <a href="${m.woning.link || '#'}" target="_blank" style="font-size:11px;color:var(--teal);">Artikel →</a>
+      </div>
+      ${m.woning.excerpt ? `<div class="bk-desc">${esc(m.woning.excerpt)}</div>` : ''}
+    </div></div>
   </div>`).join('');
 }
 
