@@ -36,6 +36,7 @@ function getAllFracties() {
 
 // ── STATE ─────────────────────────────────────────────────────────────────────
 let vergaderingen = [], moties = [], camerasActief = [], camerasGeschiedenis = [], woningsluitingen = [], collegebrieven = [], stemmingen = [], uitval = [];
+let _uvDagPeriodeDagen = 7; // default: laatste 7 dagen, tegen de wall-of-bars
 let huidigeClaims = [];
 let _chartFractie = null;
 let totaalTeller = {};
@@ -204,6 +205,110 @@ async function loadUitval() {
   }
 }
 
+const UV_DAG_PERIODES = [
+  { label: '24u',   dagen: 1 },
+  { label: '3d',    dagen: 3 },
+  { label: '7d',    dagen: 7 },
+  { label: '2w',    dagen: 14 },
+  { label: '1m',    dagen: 30 },
+  { label: '3m',    dagen: 90 },
+  { label: '6m',    dagen: 180 },
+  { label: '1jaar', dagen: 365 },
+  { label: 'Alles', dagen: null },
+];
+
+function renderUvDagPeriodeButtons() {
+  const el = document.getElementById('uvDagPeriodeButtons');
+  if (!el) return;
+  el.innerHTML = UV_DAG_PERIODES.map(p => `
+    <button type="button"
+      class="filter-select"
+      style="cursor:pointer;${_uvDagPeriodeDagen === p.dagen ? 'background:var(--teal);color:white;font-weight:700;' : ''}"
+      onclick="setUvDagPeriode(${p.dagen})">${p.label}</button>
+  `).join('');
+}
+
+function setUvDagPeriode(dagen) {
+  _uvDagPeriodeDagen = dagen;
+  renderUvDagPeriodeButtons();
+  renderUvDagChart();
+}
+
+function renderUvDagChart() {
+  const dagEl = document.getElementById('uvDagChart');
+  if (!dagEl) return;
+
+  const dagMap = {};
+  Object.entries(percentageHistorie).forEach(([datum, d]) => {
+    dagMap[datum] = { totaal: d.totaal || 0, cancelled: d.cancelled || 0, verkort: d.verkort || 0 };
+  });
+  const vandaagKey = Object.keys(totaalTeller)[0];
+  if (vandaagKey) {
+    dagMap[vandaagKey] = {
+      totaal: totaalTeller[vandaagKey]?.totaal || 0,
+      cancelled: uitval.filter(r => r.status === 'cancelled').length,
+      verkort: uitval.filter(r => r.status === 'verkort').length,
+    };
+  }
+
+  let dagLijst = Object.entries(dagMap).sort((a,b) => a[0].localeCompare(b[0]));
+
+  if (_uvDagPeriodeDagen != null) {
+    const grens = new Date();
+    grens.setDate(grens.getDate() - (_uvDagPeriodeDagen - 1));
+    const grensStr = grens.toISOString().slice(0, 10);
+    dagLijst = dagLijst.filter(([datum]) => datum >= grensStr);
+  }
+
+  if (dagLijst.length < 1) {
+    dagEl.innerHTML = '<div class="viz-empty">Onvoldoende data voor deze periode</div>';
+    return;
+  }
+
+  const W = 680, H = 180;
+  const PAD = { t: 10, r: 16, b: 36, l: 36 };
+  const pW = W - PAD.l - PAD.r, pH = H - PAD.t - PAD.b;
+  const maxC = Math.max(...dagLijst.map(([,d]) => d.cancelled + d.verkort), 1);
+  const slot = pW / dagLijst.length;
+  const barW = Math.max(3, Math.floor(slot * 0.6));
+  const labelStap = Math.max(1, Math.ceil(dagLijst.length / 20));
+
+  const bars = dagLijst.map(([datum, d], i) => {
+    const x    = PAD.l + i * slot + (slot - barW) / 2;
+    const yB   = PAD.t + pH;
+    const hCan = Math.round((d.cancelled / maxC) * pH);
+    const hVer = Math.round((d.verkort   / maxC) * pH);
+    const dd   = datum.slice(5);
+    const label = (i % labelStap === 0)
+      ? `<text x="${x+barW/2}" y="${H-4}" text-anchor="middle" font-size="9" fill="var(--muted)">${dd}</text>`
+      : '';
+    return `
+      <rect x="${x}" y="${yB - hCan}" width="${barW}" height="${hCan}" fill="var(--stop)" opacity="0.82" rx="1">
+        <title>${datum}: ${d.cancelled} cancelled</title></rect>
+      <rect x="${x}" y="${yB - hCan - hVer}" width="${barW}" height="${hVer}" fill="var(--hold)" opacity="0.75">
+        <title>${datum}: ${d.verkort} verkort</title></rect>
+      ${label}`;
+  }).join('');
+
+  const yTicks = [0, Math.ceil(maxC/2), maxC].map(v => {
+    const y = PAD.t + pH - (v/maxC)*pH;
+    return `<line x1="${PAD.l}" y1="${y}" x2="${PAD.l+pW}" y2="${y}" stroke="var(--rule)" stroke-width="0.5"/>
+            <text x="${PAD.l-4}" y="${y+3}" text-anchor="end" font-size="9" fill="var(--muted)">${v}</text>`;
+  }).join('');
+
+  dagEl.innerHTML = `
+    <svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:${H}px;">
+      ${yTicks}
+      <line x1="${PAD.l}" y1="${PAD.t}" x2="${PAD.l}" y2="${PAD.t+pH}" stroke="var(--rule)" stroke-width="1"/>
+      <line x1="${PAD.l}" y1="${PAD.t+pH}" x2="${PAD.l+pW}" y2="${PAD.t+pH}" stroke="var(--rule)" stroke-width="1"/>
+      ${bars}
+    </svg>
+    <div style="display:flex;gap:16px;padding:4px 0 12px;font-size:10px;color:var(--muted);">
+      <span style="display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;background:var(--stop);opacity:.82;display:inline-block;"></span>Cancelled</span>
+      <span style="display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;background:var(--hold);opacity:.75;display:inline-block;"></span>Verkort</span>
+    </div>`;
+}
+
 // ── EBS UITVAL ────────────────────────────────────────────────────────────────
 function renderUitval() {
   const uitgevallen = uitval.filter(r => r.status === 'cancelled' || r.status === 'verkort');
@@ -262,66 +367,9 @@ function renderUitval() {
   }
 
   // ── UITVAL PER DAG (SVG) ──────────────────────────────────────────────────
-  // Cumulatief: eerst de afgesloten dagen uit percentageHistorie, dan vandaag
-  // erbovenop — anders toont deze grafiek altijd maar 1 dag (want ebs_uitval.json
-  // bevat alleen de losse ritten van vandaag).
-  const dagMap = {};
-  Object.entries(percentageHistorie).forEach(([datum, d]) => {
-    dagMap[datum] = { totaal: d.totaal || 0, cancelled: d.cancelled || 0, verkort: d.verkort || 0 };
-  });
-  if (vandaagKey) {
-    dagMap[vandaagKey] = {
-      totaal: totaalTeller[vandaagKey]?.totaal || 0,
-      cancelled: uitval.filter(r => r.status === 'cancelled').length,
-      verkort: uitval.filter(r => r.status === 'verkort').length,
-    };
-  }
-  const dagLijst = Object.entries(dagMap).sort((a,b) => a[0].localeCompare(b[0]));
-  const dagEl = document.getElementById('uvDagChart');
-
-  if (dagLijst.length < 1) {
-    dagEl.innerHTML = '<div class="viz-empty">Onvoldoende data</div>';
-  } else {
-    const W = 680, H = 180;
-    const PAD = { t: 10, r: 16, b: 36, l: 36 };
-    const pW = W - PAD.l - PAD.r, pH = H - PAD.t - PAD.b;
-    const maxC = Math.max(...dagLijst.map(([,d]) => d.cancelled + d.verkort), 1);
-    const slot = pW / dagLijst.length;
-    const barW = Math.max(6, Math.floor(slot * 0.6));
-
-    const bars = dagLijst.map(([datum, d], i) => {
-      const x    = PAD.l + i * slot + (slot - barW) / 2;
-      const yB   = PAD.t + pH;
-      const hCan = Math.round((d.cancelled / maxC) * pH);
-      const hVer = Math.round((d.verkort   / maxC) * pH);
-      const dd   = datum.slice(5); // MM-DD
-      return `
-        <rect x="${x}" y="${yB - hCan}" width="${barW}" height="${hCan}" fill="var(--stop)" opacity="0.82" rx="1">
-          <title>${datum}: ${d.cancelled} cancelled</title></rect>
-        <rect x="${x}" y="${yB - hCan - hVer}" width="${barW}" height="${hVer}" fill="var(--hold)" opacity="0.75">
-          <title>${datum}: ${d.verkort} verkort</title></rect>
-        <text x="${x+barW/2}" y="${H-4}" text-anchor="middle" font-size="9" fill="var(--muted)">${dd}</text>`;
-    }).join('');
-
-    const yTicks = [0, Math.ceil(maxC/2), maxC].map(v => {
-      const y = PAD.t + pH - (v/maxC)*pH;
-      return `<line x1="${PAD.l}" y1="${y}" x2="${PAD.l+pW}" y2="${y}" stroke="var(--rule)" stroke-width="0.5"/>
-              <text x="${PAD.l-4}" y="${y+3}" text-anchor="end" font-size="9" fill="var(--muted)">${v}</text>`;
-    }).join('');
-
-    dagEl.innerHTML = `
-      <svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:${H}px;">
-        ${yTicks}
-        <line x1="${PAD.l}" y1="${PAD.t}" x2="${PAD.l}" y2="${PAD.t+pH}" stroke="var(--rule)" stroke-width="1"/>
-        <line x1="${PAD.l}" y1="${PAD.t+pH}" x2="${PAD.l+pW}" y2="${PAD.t+pH}" stroke="var(--rule)" stroke-width="1"/>
-        ${bars}
-      </svg>
-      <div style="display:flex;gap:16px;padding:4px 0 12px;font-size:10px;color:var(--muted);">
-        <span style="display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;background:var(--stop);opacity:.82;display:inline-block;"></span>Cancelled</span>
-        <span style="display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;background:var(--hold);opacity:.75;display:inline-block;"></span>Verkort</span>
-      </div>`;
-  }
-
+  renderUvDagPeriodeButtons();
+  renderUvDagChart();
+  
   // ── UITVAL PER DAGDEEL (cumulatief) ───────────────────────────────────────
   const dagdeelVolgorde = ['ochtendspits','dal','avondspits','avond','nacht','onbekend'];
   const dagdeelLabels   = { ochtendspits:'Ochtendspits (7–9)', dal:'Dal (9–16)', avondspits:'Avondspits (16–19)', avond:'Avond (19–24)', nacht:'Nacht (0–7)', onbekend:'Onbekend' };
