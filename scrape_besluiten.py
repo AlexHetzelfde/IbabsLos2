@@ -33,6 +33,12 @@ in de <description>-tag. Eerdere versies van dit script filterden op
 er altijd 0 nieuwe items werden gevonden ondanks een gevulde feed. De filter
 kijkt nu naar de description i.p.v. de titel.
 
+NIEUW (deze versie): elke camera-periode en elke woningsluiting krijgt nu
+een "plaats"-veld (Zaandam/Wormerveer/Assendelft/etc.), en camera-periodes
+krijgen daarnaast "reden_categorieen" en "reden_samenvatting" — geclassificeerd
+uit de "Overwegende dat"-tekst van het besluit, die eerder wel werd opgehaald
+maar nergens werd gebruikt. Zie ZAANSTAD_PLAATSEN en REDEN_KEYWORDS.
+
 LET OP over de woningsluitingen-scraper:
 De Orkaan biedt geen RSS/API aan voor deze tag. De parser in
 parse_orkaan_pagina() is gebouwd op de daadwerkelijke live HTML van
@@ -110,6 +116,85 @@ DUUR_WOORDEN = {
     "zes": 6, "zeven": 7, "acht": 8, "negen": 9, "tien": 10, "elf": 11,
     "twaalf": 12,
 }
+
+# Plaatsnamen binnen de gemeente Zaanstad — gebruikt om een los "plaats"-veld
+# te vullen bij zowel camera's als woningsluitingen, i.p.v. de gebroken
+# WIJK_MAP-fallback in de frontend die alleen het eerste woord van het adres
+# pakte. Volgorde doet ertoe: "Koog aan de Zaan" moet vóór "Zaandam" gecheckt
+# worden e.d., maar met een woordgrens-regex is dat hier niet nodig — elke
+# plaatsnaam is uniek genoeg om los te matchen.
+ZAANSTAD_PLAATSEN = [
+    "Zaandam", "Wormerveer", "Assendelft", "Koog aan de Zaan",
+    "Krommenie", "Westzaan", "Zaandijk", "Wormer",
+]
+
+# Keyword-classificatie voor de aanleiding van een cameratoezicht-besluit,
+# gebaseerd op de "Overwegende dat"-tekst die tot nu toe werd opgehaald en
+# vervolgens genegeerd. Zelfde stijl als ONDERWERP_KEYWORDS in app.js: een
+# term kan in meerdere categorieën voorkomen, dat is bewust — de tekst gaat
+# vaak over meerdere dingen tegelijk (bv. wapen + geweld).
+REDEN_KEYWORDS = {
+    "Wapens/schietincident": ["vuurwapen", "wapen", "wapens", "schietincident", "beschoten", "kogelgaten", "geschoten"],
+    "Steekincident":         ["steekincident", "gestoken", "mes"],
+    "Drugs":                 ["drugs", "verdovende middelen", "drugshandel", "drugsoverlast"],
+    "Overlast":              ["overlast", "wanordelijkheden", "onrust"],
+    "Geweld/bedreiging":     ["geweld", "bedreiging", "mishandeling"],
+    "Brand/explosie":        ["brand", "explosie", "explosief"],
+    "Ondermijning":          ["ondermijning", "criminele activiteit", "criminaliteit"],
+}
+
+
+def extract_plaats(tekst):
+    """Zoekt de eerste bekende Zaanstad-plaatsnaam in de tekst (titel of
+    camera-label). None als er geen match is."""
+    if not tekst:
+        return None
+    for plaats in ZAANSTAD_PLAATSEN:
+        if re.search(rf"(?i)\b{re.escape(plaats)}\b", tekst):
+            return plaats
+    return None
+
+
+def extract_overwegende_blok(platte_tekst):
+    """Isoleert het 'Overwegende dat: ...'-blok uit de platte besluittekst,
+    dat de feitelijke aanleiding bevat (incident, reden). Valt terug op de
+    volledige tekst als de markers niet gevonden worden — beter een breder
+    zoekgebied dan niets classificeren."""
+    m = re.search(
+        r"(?i)overwegende\s+dat[:\s]*(.*?)(?:gelet\s+op\b|besluit\s*:)",
+        platte_tekst, re.S
+    )
+    return m.group(1) if m else platte_tekst
+
+
+def classificeer_reden(overwegende_blok):
+    """Geeft een lijst van gematchte reden-categorieën terug (kan leeg zijn
+    als geen enkele keyword matcht — dat is een geldige uitkomst, niet elk
+    besluit hoeft in een bekende categorie te vallen)."""
+    tekst_lower = overwegende_blok.lower()
+    return [
+        categorie for categorie, keywords in REDEN_KEYWORDS.items()
+        if any(kw in tekst_lower for kw in keywords)
+    ]
+
+
+def extract_reden_samenvatting(overwegende_blok, categorieen):
+    """Pakt de eerste zin/bullet uit het overwegende-blok die een van de
+    gematchte keywords bevat, als korte journalistieke duiding. Truncate
+    op 300 tekens — dit is een aanwijzing voor de journalist, geen
+    volledige juridische tekst (die blijft via de link beschikbaar)."""
+    if not categorieen:
+        return None
+    alle_keywords = [kw for cat in categorieen for kw in REDEN_KEYWORDS[cat]]
+    # Splits ruwweg op bullets/zinnen.
+    fragmenten = re.split(r"[•\n]|(?<=[.;])\s+(?=[A-Z])", overwegende_blok)
+    for fragment in fragmenten:
+        fragment_schoon = re.sub(r"\s+", " ", fragment).strip()
+        if not fragment_schoon:
+            continue
+        if any(kw in fragment_schoon.lower() for kw in alle_keywords):
+            return fragment_schoon[:300] + ("…" if len(fragment_schoon) > 300 else "")
+    return None
 
 
 def grens_datum():
@@ -303,6 +388,16 @@ def fetch_camera_besluit(link):
         print(f"  ⚠ geen bruikbare start/einddatum gevonden voor: {titel_meta} ({link})")
         return None
 
+    # NIEUW: plaats + reden-classificatie. De platte body-tekst werd al
+    # opgehaald (html_text) maar tot nu toe alleen gebruikt voor het
+    # "Camera:"-label — de rest ("Overwegende dat...") werd weggegooid.
+    plaats = extract_plaats(titel_meta) or extract_plaats(camera_label)
+
+    platte_tekst = re.sub(r"<[^>]+>", "\n", html_text)
+    overwegende_blok = extract_overwegende_blok(platte_tekst)
+    reden_categorieen = classificeer_reden(overwegende_blok)
+    reden_samenvatting = extract_reden_samenvatting(overwegende_blok, reden_categorieen)
+
     return {
         "camera": camera_label,
         "titel": titel_meta,
@@ -310,11 +405,34 @@ def fetch_camera_besluit(link):
         "start": start,
         "eind": eind,
         "is_verlenging": is_verlenging,
+        "plaats": plaats,
+        "reden_categorieen": reden_categorieen,
+        "reden_samenvatting": reden_samenvatting,
     }
 
 
 def normaliseer_label(s):
     return re.sub(r"\s+", " ", s or "").strip().lower()
+
+
+def vind_matchende_sleutel(nieuwe_sleutel, actief_map):
+    """Zoekt een bestaande camera-sleutel die vermoedelijk dezelfde locatie is
+    als nieuwe_sleutel, ook als de gemeente het net anders heeft geformuleerd
+    (bijv. "Elzenstraat" vs. "Elzenstraat in Wormerveer" — zelfde straat,
+    twee besluiten met een net iets ander "Camera:"-label).
+
+    Matcht op exacte gelijkheid eerst, anders op deelstring-bevat-relatie in
+    beide richtingen. Een minimale lengte van 6 tekens voorkomt dat korte,
+    generieke labels elkaar per ongeluk aantrekken.
+    """
+    if nieuwe_sleutel in actief_map:
+        return nieuwe_sleutel
+    for bestaande_sleutel in actief_map:
+        if len(nieuwe_sleutel) < 6 or len(bestaande_sleutel) < 6:
+            continue
+        if nieuwe_sleutel in bestaande_sleutel or bestaande_sleutel in nieuwe_sleutel:
+            return bestaande_sleutel
+    return None
 
 
 def verwerk_cameratoezicht():
@@ -360,19 +478,34 @@ def verwerk_cameratoezicht():
             "eind": besluit["eind"],
             "titel": besluit["titel"],
             "link": besluit["link"],
+            "reden_categorieen": besluit["reden_categorieen"],
+            "reden_samenvatting": besluit["reden_samenvatting"],
         }
 
-        if sleutel in actief_map:
-            entry = actief_map[sleutel]
+        match_sleutel = vind_matchende_sleutel(sleutel, actief_map)
+        if match_sleutel:
+            entry = actief_map[match_sleutel]
             entry["periodes"].append(periode)
             entry["eind"] = max(entry["eind"], besluit["eind"])
             entry["start"] = min(entry["start"], besluit["start"])
             if besluit["is_verlenging"]:
                 entry["keer_verlengd"] = entry.get("keer_verlengd", 0) + 1
-            print(f"    ↻ verlenging/update: {besluit['camera']} → nu tot {entry['eind']}")
+            # Bewaar alternatieve labelvarianten zodat je kunt zien dat dit
+            # een fuzzy-match was en niet een letterlijk identiek label —
+            # handig als je dit ooit moet controleren.
+            if besluit["camera"] != entry["camera"]:
+                entry.setdefault("labels", [entry["camera"]])
+                if besluit["camera"] not in entry["labels"]:
+                    entry["labels"].append(besluit["camera"])
+            # plaats kan bij de eerste periode nog ontbroken hebben — vul 'm
+            # alsnog in als een latere periode het wel oplevert.
+            if not entry.get("plaats") and besluit["plaats"]:
+                entry["plaats"] = besluit["plaats"]
+            print(f"    ↻ verlenging/update: {besluit['camera']} → gekoppeld aan '{entry['camera']}', nu tot {entry['eind']}")
         else:
             nieuw = {
                 "camera": besluit["camera"],
+                "plaats": besluit["plaats"],
                 "start": besluit["start"],
                 "eind": besluit["eind"],
                 "keer_verlengd": 0,
@@ -546,12 +679,19 @@ def verwerk_woningsluitingen():
         if m_adres:
             adres = m_adres.group(1)
 
+        # NIEUW: plaats-veld, zelfde ZAANSTAD_PLAATSEN-lijst als bij
+        # camera's. Vervangt de kapotte WIJK_MAP-fallback in de frontend
+        # die alleen het eerste woord van het adres pakte (vaak gewoon de
+        # straatnaam, niet een wijk of plaats).
+        plaats = extract_plaats(volledige_tekst)
+
         bestaand[art["link"]] = {
             "titel": art["titel"],
             "link": art["link"],
             "datum": art["datum"],
             "excerpt": art["excerpt"],
             "adres": adres,
+            "plaats": plaats,
             "duur_maanden": duur_maanden,
             "eind_datum": eind_datum,
             "eind_datum_type": "geschat_uit_artikeltekst" if eind_datum else None,
