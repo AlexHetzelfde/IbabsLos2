@@ -258,6 +258,60 @@
       <div class="viz-bar-list" id="woningsluitingDuurChart"><div class="empty">Laden...</div></div>
     </div>
 
+    <!-- NIEUW: Camera's per plaats + % officiële vs. geschatte einddatum -->
+    <div class="bk-charts-row">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Camera's per plaats</span>
+          <span style="font-size:11px;color:var(--muted);">Zaandam · Wormerveer · Assendelft · ...</span>
+        </div>
+        <div id="camPlaatsChart" class="bk-bar-chart"><div class="empty">Laden...</div></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Woningsluiting-einddatum: officieel vs. geschat</span>
+          <span style="font-size:11px;color:var(--muted);">datakwaliteit in één oogopslag</span>
+        </div>
+        <div id="eindDatumTypeChart" class="viz-bar-list"><div class="empty">Laden...</div></div>
+      </div>
+    </div>
+
+    <!-- NIEUW: Reden cameratoezicht + reden woningsluiting -->
+    <div class="bk-charts-row">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Reden voor cameratoezicht</span>
+          <span style="font-size:11px;color:var(--muted);">keyword-classificatie op besluittekst</span>
+        </div>
+        <div class="viz-bar-list" id="camRedenChart"><div class="empty">Laden...</div></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Reden voor woningsluiting</span>
+          <span style="font-size:11px;color:var(--muted);">keyword-classificatie op artikel-excerpt</span>
+        </div>
+        <div class="viz-bar-list" id="woningRedenChart"><div class="empty">Laden...</div></div>
+      </div>
+    </div>
+
+    <!-- NIEUW: Cumulatieve camera-dagen door de tijd -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-header">
+        <span class="card-title">Cumulatieve camera-dagen door de tijd</span>
+        <span style="font-size:11px;color:var(--muted);">som van actieve camera-periodes per maand — groeit cameratoezicht in Zaanstad?</span>
+      </div>
+      <div style="padding:12px 20px 0;" id="camDagenTijdChart"><div class="empty">Laden...</div></div>
+    </div>
+
+    <!-- NIEUW: Straten met zowel camera als woningsluiting -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-header">
+        <span class="card-title">Straten met zowel cameratoezicht als woningsluiting</span>
+        <span style="font-size:11px;color:var(--muted);">kruisverband tussen de twee datasets</span>
+      </div>
+      <div id="overlapLijst"><div class="empty">Laden...</div></div>
+    </div>
+
     <button class="btn-text" onclick="document.getElementById('bkLijstContainer').classList.toggle('hidden')">Toon / verberg onderliggende berichten</button>
     <div id="bkLijstContainer" class="hidden">
       <div class="card" style="margin-top:16px;">
