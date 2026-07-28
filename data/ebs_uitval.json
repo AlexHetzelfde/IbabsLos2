@@ -550,8 +550,8 @@
     "eerst_gezien": "2026-07-28 22:45:22"
   },
   {
-    "id": "EBS:1094:1001_2026-07-28",
-    "journey_id": "EBS:1094:1001",
+    "id": "EBS:1094:1004_2026-07-28",
+    "journey_id": "EBS:1094:1004",
     "datum": "2026-07-28",
     "lijn": "N94",
     "lijnkleur": "#000000",
@@ -566,43 +566,43 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "01:44",
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "02:22",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron E",
-        "bestemming": "Krommenie station"
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Centraal"
       },
       {
         "halte_id": "NL:S:37223860",
         "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "01:52",
+        "geplande_tijd": "02:24",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
         "platform": null,
-        "bestemming": "Krommenie station"
+        "bestemming": "Amsterdam Centraal"
       },
       {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "01:56",
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "02:31",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron I",
-        "bestemming": "Krommenie station"
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Centraal"
       }
     ],
-    "eerste_tijd": "01:44",
+    "eerste_tijd": "02:22",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-07-28 22:30:33",
-    "eerst_gezien": "2026-07-28 22:30:33"
+    "bijgewerkt": "2026-07-28 23:00:40",
+    "eerst_gezien": "2026-07-28 23:00:40"
   },
   {
     "id": "EBS:1094:1001_2026-07-28",
@@ -658,5 +658,60 @@
     "dagdeel": "nacht",
     "bijgewerkt": "2026-07-28 22:45:22",
     "eerst_gezien": "2026-07-28 22:45:22"
+  },
+  {
+    "id": "EBS:1094:1001_2026-07-28",
+    "journey_id": "EBS:1094:1001",
+    "datum": "2026-07-28",
+    "lijn": "N94",
+    "lijnkleur": "#000000",
+    "categorie": "M-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "01:44",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron E",
+        "bestemming": "Krommenie station"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "01:52",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Krommenie station"
+      },
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "01:56",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron I",
+        "bestemming": "Krommenie station"
+      }
+    ],
+    "eerste_tijd": "01:44",
+    "dagdeel": "nacht",
+    "bijgewerkt": "2026-07-28 23:00:40",
+    "eerst_gezien": "2026-07-28 23:00:40"
   }
 ]
