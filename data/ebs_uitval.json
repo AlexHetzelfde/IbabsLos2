@@ -1,5 +1,38 @@
 [
   {
+    "id": "EBS:1111:8084_2026-07-28",
+    "journey_id": "EBS:1111:8084",
+    "datum": "2026-07-28",
+    "lijn": "111",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Materieel",
+      "Schade"
+    ],
+    "oorzaak_raw": "Cause: Materieel, Schade",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "17:06",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Zaandam Station"
+      }
+    ],
+    "eerste_tijd": "17:06",
+    "dagdeel": "avondspits",
+    "bijgewerkt": "2026-07-28 13:45:34",
+    "eerst_gezien": "2026-07-28 13:45:34"
+  },
+  {
     "id": "EBS:1067:1042_2026-07-28",
     "journey_id": "EBS:1067:1042",
     "datum": "2026-07-28",
@@ -31,6 +64,39 @@
     "dagdeel": "avondspits",
     "bijgewerkt": "2026-07-28 13:30:32",
     "eerst_gezien": "2026-07-28 13:30:32"
+  },
+  {
+    "id": "EBS:1067:1042_2026-07-28",
+    "journey_id": "EBS:1067:1042",
+    "datum": "2026-07-28",
+    "lijn": "67",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Materieel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Materieel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "16:46",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Purmerend via Wormerveer"
+      }
+    ],
+    "eerste_tijd": "16:46",
+    "dagdeel": "avondspits",
+    "bijgewerkt": "2026-07-28 13:45:34",
+    "eerst_gezien": "2026-07-28 13:45:34"
   },
   {
     "id": "EBS:1067:1034_2026-07-28",
