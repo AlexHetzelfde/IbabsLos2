@@ -1,9 +1,9 @@
 [
   {
-    "id": "EBS:1394:8124_2026-07-31",
-    "journey_id": "EBS:1394:8124",
+    "id": "EBS:1391:8132_2026-07-31",
+    "journey_id": "EBS:1391:8132",
     "datum": "2026-07-31",
-    "lijn": "394",
+    "lijn": "391",
     "lijnkleur": "#e1251b",
     "categorie": "R-net",
     "status": "cancelled",
@@ -16,43 +16,21 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "20:40",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron C",
-        "bestemming": "Amsterdam Noorderpark"
-      },
-      {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "20:42",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Amsterdam Noorderpark"
-      },
-      {
         "halte_id": "NL:S:37223552",
         "halte_naam": "De Vlinder",
-        "geplande_tijd": "20:58",
+        "geplande_tijd": "21:34",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
         "platform": "Perron C",
-        "bestemming": "Amsterdam Noorderpark"
+        "bestemming": "Amsterdam Centraal"
       }
     ],
-    "eerste_tijd": "20:40",
+    "eerste_tijd": "21:34",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-07-31 17:45:28",
-    "eerst_gezien": "2026-07-31 17:45:28"
+    "bijgewerkt": "2026-07-31 18:15:30",
+    "eerst_gezien": "2026-07-31 18:15:30"
   },
   {
     "id": "EBS:1394:8124_2026-07-31",
@@ -110,37 +88,59 @@
     "eerst_gezien": "2026-07-31 18:00:49"
   },
   {
-    "id": "EBS:1067:1054_2026-07-31",
-    "journey_id": "EBS:1067:1054",
+    "id": "EBS:1394:8124_2026-07-31",
+    "journey_id": "EBS:1394:8124",
     "datum": "2026-07-31",
-    "lijn": "67",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
+    "lijn": "394",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
     "status": "cancelled",
     "oorzaak_categorieen": [
-      "Materieel",
-      "Storing"
+      "Personeel",
+      "Logistiek"
     ],
-    "oorzaak_raw": "Cause: Materieel, Storing",
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
     "terminus_alert": null,
     "advies": null,
     "haltes": [
       {
         "halte_id": "NL:S:37220130",
         "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "20:19",
+        "geplande_tijd": "20:40",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron A",
-        "bestemming": "Purmerend via Wormerveer"
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Noorderpark"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "20:42",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Amsterdam Noorderpark"
+      },
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "20:58",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Noorderpark"
       }
     ],
-    "eerste_tijd": "20:19",
+    "eerste_tijd": "20:40",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-07-31 17:45:28",
-    "eerst_gezien": "2026-07-31 17:45:28"
+    "bijgewerkt": "2026-07-31 18:15:30",
+    "eerst_gezien": "2026-07-31 18:15:30"
   },
   {
     "id": "EBS:1067:1054_2026-07-31",
@@ -174,6 +174,39 @@
     "dagdeel": "avond",
     "bijgewerkt": "2026-07-31 18:00:49",
     "eerst_gezien": "2026-07-31 18:00:49"
+  },
+  {
+    "id": "EBS:1067:1054_2026-07-31",
+    "journey_id": "EBS:1067:1054",
+    "datum": "2026-07-31",
+    "lijn": "67",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Materieel",
+      "Storing"
+    ],
+    "oorzaak_raw": "Cause: Materieel, Storing",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "20:19",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Purmerend via Wormerveer"
+      }
+    ],
+    "eerste_tijd": "20:19",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-07-31 18:15:30",
+    "eerst_gezien": "2026-07-31 18:15:30"
   },
   {
     "id": "EBS:1111:8119_2026-07-31",
@@ -192,28 +225,6 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "20:03",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron D",
-        "bestemming": "Marken"
-      },
-      {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "20:05",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Marken"
-      },
-      {
         "halte_id": "NL:S:37223552",
         "halte_naam": "De Vlinder",
         "geplande_tijd": "20:18",
@@ -225,10 +236,10 @@
         "bestemming": "Marken"
       }
     ],
-    "eerste_tijd": "20:03",
+    "eerste_tijd": "20:18",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-07-31 17:45:28",
-    "eerst_gezien": "2026-07-31 17:45:28"
+    "bijgewerkt": "2026-07-31 18:15:30",
+    "eerst_gezien": "2026-07-31 18:15:30"
   },
   {
     "id": "EBS:1111:8119_2026-07-31",
