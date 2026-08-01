@@ -229,12 +229,23 @@
       <div id="camActiefList"><div class="empty">Laden...</div></div>
     </div>
 
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-header">
+        <span class="card-title">Camera's — geschiedenis</span>
+        <span class="card-link" id="camGeschiedenisCount" style="cursor:default;">—</span>
+      </div>
+      <div id="camGeschiedenisLijst"><div class="empty">Laden...</div></div>
+    </div>
+
     <div class="bk-charts-row">
       <div class="card">
-        <div class="card-header"><span class="card-title">Camera's — geschiedenis</span></div>
-        <div id="camGeschiedenisChart" class="bk-bar-chart"><div class="empty">Laden...</div></div>
+        <div class="card-header">
+          <span class="card-title">Aantal camera's per week</span>
+          <span style="font-size:11px;color:var(--muted);">hoeveel camera's daadwerkelijk actief, per week</span>
+        </div>
+        <div style="padding:12px 20px 0;" id="camPerWeekChart"><div class="empty">Laden...</div></div>
       </div>
-      <div class="card"><div class="card-header"><span class="card-title">Woningsluitingen per maand</span></div><div class="bk-chart-container" id="bkWoningChart"></div></div>
+      <div class="card"><div class="card-header"><span class="card-title">Woningsluitingen per dag</span></div><div class="bk-chart-container" id="bkWoningChart"></div></div>
     </div>
     <div class="bk-charts-row">
       <div class="card"><div class="card-header"><span class="card-title">Woningsluitingen per wijk</span></div><div id="bkWoningWijkChart" class="bk-bar-chart"></div></div>
@@ -249,34 +260,34 @@
       </div>
     </div>
 
-    <!-- NIEUW #23: Woningsluitingsduur-histogram -->
+    <!-- Duur per woningsluiting — tabel, elke rij een eigen sluiting -->
     <div class="card" style="margin-bottom:16px;">
       <div class="card-header">
-        <span class="card-title">Woningsluitingsduur</span>
-        <span style="font-size:11px;color:var(--muted);">buckets: 0–30 / 30–90 / 90+ dagen</span>
+        <span class="card-title">Duur per woningsluiting</span>
+        <span style="font-size:11px;color:var(--muted);">adres · datum · duur · officieel/geschat</span>
       </div>
-      <div class="viz-bar-list" id="woningsluitingDuurChart"><div class="empty">Laden...</div></div>
+      <div id="woningsluitingDuurChart"><div class="empty">Laden...</div></div>
     </div>
 
-    <!-- NIEUW: Camera's per plaats + % officiële vs. geschatte einddatum -->
-    <div class="bk-charts-row">
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">Camera's per plaats</span>
-          <span style="font-size:11px;color:var(--muted);">Zaandam · Wormerveer · Assendelft · ...</span>
-        </div>
-        <div id="camPlaatsChart" class="bk-bar-chart"><div class="empty">Laden...</div></div>
+    <!-- Woningsluitingen die nu nog gesloten zijn -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-header">
+        <span class="card-title">Woningsluitingen — nu nog gesloten</span>
+        <span style="font-size:11px;color:var(--muted);">spiegelbeeld van "camera's nu actief"</span>
       </div>
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">Woningsluiting-einddatum: officieel vs. geschat</span>
-          <span style="font-size:11px;color:var(--muted);">datakwaliteit in één oogopslag</span>
-        </div>
-        <div id="eindDatumTypeChart" class="viz-bar-list"><div class="empty">Laden...</div></div>
-      </div>
+      <div id="woningNuGeslotenLijst"><div class="empty">Laden...</div></div>
     </div>
 
-    <!-- NIEUW: Reden cameratoezicht + reden woningsluiting -->
+    <!-- Camera's per plaats -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-header">
+        <span class="card-title">Camera's per plaats</span>
+        <span style="font-size:11px;color:var(--muted);">Zaandam · Wormerveer · Assendelft · ...</span>
+      </div>
+      <div id="camPlaatsChart" class="bk-bar-chart"><div class="empty">Laden...</div></div>
+    </div>
+
+    <!-- Reden cameratoezicht + reden woningsluiting -->
     <div class="bk-charts-row">
       <div class="card">
         <div class="card-header">
@@ -294,16 +305,7 @@
       </div>
     </div>
 
-    <!-- NIEUW: Cumulatieve camera-dagen door de tijd -->
-    <div class="card" style="margin-bottom:16px;">
-      <div class="card-header">
-        <span class="card-title">Cumulatieve camera-dagen door de tijd</span>
-        <span style="font-size:11px;color:var(--muted);">som van actieve camera-periodes per maand — groeit cameratoezicht in Zaanstad?</span>
-      </div>
-      <div style="padding:12px 20px 0;" id="camDagenTijdChart"><div class="empty">Laden...</div></div>
-    </div>
-
-    <!-- NIEUW: Straten met zowel camera als woningsluiting -->
+    <!-- Straten met zowel camera als woningsluiting -->
     <div class="card" style="margin-bottom:16px;">
       <div class="card-header">
         <span class="card-title">Straten met zowel cameratoezicht als woningsluiting</span>
@@ -314,10 +316,6 @@
 
     <button class="btn-text" onclick="document.getElementById('bkLijstContainer').classList.toggle('hidden')">Toon / verberg onderliggende berichten</button>
     <div id="bkLijstContainer" class="hidden">
-      <div class="card" style="margin-top:16px;">
-        <div class="card-header"><span class="card-title">Camera's — geschiedenis (ruwe lijst)</span><span class="card-link" id="camGeschiedenisCount" style="cursor:default;">—</span></div>
-        <div id="camGeschiedenisLijst"><div class="empty">Laden...</div></div>
-      </div>
       <div class="card" style="margin-top:16px;">
         <div class="card-header"><span class="card-title">Woningsluitingen (ruwe lijst)</span><span class="card-link" id="bkCount" style="cursor:default;">—</span></div>
         <div id="bkList"><div class="empty">Laden...</div></div>
