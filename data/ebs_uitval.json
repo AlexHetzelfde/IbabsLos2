@@ -1,7 +1,7 @@
 [
   {
-    "id": "EBS:1111:6116_2026-08-01",
-    "journey_id": "EBS:1111:6116",
+    "id": "EBS:1111:6120_2026-08-01",
+    "journey_id": "EBS:1111:6120",
     "datum": "2026-08-01",
     "lijn": "111",
     "lijnkleur": "#004899",
@@ -12,47 +12,47 @@
       "Logistiek"
     ],
     "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
+    "terminus_alert": "Terminates at Vijfhoek",
     "advies": null,
     "haltes": [
       {
         "halte_id": "NL:S:37220130",
         "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "21:33",
+        "geplande_tijd": "22:03",
         "vertraging_min": 0,
-        "status": "cancelled",
+        "status": "verkort",
         "vertrokken": false,
-        "realtime": false,
+        "realtime": true,
         "platform": "Perron D",
         "bestemming": "Marken"
       },
       {
         "halte_id": "NL:S:37223860",
         "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "21:35",
+        "geplande_tijd": "22:05",
         "vertraging_min": 0,
-        "status": "cancelled",
+        "status": "verkort",
         "vertrokken": false,
-        "realtime": false,
+        "realtime": true,
         "platform": null,
         "bestemming": "Marken"
       },
       {
         "halte_id": "NL:S:37223552",
         "halte_naam": "De Vlinder",
-        "geplande_tijd": "21:48",
+        "geplande_tijd": "22:18",
         "vertraging_min": 0,
-        "status": "gereden",
+        "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
         "platform": "Perron E",
         "bestemming": "Marken"
       }
     ],
-    "eerste_tijd": "21:33",
+    "eerste_tijd": "22:03",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-08-01 18:30:36",
-    "eerst_gezien": "2026-08-01 18:30:36"
+    "bijgewerkt": "2026-08-01 19:00:35",
+    "eerst_gezien": "2026-08-01 19:00:35"
   },
   {
     "id": "EBS:1111:6116_2026-08-01",
@@ -108,6 +108,61 @@
     "dagdeel": "avond",
     "bijgewerkt": "2026-08-01 18:45:31",
     "eerst_gezien": "2026-08-01 18:45:31"
+  },
+  {
+    "id": "EBS:1111:6116_2026-08-01",
+    "journey_id": "EBS:1111:6116",
+    "datum": "2026-08-01",
+    "lijn": "111",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "21:33",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron D",
+        "bestemming": "Marken"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "21:35",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Marken"
+      },
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "21:48",
+        "vertraging_min": 0,
+        "status": "gereden",
+        "vertrokken": false,
+        "realtime": true,
+        "platform": "Perron E",
+        "bestemming": "Marken"
+      }
+    ],
+    "eerste_tijd": "21:33",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-08-01 19:00:35",
+    "eerst_gezien": "2026-08-01 19:00:35"
   },
   {
     "id": "EBS:1069:6059_2026-08-01",
@@ -169,8 +224,8 @@
     ],
     "eerste_tijd": "21:19",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-08-01 18:30:36",
-    "eerst_gezien": "2026-08-01 18:30:36"
+    "bijgewerkt": "2026-08-01 18:45:31",
+    "eerst_gezien": "2026-08-01 18:45:31"
   },
   {
     "id": "EBS:1067:6028_2026-08-01",
@@ -199,8 +254,8 @@
     ],
     "eerste_tijd": "21:19",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-08-01 18:45:31",
-    "eerst_gezien": "2026-08-01 18:45:31"
+    "bijgewerkt": "2026-08-01 19:00:35",
+    "eerst_gezien": "2026-08-01 19:00:35"
   },
   {
     "id": "EBS:1069:6056_2026-08-01",
