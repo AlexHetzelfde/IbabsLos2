@@ -131,9 +131,14 @@ async function loadCamerasEnSluitingen() {
   renderOvBk();
   renderBekendmakingenLijst();
   renderCamGeschiedenisLijst();
-  // NIEUW #22 + #23
   renderCamVerlengingChart();
   renderWoningsluitingDuurChart();
+  renderCamPlaatsChart();
+  renderCamRedenChart();
+  renderWoningRedenChart();
+  renderOverlapLijst();
+  renderCamPerWeekChart();
+  renderWoningNuGeslotenLijst();
 }
 
 async function loadRaadsvragen() {
@@ -369,7 +374,7 @@ function renderUitval() {
   // ── UITVAL PER DAG (SVG) ──────────────────────────────────────────────────
   renderUvDagPeriodeButtons();
   renderUvDagChart();
-  
+
   // ── UITVAL PER DAGDEEL (cumulatief) ───────────────────────────────────────
   const dagdeelVolgorde = ['ochtendspits','dal','avondspits','avond','nacht','onbekend'];
   const dagdeelLabels   = { ochtendspits:'Ochtendspits (7–9)', dal:'Dal (9–16)', avondspits:'Avondspits (16–19)', avond:'Avond (19–24)', nacht:'Nacht (0–7)', onbekend:'Onbekend' };
@@ -1422,15 +1427,25 @@ function renderMotieAmendementViz() {
 }
 
 // ── CAMERA'S & WONINGSLUITINGEN ────────────────────────────────────────────────
-const WIJK_MAP = {};
 function getWijkUitAdres(adres) {
+  // LEGACY FALLBACK: pakt het eerste woord van het adres (meestal gewoon de
+  // straatnaam, geen echte wijk). Blijft alleen bestaan voor records die
+  // gescraped zijn vóór de scraper een los "plaats"-veld ging invullen.
+  // Voor nieuwe data wordt dit niet meer gebruikt — zie telPerPlaats().
   if (!adres) return null;
-  for (const [straat, wijk] of Object.entries(WIJK_MAP)) { if (adres.toLowerCase().includes(straat.toLowerCase())) return wijk; }
   return adres.split(' ')[0] || adres;
 }
-function telPerWijk(items) {
+function telPerPlaats(items) {
+  // Groepeert op het "plaats"-veld (Zaandam/Wormerveer/Assendelft/...) dat
+  // de scraper nu invult. Voor oudere records zonder dat veld valt dit
+  // terug op de kapotte adres-fallback hierboven, zodat oude data niet
+  // stilzwijgend verdwijnt uit de chart — het wordt dan gewoon minder
+  // precies gegroepeerd, net als voorheen.
   const map = {};
-  items.forEach(b => { if (!b.adres) return; const wijk = getWijkUitAdres(b.adres); if (!wijk) return; map[wijk] = (map[wijk] || 0) + 1; });
+  items.forEach(b => {
+    const plaats = b.plaats || getWijkUitAdres(b.adres) || 'Onbekend';
+    map[plaats] = (map[plaats] || 0) + 1;
+  });
   return map;
 }
 
@@ -1469,19 +1484,10 @@ function renderBekendmakingenDashboard() {
         </div>`;
       }).join('');
 
-  const geschiedenisData = {};
-  camerasGeschiedenis.forEach(c => {
-    const dagen = (c.periodes || []).reduce((som, p) => som + dagenTussen(p.start, p.eind), 0);
-    geschiedenisData[c.camera] = (geschiedenisData[c.camera] || 0) + (dagen || dagenTussen(c.start, c.eind));
-  });
-  tekenHorizontaleBalken('camGeschiedenisChart', geschiedenisData, 'dagen');
-
-  const nu = new Date();
-  const maanden = [];
-  for (let i = 5; i >= 0; i--) { const d = new Date(nu.getFullYear(), nu.getMonth() - i, 1); maanden.push({ maand: d.toISOString().slice(0, 7), count: 0 }); }
-  const tel = (items) => { const m = {}; maanden.forEach(x => m[x.maand] = 0); items.forEach(b => { if (b.datum) { const k = b.datum.slice(0, 7); if (k in m) m[k]++; } }); return maanden.map(x => ({ maand: x.maand, count: m[x.maand] })); };
-  tekenLijnGrafiek('bkWoningChart', tel(woningsluitingen), 'Woningsluitingen');
-  tekenHorizontaleBalken('bkWoningWijkChart', telPerWijk(woningsluitingen));
+  // Woningsluitingen per dag i.p.v. per maand — met ~1 maand aan data (vanaf
+  // 1 juli) is maand-granulariteit te grof om iets af te lezen.
+  renderWoningPerDagChart();
+  tekenHorizontaleBalken('bkWoningWijkChart', telPerPlaats(woningsluitingen));
 }
 
 function tekenLijnGrafiek(containerId, data, label) {
@@ -1508,6 +1514,50 @@ function tekenHorizontaleBalken(containerId, data, eenheid) {
   if (entries.length === 0) { container.innerHTML = '<div class="viz-empty">geen data</div>'; return; }
   const maxVal = entries[0][1];
   container.innerHTML = entries.map(([label, count]) => `<div class="bk-bar-row"><div class="bk-bar-label" title="${esc(label)}">${esc(label)}</div><div class="bk-bar-track"><div class="bk-bar-fill" style="width:${Math.round(count/maxVal*100)}%"></div></div><div class="bk-bar-count">${count}${eenheid ? '' : ''}</div></div>`).join('');
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW — WONINGSLUITINGEN PER DAG (i.p.v. per maand)
+// Met ~1 maand aan data (bijgehouden vanaf 1 juli) is maand-granulariteit
+// nauwelijks informatief — één blokje per maand. Per dag, als staafdiagram,
+// is op deze schaal veel bruikbaarder. Zelfde SVG-stijl als de EBS-uitval-
+// per-dag-chart.
+// ══════════════════════════════════════════════════════════════════════════
+function renderWoningPerDagChart() {
+  const container = document.getElementById('bkWoningChart');
+  if (!container) return;
+  const perDag = {};
+  woningsluitingen.forEach(w => { if (w.datum) perDag[w.datum] = (perDag[w.datum] || 0) + 1; });
+  const dagLijst = Object.entries(perDag).sort((a, b) => a[0].localeCompare(b[0]));
+  if (dagLijst.length < 1) { container.innerHTML = '<div class="viz-empty">Onvoldoende data</div>'; return; }
+
+  const W = 500, H = 200, PAD = { t: 10, r: 16, b: 30, l: 36 };
+  const pW = W - PAD.l - PAD.r, pH = H - PAD.t - PAD.b;
+  const maxC = Math.max(...dagLijst.map(([, n]) => n), 1);
+  const slot = pW / dagLijst.length;
+  const barW = Math.max(4, Math.floor(slot * 0.6));
+  const labelStap = Math.max(1, Math.ceil(dagLijst.length / 12));
+
+  const bars = dagLijst.map(([datum, n], i) => {
+    const x = PAD.l + i * slot + (slot - barW) / 2;
+    const h = Math.round((n / maxC) * pH);
+    const y = PAD.t + pH - h;
+    const label = (i % labelStap === 0)
+      ? `<text x="${x + barW / 2}" y="${H - 8}" text-anchor="middle" font-size="9" fill="#6B7280">${datum.slice(5)}</text>`
+      : '';
+    return `<rect x="${x}" y="${y}" width="${barW}" height="${h}" fill="#006B7B" opacity="0.82" rx="1"><title>${datum}: ${n}</title></rect>${label}`;
+  }).join('');
+
+  const yTicks = [0, Math.ceil(maxC / 2), maxC].map(v => {
+    const y = PAD.t + pH - (v / maxC) * pH;
+    return `<text x="${PAD.l - 6}" y="${y + 4}" text-anchor="end" font-size="10" fill="#6B7280">${v}</text>`;
+  }).join('');
+
+  container.innerHTML = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+    <line x1="${PAD.l}" y1="${PAD.t}" x2="${PAD.l}" y2="${PAD.t+pH}" stroke="#D8D5CE" stroke-width="1"/>
+    <line x1="${PAD.l}" y1="${PAD.t+pH}" x2="${PAD.l+pW}" y2="${PAD.t+pH}" stroke="#D8D5CE" stroke-width="1"/>
+    ${yTicks}${bars}
+  </svg>`;
 }
 
 function renderOvBk() {
@@ -1578,12 +1628,17 @@ function renderCamGeschiedenisLijst() {
 function renderCamVerlengingChart() {
   const el = document.getElementById('camVerlengingChart');
   if (!el) return;
+  // FIX: was gebaseerd op keer_verlengd (telt alleen titels met het woord
+  // "verlenging"). Miste daardoor heraanwijzingen die de gemeente anders
+  // labelt, bijv. "extra tijdelijk cameratoezicht" (zie Elzenstraat, 27 juli
+  // 2026). periodes.length - 1 telt élke heraanwijzing, ongeacht bewoording.
   const map = {};
   [...camerasActief, ...camerasGeschiedenis].forEach(c => {
-    map[c.camera] = Math.max(map[c.camera] || 0, c.keer_verlengd || 0);
+    const aantalHeraanwijzingen = (c.periodes || []).length - 1;
+    if (aantalHeraanwijzingen > 0) map[c.camera] = aantalHeraanwijzingen;
   });
-  const rijen = Object.entries(map).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]);
-  if (!rijen.length) { el.innerHTML = '<div class="viz-empty">Geen verlengingen geregistreerd</div>'; return; }
+  const rijen = Object.entries(map).sort((a, b) => b[1] - a[1]);
+  if (!rijen.length) { el.innerHTML = '<div class="viz-empty">Geen heraanwijzingen geregistreerd</div>'; return; }
   const maxV = rijen[0][1];
   el.innerHTML = rijen.map(([camera, n]) => `<div class="bk-bar-row">
     <div class="bk-bar-label" title="${esc(camera)}">${esc(camera)}</div>
@@ -1593,27 +1648,217 @@ function renderCamVerlengingChart() {
 }
 
 // ══════════════════════════════════════════════════════════════════════════
-// NIEUW #23 — WONINGSLUITINGSDUUR-HISTOGRAM (Camera's & Sluitingen-tab)
+// NIEUW — CAMERA'S PER PLAATS
+// Hergebruikt telPerPlaats(), dezelfde functie als de wijk-fix hierboven.
+// ══════════════════════════════════════════════════════════════════════════
+function renderCamPlaatsChart() {
+  const el = document.getElementById('camPlaatsChart');
+  if (!el) return;
+  tekenHorizontaleBalken('camPlaatsChart', telPerPlaats([...camerasActief, ...camerasGeschiedenis]));
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW — AANTAL CAMERA'S PER WEEK
+// Niet-cumulatief: hoeveel camera's waren daadwerkelijk actief in week X.
+// Kan stijgen én dalen — dat is precies het punt, in tegenstelling tot een
+// cumulatieve som die alleen maar kan groeien en niks zegt over het huidige
+// moment.
+// ══════════════════════════════════════════════════════════════════════════
+function renderCamPerWeekChart() {
+  const el = document.getElementById('camPerWeekChart');
+  if (!el) return;
+  const alle = [...camerasActief, ...camerasGeschiedenis];
+  const alleStarts = alle.flatMap(c => (c.periodes || []).map(p => p.start)).filter(Boolean);
+  if (!alleStarts.length) { el.innerHTML = '<div class="viz-empty">Geen camera-data</div>'; return; }
+
+  const vroegste = alleStarts.sort()[0];
+  const start = new Date(vroegste + 'T00:00:00');
+  const vandaag = new Date();
+  const weken = [];
+  for (let d = new Date(start); d <= vandaag; d.setDate(d.getDate() + 7)) {
+    weken.push(d.toISOString().slice(0, 10));
+  }
+  if (weken.length < 2) { el.innerHTML = '<div class="viz-empty">Onvoldoende data — minder dan 2 weken sinds eerste camera</div>'; return; }
+
+  const data = weken.map(weekStart => {
+    const aantalActief = alle.filter(c => (c.periodes || []).some(p => p.start <= weekStart && (p.eind || p.start) >= weekStart)).length;
+    return { maand: weekStart, count: aantalActief };
+  });
+  tekenLijnGrafiek('camPerWeekChart', data, 'Camera\'s actief');
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW — REDEN VOOR CAMERATOEZICHT
+// Aggregeert reden_categorieen die scrape_besluiten.py per periode opslaat
+// (geclassificeerd uit de "Overwegende dat"-tekst van het besluit). Ontbreekt
+// bij besluiten die vóór deze scraper-update zijn gescraped.
+// ══════════════════════════════════════════════════════════════════════════
+function renderCamRedenChart() {
+  const el = document.getElementById('camRedenChart');
+  if (!el) return;
+  const teller = {};
+  [...camerasActief, ...camerasGeschiedenis].forEach(c => {
+    (c.periodes || []).forEach(p => {
+      (p.reden_categorieen || []).forEach(cat => { teller[cat] = (teller[cat] || 0) + 1; });
+    });
+  });
+  const entries = Object.entries(teller).sort((a, b) => b[1] - a[1]);
+  if (!entries.length) { el.innerHTML = '<div class="viz-empty">Geen reden-classificatie beschikbaar (alleen besluiten gescraped na de scraper-update hebben dit veld)</div>'; return; }
+  const maxV = entries[0][1];
+  el.innerHTML = entries.map(([cat, n]) => `<div class="viz-bar-row">
+    <div class="viz-bar-label" style="width:170px;">${esc(cat)}</div>
+    <div class="viz-bar-track"><div class="viz-bar-fill" style="width:${Math.round(n/maxV*100)}%;background:var(--stop);"></div></div>
+    <div class="viz-bar-pct">${n}</div>
+  </div>`).join('');
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW — REDEN VOOR WONINGSLUITING
+// Zelfde keyword-classificatie-stijl als ONDERWERP_KEYWORDS, toegepast op
+// het bestaande excerpt-veld — geen scraper-wijziging nodig, data lag er al.
+// ══════════════════════════════════════════════════════════════════════════
+const WONING_REDEN_KEYWORDS = {
+  'Drugs':                ['drugs', 'verdovende middelen', 'hennep', 'cocaïne', 'harddrugs'],
+  'Wapens/schietincident': ['vuurwapen', 'wapen', 'wapens', 'beschoten', 'schietincident'],
+  'Steekincident':         ['steekincident', 'gestoken', 'mes'],
+  'Overlast':              ['overlast', 'wanordelijkheden'],
+  'Geweld/bedreiging':     ['geweld', 'bedreiging', 'mishandeling'],
+};
+function renderWoningRedenChart() {
+  const el = document.getElementById('woningRedenChart');
+  if (!el) return;
+  const teller = {};
+  woningsluitingen.forEach(w => {
+    const tekst = ((w.titel || '') + ' ' + (w.excerpt || '')).toLowerCase();
+    Object.entries(WONING_REDEN_KEYWORDS).forEach(([cat, kws]) => {
+      if (kws.some(kw => tekst.includes(kw))) teller[cat] = (teller[cat] || 0) + 1;
+    });
+  });
+  const entries = Object.entries(teller).sort((a, b) => b[1] - a[1]);
+  if (!entries.length) { el.innerHTML = '<div class="viz-empty">Geen reden herkend in artikel-excerpts</div>'; return; }
+  const maxV = entries[0][1];
+  el.innerHTML = entries.map(([cat, n]) => `<div class="viz-bar-row">
+    <div class="viz-bar-label" style="width:170px;">${esc(cat)}</div>
+    <div class="viz-bar-track"><div class="viz-bar-fill" style="width:${Math.round(n/maxV*100)}%;background:var(--hold);"></div></div>
+    <div class="viz-bar-pct">${n}</div>
+  </div>`).join('');
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW — STRATEN MET ZOWEL CAMERATOEZICHT ALS WONINGSLUITING
+// Matcht op de kernstraatnaam van het camera-label tegen het adres-veld van
+// woningsluitingen. Zuiver stringmatch — geen garantie op 100% precisie,
+// maar met straatnamen die specifiek genoeg zijn (min. 4 tekens) is de kans
+// op valse positieven laag.
+// ══════════════════════════════════════════════════════════════════════════
+function kernStraatVanCamera(cameraLabel) {
+  return (cameraLabel || '').split(/\s+(in|te)\s+/i)[0].trim();
+}
+function renderOverlapLijst() {
+  const el = document.getElementById('overlapLijst');
+  if (!el) return;
+  const alleCameras = [...camerasActief, ...camerasGeschiedenis];
+  const matches = [];
+  alleCameras.forEach(c => {
+    const kern = kernStraatVanCamera(c.camera).toLowerCase();
+    if (kern.length < 4) return;
+    woningsluitingen.forEach(w => {
+      if (w.adres && w.adres.toLowerCase().includes(kern)) matches.push({ camera: c.camera, woning: w });
+    });
+  });
+  if (!matches.length) { el.innerHTML = '<div class="empty">Geen overlap gevonden tussen camera- en woningsluitingslocaties.</div>'; return; }
+  el.innerHTML = matches.map(m => `<div class="bk-item">
+    <div class="bk-top"><div>
+      <div class="bk-title-link" style="cursor:default;">📷 ${esc(m.camera)} ↔ 🏠 ${esc(m.woning.adres)}</div>
+      <div class="bk-meta">
+        <span class="bk-date">${fmtDate(m.woning.datum, 'full')}</span>
+        <a href="${m.woning.link || '#'}" target="_blank" style="font-size:11px;color:var(--teal);">Artikel →</a>
+      </div>
+      ${m.woning.excerpt ? `<div class="bk-desc">${esc(m.woning.excerpt)}</div>` : ''}
+    </div></div>
+  </div>`).join('');
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW — WONINGSLUITINGEN DIE NU NOG GESLOTEN ZIJN
+// Spiegelbeeld van "camera's — nu actief": alleen sluitingen met een
+// (bekende of geschatte) einddatum die nog niet gepasseerd is. Sluitingen
+// zonder einddatum kunnen we niet met zekerheid als "nog gesloten" of
+// "waarschijnlijk voorbij" classificeren — die tonen we apart, expliciet
+// gelabeld als onbekend, in plaats van ze stilzwijgend mee of niet mee te
+// tellen.
+// ══════════════════════════════════════════════════════════════════════════
+function renderWoningNuGeslotenLijst() {
+  const el = document.getElementById('woningNuGeslotenLijst');
+  if (!el) return;
+  const vandaag = new Date().toISOString().slice(0, 10);
+
+  const nogGesloten = woningsluitingen
+    .filter(w => w.eind_datum && w.eind_datum >= vandaag)
+    .sort((a, b) => a.eind_datum.localeCompare(b.eind_datum));
+  const onbekendeStatus = woningsluitingen.filter(w => !w.eind_datum);
+
+  const rijenHtml = nogGesloten.map(w => {
+    const dagenResterend = dagenTussen(vandaag, w.eind_datum);
+    const bijnaVerlopen = dagenResterend <= 14;
+    return `<div class="bk-item">
+      <div class="bk-top"><div>
+        <div class="bk-title-link" style="cursor:default;">🏠 ${esc(w.adres || w.titel)}</div>
+        <div class="bk-meta">
+          <span class="bk-date">gesloten sinds ${fmtDate(w.datum, 'full')}</span>
+          <span class="badge ${bijnaVerlopen ? 'badge-hold' : 'badge-go'}">${dagenResterend} dagen resterend</span>
+          <span class="badge badge-teal">${w.eind_datum_type === 'geschat_uit_artikeltekst' ? 'geschatte einddatum' : 'officiële einddatum'}</span>
+        </div>
+      </div></div>
+    </div>`;
+  }).join('');
+
+  const onbekendHtml = onbekendeStatus.length
+    ? `<div style="padding:10px 20px;font-size:11px;color:var(--muted);">+ ${onbekendeStatus.length} woningsluiting${onbekendeStatus.length === 1 ? '' : 'en'} zonder bekende einddatum — status onbekend, niet in bovenstaande telling meegenomen.</div>`
+    : '';
+
+  el.innerHTML = (nogGesloten.length ? rijenHtml : '<div class="empty">Geen woningsluitingen op dit moment nog actief (met bekende einddatum).</div>') + onbekendHtml;
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// DUUR PER WONINGSLUITING — TABEL
+// Vervangt het eerdere histogram: elke rij is één specifieke woningsluiting,
+// zodat direct duidelijk is óm welke sluiting het gaat, niet alleen hoeveel
+// er in een duur-bucket vallen.
 // ══════════════════════════════════════════════════════════════════════════
 function renderWoningsluitingDuurChart() {
   const el = document.getElementById('woningsluitingDuurChart');
   if (!el) return;
-  const buckets = { '0–30 dagen': 0, '30–90 dagen': 0, '90+ dagen': 0, 'Onbekend (geen einddatum)': 0 };
-  woningsluitingen.forEach(w => {
-    if (!w.eind_datum) { buckets['Onbekend (geen einddatum)']++; return; }
-    const dagen = dagenTussen(w.datum, w.eind_datum);
-    if (dagen <= 30) buckets['0–30 dagen']++;
-    else if (dagen <= 90) buckets['30–90 dagen']++;
-    else buckets['90+ dagen']++;
-  });
-  const entries = Object.entries(buckets).filter(([, v]) => v > 0);
-  if (!entries.length) { el.innerHTML = '<div class="viz-empty">Geen woningsluitingen beschikbaar</div>'; return; }
-  const maxV = Math.max(...entries.map(([, v]) => v));
-  el.innerHTML = entries.map(([label, n]) => `<div class="viz-bar-row">
-    <div class="viz-bar-label" style="width:200px;">${esc(label)}</div>
-    <div class="viz-bar-track"><div class="viz-bar-fill" style="width:${Math.round(n/maxV*100)}%;background:var(--hold);"></div></div>
-    <div class="viz-bar-pct">${n}</div>
-  </div>`).join('');
+  if (!woningsluitingen.length) { el.innerHTML = '<div class="empty">Geen woningsluitingen beschikbaar</div>'; return; }
+
+  const rijen = [...woningsluitingen]
+    .sort((a, b) => (b.datum || '').localeCompare(a.datum || ''))
+    .map(w => {
+      const dagen = w.eind_datum ? dagenTussen(w.datum, w.eind_datum) : null;
+      const duurLabel = dagen != null
+        ? `${dagen} dagen${w.eind_datum_type === 'geschat_uit_artikeltekst' ? ' (geschat)' : ' (officieel)'}`
+        : 'onbekend';
+      return `<tr>
+        <td style="padding:6px 8px;border-bottom:1px solid var(--rule);">${esc(w.adres || w.titel)}</td>
+        <td style="padding:6px 8px;border-bottom:1px solid var(--rule);font-family:'JetBrains Mono',monospace;font-size:11px;white-space:nowrap;">${fmtDate(w.datum, 'short')}</td>
+        <td style="padding:6px 8px;border-bottom:1px solid var(--rule);white-space:nowrap;">${duurLabel}</td>
+        <td style="padding:6px 8px;border-bottom:1px solid var(--rule);">${w.eind_datum ? fmtDate(w.eind_datum, 'short') : '—'}</td>
+        <td style="padding:6px 8px;border-bottom:1px solid var(--rule);"><a href="${w.link || '#'}" target="_blank" style="color:var(--teal);font-size:11px;">artikel →</a></td>
+      </tr>`;
+    }).join('');
+
+  el.innerHTML = `<div style="overflow-x:auto;padding:0 4px;">
+    <table style="width:100%;border-collapse:collapse;font-size:12px;">
+      <thead><tr>
+        <th style="text-align:left;padding:6px 8px;">Adres</th>
+        <th style="text-align:left;padding:6px 8px;">Startdatum</th>
+        <th style="text-align:left;padding:6px 8px;">Duur</th>
+        <th style="text-align:left;padding:6px 8px;">Einddatum</th>
+        <th style="text-align:left;padding:6px 8px;"></th>
+      </tr></thead>
+      <tbody>${rijen}</tbody>
+    </table>
+  </div>`;
 }
 
 // ── RAADSVRAGEN ───────────────────────────────────────────────────────────────
