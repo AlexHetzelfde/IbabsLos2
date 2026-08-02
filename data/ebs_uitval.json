@@ -30,8 +30,8 @@
     "eerst_gezien": "2026-08-02 18:45:28"
   },
   {
-    "id": "EBS:1064:7058_2026-08-02",
-    "journey_id": "EBS:1064:7058",
+    "id": "EBS:1064:7051_2026-08-02",
+    "journey_id": "EBS:1064:7051",
     "datum": "2026-08-02",
     "lijn": "64",
     "lijnkleur": "#004899",
@@ -43,32 +43,32 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "21:55",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron B",
-        "bestemming": "Zaandam Kogerveld"
-      },
-      {
         "halte_id": "NL:S:37223860",
         "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "21:58",
+        "geplande_tijd": "22:16",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
         "platform": null,
-        "bestemming": "Zaandam Kogerveld"
+        "bestemming": "Zaandijk Rooswijk"
+      },
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "22:22",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron H",
+        "bestemming": "Zaandijk Rooswijk"
       }
     ],
-    "eerste_tijd": "21:55",
+    "eerste_tijd": "22:16",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-08-02 18:30:28",
-    "eerst_gezien": "2026-08-02 18:30:28"
+    "bijgewerkt": "2026-08-02 19:00:38",
+    "eerst_gezien": "2026-08-02 19:00:38"
   },
   {
     "id": "EBS:1064:7058_2026-08-02",
@@ -112,10 +112,10 @@
     "eerst_gezien": "2026-08-02 18:45:28"
   },
   {
-    "id": "EBS:1111:7096_2026-08-02",
-    "journey_id": "EBS:1111:7096",
+    "id": "EBS:1064:7058_2026-08-02",
+    "journey_id": "EBS:1064:7058",
     "datum": "2026-08-02",
-    "lijn": "111",
+    "lijn": "64",
     "lijnkleur": "#004899",
     "categorie": "M-net",
     "status": "cancelled",
@@ -125,32 +125,32 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "21:04",
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "21:55",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron A",
-        "bestemming": "Zaandam Station"
+        "platform": "Perron B",
+        "bestemming": "Zaandam Kogerveld"
       },
       {
         "halte_id": "NL:S:37223860",
         "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "21:13",
+        "geplande_tijd": "21:58",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
         "platform": null,
-        "bestemming": "Zaandam Station"
+        "bestemming": "Zaandam Kogerveld"
       }
     ],
-    "eerste_tijd": "21:04",
+    "eerste_tijd": "21:55",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-08-02 18:30:28",
-    "eerst_gezien": "2026-08-02 18:30:28"
+    "bijgewerkt": "2026-08-02 19:00:38",
+    "eerst_gezien": "2026-08-02 19:00:38"
   },
   {
     "id": "EBS:1111:7096_2026-08-02",
@@ -192,6 +192,47 @@
     "dagdeel": "avond",
     "bijgewerkt": "2026-08-02 18:45:28",
     "eerst_gezien": "2026-08-02 18:45:28"
+  },
+  {
+    "id": "EBS:1111:7096_2026-08-02",
+    "journey_id": "EBS:1111:7096",
+    "datum": "2026-08-02",
+    "lijn": "111",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "21:04",
+        "vertraging_min": -3,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Zaandam Station"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "21:13",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Zaandam Station"
+      }
+    ],
+    "eerste_tijd": "21:04",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-08-02 19:00:38",
+    "eerst_gezien": "2026-08-02 19:00:38"
   },
   {
     "id": "EBS:1111:7087_2026-08-02",
