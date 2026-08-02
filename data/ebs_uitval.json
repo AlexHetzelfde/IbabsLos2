@@ -1,9 +1,42 @@
 [
   {
-    "id": "EBS:1395:7011_2026-08-02",
-    "journey_id": "EBS:1395:7011",
+    "id": "EBS:1801:7206_2026-08-02",
+    "journey_id": "EBS:1801:7206",
     "datum": "2026-08-02",
-    "lijn": "395",
+    "lijn": "801",
+    "lijnkleur": "#f39200",
+    "categorie": "M-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "11:10",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron G",
+        "bestemming": "Volendam"
+      }
+    ],
+    "eerste_tijd": "11:10",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-08-02 07:45:38",
+    "eerst_gezien": "2026-08-02 07:45:38"
+  },
+  {
+    "id": "EBS:1391:7022_2026-08-02",
+    "journey_id": "EBS:1391:7022",
+    "datum": "2026-08-02",
+    "lijn": "391",
     "lijnkleur": "#e1251b",
     "categorie": "R-net",
     "status": "cancelled",
@@ -15,19 +48,19 @@
       {
         "halte_id": "NL:S:37223552",
         "halte_naam": "De Vlinder",
-        "geplande_tijd": "10:32",
+        "geplande_tijd": "11:03",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron E",
-        "bestemming": "Zaandam ZMC"
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Centraal"
       }
     ],
-    "eerste_tijd": "10:32",
+    "eerste_tijd": "11:03",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-08-02 07:15:22",
-    "eerst_gezien": "2026-08-02 07:15:22"
+    "bijgewerkt": "2026-08-02 07:45:38",
+    "eerst_gezien": "2026-08-02 07:45:38"
   },
   {
     "id": "EBS:1395:7011_2026-08-02",
@@ -55,6 +88,77 @@
       }
     ],
     "eerste_tijd": "10:32",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-08-02 07:30:34",
+    "eerst_gezien": "2026-08-02 07:30:34"
+  },
+  {
+    "id": "EBS:1395:7011_2026-08-02",
+    "journey_id": "EBS:1395:7011",
+    "datum": "2026-08-02",
+    "lijn": "395",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "10:32",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron E",
+        "bestemming": "Zaandam ZMC"
+      }
+    ],
+    "eerste_tijd": "10:32",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-08-02 07:45:38",
+    "eerst_gezien": "2026-08-02 07:45:38"
+  },
+  {
+    "id": "EBS:1111:7012_2026-08-02",
+    "journey_id": "EBS:1111:7012",
+    "datum": "2026-08-02",
+    "lijn": "111",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "10:04",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Zaandam Station"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "10:13",
+        "vertraging_min": 0,
+        "status": "gereden",
+        "vertrokken": false,
+        "realtime": true,
+        "platform": null,
+        "bestemming": "Zaandam Station"
+      }
+    ],
+    "eerste_tijd": "10:04",
     "dagdeel": "dal",
     "bijgewerkt": "2026-08-02 07:30:34",
     "eerst_gezien": "2026-08-02 07:30:34"
@@ -97,49 +201,8 @@
     ],
     "eerste_tijd": "10:04",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-08-02 07:15:22",
-    "eerst_gezien": "2026-08-02 07:15:22"
-  },
-  {
-    "id": "EBS:1111:7012_2026-08-02",
-    "journey_id": "EBS:1111:7012",
-    "datum": "2026-08-02",
-    "lijn": "111",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
-    "status": "cancelled",
-    "oorzaak_categorieen": [],
-    "oorzaak_raw": null,
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "10:04",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron A",
-        "bestemming": "Zaandam Station"
-      },
-      {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "10:13",
-        "vertraging_min": 0,
-        "status": "gereden",
-        "vertrokken": false,
-        "realtime": true,
-        "platform": null,
-        "bestemming": "Zaandam Station"
-      }
-    ],
-    "eerste_tijd": "10:04",
-    "dagdeel": "dal",
-    "bijgewerkt": "2026-08-02 07:30:34",
-    "eerst_gezien": "2026-08-02 07:30:34"
+    "bijgewerkt": "2026-08-02 07:45:38",
+    "eerst_gezien": "2026-08-02 07:45:38"
   },
   {
     "id": "EBS:1111:7007_2026-08-02",
