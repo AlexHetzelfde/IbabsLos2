@@ -63,6 +63,12 @@ jobs:
           SCRAPE_VANAF: ${{ env.SCRAPE_VANAF || github.event.inputs.vanaf }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         continue-on-error: true
+      - name: NOS lokaal-relevantie scrapen
+        id: nos
+        run: python scrape_nos.py
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        continue-on-error: true
       - name: Camera's en woningsluitingen scrapen
         id: besluiten
         run: python scrape_besluiten.py
@@ -78,7 +84,8 @@ jobs:
           steps.vergaderingen.outcome == 'success' &&
           steps.stemmingen.outcome == 'success' &&
           steps.collegeberichten.outcome == 'success' &&
-          steps.besluiten.outcome == 'success'
+          steps.besluiten.outcome == 'success' &&
+          steps.nos.outcome == 'success'
         run: date -u +'%Y-%m-%d' > data/.last_scrape_raadsdata
       - name: Waarschuwen bij gefaalde scraper
         if: |
@@ -86,7 +93,8 @@ jobs:
           steps.vergaderingen.outcome == 'failure' ||
           steps.stemmingen.outcome == 'failure' ||
           steps.collegeberichten.outcome == 'failure' ||
-          steps.besluiten.outcome == 'failure'
+          steps.besluiten.outcome == 'failure' ||
+          steps.nos.outcome == 'failure'
         run: |
           echo "::warning::Eén of meer scrapers zijn gefaald — scrape-tracker NIET bijgewerkt, zodat het gemiste venster bij de volgende run opnieuw wordt geprobeerd."
       - name: Wijzigingen committen en pushen
