@@ -29,6 +29,7 @@
   <div class="tab"        data-tab="stemmingen"     onclick="switchTab(this)">Stemmingen</div>
   <div class="tab"        data-tab="collegebrieven" onclick="switchTab(this)">Collegebrieven</div>
   <div class="tab" data-tab="uitval"    onclick="switchTab(this)">🚌 Uitval</div>
+  <div class="tab"        data-tab="nos"            onclick="switchTab(this)">📰 NOS lokaal</div>
   <div class="tab"        data-tab="factcheck"      onclick="switchTab(this)">✦ Factcheck</div>
 </nav>
 
@@ -485,6 +486,31 @@
     </div>
   </div>
 
+  <!-- NIEUW: uitval per maand (aantal + percentage) -->
+  <div class="viz-row" style="margin-bottom:16px;">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Aantal uitgevallen ritten per maand</span>
+      </div>
+      <div class="viz-bar-list" id="uvAantalPerMaandChart"><div class="empty">Laden...</div></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Uitvalpercentage per maand</span>
+      </div>
+      <div class="viz-bar-list" id="uvPctPerMaandChart"><div class="empty">Laden...</div></div>
+    </div>
+  </div>
+
+  <!-- NIEUW: uitvalpercentage per buslijn -->
+  <div class="card" style="margin-bottom:16px;">
+    <div class="card-header">
+      <span class="card-title">Uitvalpercentage per lijn</span>
+      <span style="font-size:11px;color:var(--muted);">vult zich vanaf de scraper-update, lijnen met &lt;10 ritten weggelaten</span>
+    </div>
+    <div class="viz-bar-list" id="uvPctPerLijnChart"><div class="empty">Laden...</div></div>
+  </div>
+
   <div class="viz-row" style="margin-bottom:16px;">
     <div class="card">
       <div class="card-header"><span class="card-title">Uitval per lijn</span></div>
@@ -527,6 +553,40 @@
     <div id="uvLijst" style="margin-top:8px;"><div class="empty">Laden...</div></div>
   </div>
 </div>
+
+  <!-- ── NOS LOKAAL ── -->
+  <div class="tab-content" id="tab-nos">
+    <div class="alert-info">Landelijk NOS-nieuws, gefilterd op mogelijke Zaanstad-invalshoek. "Niet gecheckt" betekent dat een artikel de keyword-voorselectie niet haalde of dat er geen API-key beschikbaar was tijdens het scrapen — niet dat er zeker géén lokale hoek is.</div>
+
+    <div class="bk-stats-row" style="grid-template-columns:repeat(2,1fr);">
+      <div class="bk-stat-card">
+        <div class="bk-stat-label">Artikelen totaal</div>
+        <div class="bk-stat-value" id="nosTotaal">—</div>
+      </div>
+      <div class="bk-stat-card">
+        <div class="bk-stat-label">Met lokale hoek</div>
+        <div class="bk-stat-value" style="color:var(--go);" id="nosMetHoek">—</div>
+        <div class="bk-stat-sub" id="nosGechecktSub">laden...</div>
+      </div>
+    </div>
+
+    <div class="filter-bar">
+      <select class="filter-select" id="filterNosHoek" onchange="renderNosLokaalLijst()">
+        <option value="">Alle artikelen</option>
+        <option value="ja">Alleen met lokale hoek</option>
+        <option value="nee">Alleen zonder lokale hoek</option>
+        <option value="nietgecheckt">Alleen niet gecheckt</option>
+      </select>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">NOS-artikelen</span>
+        <span class="card-link" id="nosCount" style="cursor:default;">—</span>
+      </div>
+      <div id="nosLijst"><div class="empty">Laden...</div></div>
+    </div>
+  </div>
 
   <!-- ── FACTCHECK ── -->
   <div class="tab-content" id="tab-factcheck">
