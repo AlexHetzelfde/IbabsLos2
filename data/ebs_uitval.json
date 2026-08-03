@@ -1,5 +1,71 @@
 [
   {
+    "id": "EBS:1391:8109_2026-08-03",
+    "journey_id": "EBS:1391:8109",
+    "datum": "2026-08-03",
+    "lijn": "391",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "19:24",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron D",
+        "bestemming": "Zaanse Schans"
+      }
+    ],
+    "eerste_tijd": "19:24",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-08-03 16:00:36",
+    "eerst_gezien": "2026-08-03 16:00:36"
+  },
+  {
+    "id": "EBS:1395:8107_2026-08-03",
+    "journey_id": "EBS:1395:8107",
+    "datum": "2026-08-03",
+    "lijn": "395",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "19:22",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron E",
+        "bestemming": "Zaandam ZMC"
+      }
+    ],
+    "eerste_tijd": "19:22",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-08-03 16:00:36",
+    "eerst_gezien": "2026-08-03 16:00:36"
+  },
+  {
     "id": "EBS:1064:1053_2026-08-03",
     "journey_id": "EBS:1064:1053",
     "datum": "2026-08-03",
@@ -33,12 +99,12 @@
     "eerst_gezien": "2026-08-03 15:45:28"
   },
   {
-    "id": "EBS:1391:8105_2026-08-03",
-    "journey_id": "EBS:1391:8105",
+    "id": "EBS:1064:1053_2026-08-03",
+    "journey_id": "EBS:1064:1053",
     "datum": "2026-08-03",
-    "lijn": "391",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
+    "lijn": "64",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Personeel",
@@ -49,21 +115,21 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "18:58",
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "19:10",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron D",
-        "bestemming": "Zaandam 't Kalf"
+        "platform": null,
+        "bestemming": "Zaandam Station"
       }
     ],
-    "eerste_tijd": "18:58",
-    "dagdeel": "avondspits",
-    "bijgewerkt": "2026-08-03 15:30:32",
-    "eerst_gezien": "2026-08-03 15:30:32"
+    "eerste_tijd": "19:10",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-08-03 16:00:36",
+    "eerst_gezien": "2026-08-03 16:00:36"
   },
   {
     "id": "EBS:1391:8105_2026-08-03",
@@ -99,10 +165,10 @@
     "eerst_gezien": "2026-08-03 15:45:28"
   },
   {
-    "id": "EBS:1395:8106_2026-08-03",
-    "journey_id": "EBS:1395:8106",
+    "id": "EBS:1391:8105_2026-08-03",
+    "journey_id": "EBS:1391:8105",
     "datum": "2026-08-03",
-    "lijn": "395",
+    "lijn": "391",
     "lijnkleur": "#e1251b",
     "categorie": "R-net",
     "status": "cancelled",
@@ -117,19 +183,19 @@
       {
         "halte_id": "NL:S:37223552",
         "halte_naam": "De Vlinder",
-        "geplande_tijd": "18:50",
+        "geplande_tijd": "18:58",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron B",
-        "bestemming": "Amsterdam Sloterdijk"
+        "platform": "Perron D",
+        "bestemming": "Zaandam 't Kalf"
       }
     ],
-    "eerste_tijd": "18:50",
+    "eerste_tijd": "18:58",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-08-03 15:30:32",
-    "eerst_gezien": "2026-08-03 15:30:32"
+    "bijgewerkt": "2026-08-03 16:00:36",
+    "eerst_gezien": "2026-08-03 16:00:36"
   },
   {
     "id": "EBS:1395:8106_2026-08-03",
@@ -160,6 +226,113 @@
       }
     ],
     "eerste_tijd": "18:50",
+    "dagdeel": "avondspits",
+    "bijgewerkt": "2026-08-03 15:45:28",
+    "eerst_gezien": "2026-08-03 15:45:28"
+  },
+  {
+    "id": "EBS:1395:8106_2026-08-03",
+    "journey_id": "EBS:1395:8106",
+    "datum": "2026-08-03",
+    "lijn": "395",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "18:50",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron B",
+        "bestemming": "Amsterdam Sloterdijk"
+      }
+    ],
+    "eerste_tijd": "18:50",
+    "dagdeel": "avondspits",
+    "bijgewerkt": "2026-08-03 16:00:36",
+    "eerst_gezien": "2026-08-03 16:00:36"
+  },
+  {
+    "id": "EBS:1067:1050_2026-08-03",
+    "journey_id": "EBS:1067:1050",
+    "datum": "2026-08-03",
+    "lijn": "67",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "18:47",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Purmerend via Wormerveer"
+      }
+    ],
+    "eerste_tijd": "18:47",
+    "dagdeel": "avondspits",
+    "bijgewerkt": "2026-08-03 16:00:36",
+    "eerst_gezien": "2026-08-03 16:00:36"
+  },
+  {
+    "id": "EBS:1064:1048_2026-08-03",
+    "journey_id": "EBS:1064:1048",
+    "datum": "2026-08-03",
+    "lijn": "64",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "18:46",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron B",
+        "bestemming": "Zaandam"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "18:50",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Zaandam"
+      }
+    ],
+    "eerste_tijd": "18:46",
     "dagdeel": "avondspits",
     "bijgewerkt": "2026-08-03 15:45:28",
     "eerst_gezien": "2026-08-03 15:45:28"
@@ -205,85 +378,8 @@
     ],
     "eerste_tijd": "18:46",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-08-03 15:30:32",
-    "eerst_gezien": "2026-08-03 15:30:32"
-  },
-  {
-    "id": "EBS:1064:1048_2026-08-03",
-    "journey_id": "EBS:1064:1048",
-    "datum": "2026-08-03",
-    "lijn": "64",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "18:46",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron B",
-        "bestemming": "Zaandam"
-      },
-      {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "18:50",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Zaandam"
-      }
-    ],
-    "eerste_tijd": "18:46",
-    "dagdeel": "avondspits",
-    "bijgewerkt": "2026-08-03 15:45:28",
-    "eerst_gezien": "2026-08-03 15:45:28"
-  },
-  {
-    "id": "EBS:1395:8099_2026-08-03",
-    "journey_id": "EBS:1395:8099",
-    "datum": "2026-08-03",
-    "lijn": "395",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "18:24",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron E",
-        "bestemming": "Zaandam ZMC"
-      }
-    ],
-    "eerste_tijd": "18:24",
-    "dagdeel": "avondspits",
-    "bijgewerkt": "2026-08-03 15:30:32",
-    "eerst_gezien": "2026-08-03 15:30:32"
+    "bijgewerkt": "2026-08-03 16:00:36",
+    "eerst_gezien": "2026-08-03 16:00:36"
   },
   {
     "id": "EBS:1395:8099_2026-08-03",
@@ -319,10 +415,10 @@
     "eerst_gezien": "2026-08-03 15:45:28"
   },
   {
-    "id": "EBS:1391:8100_2026-08-03",
-    "journey_id": "EBS:1391:8100",
+    "id": "EBS:1395:8099_2026-08-03",
+    "journey_id": "EBS:1395:8099",
     "datum": "2026-08-03",
-    "lijn": "391",
+    "lijn": "395",
     "lijnkleur": "#e1251b",
     "categorie": "R-net",
     "status": "cancelled",
@@ -337,19 +433,19 @@
       {
         "halte_id": "NL:S:37223552",
         "halte_naam": "De Vlinder",
-        "geplande_tijd": "18:05",
+        "geplande_tijd": "18:24",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron C",
-        "bestemming": "Amsterdam Centraal"
+        "platform": "Perron E",
+        "bestemming": "Zaandam ZMC"
       }
     ],
-    "eerste_tijd": "18:05",
+    "eerste_tijd": "18:24",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-08-03 15:30:32",
-    "eerst_gezien": "2026-08-03 15:30:32"
+    "bijgewerkt": "2026-08-03 16:00:36",
+    "eerst_gezien": "2026-08-03 16:00:36"
   },
   {
     "id": "EBS:1391:8100_2026-08-03",
@@ -383,6 +479,39 @@
     "dagdeel": "avondspits",
     "bijgewerkt": "2026-08-03 15:45:28",
     "eerst_gezien": "2026-08-03 15:45:28"
+  },
+  {
+    "id": "EBS:1391:8100_2026-08-03",
+    "journey_id": "EBS:1391:8100",
+    "datum": "2026-08-03",
+    "lijn": "391",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "18:05",
+        "vertraging_min": -4,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Centraal"
+      }
+    ],
+    "eerste_tijd": "18:05",
+    "dagdeel": "avondspits",
+    "bijgewerkt": "2026-08-03 16:00:36",
+    "eerst_gezien": "2026-08-03 16:00:36"
   },
   {
     "id": "EBS:1064:1047_2026-08-03",
@@ -404,7 +533,7 @@
         "halte_id": "NL:S:37220130",
         "halte_naam": "Station Zaandam (Provincialeweg)",
         "geplande_tijd": "17:46",
-        "vertraging_min": 0,
+        "vertraging_min": 14,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
@@ -414,8 +543,8 @@
     ],
     "eerste_tijd": "17:46",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-08-03 15:45:28",
-    "eerst_gezien": "2026-08-03 15:45:28"
+    "bijgewerkt": "2026-08-03 16:00:36",
+    "eerst_gezien": "2026-08-03 16:00:36"
   },
   {
     "id": "EBS:1064:1047_2026-08-03",
