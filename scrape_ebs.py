@@ -29,6 +29,14 @@ Resultaat:
                                          over de hele meetperiode, i.p.v.
                                          alleen over vandaag.
 
+NIEUW: naast per_lijn (aantal UITGEVALLEN ritten per lijn) wordt nu ook
+totaal_per_lijn bijgehouden — het totaal aantal ritten (uitgevallen én
+gereden) per lijn. Zonder dat kon er geen uitvalpercentage per lijn
+berekend worden, alleen een absoluut aantal. Dit geldt zowel voor de
+live teller van vandaag als voor gearchiveerde dagen. LET OP: dagen van
+vóór deze wijziging hebben geen totaal_per_lijn — de frontend moet dat
+gewoon overslaan voor die dagen, niet crashen of foutief 0% tonen.
+
 Zodra een nieuwe dag begint, wordt de vorige dag automatisch samengevat naar
 ebs_percentage_historie.json (inclusief de uitsplitsingen hierboven) en
 verdwijnen de losse ritten uit ebs_uitval.json en ebs_totaal_teller.json.
@@ -386,6 +394,10 @@ def bouw_dag_aggregaat(oude_datum, teller, bestaand_ruw):
         "verkort":     verkort,
         "pct":         round((cancelled + verkort) / totaal * 100, 1) if totaal else 0,
         "per_lijn":    _tel_enkelvoudig(uitgevallen, lambda r: r["lijn"]),
+        # NIEUW: totaal aantal ritten (uitgevallen + gereden) per lijn, nodig
+        # om een uitvalPERCENTAGE per lijn te kunnen berekenen — per_lijn
+        # hierboven telt alleen de uitval, niet de noemer.
+        "totaal_per_lijn": _tel_enkelvoudig(ritten_die_dag, lambda r: r["lijn"]),
         "per_oorzaak": _tel_meervoudig(uitgevallen, lambda r: r["oorzaak_categorieen"] or []),
         "per_halte":   _tel_enkelvoudig(uitgevallen, lambda r: (r["haltes"] or [{}])[0].get("halte_naam")),
         "per_dagdeel": _tel_enkelvoudig(uitgevallen, lambda r: r["dagdeel"]),
@@ -464,14 +476,28 @@ def main():
     teller       = archiveer_oude_dagen(vandaag, teller, bestaand_ruw)
 
     if vandaag not in teller:
-        teller[vandaag] = {"totaal": 0, "journeys": []}
+        teller[vandaag] = {"totaal": 0, "journeys": [], "totaal_per_lijn": {}}
+    teller[vandaag].setdefault("totaal_per_lijn", {})
 
     # Alle journey_id's van vandaag (alleen unieke, dat zijn ze al in 'nieuwe_ritten')
     ids_vandaag = {rit["journey_id"] for rit in nieuwe_ritten.values() if rit["datum"] == vandaag}
     bestaande_ids = set(teller[vandaag]["journeys"])
     nieuwe_ids = ids_vandaag - bestaande_ids
 
+    # NIEUW: lijn-lookup zodat we per nieuwe unieke rit ook totaal_per_lijn
+    # kunnen bijhouden — nodig voor een uitvalpercentage per lijn (zie
+    # bouw_dag_aggregaat hierboven voor dezelfde logica bij afgesloten dagen).
+    journey_naar_lijn = {
+        rit["journey_id"]: rit["lijn"]
+        for rit in nieuwe_ritten.values()
+        if rit["datum"] == vandaag
+    }
+
     if nieuwe_ids:
+        for jid in nieuwe_ids:
+            lijn = journey_naar_lijn.get(jid)
+            if lijn:
+                teller[vandaag]["totaal_per_lijn"][lijn] = teller[vandaag]["totaal_per_lijn"].get(lijn, 0) + 1
         teller[vandaag]["totaal"] += len(nieuwe_ids)
         teller[vandaag]["journeys"].extend(nieuwe_ids)
         print(f"  Teller: +{len(nieuwe_ids)} unieke ritten vandaag → totaal {teller[vandaag]['totaal']}")
