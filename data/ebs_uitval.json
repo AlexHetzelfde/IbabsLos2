@@ -1,5 +1,38 @@
 [
   {
+    "id": "EBS:1069:1063_2026-08-04",
+    "journey_id": "EBS:1069:1063",
+    "datum": "2026-08-04",
+    "lijn": "69",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "21:57",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Zaandam Station"
+      }
+    ],
+    "eerste_tijd": "21:57",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-08-04 18:30:30",
+    "eerst_gezien": "2026-08-04 18:30:30"
+  },
+  {
     "id": "EBS:1111:8129_2026-08-04",
     "journey_id": "EBS:1111:8129",
     "datum": "2026-08-04",
@@ -33,10 +66,10 @@
     "eerst_gezien": "2026-08-04 18:15:35"
   },
   {
-    "id": "EBS:1069:1060_2026-08-04",
-    "journey_id": "EBS:1069:1060",
+    "id": "EBS:1111:8129_2026-08-04",
+    "journey_id": "EBS:1111:8129",
     "datum": "2026-08-04",
-    "lijn": "69",
+    "lijn": "111",
     "lijnkleur": "#004899",
     "categorie": "M-net",
     "status": "cancelled",
@@ -49,32 +82,21 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "20:27",
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "21:34",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron I",
-        "bestemming": "Krommenie"
-      },
-      {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "20:29",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Krommenie"
+        "platform": "Perron E",
+        "bestemming": "Amsterdam Noord"
       }
     ],
-    "eerste_tijd": "20:27",
+    "eerste_tijd": "21:34",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-08-04 18:00:41",
-    "eerst_gezien": "2026-08-04 18:00:41"
+    "bijgewerkt": "2026-08-04 18:30:30",
+    "eerst_gezien": "2026-08-04 18:30:30"
   },
   {
     "id": "EBS:1069:1060_2026-08-04",
