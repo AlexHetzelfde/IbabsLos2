@@ -2916,7 +2916,7 @@ async function transcribeerAudio() {
       reader.readAsDataURL(file);
     });
     const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey}`,
       { method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contents: [{ parts: [
@@ -3031,7 +3031,7 @@ ${tekst.slice(0, 9000)}`;
 
   try {
     const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${apiKey}`,
       { method:'POST', headers:{'Content-Type':'application/json'},
         body: JSON.stringify({ contents:[{parts:[{text:prompt}]}], generationConfig:{temperature:0.2,maxOutputTokens:2048} }) }
     );
