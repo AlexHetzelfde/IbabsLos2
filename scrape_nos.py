@@ -54,7 +54,7 @@ HEADERS = {
     ),
 }
 
-GEMINI_MODEL = "gemini-1.5-flash"
+GEMINI_MODEL = "gemini-3.1-flash-lite"
 GEMINI_URL = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent"
 
 # Grove, gratis voorselectie — brede thema's die vaak een lokale
