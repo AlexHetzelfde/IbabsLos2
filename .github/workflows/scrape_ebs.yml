@@ -81,8 +81,3 @@ jobs:
             sleep "$wacht"
             git pull --rebase --autostash
           done
-      - name: Deploy triggeren
-        if: success()
-        run: gh workflow run static.yml
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
