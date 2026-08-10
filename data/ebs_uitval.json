@@ -33,10 +33,10 @@
     "eerst_gezien": "2026-08-10 04:30:33"
   },
   {
-    "id": "EBS:1065:1004_2026-08-10",
-    "journey_id": "EBS:1065:1004",
+    "id": "EBS:1063:1009_2026-08-10",
+    "journey_id": "EBS:1063:1009",
     "datum": "2026-08-10",
-    "lijn": "65",
+    "lijn": "63",
     "lijnkleur": "#004899",
     "categorie": "M-net",
     "status": "cancelled",
@@ -49,21 +49,21 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "07:35",
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "07:57",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron B",
-        "bestemming": "Zaandam"
+        "platform": "Perron E",
+        "bestemming": "Assendelft"
       }
     ],
-    "eerste_tijd": "07:35",
+    "eerste_tijd": "07:57",
     "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-08-10 04:20:21",
-    "eerst_gezien": "2026-08-10 04:20:21"
+    "bijgewerkt": "2026-08-10 04:40:25",
+    "eerst_gezien": "2026-08-10 04:40:25"
   },
   {
     "id": "EBS:1065:1004_2026-08-10",
@@ -97,5 +97,38 @@
     "dagdeel": "ochtendspits",
     "bijgewerkt": "2026-08-10 04:30:33",
     "eerst_gezien": "2026-08-10 04:30:33"
+  },
+  {
+    "id": "EBS:1065:1004_2026-08-10",
+    "journey_id": "EBS:1065:1004",
+    "datum": "2026-08-10",
+    "lijn": "65",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "07:35",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron B",
+        "bestemming": "Zaandam"
+      }
+    ],
+    "eerste_tijd": "07:35",
+    "dagdeel": "ochtendspits",
+    "bijgewerkt": "2026-08-10 04:40:25",
+    "eerst_gezien": "2026-08-10 04:40:25"
   }
 ]
