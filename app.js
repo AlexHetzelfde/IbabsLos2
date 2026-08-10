@@ -35,7 +35,7 @@ function getAllFracties() {
 }
 
 // ── STATE ─────────────────────────────────────────────────────────────────────
-let vergaderingen = [], moties = [], camerasActief = [], camerasGeschiedenis = [], woningsluitingen = [], collegebrieven = [], stemmingen = [], uitval = [], nosLokaal = [];
+let vergaderingen = [], moties = [], camerasActief = [], camerasGeschiedenis = [], woningsluitingen = [], collegebrieven = [], stemmingen = [], uitval = [], nosLokaal = [], aanbestedingen = [];
 let _uvDagPeriodeDagen = 7; // default: laatste 7 dagen, tegen de wall-of-bars
 let huidigeClaims = [];
 let _chartFractie = null;
@@ -46,7 +46,7 @@ let percentageHistorie = {};
 document.addEventListener('DOMContentLoaded', async () => {
   const savedKey = localStorage.getItem('zr_gemini_key');
   if (savedKey) document.getElementById('geminiKey').value = savedKey;
-  await Promise.all([loadVerg(), loadMoties(), loadCamerasEnSluitingen(), loadCollegebrieven(), loadStemmingen(), loadUitval(), loadNosLokaal()]);
+  await Promise.all([loadVerg(), loadMoties(), loadCamerasEnSluitingen(), loadCollegebrieven(), loadStemmingen(), loadUitval(), loadNosLokaal(), loadAanbestedingen()]);
   updateStats();
   renderOpgeslagenClaims();
   // NIEUW: cross-dataset visualisaties — pas renderen als alle bronnen binnen zijn
@@ -678,6 +678,114 @@ function renderNosLokaalLijst() {
         </div>
         ${a.lokale_hoek_toelichting ? `<div class="bk-desc" style="color:var(--go);">💡 ${esc(a.lokale_hoek_toelichting)}</div>` : ''}
         ${a.excerpt ? `<div class="bk-desc">${esc(a.excerpt)}</div>` : ''}
+      </div></div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW — AANBESTEDINGEN (nieuwe tab)
+// Eén record per aanbesteding (gegroepeerd via procedure_id door
+// scrape_aanbestedingen.py), met een lijst "publicaties" (Mededinging,
+// Resultaat, eventueel Vooraankondiging) en een afgeleide status.
+// ══════════════════════════════════════════════════════════════════════════
+async function loadAanbestedingen() {
+  try {
+    const r = await fetch('./data/aanbestedingen.json');
+    if (!r.ok) throw new Error(r.status);
+    aanbestedingen = await r.json();
+    renderAanbestedingenStats();
+    renderAanbestedingenStatusChart();
+    renderAanbestedingenLijst();
+  } catch (e) {
+    aanbestedingen = [];
+    const lijstEl = document.getElementById('aanbLijst');
+    if (lijstEl) {
+      lijstEl.innerHTML = e.message === '404'
+        ? '<div class="empty">Nog geen aanbestedingsdata — draai eerst scrape_aanbestedingen.py.</div>'
+        : `<div class="error-msg">Fout: ${e.message}</div>`;
+    }
+  }
+}
+
+function renderAanbestedingenStats() {
+  const totaalEl = document.getElementById('aanbTotaal');
+  if (!totaalEl) return;
+  const actief = aanbestedingen.filter(a => a.status === 'actief lopend').length;
+  const ingetrokken = aanbestedingen.filter(a => a.status === 'ingetrokken').length;
+  totaalEl.textContent = aanbestedingen.length;
+  document.getElementById('aanbActief').textContent = actief;
+  document.getElementById('aanbIngetrokken').textContent = ingetrokken;
+}
+
+function renderAanbestedingenStatusChart() {
+  const el = document.getElementById('aanbStatusChart');
+  if (!el) return;
+  const teller = {};
+  aanbestedingen.forEach(a => { const s = a.status || 'onbekend'; teller[s] = (teller[s] || 0) + 1; });
+  const entries = Object.entries(teller).sort((a, b) => b[1] - a[1]);
+  if (!entries.length) { el.innerHTML = '<div class="viz-empty">Geen data</div>'; return; }
+  const maxV = entries[0][1];
+  const kleurVoor = s => s === 'gegund' ? 'var(--go)' : s === 'ingetrokken' ? 'var(--stop)' : s === 'actief lopend' ? 'var(--teal)' : 'var(--hold)';
+  el.innerHTML = entries.map(([status, n]) => `<div class="viz-bar-row">
+    <div class="viz-bar-label" style="width:140px;">${esc(status)}</div>
+    <div class="viz-bar-track"><div class="viz-bar-fill" style="width:${Math.round(n/maxV*100)}%;background:${kleurVoor(status)};"></div></div>
+    <div class="viz-bar-pct">${n}</div>
+  </div>`).join('');
+}
+
+function fmtBedrag(v) {
+  if (v == null || v === '') return null;
+  const n = typeof v === 'number' ? v : parseFloat(String(v).replace(/[^\d.,-]/g, '').replace(',', '.'));
+  if (isNaN(n)) return String(v);
+  if (n >= 1_000_000) return '€' + (n / 1_000_000).toFixed(1).replace('.', ',') + ' mln';
+  return '€' + Math.round(n).toLocaleString('nl-NL');
+}
+
+function renderAanbestedingenLijst() {
+  const lijstEl = document.getElementById('aanbLijst');
+  if (!lijstEl) return;
+  const filter = document.getElementById('filterAanbStatus')?.value || '';
+  let f = [...aanbestedingen];
+  if (filter) f = f.filter(a => (a.status || 'onbekend') === filter);
+  f.sort((a, b) => (b.laatste_update || '').localeCompare(a.laatste_update || ''));
+
+  const countEl = document.getElementById('aanbCount');
+  if (countEl) countEl.textContent = f.length + ' aanbestedingen';
+
+  if (!f.length) { lijstEl.innerHTML = '<div class="empty">Geen aanbestedingen gevonden.</div>'; return; }
+
+  const statusBadgeAanb = (status) => {
+    const map = {
+      'gegund':        ['badge-go', 'Gegund'],
+      'ingetrokken':   ['badge-stop', 'Ingetrokken'],
+      'actief lopend': ['badge-teal', 'Actief lopend'],
+    };
+    const [cls, label] = map[status] || ['badge-hold', 'Onbekend'];
+    return `<span class="badge ${cls}">${label}</span>`;
+  };
+
+  lijstEl.innerHTML = f.map(a => {
+    const waarde = fmtBedrag(a.gegunde_waarde) || fmtBedrag(a.geraamde_waarde);
+    const waardeLabel = a.gegunde_waarde ? 'gegund: ' : a.geraamde_waarde ? 'geraamd: ' : '';
+    const publicatiesHtml = (a.publicaties || []).map(p => `
+      <div style="font-size:11px;color:var(--muted);padding:3px 0;">
+        <span style="font-family:'JetBrains Mono',monospace;">${esc(p.datum_bekendmaking || '?')}</span>
+        · ${esc(p.type_aankondiging || '?')}
+        ${p.link ? ` · <a href="${esc(p.link)}" target="_blank" style="color:var(--teal);">bekijk →</a>` : ''}
+      </div>`).join('');
+
+    return `<div class="bk-item">
+      <div class="bk-top"><div style="flex:1;">
+        <div class="bk-title-link" style="cursor:default;">${esc(a.titel || '(geen titel)')}</div>
+        <div class="bk-meta">
+          ${statusBadgeAanb(a.status)}
+          ${a.cpv_code ? `<span class="badge badge-teal">${esc(a.cpv_code)}</span>` : ''}
+          ${waarde ? `<span class="bk-date">${waardeLabel}${waarde}</span>` : ''}
+          ${a.winnaar ? `<span class="bk-date">winnaar: ${esc(a.winnaar)}</span>` : ''}
+          ${a.sluitingsdatum ? `<span class="bk-date">sluiting: ${esc(a.sluitingsdatum)}</span>` : ''}
+        </div>
+        <div style="margin-top:6px;">${publicatiesHtml}</div>
       </div></div>
     </div>`;
   }).join('');
