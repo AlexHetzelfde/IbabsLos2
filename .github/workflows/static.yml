@@ -2,12 +2,24 @@
 name: Deploy static content to Pages
 
 on:
-  # Runs on pushes targeting the default branch
+  # Runs on pushes targeting the default branch (menselijke pushes — deze
+  # gebruiken je eigen credentials, dus deze trigger werkt gewoon normaal)
   push:
     branches: ["main"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+
+  # LET OP: scrape.yml en scrape_ebs.yml committen en pushen met de
+  # ingebouwde GITHUB_TOKEN. GitHub negeert push-events die door
+  # GITHUB_TOKEN zijn veroorzaakt (anti-recursie-bescherming, zie
+  # https://docs.github.com/en/actions/concepts/security/github_token) —
+  # de "push"-trigger hierboven vuurt dus NIET af na een scrape-run.
+  # workflow_run is wél uitgezonderd van die beperking en is daarom de
+  # manier waarop de site na een scrape opnieuw wordt gedeployed.
+  workflow_run:
+    workflows: ["Scrape raadsdata", "Scrape EBS uitval"]
+    types: [completed]
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -24,6 +36,11 @@ concurrency:
 jobs:
   # Single deploy job since we're just deploying
   deploy:
+    # Bij een workflow_run-trigger alleen deployen als de scrape-run zelf
+    # succesvol was (geen zin om te deployen na een gefaalde scrape-poging).
+    # Bij push/workflow_dispatch is er geen workflow_run-context, dus dan
+    # gewoon altijd doorgaan.
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
