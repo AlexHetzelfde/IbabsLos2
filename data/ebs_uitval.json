@@ -1,5 +1,49 @@
 [
   {
+    "id": "EBS:1069:1068_2026-08-10",
+    "journey_id": "EBS:1069:1068",
+    "datum": "2026-08-10",
+    "lijn": "69",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Verkeer",
+      "Stremming/Omleiding"
+    ],
+    "oorzaak_raw": "Cause: Verkeer, Stremming/Omleiding",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "22:27",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron I",
+        "bestemming": "Krommenie"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "22:29",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Krommenie"
+      }
+    ],
+    "eerste_tijd": "22:27",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-08-10 20:20:31",
+    "eerst_gezien": "2026-08-10 20:20:31"
+  },
+  {
     "id": "EBS:1111:8120_2026-08-10",
     "journey_id": "EBS:1111:8120",
     "datum": "2026-08-10",
