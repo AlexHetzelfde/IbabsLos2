@@ -30,6 +30,7 @@
   <div class="tab"        data-tab="collegebrieven" onclick="switchTab(this)">Collegebrieven</div>
   <div class="tab" data-tab="uitval"    onclick="switchTab(this)">🚌 Uitval</div>
   <div class="tab"        data-tab="nos"            onclick="switchTab(this)">📰 NOS lokaal</div>
+  <div class="tab"        data-tab="aanbestedingen" onclick="switchTab(this)">📋 Aanbestedingen</div>
   <div class="tab"        data-tab="factcheck"      onclick="switchTab(this)">✦ Factcheck</div>
 </nav>
 
@@ -585,6 +586,51 @@
         <span class="card-link" id="nosCount" style="cursor:default;">—</span>
       </div>
       <div id="nosLijst"><div class="empty">Laden...</div></div>
+    </div>
+  </div>
+
+  <!-- ── AANBESTEDINGEN ── -->
+  <div class="tab-content" id="tab-aanbestedingen">
+    <div class="alert-info">EU-aanbestedingen (TED) van/over gemeente Zaanstad. Eén regel per aanbesteding — Mededinging en Resultaat zijn gekoppeld via het procedure-ID, als dat beschikbaar is.</div>
+
+    <div class="bk-stats-row">
+      <div class="bk-stat-card">
+        <div class="bk-stat-label">Totaal aanbestedingen</div>
+        <div class="bk-stat-value" id="aanbTotaal">—</div>
+      </div>
+      <div class="bk-stat-card">
+        <div class="bk-stat-label">Actief lopend</div>
+        <div class="bk-stat-value" id="aanbActief">—</div>
+      </div>
+      <div class="bk-stat-card">
+        <div class="bk-stat-label">Ingetrokken</div>
+        <div class="bk-stat-value" style="color:var(--stop);" id="aanbIngetrokken">—</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-header">
+        <span class="card-title">Aanbestedingen per status</span>
+      </div>
+      <div class="viz-bar-list" id="aanbStatusChart"><div class="empty">Laden...</div></div>
+    </div>
+
+    <div class="filter-bar">
+      <select class="filter-select" id="filterAanbStatus" onchange="renderAanbestedingenLijst()">
+        <option value="">Alle statussen</option>
+        <option value="actief lopend">Actief lopend</option>
+        <option value="gegund">Gegund</option>
+        <option value="ingetrokken">Ingetrokken</option>
+        <option value="onbekend">Onbekend</option>
+      </select>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Alle aanbestedingen</span>
+        <span class="card-link" id="aanbCount" style="cursor:default;">—</span>
+      </div>
+      <div id="aanbLijst"><div class="empty">Laden...</div></div>
     </div>
   </div>
 
