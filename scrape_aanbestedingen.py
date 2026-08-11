@@ -71,15 +71,22 @@ STANDAARD_VANAF = "20250101"
 
 OUTPUT = "data/aanbestedingen.json"
 
-# NUTS-code voor de Zaanstreek (regio-filter) + naam-filter op de koper,
-# zoals in het plan beschreven. Beide worden gecombineerd met OR: een
-# publicatie hoeft niet aan allebei te voldoen, want "buyer-name" kan soms
-# net anders geschreven zijn dan verwacht, en "place-of-performance" vangt
-# dan mogelijk publicaties op die buyer-name mist (en andersom).
+# STRIKT gemeentefilter: alleen publicaties waar "Zaanstad" in de naam van
+# de aanbestedende dienst (buyer-name) voorkomt. GEEN regiofilter meer op
+# place-of-performance/NL325 — die viste op "plaats van uitvoering ligt in
+# de Zaanstreek", ongeacht wie de opdrachtgever is, en leverde daardoor
+# duizenden irrelevante resultaten op (Rijkswaterstaat, provincie, woning-
+# corporaties, etc. met werk in de regio). Wil je later ook verbonden
+# partijen zonder "Zaanstad" in de naam meenemen, doe dat als aparte,
+# expliciete query — niet via een brede OR in dezelfde call.
 TED_QUERY_TEMPLATE = (
-    '(buyer-name~"Zaanstad" OR place-of-performance IN (NL325)) '
-    'AND PD>={vanaf} SORT BY publication-date DESC'
+    'buyer-name~"Zaanstad" AND PD>={vanaf} SORT BY publication-date DESC'
 )
+
+# Harde noodstop: nooit meer dan dit aantal pagina's ophalen, ongeacht wat
+# de API teruggeeft. Voorkomt dat een query- of paginerings-bug (zoals de
+# vorige keer: 14.200+ resultaten) ongemerkt de hele output vervuilt.
+MAX_PAGINAS = 20
 
 # Geverifieerde eForms-veldnamen — gecontroleerd tegen de volledige TED API
 # v3 fields-allowlist (zie docstring hierboven). "procedure-identifier" en
@@ -139,14 +146,20 @@ def save_json(path, data):
 
 def ted_search(query, page=1, retries=3, wait=4):
     """POST naar de TED Search API. Geeft de geparste JSON-response terug,
-    of raised na alle retries."""
+    of raised na alle retries.
+
+    LET OP: paginationMode staat hier bewust op PAGE_NUMBER, niet ITERATION.
+    ITERATION werkt met een token (iterationNextToken) dat de API teruggeeft
+    en dat je moet doorgeven aan de volgende call — niet met een handmatig
+    page-nummer zoals dit script deed. Die mismatch was (mede) de oorzaak
+    van de vorige run die bij pagina 142 nog niet stopte."""
     body = json.dumps({
         "query": query,
         "fields": FIELDS,
         "limit": PAGE_LIMIT,
         "scope": "ALL",
         "checkQuerySyntax": False,
-        "paginationMode": "ITERATION",
+        "paginationMode": "PAGE_NUMBER",
         "page": page,
     }).encode("utf-8")
 
@@ -185,6 +198,17 @@ def fetch_alle_notices(vanaf):
             if notices:
                 print(f"  sleutels in eerste resultaat (ter controle van FIELDS hierboven):")
                 print(f"  {sorted(notices[0].keys())}")
+            # Sanity check: bij een strikt buyer-name-filter op één gemeente
+            # is dit aantal nooit torenhoog. Komt er toch iets vreemds langs
+            # (query per ongeluk weer te breed, API-gedrag veranderd), dan
+            # stoppen we hier meteen — beter een lege/onvolledige run dan
+            # duizenden irrelevante records wegschrijven.
+            if isinstance(totaal, int) and totaal > 2000:
+                raise RuntimeError(
+                    f"Onverwacht hoog aantal resultaten ({totaal}) voor een "
+                    f"gemeentefilter — query is vermoedelijk weer te breed. "
+                    f"Run afgebroken zonder data weg te schrijven."
+                )
 
         if not notices:
             break
@@ -193,6 +217,10 @@ def fetch_alle_notices(vanaf):
         print(f"  pagina {page}: {len(notices)} resultaten (totaal tot nu toe: {len(alle_notices)})")
 
         if len(notices) < PAGE_LIMIT:
+            break
+        if page >= MAX_PAGINAS:
+            print(f"  ⚠ MAX_PAGINAS ({MAX_PAGINAS}) bereikt — stoppen als noodrem, "
+                  f"ook al meldt de API mogelijk meer resultaten.")
             break
         page += 1
         time.sleep(1)  # vriendelijk zijn voor de API — er geldt een fair-usage-limiet
