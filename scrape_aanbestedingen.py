@@ -12,21 +12,23 @@ inschrijving) en de latere "Resultaat"-publicatie (gunning of intrekking)
 van dezelfde aanbesteding worden gekoppeld via de "Identificatiecode van de
 procedure" — een UUID die bij beide publicaties gelijk blijft.
 
-BELANGRIJK — onzekerheid over exacte veldnamen:
+VELDNAMEN — geverifieerd tegen de officiële TED API v3 fields-allowlist:
 De TED API v3 retourneert velden onder eForms-veldnamen (bijv.
-"publication-number", "buyer-name"). Een aantal veldnamen in dit script
-(vooral: procedure-ID, CPV-code, geraamde/gegunde waarde, winnaar) zijn
-gebaseerd op de meest waarschijnlijke conventie, maar niet 1-op-1 bevestigd
-tegen een live voorbeeldresponse. Om die reden:
-  1. Wordt PER PUBLICATIE de volledige ruwe response bewaard onder
-     "ruwe_velden", naast de "opgeschoonde" velden. Als een veldnaam-gok
-     fout blijkt, is de data nog steeds terug te vinden en te repareren
-     zonder opnieuw te hoeven scrapen.
-  2. Print het script bij de EERSTE run een overzicht van alle sleutels die
-     daadwerkelijk in de response zitten, zodat je dat in de GitHub Actions-
-     log kunt controleren tegen FIELDS hieronder.
+"publication-number", "buyer-name"). Alle veldnamen in FIELDS hieronder zijn
+gecontroleerd tegen de volledige, door de API zelf opgegeven allowlist (via
+een bewuste HTTP 400 met een onbekend veld, die de complete geldige lijst
+teruggeeft). Drie eerder gebruikte veldnamen bleken niet te bestaan en zijn
+vervangen:
+  - "deadline-receipt-tender-date-lot" bestond niet -> vervangen door "deadline"
+  - "estimated-value-cpv"              bestond niet -> geschrapt (estimated-value-lot volstaat)
+  - "tender-value-lot"                 bestond niet -> vervangen door "tender-value"
 
-Koppeling Mededinging ↔ Resultaat:
+Ondanks deze verificatie: TED breidt/wijzigt de eForms-mapping af en toe uit.
+Daarom blijft de VOLLEDIGE ruwe response per publicatie bewaard onder
+"ruwe_velden", naast de "opgeschoonde" velden — zodat een toekomstige
+veldnaam-wijziging de al gescrapete data niet onbruikbaar maakt.
+
+Koppeling Mededinging <-> Resultaat:
 Eén record per procedure_id (of, als die ontbreekt, per publicatienummer
 als losstaand record). Elk record heeft een lijst "publicaties" met alle
 bijbehorende TED-publicaties (Mededinging, Resultaat, Vooraankondiging),
@@ -42,6 +44,7 @@ Gebruik:
 Environment:
     SCRAPE_VANAF (optioneel, formaat YYYYMMDD) — publicatiedatum-ondergrens.
     Zonder deze env var wordt STANDAARD_VANAF gebruikt (zie CONFIG hieronder).
+
     Dit script gebruikt bewust NIET de gedeelde SCRAPE_VANAF-tracker van
     scrape.yml (net als scrape_besluiten.py) — dedup gebeurt via het
     publicatienummer, dus een te ruim gekozen venster levert geen dubbele
@@ -78,20 +81,20 @@ TED_QUERY_TEMPLATE = (
     'AND PD>={vanaf} SORT BY publication-date DESC'
 )
 
-# Best-gok eForms-veldnamen (kebab-case-conventie van de BT-veldlabels).
-# Zie de docstring hierboven: dit is niet 100% bevestigd, vandaar dat de
-# ruwe response ALTIJD apart bewaard wordt.
+# Geverifieerde eForms-veldnamen — gecontroleerd tegen de volledige TED API
+# v3 fields-allowlist (zie docstring hierboven). "procedure-identifier" en
+# "notice-identifier" zijn bevestigd geldige convenience-aliassen; de volledige
+# BT-code-vorm (bv. "BT-04-notice") is niet nodig zolang deze aliassen bestaan.
 FIELDS = [
     "publication-number",
     "notice-title",
     "notice-type",
     "buyer-name",
     "publication-date",
-    "deadline-receipt-tender-date-lot",
+    "deadline",
     "classification-cpv",
     "estimated-value-lot",
-    "estimated-value-cpv",
-    "tender-value-lot",
+    "tender-value",
     "winner-name",
     "procedure-identifier",
     "notice-identifier",
@@ -113,8 +116,8 @@ PAGE_LIMIT = 100
 # we niet blind willen vertrouwen zonder bevestiging; we vallen daarom ook
 # terug op de titel als extra check.
 MEDEDINGING_KEYWORDS = ["mededinging", "aankondiging van een opdracht", "cn-standard", "aanbesteding"]
-RESULTAAT_KEYWORDS   = ["gunning", "resultaat", "can-standard", "aankondiging van een gegunde opdracht"]
-INTREKKING_KEYWORDS  = ["ingetrokken", "annulering", "geannuleerd", "geen gunning", "procedure ingetrokken"]
+RESULTAAT_KEYWORDS = ["gunning", "resultaat", "can-standard", "aankondiging van een gegunde opdracht"]
+INTREKKING_KEYWORDS = ["ingetrokken", "annulering", "geannuleerd", "geen gunning", "procedure ingetrokken"]
 
 
 def grens_datum():
@@ -175,16 +178,20 @@ def fetch_alle_notices(vanaf):
     while True:
         data = ted_search(query, page=page)
         notices = data.get("notices") or data.get("results") or []
+
         if page == 1:
             totaal = data.get("totalNoticeCount") or data.get("total") or "onbekend"
             print(f"  totaal beschikbaar volgens API: {totaal}")
             if notices:
                 print(f"  sleutels in eerste resultaat (ter controle van FIELDS hierboven):")
-                print(f"    {sorted(notices[0].keys())}")
+                print(f"  {sorted(notices[0].keys())}")
+
         if not notices:
             break
+
         alle_notices.extend(notices)
         print(f"  pagina {page}: {len(notices)} resultaten (totaal tot nu toe: {len(alle_notices)})")
+
         if len(notices) < PAGE_LIMIT:
             break
         page += 1
@@ -226,10 +233,10 @@ def parse_notice(notice):
     publicatienummer = veld(notice, "publication-number", "notice-identifier")
     procedure_id = veld(notice, "procedure-identifier")
     datum = veld(notice, "publication-date")
-    deadline = veld(notice, "deadline-receipt-tender-date-lot")
+    deadline = veld(notice, "deadline")
     cpv = veld(notice, "classification-cpv")
-    geraamde_waarde = veld(notice, "estimated-value-lot", "estimated-value-cpv")
-    gegunde_waarde = veld(notice, "tender-value-lot")
+    geraamde_waarde = veld(notice, "estimated-value-lot")
+    gegunde_waarde = veld(notice, "tender-value")
     winnaar = veld(notice, "winner-name")
     koper = veld(notice, "buyer-name")
 
@@ -249,7 +256,7 @@ def parse_notice(notice):
         "gegunde_waarde": gegunde_waarde,
         "winnaar": winnaar,
         "link": f"https://ted.europa.eu/nl/notice/-/detail/{publicatienummer}" if publicatienummer else None,
-        "ruwe_velden": notice,  # NIET weggooien — vangnet voor foute veldnaam-gokken
+        "ruwe_velden": notice,  # NIET weggooien — vangnet voor toekomstige veldnaam-wijzigingen
     }
 
 
@@ -323,8 +330,7 @@ def main():
     zonder_procedure_id = sum(1 for p in publicaties if not p["procedure_id"])
     if zonder_procedure_id:
         print(f"  ⚠ {zonder_procedure_id} publicatie(s) zonder procedure_id — "
-              f"waarschijnlijk klopt de veldnaam 'procedure-identifier' niet. "
-              f"Check 'ruwe_velden' in de output om de juiste sleutel te vinden.")
+              f"controleer 'ruwe_velden' in de output om te zien of dit klopt.")
 
     nieuwe_aanbestedingen = groepeer_per_aanbesteding(publicaties)
 
@@ -345,9 +351,10 @@ def main():
         ]
         if not nieuwe_pubs:
             continue
-        nieuw_count += len(nieuwe_pubs)
 
+        nieuw_count += len(nieuwe_pubs)
         procedure_id = nieuwe_a.get("procedure_id")
+
         if procedure_id and procedure_id in bestaande_per_procedure:
             bestaande_a = bestaande_per_procedure[procedure_id]
             bestaande_a["publicaties"].extend(nieuwe_pubs)
