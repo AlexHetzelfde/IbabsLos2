@@ -6,8 +6,7 @@ Vervangt scrape_rss.py.
 
 Houdt twee dingen bij, allebei vanaf 1 juli 2026:
 
-  1. CAMERATOEZICHT — via de brede RSS-feed van officielebekendmakingen.nl
-     (subject-filter "Openbare orde en veiligheid | Organisatie en beleid").
+  1. CAMERATOEZICHT — via de brede RSS-feed van officielebekendmakingen.nl.
      Per treffer wordt de losse besluit-pagina gefetched om de machine-
      leesbare metavelden te lezen (OVERHEIDop.startdatum / einddatum) en het
      "Camera: <naam>"-label in de body, dat als unieke sleutel dient voor
@@ -24,16 +23,32 @@ Houdt twee dingen bij, allebei vanaf 1 juli 2026:
 
 Dwangsommen worden niet meer bijgehouden.
 
-LET OP over de camera-RSS-feed (FIX juli 2026):
+LET OP over de camera-RSS-feed (FIX augustus 2026):
+De query filterde eerder op dt.subject=="Openbare orde en veiligheid |
+Organisatie en beleid". Die taxonomie-waarde bestaat niet (meer) zo op de
+server, en de literal "|" in de querystring was bovendien niet URL-encoded
+(had %7C moeten zijn) — de combinatie deed de SRU/CQL-parser van
+officielebekendmakingen.nl stikken en gaf structureel HTTP 500. De query is
+vervangen door een fulltext-filter (cql.textAndIndexes=="camera") gecombineerd
+met dt.creator=="Zaanstad". Dit is ook inhoudelijk robuuster: minder
+afhankelijk van een wankele taxonomie-waarde, dichter bij "documenten die
+over camera's gaan". Let op twee gedragsveranderingen hierdoor:
+  - Het organisatietype==gemeente-filter is vervallen; er wordt alleen nog
+    gefilterd op dt.creator=="Zaanstad". Als een andere organisatie ooit
+    "Zaanstad" als creator gebruikt over een niet-cameratoezicht-onderwerp,
+    komt die nu ook door de RSS-feed heen.
+  - cql.textAndIndexes=="camera" matcht op elk woord met "camera" erin (ook
+    "camerabeveiliging" e.d., of het woord in een heel andere context).
+    Daarom blijft de "cameratoezicht" in de description-filter in
+    verwerk_cameratoezicht() staan als extra check — niet weghalen.
+
+LET OP over de eerdere titel/description-bug (juli 2026, blijft relevant):
 De <title>-tag van elk RSS-item bevat NIET de beschrijvende tekst, alleen
 het publicatienummer, bijv. "gmb-2026-364272 : Zaanstad". De beschrijvende
 tekst ("Aanwijzingsbesluit tijdelijk cameratoezicht Elzenstraat...") staat
-in de <description>-tag. Eerdere versies van dit script filterden op
-"cameratoezicht" in de titel, wat structureel nooit matchte — vandaar dat
-er altijd 0 nieuwe items werden gevonden ondanks een gevulde feed. De filter
-kijkt nu naar de description i.p.v. de titel.
+in de <description>-tag. De filter kijkt naar de description i.p.v. de titel.
 
-NIEUW (deze versie): elke camera-periode en elke woningsluiting krijgt nu
+NIEUW (sinds juli 2026): elke camera-periode en elke woningsluiting krijgt
 een "plaats"-veld (Zaandam/Wormerveer/Assendelft/etc.), en camera-periodes
 krijgen daarnaast "reden_categorieen" en "reden_samenvatting" — geclassificeerd
 uit de "Overwegende dat"-tekst van het besluit, die eerder wel werd opgehaald
@@ -67,12 +82,12 @@ from datetime import datetime, timedelta
 # Override met env var SCRAPE_VANAF (formaat YYYY-MM-DD) indien nodig.
 STANDAARD_VANAF = "2026-07-01"
 
+# FIX augustus 2026: dt.subject-taxonomiefilter (met niet-ge-encodede "|")
+# vervangen door een fulltext-filter op "camera" + creator-filter op
+# "Zaanstad". Zie toelichting bovenaan het bestand.
 CAMERA_RSS_URL = (
     "https://zoek.officielebekendmakingen.nl/rss"
     "?q=(c.product-area==%22officielepublicaties%22)"
-    "and((((w.organisatietype==%22gemeente%22)"
-    "and((dt.creator==%22Zaanstad%22)"
-    "or(dt.creator==%22gemeente%20Zaanstad%22)))))"
     "and(((w.publicatienaam==%22Tractatenblad%22))"
     "or((w.publicatienaam==%22Staatsblad%22))"
     "or((w.publicatienaam==%22Staatscourant%22))"
@@ -80,8 +95,8 @@ CAMERA_RSS_URL = (
     "or((w.publicatienaam==%22Provinciaal%20blad%22))"
     "or((w.publicatienaam==%22Waterschapsblad%22))"
     "or((w.publicatienaam==%22Blad%20gemeenschappelijke%20regeling%22)))"
-    "%20AND%20dt.subject==%22Openbare%20orde%20en%20veiligheid%20"
-    "|%20Organisatie%20en%20beleid%22"
+    "and(cql.textAndIndexes=%22camera%22)"
+    "%20AND%20dt.creator==%22Zaanstad%22"
 )
 
 ORKAAN_WONINGSLUITING_URL = "https://www.deorkaan.nl/tag/woningsluiting/"
@@ -281,7 +296,7 @@ def fetch_camera_rss():
     """Haalt de RSS-feed op en geeft per item titel, beschrijving, link en
     publicatiedatum terug.
 
-    FIX: de <title>-tag bevat alleen het publicatienummer (bijv.
+    LET OP: de <title>-tag bevat alleen het publicatienummer (bijv.
     "gmb-2026-364272 : Zaanstad"), NIET de beschrijvende tekst. Die staat in
     <description> (bijv. "Aanwijzingsbesluit tijdelijk cameratoezicht
     Elzenstraat in Wormerveer"). We halen dus expliciet ook de description
@@ -388,9 +403,9 @@ def fetch_camera_besluit(link):
         print(f"  ⚠ geen bruikbare start/einddatum gevonden voor: {titel_meta} ({link})")
         return None
 
-    # NIEUW: plaats + reden-classificatie. De platte body-tekst werd al
-    # opgehaald (html_text) maar tot nu toe alleen gebruikt voor het
-    # "Camera:"-label — de rest ("Overwegende dat...") werd weggegooid.
+    # Plaats + reden-classificatie. De platte body-tekst werd al opgehaald
+    # (html_text) maar tot nu toe alleen gebruikt voor het "Camera:"-label —
+    # de rest ("Overwegende dat...") werd weggegooid.
     plaats = extract_plaats(titel_meta) or extract_plaats(camera_label)
 
     platte_tekst = re.sub(r"<[^>]+>", "\n", html_text)
@@ -450,9 +465,11 @@ def verwerk_cameratoezicht():
                 verwerkte_links.add(p["link"])
 
     feed_items = fetch_camera_rss()
-    # FIX: filter op de beschrijving, niet op de titel — zie toelichting
-    # bij fetch_camera_rss(). De <title>-tag bevat alleen het
-    # publicatienummer en matcht daardoor nooit op "cameratoezicht".
+    # Filter op de beschrijving, niet op de titel — zie toelichting bij
+    # fetch_camera_rss(). De <title>-tag bevat alleen het publicatienummer
+    # en matcht daardoor nooit op "cameratoezicht". Deze check blijft ook
+    # met de nieuwe fulltext-query nodig, want cql.textAndIndexes=="camera"
+    # matcht breder dan alleen cameratoezicht-besluiten.
     camera_items = [
         it for it in feed_items
         if "cameratoezicht" in it["beschrijving"].lower()
@@ -679,10 +696,10 @@ def verwerk_woningsluitingen():
         if m_adres:
             adres = m_adres.group(1)
 
-        # NIEUW: plaats-veld, zelfde ZAANSTAD_PLAATSEN-lijst als bij
-        # camera's. Vervangt de kapotte WIJK_MAP-fallback in de frontend
-        # die alleen het eerste woord van het adres pakte (vaak gewoon de
-        # straatnaam, niet een wijk of plaats).
+        # Plaats-veld, zelfde ZAANSTAD_PLAATSEN-lijst als bij camera's.
+        # Vervangt de kapotte WIJK_MAP-fallback in de frontend die alleen
+        # het eerste woord van het adres pakte (vaak gewoon de straatnaam,
+        # niet een wijk of plaats).
         plaats = extract_plaats(volledige_tekst)
 
         bestaand[art["link"]] = {
