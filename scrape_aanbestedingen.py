@@ -228,17 +228,44 @@ def fetch_alle_notices(vanaf):
     return alle_notices
 
 
+TAAL_VOORKEUR = ["nld", "nl", "eng", "en", "fra", "fr", "deu", "de"]
+
+
+def _platte_waarde(waarde):
+    """Haalt één bruikbare (string) waarde uit een TED-veld, ongeacht de
+    vorm waarin het terugkomt:
+      - gewone waarde (str/int/...)          -> zo terug
+      - lijst (meerdere lots/waarden)        -> eerste element, recursief uitgepakt
+      - dict (meertalig, bv. {"nld": "...",
+        "eng": "..."})                       -> voorkeurstaal, anders eerste waarde
+    """
+    if isinstance(waarde, dict):
+        for taal in TAAL_VOORKEUR:
+            if taal in waarde and waarde[taal] not in (None, "", []):
+                return _platte_waarde(waarde[taal])
+        for v in waarde.values():
+            if v not in (None, "", []):
+                return _platte_waarde(v)
+        return None
+    if isinstance(waarde, list):
+        for item in waarde:
+            uitgepakt = _platte_waarde(item)
+            if uitgepakt not in (None, "", []):
+                return uitgepakt
+        return None
+    return waarde
+
+
 def veld(notice, *kandidaten):
     """Probeert meerdere mogelijke veldnamen (voor het geval de eForms-
-    conventie net anders blijkt dan verwacht) en geeft de eerste gevonden
-    waarde terug. TED-velden komen vaak als lijst (meertalig / meerdere
-    lots) — pakt dan het eerste element."""
+    conventie net anders blijkt dan verwacht) en geeft de eerste gevonden,
+    platte waarde terug — zie _platte_waarde() voor hoe lijsten/dicts
+    (meertalige velden, meerdere lots) worden uitgepakt."""
     for k in kandidaten:
         if k in notice and notice[k] not in (None, "", []):
-            waarde = notice[k]
-            if isinstance(waarde, list):
-                return waarde[0] if waarde else None
-            return waarde
+            uitgepakt = _platte_waarde(notice[k])
+            if uitgepakt not in (None, "", []):
+                return uitgepakt
     return None
 
 
