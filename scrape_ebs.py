@@ -416,7 +416,7 @@ def bouw_dag_aggregaat(oude_datum, teller, bestaand_ruw):
         # NIEUW: totaal aantal ritten (uitgevallen + gereden) per lijn, nodig
         # om een uitvalPERCENTAGE per lijn te kunnen berekenen — per_lijn
         # hierboven telt alleen de uitval, niet de noemer.
-        "totaal_per_lijn": _tel_enkelvoudig(ritten_die_dag, lambda r: r["lijn"]),
+        "totaal_per_lijn": teller.get(oude_datum, {}).get("totaal_per_lijn", {}),
         "per_oorzaak": _tel_meervoudig(uitgevallen, lambda r: r["oorzaak_categorieen"] or []),
         "per_halte":   _tel_enkelvoudig(uitgevallen, lambda r: (r["haltes"] or [{}])[0].get("halte_naam")),
         "per_dagdeel": _tel_enkelvoudig(uitgevallen, lambda r: r["dagdeel"]),
