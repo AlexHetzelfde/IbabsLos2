@@ -1,36 +1,36 @@
 [
   {
-    "id": "EBS:1067:1051_2026-08-12",
-    "journey_id": "EBS:1067:1051",
+    "id": "EBS:1067:1046_2026-08-12",
+    "journey_id": "EBS:1067:1046",
     "datum": "2026-08-12",
     "lijn": "67",
     "lijnkleur": "#004899",
     "categorie": "M-net",
     "status": "cancelled",
     "oorzaak_categorieen": [
-      "Materieel",
-      "Storing"
+      "Personeel",
+      "Logistiek"
     ],
-    "oorzaak_raw": "Cause: Materieel, Storing",
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
     "terminus_alert": null,
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37400100",
-        "halte_naam": "Purmerend, Busstation Tramplein",
-        "geplande_tijd": "17:44",
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "17:46",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
         "platform": "Perron A",
-        "bestemming": "Zaandam"
+        "bestemming": "Purmerend via Wormerveer"
       }
     ],
-    "eerste_tijd": "17:44",
+    "eerste_tijd": "17:46",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-08-12 15:10:24",
-    "eerst_gezien": "2026-08-12 15:10:24"
+    "bijgewerkt": "2026-08-12 15:30:32",
+    "eerst_gezien": "2026-08-12 15:30:32"
   },
   {
     "id": "EBS:1067:1051_2026-08-12",
@@ -64,6 +64,39 @@
     "dagdeel": "avondspits",
     "bijgewerkt": "2026-08-12 15:20:27",
     "eerst_gezien": "2026-08-12 15:20:27"
+  },
+  {
+    "id": "EBS:1067:1051_2026-08-12",
+    "journey_id": "EBS:1067:1051",
+    "datum": "2026-08-12",
+    "lijn": "67",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Materieel",
+      "Storing"
+    ],
+    "oorzaak_raw": "Cause: Materieel, Storing",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "17:44",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Zaandam"
+      }
+    ],
+    "eerste_tijd": "17:44",
+    "dagdeel": "avondspits",
+    "bijgewerkt": "2026-08-12 15:30:32",
+    "eerst_gezien": "2026-08-12 15:30:32"
   },
   {
     "id": "EBS:1103:1242_2026-08-12",
