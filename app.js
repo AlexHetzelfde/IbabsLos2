@@ -446,6 +446,172 @@ function renderUitvalPctPerLijnChart() {
     + `<div style="padding:8px 20px 0;font-size:10px;color:var(--muted);">Gebaseerd op ${dagenMetData} dag(en) met totaal_per_lijn-data · lijnen met &lt;10 ritten weggelaten.</div>`;
 }
 
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW — UITVAL PER LIJN PER MAAND (interactieve vergelijking)
+// Combineert percentageHistorie (historie, per dag per lijn) met de live
+// uitval van vandaag. Werkt alleen voor dagen waar per_lijn bekend is (dagen
+// van vóór de scraper-fix hebben dat veld niet) — die dagen tellen niet mee
+// als "0", maar als ontbrekende dekking, zichtbaar gemaakt in de UI i.p.v.
+// stilzwijgend een vlakke lijn op 0 te tekenen.
+// ══════════════════════════════════════════════════════════════════════════
+const UV_VGL_KLEUREN = ['#006B7B', '#B92B27', '#B86A00', '#177A3C', '#5B3A9E', '#C2185B', '#0D1B2A', '#5FA8B3'];
+const MAAND_NAMEN_LANG_UV = ['januari','februari','maart','april','mei','juni','juli','augustus','september','oktober','november','december'];
+
+function bouwUvVglDagData() {
+  const map = {};
+  Object.entries(percentageHistorie).forEach(([datum, d]) => {
+    if (!d.per_lijn) return; // dag van vóór de scraper-fix — geen dekking
+    map[datum] = d.per_lijn;
+  });
+  const vandaagKey = Object.keys(totaalTeller)[0];
+  if (vandaagKey) {
+    const perLijnVandaag = {};
+    uitval.filter(r => r.status === 'cancelled' || r.status === 'verkort').forEach(r => {
+      if (r.lijn) perLijnVandaag[r.lijn] = (perLijnVandaag[r.lijn] || 0) + 1;
+    });
+    map[vandaagKey] = perLijnVandaag;
+  }
+  return map;
+}
+
+function labelMaandUvVgl(m) {
+  const [jr, mn] = m.split('-');
+  return `${MAAND_NAMEN_LANG_UV[parseInt(mn) - 1]} ${jr}`;
+}
+
+function vulUvVglOpties(dagData) {
+  const lijnSel  = document.getElementById('uvVglLijnen');
+  const maandSel = document.getElementById('uvVglMaand');
+  if (!lijnSel || !maandSel) return;
+
+  const alleLijnen  = new Set();
+  const alleMaanden = new Set();
+  const totaalPerLijn = {};
+  Object.entries(dagData).forEach(([datum, perLijn]) => {
+    alleMaanden.add(datum.slice(0, 7));
+    Object.entries(perLijn).forEach(([l, n]) => {
+      alleLijnen.add(l);
+      totaalPerLijn[l] = (totaalPerLijn[l] || 0) + n;
+    });
+  });
+
+  if (!lijnSel.dataset.gevuld) {
+    const lijnenGesorteerd = [...alleLijnen].sort((a, b) => {
+      const na = parseInt(a), nb = parseInt(b);
+      if (!isNaN(na) && !isNaN(nb)) return na - nb;
+      return a.localeCompare(b);
+    });
+    lijnSel.innerHTML = lijnenGesorteerd.map(l => `<option value="${esc(l)}">Lijn ${esc(l)}</option>`).join('');
+    lijnSel.dataset.gevuld = '1';
+    const topLijn = Object.entries(totaalPerLijn).sort((a, b) => b[1] - a[1])[0]?.[0];
+    const topOptie = [...lijnSel.options].find(o => o.value === topLijn);
+    if (topOptie) topOptie.selected = true;
+  }
+
+  if (!maandSel.dataset.gevuld) {
+    const maandenGesorteerd = [...alleMaanden].sort().reverse();
+    maandSel.innerHTML = maandenGesorteerd.map(m => `<option value="${m}">${labelMaandUvVgl(m)}</option>`).join('');
+    maandSel.dataset.gevuld = '1';
+  }
+}
+
+function renderUitvalVergelijking() {
+  const chartEl = document.getElementById('uvVglChart');
+  const totEl   = document.getElementById('uvVglTotalen');
+  if (!chartEl || !totEl) return;
+
+  const dagData = bouwUvVglDagData();
+  vulUvVglOpties(dagData);
+
+  const lijnSel  = document.getElementById('uvVglLijnen');
+  const maandSel = document.getElementById('uvVglMaand');
+  const gekozenLijnen = [...lijnSel.selectedOptions].map(o => o.value);
+  const maand = maandSel.value;
+
+  if (!gekozenLijnen.length || !maand) {
+    chartEl.innerHTML = '<div class="viz-empty">Kies minimaal 1 buslijn en een maand</div>';
+    totEl.innerHTML = '';
+    return;
+  }
+
+  const [jr, mn] = maand.split('-').map(Number);
+  const dagenInMaand = new Date(jr, mn, 0).getDate();
+
+  const reeksen = gekozenLijnen.map((lijn, i) => {
+    const punten = [];
+    let dekkingDagen = 0;
+    for (let dag = 1; dag <= dagenInMaand; dag++) {
+      const datum = `${maand}-${String(dag).padStart(2, '0')}`;
+      const heeftDekking = Object.prototype.hasOwnProperty.call(dagData, datum);
+      if (heeftDekking) dekkingDagen++;
+      const count = heeftDekking ? (dagData[datum][lijn] || 0) : null; // null = geen dekking die dag
+      punten.push({ dag, datum, count });
+    }
+    const totaal = punten.reduce((s, p) => s + (p.count || 0), 0);
+    return { lijn, kleur: UV_VGL_KLEUREN[i % UV_VGL_KLEUREN.length], punten, totaal, dekkingDagen };
+  });
+
+  totEl.innerHTML = reeksen.map(r => `
+    <div style="display:flex;align-items:center;gap:6px;padding:5px 10px;background:var(--paper);border-left:3px solid ${r.kleur};font-size:12px;">
+      <strong>Lijn ${esc(r.lijn)}</strong>
+      <span style="color:var(--muted);">${r.totaal} uitgevallen</span>
+      ${r.dekkingDagen < dagenInMaand ? `<span style="font-size:10px;color:var(--hold);">(${r.dekkingDagen}/${dagenInMaand} dagen dekking)</span>` : ''}
+    </div>`).join('');
+
+  const heeftData = reeksen.some(r => r.punten.some(p => p.count !== null));
+  if (!heeftData) {
+    chartEl.innerHTML = '<div class="viz-empty">Geen dekking voor deze maand — per-lijn data is pas beschikbaar vanaf de scraper-update</div>';
+    return;
+  }
+
+  const W = 700, H = 240, PAD = { t: 16, r: 16, b: 30, l: 34 };
+  const pW = W - PAD.l - PAD.r, pH = H - PAD.t - PAD.b;
+  const maxC = Math.max(1, ...reeksen.flatMap(r => r.punten.map(p => p.count || 0)));
+  const xVoorDag   = dag => PAD.l + ((dag - 1) / (dagenInMaand - 1 || 1)) * pW;
+  const yVoorCount = c   => PAD.t + pH - (c / maxC) * pH;
+
+  const lijnenSVG = reeksen.map(r => {
+    const segmenten = [];
+    let huidig = [];
+    r.punten.forEach(p => {
+      if (p.count === null) { if (huidig.length > 1) segmenten.push(huidig); huidig = []; return; }
+      huidig.push(p);
+    });
+    if (huidig.length > 1) segmenten.push(huidig);
+
+    const polylines = segmenten.map(seg =>
+      `<polyline points="${seg.map(p => `${xVoorDag(p.dag)},${yVoorCount(p.count)}`).join(' ')}" fill="none" stroke="${r.kleur}" stroke-width="2.25" stroke-linejoin="round"/>`
+    ).join('');
+    const dots = r.punten.filter(p => p.count !== null).map(p =>
+      `<circle cx="${xVoorDag(p.dag)}" cy="${yVoorCount(p.count)}" r="2.5" fill="${r.kleur}"><title>Lijn ${esc(r.lijn)} — ${p.datum}: ${p.count} uitgevallen</title></circle>`
+    ).join('');
+    return polylines + dots;
+  }).join('');
+
+  const yTicks = [0, Math.ceil(maxC / 2), maxC].map(v => {
+    const y = yVoorCount(v);
+    return `<line x1="${PAD.l}" y1="${y}" x2="${PAD.l+pW}" y2="${y}" stroke="var(--rule)" stroke-width="0.5"/>
+            <text x="${PAD.l-6}" y="${y+3}" text-anchor="end" font-size="9" fill="var(--muted)">${v}</text>`;
+  }).join('');
+
+  const labelStap = Math.max(1, Math.ceil(dagenInMaand / 15));
+  const xLabels = Array.from({ length: dagenInMaand }, (_, i) => i + 1)
+    .filter(dag => (dag - 1) % labelStap === 0)
+    .map(dag => `<text x="${xVoorDag(dag)}" y="${H-8}" text-anchor="middle" font-size="9" fill="var(--muted)">${dag}</text>`)
+    .join('');
+
+  chartEl.innerHTML = `
+    <svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:${H}px;">
+      ${yTicks}
+      <line x1="${PAD.l}" y1="${PAD.t}" x2="${PAD.l}" y2="${PAD.t+pH}" stroke="var(--rule)" stroke-width="1"/>
+      <line x1="${PAD.l}" y1="${PAD.t+pH}" x2="${PAD.l+pW}" y2="${PAD.t+pH}" stroke="var(--rule)" stroke-width="1"/>
+      ${lijnenSVG}${xLabels}
+    </svg>
+    <div class="svg-chart-legend">
+      ${reeksen.map(r => `<span><span class="dot" style="background:${r.kleur};"></span>Lijn ${esc(r.lijn)}</span>`).join('')}
+    </div>`;
+}
+
 // ── EBS UITVAL ────────────────────────────────────────────────────────────────
 function renderUitval() {
   const uitgevallen = uitval.filter(r => r.status === 'cancelled' || r.status === 'verkort');
@@ -511,6 +677,7 @@ function renderUitval() {
   // NIEUW: per maand + per lijn percentage
   renderUitvalPerMaandCharts();
   renderUitvalPctPerLijnChart();
+  renderUitvalVergelijking();
 
   // ── UITVAL PER DAGDEEL (cumulatief) ───────────────────────────────────────
   const dagdeelVolgorde = ['ochtendspits','dal','avondspits','avond','nacht','onbekend'];
