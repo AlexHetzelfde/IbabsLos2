@@ -1,13 +1,19 @@
 #!/usr/bin/env python3
 """
-Haalt vertrektijden op van drie EBS-haltes via drgl.nl, dedupliceert ritten
+Haalt vertrektijden op van EBS-haltes via drgl.nl, dedupliceert ritten
 op journey-ID (zodat een lijn die op meerdere haltes stopt niet dubbel
 geteld wordt), en detecteert uitval / verkorte ritten / oorzaken.
 
 Haltes:
-    De Vlinder           NL:S:37223552
-    Gedempte Gracht       NL:S:37223860
-    Station Zaandam       NL:S:37220130   (alleen Provincialeweg)
+    De Vlinder                    NL:S:37223552
+    Gedempte Gracht                NL:S:37223860
+    Station Zaandam                NL:S:37220130   (alleen Provincialeweg)
+    Purmerend, Busstation Tramplein NL:S:37400100
+    Purmerend, Station Overwhere    NL:S:37402090
+    Edam, Busstation               NL:S:38491011
+    Monnickendam, Swaensborch      NL:S:37392150
+    Assendelft/Krommenie-Assendelft (bus) NL:S:37320410
+    Zaanse Schans                  NL:S:37221160
 
 Resultaat:
     data/ebs_uitval.json              — alleen geannuleerde ritten VAN VANDAAG
@@ -43,7 +49,7 @@ verdwijnen de losse ritten uit ebs_uitval.json en ebs_totaal_teller.json.
 Zo groeien die twee bestanden nooit onbeperkt door.
 
 Elke rit is een uniek record op (journey_id + datum). Eén fysieke rit die
-op meerdere van de drie haltes stopt, wordt samengevoegd tot één record
+op meerdere van de haltes stopt, wordt samengevoegd tot één record
 met een lijst van haltebezoeken (elk met eigen tijd/status).
 
 Status per rit (op rit-niveau, "ergste" status wint over de haltes heen):
@@ -85,6 +91,17 @@ HALTES = [
     {"id": "NL:S:37223552", "naam": "De Vlinder"},
     {"id": "NL:S:37223860", "naam": "Gedempte Gracht"},
     {"id": "NL:S:37220130", "naam": "Station Zaandam (Provincialeweg)"},
+    {"id": "NL:S:37400100", "naam": "Purmerend, Busstation Tramplein"},
+    # NIEUW: dekt lijnen die niet bij Tramplein stoppen, o.a. 101, 102, 276,
+    # 306 (R-net) en 413 — bevestigd via de live departureboard van drgl.nl
+    # op 12-08-2026. De eerdere schatting in de TODO (272/277/307/308/N06/
+    # N07/buurtbus 416) is nog niet allemaal teruggezien op het bord, dus
+    # check dat na een paar dagen scrapen nog even in de output.
+    {"id": "NL:S:37402090", "naam": "Purmerend, Station Overwhere (Churchilllaan)"},
+    {"id": "NL:S:38491011", "naam": "Edam, Busstation"},
+    {"id": "NL:S:37392150", "naam": "Monnickendam, Swaensborch"},
+    {"id": "NL:S:37320410", "naam": "Assendelft/Krommenie-Assendelft, Rangeerder"},
+    {"id": "NL:S:37221160", "naam": "Zaanse Schans"},
 ]
 
 HEADERS = {
@@ -158,6 +175,8 @@ def parse_halte_html(html, halte_id, halte_naam):
         if not m:
             continue  # dit is de alert/mededeling-regel bovenaan, geen vertrek
         journey_id, datum_ruw = m.group(1), m.group(2)
+        if not journey_id.startswith("EBS:"):
+            continue  # niet-EBS vervoerder (bijv. Connexxion) — overslaan
         datum = f"{datum_ruw[0:4]}-{datum_ruw[4:6]}-{datum_ruw[6:8]}"
 
         tijd_div = item.select_one(".ott-departure-time")
