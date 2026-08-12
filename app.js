@@ -486,6 +486,7 @@ function renderUitval() {
 
   // ── STATS ─────────────────────────────────────────────────────────────────
   document.getElementById('uvTotaal').textContent = cancelledCumulatief;
+  document.getElementById('uvTotaalRitten').textContent = 'van ' + totaalCumulatief.toLocaleString('nl-NL') + ' ritten totaal';
   const pct = totaalCumulatief ? Math.round(cancelledCumulatief / totaalCumulatief * 100) : 0;
   document.getElementById('uvPct').textContent = pct + '%';
   document.getElementById('uvPeriode').textContent =
