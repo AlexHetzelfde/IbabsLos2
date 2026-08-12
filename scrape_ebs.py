@@ -92,16 +92,23 @@ HALTES = [
     {"id": "NL:S:37223860", "naam": "Gedempte Gracht"},
     {"id": "NL:S:37220130", "naam": "Station Zaandam (Provincialeweg)"},
     {"id": "NL:S:37400100", "naam": "Purmerend, Busstation Tramplein"},
-    # NIEUW: dekt lijnen die niet bij Tramplein stoppen, o.a. 101, 102, 276,
+    # Dekt lijnen die niet bij Tramplein stoppen, o.a. 101, 102, 276,
     # 306 (R-net) en 413 — bevestigd via de live departureboard van drgl.nl
-    # op 12-08-2026. De eerdere schatting in de TODO (272/277/307/308/N06/
-    # N07/buurtbus 416) is nog niet allemaal teruggezien op het bord, dus
-    # check dat na een paar dagen scrapen nog even in de output.
+    # op 12-08-2026.
     {"id": "NL:S:37402090", "naam": "Purmerend, Station Overwhere (Churchilllaan)"},
     {"id": "NL:S:38491011", "naam": "Edam, Busstation"},
     {"id": "NL:S:37392150", "naam": "Monnickendam, Swaensborch"},
     {"id": "NL:S:37320410", "naam": "Assendelft/Krommenie-Assendelft, Rangeerder"},
     {"id": "NL:S:37221160", "naam": "Zaanse Schans"},
+    # NIEUW: dekt lijnen 104, 272 en 307 — die eindigen in Purmer-Noord
+    # (Korenstraat) en raken geen van de bovenstaande Purmerend-haltes.
+    {"id": "NL:S:37400500", "naam": "Purmerend, Korenstraat"},
+    # NIEUW: dekt lijn 308 (eindigt in Weidevenne) en buurtbus 416
+    # (stopt hier onderweg, bevestigd via haltedata).
+    {"id": "NL:S:37403640", "naam": "Purmerend, Neckerstraat"},
+    # NIEUW: dekt lijn 119 (Amsterdam Noord – Landsmeer), die helemaal
+    # niet in Purmerend komt en dus geen van de andere haltes raakt.
+    {"id": "NL:S:30001305", "naam": "Amsterdam, Busstation Station Noord"},
 ]
 
 HEADERS = {
