@@ -475,6 +475,26 @@
     <div class="stat"><div class="stat-label">Meest voorkomende oorzaak</div><div class="stat-value" style="font-size:20px;padding-top:14px;line-height:1.2;" id="uvTopOorzaak">—</div><div class="stat-sub" id="uvTopOorzaakSub">laden...</div></div>
   </div>
 
+<!-- NIEUW: interactieve vergelijking uitval per lijn per maand -->
+<div class="card" style="margin-bottom:16px;">
+  <div class="card-header">
+    <span class="card-title">Uitval per lijn per maand</span>
+    <span style="font-size:11px;color:var(--muted);">kies lijn(en) + 1 maand</span>
+  </div>
+  <div class="filter-bar" style="padding:12px 20px 0;align-items:flex-start;">
+    <div>
+      <label style="display:block;font-size:10px;color:var(--muted);margin-bottom:4px;">Buslijn(en) — Ctrl/Cmd+klik voor meerdere</label>
+      <select class="filter-select" id="uvVglLijnen" multiple size="6" style="min-width:110px;" onchange="renderUitvalVergelijking()"></select>
+    </div>
+    <div>
+      <label style="display:block;font-size:10px;color:var(--muted);margin-bottom:4px;">Maand</label>
+      <select class="filter-select" id="uvVglMaand" onchange="renderUitvalVergelijking()"></select>
+    </div>
+  </div>
+  <div id="uvVglTotalen" style="display:flex;flex-wrap:wrap;gap:8px;padding:14px 20px 0;"></div>
+  <div style="padding:12px 20px 4px;" id="uvVglChart"><div class="empty">Laden...</div></div>
+</div>
+  
   <div class="viz-row" style="margin-bottom:16px;">
     <div class="card">
   <div class="card-header"><span class="card-title">Uitval per dag</span><span style="font-size:11px;color:var(--muted);">cancelled + verkort</span></div>
