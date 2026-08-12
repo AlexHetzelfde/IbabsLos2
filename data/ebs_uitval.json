@@ -1,5 +1,38 @@
 [
   {
+    "id": "EBS:1308:8107_2026-08-12",
+    "journey_id": "EBS:1308:8107",
+    "datum": "2026-08-12",
+    "lijn": "308",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Materieel",
+      "Storing"
+    ],
+    "oorzaak_raw": "Cause: Materieel, Storing",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "19:09",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A8",
+        "bestemming": "Purmerend Weidevenne"
+      }
+    ],
+    "eerste_tijd": "19:09",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-08-12 17:00:36",
+    "eerst_gezien": "2026-08-12 17:00:36"
+  },
+  {
     "id": "EBS:1067:1046_2026-08-12",
     "journey_id": "EBS:1067:1046",
     "datum": "2026-08-12",
