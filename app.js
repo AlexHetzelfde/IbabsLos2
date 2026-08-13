@@ -35,7 +35,7 @@ function getAllFracties() {
 }
 
 // ── STATE ─────────────────────────────────────────────────────────────────────
-let vergaderingen = [], moties = [], camerasActief = [], camerasGeschiedenis = [], woningsluitingen = [], collegebrieven = [], stemmingen = [], uitval = [], nosLokaal = [], aanbestedingen = [];
+let vergaderingen = [], moties = [], camerasActief = [], camerasGeschiedenis = [], woningsluitingen = [], collegebrieven = [], stemmingen = [], uitval = [], nosLokaal = [], aanbestedingen = [], ebsMeldingen = [];
 let _uvDagPeriodeDagen = 7; // default: laatste 7 dagen, tegen de wall-of-bars
 let huidigeClaims = [];
 let _chartFractie = null;
@@ -46,7 +46,7 @@ let percentageHistorie = {};
 document.addEventListener('DOMContentLoaded', async () => {
   const savedKey = localStorage.getItem('zr_gemini_key');
   if (savedKey) document.getElementById('geminiKey').value = savedKey;
-  await Promise.all([loadVerg(), loadMoties(), loadCamerasEnSluitingen(), loadCollegebrieven(), loadStemmingen(), loadUitval(), loadNosLokaal(), loadAanbestedingen()]);
+  await Promise.all([loadVerg(), loadMoties(), loadCamerasEnSluitingen(), loadCollegebrieven(), loadStemmingen(), loadUitval(), loadNosLokaal(), loadAanbestedingen(), loadEbsMeldingen()]);
   updateStats();
   renderOpgeslagenClaims();
   // NIEUW: cross-dataset visualisaties — pas renderen als alle bronnen binnen zijn
@@ -245,14 +245,13 @@ function renderUvDagChart() {
 
   const dagMap = {};
   Object.entries(percentageHistorie).forEach(([datum, d]) => {
-    dagMap[datum] = { totaal: d.totaal || 0, cancelled: d.cancelled || 0, verkort: d.verkort || 0 };
+    dagMap[datum] = { totaal: d.totaal || 0, cancelled: d.cancelled || 0 };
   });
   const vandaagKey = Object.keys(totaalTeller)[0];
   if (vandaagKey) {
     dagMap[vandaagKey] = {
       totaal: totaalTeller[vandaagKey]?.totaal || 0,
       cancelled: uitval.filter(r => r.status === 'cancelled').length,
-      verkort: uitval.filter(r => r.status === 'verkort').length,
     };
   }
 
@@ -273,7 +272,7 @@ function renderUvDagChart() {
   const W = 680, H = 180;
   const PAD = { t: 10, r: 16, b: 36, l: 36 };
   const pW = W - PAD.l - PAD.r, pH = H - PAD.t - PAD.b;
-  const maxC = Math.max(...dagLijst.map(([,d]) => d.cancelled + d.verkort), 1);
+  const maxC = Math.max(...dagLijst.map(([,d]) => d.cancelled), 1);
   const slot = pW / dagLijst.length;
   const barW = Math.max(3, Math.floor(slot * 0.6));
   const labelStap = Math.max(1, Math.ceil(dagLijst.length / 20));
@@ -282,7 +281,6 @@ function renderUvDagChart() {
     const x    = PAD.l + i * slot + (slot - barW) / 2;
     const yB   = PAD.t + pH;
     const hCan = Math.round((d.cancelled / maxC) * pH);
-    const hVer = Math.round((d.verkort   / maxC) * pH);
     const dd   = datum.slice(5);
     const label = (i % labelStap === 0)
       ? `<text x="${x+barW/2}" y="${H-4}" text-anchor="middle" font-size="9" fill="var(--muted)">${dd}</text>`
@@ -290,8 +288,6 @@ function renderUvDagChart() {
     return `
       <rect x="${x}" y="${yB - hCan}" width="${barW}" height="${hCan}" fill="var(--stop)" opacity="0.82" rx="1">
         <title>${datum}: ${d.cancelled} cancelled</title></rect>
-      <rect x="${x}" y="${yB - hCan - hVer}" width="${barW}" height="${hVer}" fill="var(--hold)" opacity="0.75">
-        <title>${datum}: ${d.verkort} verkort</title></rect>
       ${label}`;
   }).join('');
 
@@ -308,9 +304,9 @@ function renderUvDagChart() {
       <line x1="${PAD.l}" y1="${PAD.t+pH}" x2="${PAD.l+pW}" y2="${PAD.t+pH}" stroke="var(--rule)" stroke-width="1"/>
       ${bars}
     </svg>
-    <div style="display:flex;gap:16px;padding:4px 0 12px;font-size:10px;color:var(--muted);">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;padding:4px 0 12px;font-size:10px;color:var(--muted);">
       <span style="display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;background:var(--stop);opacity:.82;display:inline-block;"></span>Cancelled</span>
-      <span style="display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;background:var(--hold);opacity:.75;display:inline-block;"></span>Verkort</span>
+      <span>${labelSindsDatum(eersteDatumMetVeld('totaal'))}</span>
     </div>`;
 }
 
@@ -325,19 +321,17 @@ function bouwUitvalPerMaand() {
   const perMaand = {};
   Object.entries(percentageHistorie).forEach(([datum, d]) => {
     const maand = datum.slice(0, 7);
-    if (!perMaand[maand]) perMaand[maand] = { totaal: 0, cancelled: 0, verkort: 0 };
+    if (!perMaand[maand]) perMaand[maand] = { totaal: 0, cancelled: 0 };
     perMaand[maand].totaal    += d.totaal || 0;
     perMaand[maand].cancelled += d.cancelled || 0;
-    perMaand[maand].verkort   += d.verkort || 0;
   });
   // Vandaag (nog niet gearchiveerd in percentageHistorie) apart meetellen
   const vandaagKey = Object.keys(totaalTeller)[0];
   if (vandaagKey) {
     const maand = vandaagKey.slice(0, 7);
-    if (!perMaand[maand]) perMaand[maand] = { totaal: 0, cancelled: 0, verkort: 0 };
+    if (!perMaand[maand]) perMaand[maand] = { totaal: 0, cancelled: 0 };
     perMaand[maand].totaal    += totaalTeller[vandaagKey]?.totaal || 0;
     perMaand[maand].cancelled += uitval.filter(r => r.status === 'cancelled').length;
-    perMaand[maand].verkort   += uitval.filter(r => r.status === 'verkort').length;
   }
   return Object.entries(perMaand).sort((a, b) => a[0].localeCompare(b[0]));
 }
@@ -360,21 +354,22 @@ function renderUitvalPerMaandCharts() {
     const jr = maand.split('-')[0].slice(2);
     return `${MAAND_NAMEN_KORT_UV[mn - 1]} '${jr}`;
   };
+  const sindsLabel = labelSindsDatum(eersteDatumMetVeld('totaal'));
 
   if (aantalEl) {
-    const maxV = Math.max(...maandLijst.map(([, d]) => d.cancelled + d.verkort), 1);
+    const maxV = Math.max(...maandLijst.map(([, d]) => d.cancelled), 1);
     aantalEl.innerHTML = maandLijst.map(([maand, d]) => {
-      const n = d.cancelled + d.verkort;
+      const n = d.cancelled;
       return `<div class="viz-bar-row">
         <div class="viz-bar-label" style="width:80px;">${labelVoor(maand)}</div>
         <div class="viz-bar-track"><div class="viz-bar-fill" style="width:${Math.round(n/maxV*100)}%;background:var(--stop);"></div></div>
         <div class="viz-bar-pct">${n}</div>
       </div>`;
-    }).join('');
+    }).join('') + `<div style="padding:8px 20px 0;font-size:10px;color:var(--muted);">${sindsLabel}</div>`;
   }
 
   if (pctEl) {
-    const pctPerMaand = maandLijst.map(([maand, d]) => [maand, d.totaal ? (d.cancelled + d.verkort) / d.totaal * 100 : 0]);
+    const pctPerMaand = maandLijst.map(([maand, d]) => [maand, d.totaal ? d.cancelled / d.totaal * 100 : 0]);
     const maxPct = Math.max(...pctPerMaand.map(([, p]) => p), 1);
     pctEl.innerHTML = pctPerMaand.map(([maand, pct]) => {
       const pctAfgerond = Math.round(pct * 10) / 10;
@@ -383,7 +378,7 @@ function renderUitvalPerMaandCharts() {
         <div class="viz-bar-track"><div class="viz-bar-fill" style="width:${Math.round(pct/maxPct*100)}%;background:var(--hold);"></div></div>
         <div class="viz-bar-pct">${pctAfgerond}%</div>
       </div>`;
-    }).join('');
+    }).join('') + `<div style="padding:8px 20px 0;font-size:10px;color:var(--muted);">${sindsLabel}</div>`;
   }
 }
 
@@ -416,7 +411,7 @@ function renderUitvalPctPerLijnChart() {
   if (vandaagKey && totaalTeller[vandaagKey]?.totaal_per_lijn) {
     dagenMetData++;
     Object.entries(totaalTeller[vandaagKey].totaal_per_lijn).forEach(([lijn, n]) => { totaalPerLijn[lijn] = (totaalPerLijn[lijn] || 0) + n; });
-    uitval.filter(r => r.status === 'cancelled' || r.status === 'verkort').forEach(r => {
+    uitval.filter(r => r.status === 'cancelled').forEach(r => {
       if (r.lijn) cancelledPerLijn[r.lijn] = (cancelledPerLijn[r.lijn] || 0) + 1;
     });
   }
@@ -438,12 +433,13 @@ function renderUitvalPctPerLijnChart() {
   if (!rijen.length) { el.innerHTML = '<div class="viz-empty">Onvoldoende ritten per lijn voor een betrouwbaar percentage</div>'; return; }
 
   const maxPct = Math.max(...rijen.map(r => r.pct), 1);
+  const sindsDatum = labelSindsDatum(eersteDatumMetVeld('totaal_per_lijn'));
   el.innerHTML = rijen.map(r => `<div class="viz-bar-row">
     <div class="viz-bar-label" style="width:80px;">Lijn ${esc(r.lijn)}</div>
     <div class="viz-bar-track"><div class="viz-bar-fill" style="width:${Math.round(r.pct/maxPct*100)}%;background:var(--stop);"></div></div>
     <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);width:75px;text-align:right;flex-shrink:0;">${r.pct}% (${r.cancelled}/${r.totaal})</div>
   </div>`).join('')
-    + `<div style="padding:8px 20px 0;font-size:10px;color:var(--muted);">Gebaseerd op ${dagenMetData} dag(en) met totaal_per_lijn-data · lijnen met &lt;10 ritten weggelaten.</div>`;
+    + `<div style="padding:8px 20px 0;font-size:10px;color:var(--muted);">Gebaseerd op ${dagenMetData} dag(en) met totaal_per_lijn-data · lijnen met &lt;10 ritten weggelaten. ${sindsDatum}</div>`;
 }
 
 // ══════════════════════════════════════════════════════════════════════════
@@ -466,7 +462,7 @@ function bouwUvVglDagData() {
   const vandaagKey = Object.keys(totaalTeller)[0];
   if (vandaagKey) {
     const perLijnVandaag = {};
-    uitval.filter(r => r.status === 'cancelled' || r.status === 'verkort').forEach(r => {
+    uitval.filter(r => r.status === 'cancelled').forEach(r => {
       if (r.lijn) perLijnVandaag[r.lijn] = (perLijnVandaag[r.lijn] || 0) + 1;
     });
     map[vandaagKey] = perLijnVandaag;
@@ -556,7 +552,8 @@ function renderUitvalVergelijking() {
       <strong>Lijn ${esc(r.lijn)}</strong>
       <span style="color:var(--muted);">${r.totaal} uitgevallen</span>
       ${r.dekkingDagen < dagenInMaand ? `<span style="font-size:10px;color:var(--hold);">(${r.dekkingDagen}/${dagenInMaand} dagen dekking)</span>` : ''}
-    </div>`).join('');
+    </div>`).join('')
+    + `<div style="padding:6px 10px 0;font-size:10px;color:var(--muted);">${labelSindsDatum(eersteDatumMetVeld('per_lijn'))}</div>`;
 
   const heeftData = reeksen.some(r => r.punten.some(p => p.count !== null));
   if (!heeftData) {
@@ -614,7 +611,7 @@ function renderUitvalVergelijking() {
 
 // ── EBS UITVAL ────────────────────────────────────────────────────────────────
 function renderUitval() {
-  const uitgevallen = uitval.filter(r => r.status === 'cancelled' || r.status === 'verkort');
+  const uitgevallen = uitval.filter(r => r.status === 'cancelled');
 
   // ── CUMULATIEVE TELLERS (historie + vandaag) ──────────────────────────────
   const lijnTeller = {}, oorzaakTeller = {}, halteTeller = {}, dagdeelTeller = {};
@@ -629,7 +626,7 @@ function renderUitval() {
   alleDatums.forEach(d => {
     const dag = percentageHistorie[d];
     totaalCumulatief    += dag.totaal || 0;
-    cancelledCumulatief += (dag.cancelled || 0) + (dag.verkort || 0);
+    cancelledCumulatief += dag.cancelled || 0;
     optellenIn(lijnTeller,    dag.per_lijn);
     optellenIn(oorzaakTeller, dag.per_oorzaak);
     optellenIn(halteTeller,   dag.per_halte);
@@ -683,18 +680,20 @@ function renderUitval() {
   const dagdeelVolgorde = ['ochtendspits','dal','avondspits','avond','nacht','onbekend'];
   const dagdeelLabels   = { ochtendspits:'Ochtendspits (7–9)', dal:'Dal (9–16)', avondspits:'Avondspits (16–19)', avond:'Avond (19–24)', nacht:'Nacht (0–7)', onbekend:'Onbekend' };
   const maxDd = Math.max(...Object.values(dagdeelTeller), 1);
-  document.getElementById('uvDagdeelChart').innerHTML = dagdeelVolgorde
+  const sindsPerLijnVeld = labelSindsDatum(eersteDatumMetVeld('per_lijn'));
+  document.getElementById('uvDagdeelChart').innerHTML = (dagdeelVolgorde
     .filter(d => dagdeelTeller[d] > 0)
     .map(d => `<div class="viz-bar-row">
       <div class="viz-bar-label" style="width:160px;">${dagdeelLabels[d]}</div>
       <div class="viz-bar-track"><div class="viz-bar-fill" style="width:${Math.round(dagdeelTeller[d]/maxDd*100)}%;background:var(--stop);"></div></div>
       <div class="viz-bar-pct">${dagdeelTeller[d]}</div>
-    </div>`).join('') || '<div class="viz-empty">Geen data</div>';
+    </div>`).join('') || '<div class="viz-empty">Geen data</div>')
+    + `<div style="padding:8px 20px 0;font-size:10px;color:var(--muted);">${sindsPerLijnVeld}</div>`;
 
   // ── UITVAL PER LIJN (cumulatief) ──────────────────────────────────────────
   const maxLijn = Math.max(...Object.values(lijnTeller), 1);
   const lijnLijst = Object.entries(lijnTeller).sort((a,b) => b[1]-a[1]);
-  document.getElementById('uvLijnChart').innerHTML = lijnLijst
+  document.getElementById('uvLijnChart').innerHTML = (lijnLijst
     .map(([lijn, n]) => {
       const kleur = lijnKleurMap[lijn] || 'var(--navy)';
       return `<div class="viz-bar-row">
@@ -704,27 +703,30 @@ function renderUitval() {
         <div class="viz-bar-track"><div class="viz-bar-fill" style="width:${Math.round(n/maxLijn*100)}%;background:var(--stop);"></div></div>
         <div class="viz-bar-pct">${n}</div>
       </div>`;
-    }).join('') || '<div class="viz-empty">Geen data</div>';
+    }).join('') || '<div class="viz-empty">Geen data</div>')
+    + `<div style="padding:8px 20px 0;font-size:10px;color:var(--muted);">${sindsPerLijnVeld} · lijnen buiten Zaandam-centrum pas volledig sinds de uitbreiding naar 12 haltes (12 aug).</div>`;
 
   // ── UITVAL PER HALTE (cumulatief) ─────────────────────────────────────────
   const maxHalte = Math.max(...Object.values(halteTeller), 1);
-  document.getElementById('uvHalteChart').innerHTML = Object.entries(halteTeller)
+  document.getElementById('uvHalteChart').innerHTML = (Object.entries(halteTeller)
     .sort((a,b) => b[1]-a[1])
     .map(([naam, n]) => `<div class="viz-bar-row">
       <div class="viz-bar-label" style="width:200px;" title="${esc(naam)}">${esc(naam)}</div>
       <div class="viz-bar-track"><div class="viz-bar-fill" style="width:${Math.round(n/maxHalte*100)}%;background:var(--teal);"></div></div>
       <div class="viz-bar-pct">${n}</div>
-    </div>`).join('') || '<div class="viz-empty">Geen data</div>';
+    </div>`).join('') || '<div class="viz-empty">Geen data</div>')
+    + `<div style="padding:8px 20px 0;font-size:10px;color:var(--muted);">${sindsPerLijnVeld} · 9 van de 12 haltes worden pas sinds 12 augustus gevolgd.</div>`;
 
   // ── UITVAL PER OORZAAK ────────────────────────────────────────────────────
   const maxOorzaak = Math.max(...Object.values(oorzaakTeller), 1);
-  document.getElementById('uvOorzaakChart').innerHTML = Object.entries(oorzaakTeller)
+  document.getElementById('uvOorzaakChart').innerHTML = (Object.entries(oorzaakTeller)
     .sort((a,b) => b[1]-a[1])
     .map(([oorzaak, n]) => `<div class="viz-bar-row">
       <div class="viz-bar-label" style="width:200px;">${esc(oorzaak)}</div>
       <div class="viz-bar-track"><div class="viz-bar-fill" style="width:${Math.round(n/maxOorzaak*100)}%;background:var(--hold);"></div></div>
       <div class="viz-bar-pct">${n}</div>
-    </div>`).join('') || '<div class="viz-empty">Geen data</div>';
+    </div>`).join('') || '<div class="viz-empty">Geen data</div>')
+    + `<div style="padding:8px 20px 0;font-size:10px;color:var(--muted);">${sindsPerLijnVeld}</div>`;
 
   // ── FILTER-OPTIES VULLEN ──────────────────────────────────────────────────
   const selLijn = document.getElementById('filterUvLijn');
@@ -736,12 +738,10 @@ function renderUitval() {
 }
 
 function renderUitvalLijst() {
-  const statusF  = document.getElementById('filterUvStatus').value;
   const lijnF    = document.getElementById('filterUvLijn').value;
   const dagdeelF = document.getElementById('filterUvDagdeel').value;
 
-  let f = uitval.filter(r => r.status === 'cancelled' || r.status === 'verkort');
-  if (statusF)  f = f.filter(r => r.status === statusF);
+  let f = uitval.filter(r => r.status === 'cancelled');
   if (lijnF)    f = f.filter(r => r.lijn === lijnF);
   if (dagdeelF) f = f.filter(r => r.dagdeel === dagdeelF);
 
@@ -751,8 +751,8 @@ function renderUitvalLijst() {
     ? '<div class="empty">Geen uitgevallen ritten gevonden.</div>'
     : f.map(r => {
         const eersteHalte  = (r.haltes || [])[0];
-        const statusKleur  = r.status === 'cancelled' ? 'var(--stop)' : 'var(--hold)';
-        const statusLabel  = r.status === 'cancelled' ? '✗ Cancelled' : '⚠ Verkort';
+        const statusKleur  = 'var(--stop)';
+        const statusLabel  = '✗ Cancelled';
         const oorzaakStr   = (r.oorzaak_categorieen || []).join(', ') || '—';
         return `<div class="bk-item">
           <div class="bk-top">
@@ -776,6 +776,65 @@ function renderUitvalLijst() {
           </div>
         </div>`;
       }).join('');
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW — ACTUELE MELDINGEN (Uitval-tab)
+// De storingsmeldingen die EBS bovenaan de departureboard toont (bv. "Door
+// technische storingen kunnen ritten op lijn 67 uitvallen", geldig 4-22 aug)
+// zijn tot nu toe nooit opgeslagen — de scraper sloeg alleen de losse
+// vertrekregels op. Dit haalt data/ebs_meldingen.json op, geschreven door de
+// nieuwe parse_meldingen()-functie in scrape_ebs.py.
+// mogelijk_lijnen is best-effort tekstherkenning (regex op "lijn(en)"/"bus(sen)"
+// gevolgd door cijfers) — geen gegarandeerd correcte lijst, dus expliciet zo
+// gelabeld i.p.v. als harde data gepresenteerd.
+// ══════════════════════════════════════════════════════════════════════════
+async function loadEbsMeldingen() {
+  try {
+    const r = await fetch('./data/ebs_meldingen.json');
+    if (!r.ok) throw new Error(r.status);
+    ebsMeldingen = await r.json();
+    renderEbsMeldingen();
+  } catch (e) {
+    ebsMeldingen = [];
+    const el = document.getElementById('ebsMeldingenLijst');
+    if (el) {
+      el.innerHTML = e.message === '404'
+        ? '<div class="empty">Nog geen meldingendata — draai eerst de bijgewerkte scrape_ebs.py.</div>'
+        : `<div class="error-msg">Fout bij laden ebs_meldingen.json: ${e.message}</div>`;
+    }
+  }
+}
+
+function renderEbsMeldingen() {
+  const el = document.getElementById('ebsMeldingenLijst');
+  if (!el) return;
+  if (!ebsMeldingen.length) { el.innerHTML = '<div class="empty">Geen actuele meldingen.</div>'; return; }
+
+  const nu = new Date().toISOString();
+  const gesorteerd = [...ebsMeldingen].sort((a, b) => (b.starttijd || '').localeCompare(a.starttijd || ''));
+
+  el.innerHTML = gesorteerd.map(m => {
+    const isActief = m.eindtijd && m.eindtijd >= nu;
+    const periodeStr = [m.starttijd, m.eindtijd].filter(Boolean).map(t => t.replace('T', ' ').slice(0, 16)).join(' t/m ');
+    const lijnenHtml = (m.mogelijk_lijnen || []).length
+      ? `<div style="margin-top:4px;font-size:11px;color:var(--muted);">Mogelijk betrokken lijnen (automatisch herkend, controleer handmatig): ${
+          m.mogelijk_lijnen.map(l => `<span class="badge badge-teal" style="font-size:10px;">${esc(l)}</span>`).join(' ')
+        }</div>`
+      : '';
+    return `<div class="bk-item">
+      <div class="bk-top"><div style="flex:1;">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px;">
+          <span class="badge ${isActief ? 'badge-hold' : 'badge-teal'}" style="font-size:10px;">${isActief ? 'Actief' : 'Verlopen'}</span>
+          ${periodeStr ? `<span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);">${esc(periodeStr)}</span>` : ''}
+        </div>
+        <div style="font-size:13px;font-weight:600;">${esc(m.titel || m.bericht || '')}</div>
+        ${m.bericht && m.bericht !== m.titel ? `<div class="bk-desc">${esc(m.bericht)}</div>` : ''}
+        ${lijnenHtml}
+        ${(m.haltes_gezien || []).length ? `<div style="margin-top:3px;font-size:10px;color:var(--muted);">Gezien op: ${m.haltes_gezien.map(esc).join(', ')}</div>` : ''}
+      </div></div>
+    </div>`;
+  }).join('');
 }
 
 // ══════════════════════════════════════════════════════════════════════════
@@ -3367,6 +3426,23 @@ function clearOpgeslagenClaims() {
   if (!confirm('Weet je zeker dat je alle opgeslagen claims wilt verwijderen?')) return;
   localStorage.removeItem('zr_claims');
   renderOpgeslagenClaims();
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW — "SINDS WANNEER"-LABEL PER GRAFIEK
+// Zoekt zelf de vroegste datum in percentageHistorie waarop een gegeven veld
+// voor het eerst aanwezig is (bv. 'per_lijn' pas vanaf 27 juli, 'totaal_per_lijn'
+// pas vanaf 3 augustus). Geen hardcoded datums — het label groeit vanzelf mee
+// als de scraper ooit verder terug data krijgt of méér gaat vastleggen.
+// ══════════════════════════════════════════════════════════════════════════
+function eersteDatumMetVeld(veldNaam) {
+  const datums = Object.keys(percentageHistorie).filter(d => percentageHistorie[d][veldNaam] != null).sort();
+  return datums[0] || null;
+}
+function labelSindsDatum(datumStr) {
+  if (!datumStr) return '';
+  const d = new Date(datumStr + 'T00:00:00');
+  return `Data bijgehouden sinds ${d.toLocaleDateString('nl-NL', { day:'numeric', month:'long', year:'numeric' })}`;
 }
 
 // ── HELPERS ───────────────────────────────────────────────────────────────────
