@@ -1757,6 +1757,42 @@
     "eerst_gezien": "2026-08-14 03:20:29"
   },
   {
+    "id": "EBS:1019:1001_2026-08-14",
+    "journey_id": "EBS:1019:1001",
+    "datum": "2026-08-14",
+    "lijn": "N19",
+    "lijnkleur": "#000000",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd0.svg",
+    "drukte_omschrijving": "leeg",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "02:31",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron H",
+        "bestemming": "Amsterdam Centraal"
+      }
+    ],
+    "eerste_tijd": "02:31",
+    "dagdeel": "nacht",
+    "bijgewerkt": "2026-08-14 22:40:26",
+    "eerst_gezien": "2026-08-14 22:40:26"
+  },
+  {
     "id": "EBS:1100:8131_2026-08-14",
     "journey_id": "EBS:1100:8131",
     "datum": "2026-08-14",
@@ -1776,17 +1812,6 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:30001305",
-        "halte_naam": "Amsterdam, Busstation Station Noord",
-        "geplande_tijd": "00:34",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron A4",
-        "bestemming": "Purmerend Overwhere"
-      },
-      {
         "halte_id": "NL:S:37400100",
         "halte_naam": "Purmerend, Busstation Tramplein",
         "geplande_tijd": "00:50",
@@ -1798,10 +1823,10 @@
         "bestemming": "Purmerend Overwhere"
       }
     ],
-    "eerste_tijd": "00:34",
+    "eerste_tijd": "00:50",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-08-14 22:20:27",
-    "eerst_gezien": "2026-08-14 22:20:27"
+    "bijgewerkt": "2026-08-14 22:40:26",
+    "eerst_gezien": "2026-08-14 22:40:26"
   },
   {
     "id": "EBS:1100:8131_2026-08-14",
