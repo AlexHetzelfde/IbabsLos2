@@ -36,8 +36,8 @@
     "eerst_gezien": "2026-08-16 17:10:25"
   },
   {
-    "id": "EBS:1110:7053_2026-08-16",
-    "journey_id": "EBS:1110:7053",
+    "id": "EBS:1110:7057_2026-08-16",
+    "journey_id": "EBS:1110:7057",
     "datum": "2026-08-16",
     "lijn": "110",
     "lijnkleur": "#004899",
@@ -51,36 +51,25 @@
       "Logistiek"
     ],
     "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": "Terminates at Amperestraat",
+    "terminus_alert": null,
     "advies": null,
     "haltes": [
       {
         "halte_id": "NL:S:37400100",
         "halte_naam": "Purmerend, Busstation Tramplein",
-        "geplande_tijd": "19:32",
-        "vertraging_min": 0,
-        "status": "gereden",
-        "vertrokken": false,
-        "realtime": true,
-        "platform": "Perron A",
-        "bestemming": "Edam-Volendam"
-      },
-      {
-        "halte_id": "NL:S:38491011",
-        "halte_naam": "Edam, Busstation",
-        "geplande_tijd": "19:58",
+        "geplande_tijd": "20:32",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron C",
-        "bestemming": "Amsterdam Noord"
+        "platform": "Perron A",
+        "bestemming": "Edam-Volendam"
       }
     ],
-    "eerste_tijd": "19:32",
+    "eerste_tijd": "20:32",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-08-16 17:00:32",
-    "eerst_gezien": "2026-08-16 17:00:32"
+    "bijgewerkt": "2026-08-16 17:20:26",
+    "eerst_gezien": "2026-08-16 17:20:26"
   },
   {
     "id": "EBS:1110:7053_2026-08-16",
@@ -128,6 +117,53 @@
     "dagdeel": "avond",
     "bijgewerkt": "2026-08-16 17:10:25",
     "eerst_gezien": "2026-08-16 17:10:25"
+  },
+  {
+    "id": "EBS:1110:7053_2026-08-16",
+    "journey_id": "EBS:1110:7053",
+    "datum": "2026-08-16",
+    "lijn": "110",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": "Terminates at Amperestraat",
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "19:32",
+        "vertraging_min": 0,
+        "status": "gereden",
+        "vertrokken": false,
+        "realtime": true,
+        "platform": "Perron A",
+        "bestemming": "Edam-Volendam"
+      },
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "19:58",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Noord"
+      }
+    ],
+    "eerste_tijd": "19:32",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-08-16 17:20:26",
+    "eerst_gezien": "2026-08-16 17:20:26"
   },
   {
     "id": "EBS:1110:7048_2026-08-16",
