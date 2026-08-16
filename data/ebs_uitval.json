@@ -1,14 +1,14 @@
 [
   {
-    "id": "EBS:1100:7055_2026-08-16",
-    "journey_id": "EBS:1100:7055",
+    "id": "EBS:1110:7060_2026-08-16",
+    "journey_id": "EBS:1110:7060",
     "datum": "2026-08-16",
-    "lijn": "100",
+    "lijn": "110",
     "lijnkleur": "#004899",
     "categorie": "M-net",
     "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Personeel",
@@ -21,30 +21,19 @@
       {
         "halte_id": "NL:S:30001305",
         "halte_naam": "Amsterdam, Busstation Station Noord",
-        "geplande_tijd": "21:04",
+        "geplande_tijd": "22:04",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron A4",
-        "bestemming": "Purmerend Overwhere"
-      },
-      {
-        "halte_id": "NL:S:37400100",
-        "halte_naam": "Purmerend, Busstation Tramplein",
-        "geplande_tijd": "21:20",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron C",
-        "bestemming": "Purmerend Overwhere"
+        "platform": "Perron A2",
+        "bestemming": "Volendam-Edam"
       }
     ],
-    "eerste_tijd": "21:04",
+    "eerste_tijd": "22:04",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-08-16 18:20:25",
-    "eerst_gezien": "2026-08-16 18:20:25"
+    "bijgewerkt": "2026-08-16 18:40:25",
+    "eerst_gezien": "2026-08-16 18:40:25"
   },
   {
     "id": "EBS:1100:7055_2026-08-16",
@@ -94,6 +83,53 @@
     "eerst_gezien": "2026-08-16 18:30:30"
   },
   {
+    "id": "EBS:1100:7055_2026-08-16",
+    "journey_id": "EBS:1100:7055",
+    "datum": "2026-08-16",
+    "lijn": "100",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "21:04",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A4",
+        "bestemming": "Purmerend Overwhere"
+      },
+      {
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "21:20",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "Purmerend Overwhere"
+      }
+    ],
+    "eerste_tijd": "21:04",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-08-16 18:40:25",
+    "eerst_gezien": "2026-08-16 18:40:25"
+  },
+  {
     "id": "EBS:1110:7057_2026-08-16",
     "journey_id": "EBS:1110:7057",
     "datum": "2026-08-16",
@@ -113,17 +149,6 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37400100",
-        "halte_naam": "Purmerend, Busstation Tramplein",
-        "geplande_tijd": "20:32",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron A",
-        "bestemming": "Edam-Volendam"
-      },
-      {
         "halte_id": "NL:S:38491011",
         "halte_naam": "Edam, Busstation",
         "geplande_tijd": "20:58",
@@ -135,10 +160,10 @@
         "bestemming": "Amsterdam Noord"
       }
     ],
-    "eerste_tijd": "20:32",
+    "eerste_tijd": "20:58",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-08-16 18:20:25",
-    "eerst_gezien": "2026-08-16 18:20:25"
+    "bijgewerkt": "2026-08-16 18:40:25",
+    "eerst_gezien": "2026-08-16 18:40:25"
   },
   {
     "id": "EBS:1110:7057_2026-08-16",
