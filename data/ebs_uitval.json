@@ -1,39 +1,39 @@
 [
   {
-    "id": "EBS:1316:7026_2026-08-16",
-    "journey_id": "EBS:1316:7026",
+    "id": "EBS:1112:7023_2026-08-16",
+    "journey_id": "EBS:1112:7023",
     "datum": "2026-08-16",
-    "lijn": "316",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
+    "lijn": "112",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
     "product_label": "MeerPlus",
     "drukte_icoon": "crowd1.svg",
     "drukte_omschrijving": "Zitplaatsen beschikbaar",
     "status": "cancelled",
     "oorzaak_categorieen": [
-      "Personeel",
+      "Materieel",
       "Logistiek"
     ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "oorzaak_raw": "Cause: Materieel, Logistiek",
     "terminus_alert": null,
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:38491011",
-        "halte_naam": "Edam, Busstation",
-        "geplande_tijd": "11:55",
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "12:50",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron A",
-        "bestemming": "Amsterdam Centraal"
+        "platform": "Perron A2",
+        "bestemming": "Volendam-Edam"
       }
     ],
-    "eerste_tijd": "11:55",
+    "eerste_tijd": "12:50",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-08-16 09:10:29",
-    "eerst_gezien": "2026-08-16 09:10:29"
+    "bijgewerkt": "2026-08-16 09:30:36",
+    "eerst_gezien": "2026-08-16 09:30:36"
   },
   {
     "id": "EBS:1316:7026_2026-08-16",
@@ -72,40 +72,40 @@
     "eerst_gezien": "2026-08-16 09:20:30"
   },
   {
-    "id": "EBS:1112:7020_2026-08-16",
-    "journey_id": "EBS:1112:7020",
+    "id": "EBS:1316:7026_2026-08-16",
+    "journey_id": "EBS:1316:7026",
     "datum": "2026-08-16",
-    "lijn": "112",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
+    "lijn": "316",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
     "product_label": "MeerPlus",
-    "drukte_icoon": "crowd0.svg",
-    "drukte_omschrijving": "leeg",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
     "status": "cancelled",
     "oorzaak_categorieen": [
-      "Materieel",
+      "Personeel",
       "Logistiek"
     ],
-    "oorzaak_raw": "Cause: Materieel, Logistiek",
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
     "terminus_alert": null,
     "advies": null,
     "haltes": [
       {
         "halte_id": "NL:S:38491011",
         "halte_naam": "Edam, Busstation",
-        "geplande_tijd": "11:49",
+        "geplande_tijd": "11:55",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron B",
-        "bestemming": "Amsterdam Noord"
+        "platform": "Perron A",
+        "bestemming": "Amsterdam Centraal"
       }
     ],
-    "eerste_tijd": "11:49",
+    "eerste_tijd": "11:55",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-08-16 09:10:29",
-    "eerst_gezien": "2026-08-16 09:10:29"
+    "bijgewerkt": "2026-08-16 09:30:36",
+    "eerst_gezien": "2026-08-16 09:30:36"
   },
   {
     "id": "EBS:1112:7020_2026-08-16",
@@ -142,6 +142,42 @@
     "dagdeel": "dal",
     "bijgewerkt": "2026-08-16 09:20:30",
     "eerst_gezien": "2026-08-16 09:20:30"
+  },
+  {
+    "id": "EBS:1112:7020_2026-08-16",
+    "journey_id": "EBS:1112:7020",
+    "datum": "2026-08-16",
+    "lijn": "112",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd0.svg",
+    "drukte_omschrijving": "leeg",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Materieel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Materieel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "11:49",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron B",
+        "bestemming": "Amsterdam Noord"
+      }
+    ],
+    "eerste_tijd": "11:49",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-08-16 09:30:36",
+    "eerst_gezien": "2026-08-16 09:30:36"
   },
   {
     "id": "EBS:1100:7013_2026-08-16",
