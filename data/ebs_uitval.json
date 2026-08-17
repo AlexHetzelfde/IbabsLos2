@@ -1,9 +1,9 @@
 [
   {
-    "id": "EBS:1100:1004_2026-08-17",
-    "journey_id": "EBS:1100:1004",
+    "id": "EBS:1104:1005_2026-08-17",
+    "journey_id": "EBS:1104:1005",
     "datum": "2026-08-17",
-    "lijn": "100",
+    "lijn": "104",
     "lijnkleur": "#004899",
     "categorie": "M-net",
     "product_label": "MeerPlus",
@@ -19,21 +19,21 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37400100",
-        "halte_naam": "Purmerend, Busstation Tramplein",
-        "geplande_tijd": "06:00",
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "06:18",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron B",
-        "bestemming": "Amsterdam Noord"
+        "platform": "Perron A5",
+        "bestemming": "Purmerend De Purmer"
       }
     ],
-    "eerste_tijd": "06:00",
+    "eerste_tijd": "06:18",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-08-17 02:20:25",
-    "eerst_gezien": "2026-08-17 02:20:25"
+    "bijgewerkt": "2026-08-17 02:40:21",
+    "eerst_gezien": "2026-08-17 02:40:21"
   },
   {
     "id": "EBS:1100:1004_2026-08-17",
@@ -70,5 +70,41 @@
     "dagdeel": "nacht",
     "bijgewerkt": "2026-08-17 02:30:31",
     "eerst_gezien": "2026-08-17 02:30:31"
+  },
+  {
+    "id": "EBS:1100:1004_2026-08-17",
+    "journey_id": "EBS:1100:1004",
+    "datum": "2026-08-17",
+    "lijn": "100",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "06:00",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron B",
+        "bestemming": "Amsterdam Noord"
+      }
+    ],
+    "eerste_tijd": "06:00",
+    "dagdeel": "nacht",
+    "bijgewerkt": "2026-08-17 02:40:21",
+    "eerst_gezien": "2026-08-17 02:40:21"
   }
 ]
