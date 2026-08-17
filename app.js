@@ -37,6 +37,7 @@ function getAllFracties() {
 // ── STATE ─────────────────────────────────────────────────────────────────────
 let vergaderingen = [], moties = [], camerasActief = [], camerasGeschiedenis = [], woningsluitingen = [], collegebrieven = [], stemmingen = [], uitval = [], nosLokaal = [], aanbestedingen = [], ebsMeldingen = [];
 let _uvDagPeriodeDagen = 7; // default: laatste 7 dagen, tegen de wall-of-bars
+let _uvDekkingsFilter = 'compleet'; // 'compleet' = alleen dagen met volledige dekking, 'alles' = hele geschiedenis incl. deelperiodes
 let huidigeClaims = [];
 let _chartFractie = null;
 let totaalTeller = {};
@@ -89,6 +90,11 @@ async function loadMoties() {
     renderMoties(); renderMotiesVisuals(); populatePartijFilter();
     // NIEUW #12
     renderMotieAmendementViz();
+    // NIEUW: samenwerkingsnetwerk raadsleden, samen-vs-solo, type-volume, raadslid-vs-fractiegemiddelde
+    renderRaadslidSamenwerkingChart();
+    renderSamenVsSoloViz();
+    renderTypeVolumeChart();
+    renderRaadslidVsFractieChart();
   } catch (e) {
     document.getElementById('motiesTable').innerHTML =
       `<tr><td colspan="5" class="${e.message === '404' ? 'empty' : 'error-msg'}">
@@ -244,7 +250,7 @@ function renderUvDagChart() {
   if (!dagEl) return;
 
   const dagMap = {};
-  Object.entries(percentageHistorie).forEach(([datum, d]) => {
+  Object.entries(actievePercentageHistorie()).forEach(([datum, d]) => {
     dagMap[datum] = { totaal: d.totaal || 0, cancelled: d.cancelled || 0 };
   });
   const vandaagKey = Object.keys(totaalTeller)[0];
@@ -319,7 +325,7 @@ const MAAND_NAMEN_KORT_UV = ['jan','feb','mrt','apr','mei','jun','jul','aug','se
 
 function bouwUitvalPerMaand() {
   const perMaand = {};
-  Object.entries(percentageHistorie).forEach(([datum, d]) => {
+  Object.entries(actievePercentageHistorie()).forEach(([datum, d]) => {
     const maand = datum.slice(0, 7);
     if (!perMaand[maand]) perMaand[maand] = { totaal: 0, cancelled: 0 };
     perMaand[maand].totaal    += d.totaal || 0;
@@ -400,7 +406,7 @@ function renderUitvalPctPerLijnChart() {
   const totaalPerLijn = {};
   let dagenMetData = 0;
 
-  Object.values(percentageHistorie).forEach(d => {
+  Object.values(actievePercentageHistorie()).forEach(d => {
     if (!d.totaal_per_lijn) return; // dag van vóór de scraper-fix
     dagenMetData++;
     Object.entries(d.totaal_per_lijn).forEach(([lijn, n]) => { totaalPerLijn[lijn] = (totaalPerLijn[lijn] || 0) + n; });
@@ -455,7 +461,7 @@ const MAAND_NAMEN_LANG_UV = ['januari','februari','maart','april','mei','juni','
 
 function bouwUvVglDagData() {
   const map = {};
-  Object.entries(percentageHistorie).forEach(([datum, d]) => {
+  Object.entries(actievePercentageHistorie()).forEach(([datum, d]) => {
     if (!d.per_lijn) return; // dag van vóór de scraper-fix — geen dekking
     map[datum] = d.per_lijn;
   });
@@ -622,9 +628,10 @@ function renderUitval() {
     Object.entries(bron).forEach(([k, v]) => { doel[k] = (doel[k] || 0) + v; });
   };
 
-  const alleDatums = Object.keys(percentageHistorie).sort();
+  const actieveHistorie = actievePercentageHistorie();
+  const alleDatums = Object.keys(actieveHistorie).sort();
   alleDatums.forEach(d => {
-    const dag = percentageHistorie[d];
+    const dag = actieveHistorie[d];
     totaalCumulatief    += dag.totaal || 0;
     cancelledCumulatief += dag.cancelled || 0;
     optellenIn(lijnTeller,    dag.per_lijn);
@@ -668,6 +675,7 @@ function renderUitval() {
   }
 
   // ── UITVAL PER DAG (SVG) ──────────────────────────────────────────────────
+  renderUvDekkingsFilterButtons();
   renderUvDagPeriodeButtons();
   renderUvDagChart();
 
@@ -1970,6 +1978,205 @@ function renderMotieAmendementViz() {
   el.innerHTML = totaalHtml + fractieHtml;
 }
 
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW — SAMENWERKING TUSSEN RAADSLEDEN (individueel, dwars door fracties heen)
+// De bestaande "Politieke samenwerking"-grafiek werkt op fractie-niveau
+// (fracties[]). Dit is hetzelfde idee maar op raadslid-niveau, via indiener +
+// medeondertekenaars — een veld dat tot nu toe nergens werd gebruikt.
+// ══════════════════════════════════════════════════════════════════════════
+function renderRaadslidSamenwerkingChart() {
+  const el = document.getElementById('raadslidSamenwerkingChart');
+  if (!el) return;
+  if (!moties.length) { el.innerHTML = '<div class="viz-empty">Geen motiedata</div>'; return; }
+
+  const coSign = {};
+  moties.forEach(m => {
+    const deelnemers = [...new Set([m.indiener, ...(m.medeondertekenaars || [])].filter(Boolean))];
+    if (deelnemers.length < 2) return;
+    for (let i = 0; i < deelnemers.length; i++)
+      for (let j = i + 1; j < deelnemers.length; j++) {
+        const key = [deelnemers[i], deelnemers[j]].sort().join('||');
+        coSign[key] = (coSign[key] || 0) + 1;
+      }
+  });
+
+  const top = Object.entries(coSign).sort((a, b) => b[1] - a[1]).slice(0, 10);
+  if (!top.length) {
+    el.innerHTML = '<div class="viz-empty">Geen medeondertekenaars-data — controleer het medeondertekenaars-veld in moties.json</div>';
+    return;
+  }
+  const maxV = top[0][1];
+  el.innerHTML = top.map(([combo, count]) => {
+    const [a, b] = combo.split('||');
+    return `<div class="viz-bar-row">
+      <div style="width:220px;flex-shrink:0;display:flex;align-items:center;gap:4px;overflow:hidden;">
+        <span class="badge badge-teal" style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${esc(a)}">${esc(a)}</span>
+        <span style="color:var(--muted);font-size:9px;flex-shrink:0;">+</span>
+        <span class="badge badge-navy" style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${esc(b)}">${esc(b)}</span>
+      </div>
+      <div class="viz-bar-track"><div class="viz-bar-fill" style="width:${Math.round(count/maxV*100)}%;background:var(--navy);"></div></div>
+      <div class="viz-bar-pct">${count}x</div>
+    </div>`;
+  }).join('') + '<div style="padding:8px 20px 0;font-size:10px;color:var(--muted);">Raadsleden die samen indiener/medeondertekenaar waren — dwars door fracties heen, in tegenstelling tot de fractie-samenwerking hierboven.</div>';
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW — SAMEN INDIENEN VS. SOLO: SLAAGT DAT VAKER?
+// fracties.length > 1 betekent dat meerdere fracties een motie gezamenlijk
+// indienden. Vergelijkt het slagingspercentage van gezamenlijk vs. solo
+// ingediende moties/amendementen — puur een nieuwe invalshoek op velden die
+// al bestaan (fracties + status), geen nieuwe scraping nodig.
+// ══════════════════════════════════════════════════════════════════════════
+function renderSamenVsSoloViz() {
+  const el = document.getElementById('samenVsSoloViz');
+  if (!el) return;
+  if (!moties.length) { el.innerHTML = '<div class="viz-empty">Geen motiedata</div>'; return; }
+
+  const metUitslag = moties.filter(m => m.status === 'aangenomen' || m.status === 'verworpen');
+  const solo  = metUitslag.filter(m => (m.fracties || []).length <= 1);
+  const samen = metUitslag.filter(m => (m.fracties || []).length > 1);
+
+  const stat = (arr) => {
+    const aangenomen = arr.filter(m => m.status === 'aangenomen').length;
+    return { totaal: arr.length, aangenomen, pct: arr.length ? Math.round(aangenomen / arr.length * 100) : null };
+  };
+  const sSolo = stat(solo), sSamen = stat(samen);
+
+  el.innerHTML = `<div class="type-compare-row">
+    <div class="type-compare-card">
+      <div class="type-compare-label">Solo ingediend (1 fractie)</div>
+      <div class="type-compare-value" style="color:var(--teal);">${sSolo.pct ?? '—'}${sSolo.pct != null ? '%' : ''}</div>
+      <div class="type-compare-sub">${sSolo.aangenomen} van ${sSolo.totaal} aangenomen</div>
+    </div>
+    <div class="type-compare-card">
+      <div class="type-compare-label">Samen ingediend (2+ fracties)</div>
+      <div class="type-compare-value" style="color:var(--go);">${sSamen.pct ?? '—'}${sSamen.pct != null ? '%' : ''}</div>
+      <div class="type-compare-sub">${sSamen.aangenomen} van ${sSamen.totaal} aangenomen</div>
+    </div>
+  </div>`;
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW — MOTIE- VS. AMENDEMENT-VOLUME DOOR DE TIJD
+// De bestaande #12-visualisatie toont alleen het slagingspercentage per
+// type; dit toont het AANTAL per maand, gestapeld — verschuift de
+// verhouding motie/amendement door de tijd?
+// ══════════════════════════════════════════════════════════════════════════
+function renderTypeVolumeChart() {
+  const el = document.getElementById('typeVolumeChart');
+  if (!el) return;
+  if (!moties.length) { el.innerHTML = '<div class="viz-empty">Geen motiedata</div>'; return; }
+
+  const maandNamenKort = ['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];
+  const perMaand = {};
+  moties.forEach(m => {
+    if (!m.datum) return;
+    const maand = m.datum.slice(0, 7);
+    if (!perMaand[maand]) perMaand[maand] = { Motie: 0, Amendement: 0 };
+    const type = m.type === 'Amendement' ? 'Amendement' : 'Motie';
+    perMaand[maand][type]++;
+  });
+  const maandLijst = Object.entries(perMaand).sort((a, b) => a[0].localeCompare(b[0]));
+  if (maandLijst.length < 1) { el.innerHTML = '<div class="viz-empty">Onvoldoende data</div>'; return; }
+
+  const maxV = Math.max(...maandLijst.map(([, d]) => d.Motie + d.Amendement), 1);
+  const labelVoor = (maand) => {
+    const mn = parseInt(maand.split('-')[1]);
+    const jr = maand.split('-')[0].slice(2);
+    return `${maandNamenKort[mn - 1]} '${jr}`;
+  };
+
+  el.innerHTML = maandLijst.map(([maand, d]) => {
+    const totaal = d.Motie + d.Amendement;
+    const pctMotie = totaal ? d.Motie / totaal * 100 : 0;
+    const pctAmend = totaal ? d.Amendement / totaal * 100 : 0;
+    const breedte = Math.round(totaal / maxV * 100);
+    return `<div class="viz-bar-row">
+      <div class="viz-bar-label" style="width:70px;">${labelVoor(maand)}</div>
+      <div class="viz-bar-track" style="overflow:hidden;">
+        <div style="width:${breedte}%;height:100%;display:flex;">
+          <div style="width:${pctMotie}%;background:var(--navy);"></div>
+          <div style="width:${pctAmend}%;background:var(--teal);"></div>
+        </div>
+      </div>
+      <div class="viz-bar-pct">${d.Motie}m / ${d.Amendement}a</div>
+    </div>`;
+  }).join('') + `<div class="svg-chart-legend" style="padding:8px 20px 0;">
+    <span><span class="dot" style="background:var(--navy);"></span>Motie</span>
+    <span><span class="dot" style="background:var(--teal);"></span>Amendement</span>
+  </div>`;
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW — RAADSLID T.O.V. EIGEN FRACTIEGEMIDDELDE
+// Bestaat al: slagingspercentage per indiener (top-indieners-lijst). Nieuw:
+// vergelijking met het gemiddelde van de EIGEN fractie — doet dit raadslid
+// het beter of slechter dan de rest van de fractie? Minimaal 3 moties per
+// raadslid om ruis van eenmalige uitschieters te beperken.
+// ══════════════════════════════════════════════════════════════════════════
+function renderRaadslidVsFractieChart() {
+  const el = document.getElementById('raadslidVsFractieChart');
+  if (!el) return;
+  if (!moties.length) { el.innerHTML = '<div class="viz-empty">Geen motiedata</div>'; return; }
+
+  const metUitslag = moties.filter(m => m.status === 'aangenomen' || m.status === 'verworpen');
+
+  const fractieStats = {};
+  metUitslag.forEach(m => {
+    if (!m.partij) return;
+    if (!fractieStats[m.partij]) fractieStats[m.partij] = { aangenomen: 0, totaal: 0 };
+    fractieStats[m.partij].totaal++;
+    if (m.status === 'aangenomen') fractieStats[m.partij].aangenomen++;
+  });
+  const fractiePct = {};
+  Object.entries(fractieStats).forEach(([f, s]) => { fractiePct[f] = s.totaal ? s.aangenomen / s.totaal * 100 : null; });
+
+  const indienerStats = {};
+  metUitslag.forEach(m => {
+    if (!m.indiener) return;
+    if (!indienerStats[m.indiener]) indienerStats[m.indiener] = { aangenomen: 0, totaal: 0, partij: m.partij };
+    indienerStats[m.indiener].totaal++;
+    if (m.status === 'aangenomen') indienerStats[m.indiener].aangenomen++;
+  });
+
+  const rijen = Object.entries(indienerStats)
+    .filter(([, s]) => s.totaal >= 3)
+    .map(([naam, s]) => {
+      const pct = Math.round(s.aangenomen / s.totaal * 100);
+      const fractieGemRaw = s.partij ? fractiePct[s.partij] : null;
+      if (fractieGemRaw == null) return null;
+      const fractieGem = Math.round(fractieGemRaw);
+      return { naam, partij: s.partij, totaal: s.totaal, pct, fractieGem, verschil: pct - fractieGem };
+    })
+    .filter(Boolean)
+    .sort((a, b) => b.verschil - a.verschil);
+
+  if (!rijen.length) {
+    el.innerHTML = '<div class="viz-empty">Onvoldoende data (minimaal 3 moties met uitslag per raadslid nodig)</div>';
+    return;
+  }
+
+  const maxAbs = Math.max(...rijen.map(r => Math.abs(r.verschil)), 1);
+  el.innerHTML = rijen.map(r => {
+    const isPositief = r.verschil >= 0;
+    const kleur = isPositief ? 'var(--go)' : 'var(--stop)';
+    const breedte = Math.round(Math.abs(r.verschil) / maxAbs * 50); // max 50% van de helft
+    return `<div style="display:flex;align-items:center;gap:8px;padding:5px 20px;">
+      <div style="width:190px;flex-shrink:0;font-size:12px;" title="${esc(r.naam)}">${esc(r.naam)} <span style="color:var(--muted);font-size:10px;">(${esc(r.partij || '—')})</span></div>
+      <div style="flex:1;display:flex;align-items:center;height:16px;">
+        <div style="flex:1;display:flex;justify-content:flex-end;">
+          ${!isPositief ? `<div style="width:${breedte}%;height:100%;background:${kleur};opacity:0.82;border-radius:2px 0 0 2px;"></div>` : ''}
+        </div>
+        <div style="width:1px;height:20px;background:var(--ink2);flex-shrink:0;"></div>
+        <div style="flex:1;">
+          ${isPositief ? `<div style="width:${breedte}%;height:100%;background:${kleur};opacity:0.82;border-radius:0 2px 2px 0;"></div>` : ''}
+        </div>
+      </div>
+      <div style="width:110px;flex-shrink:0;font-size:11px;font-family:'JetBrains Mono',monospace;color:${kleur};text-align:right;">${isPositief ? '+' : ''}${r.verschil}%pt <span style="color:var(--muted);">(${r.pct}% vs ${r.fractieGem}%)</span></div>
+    </div>`;
+  }).join('') + '<div style="padding:8px 20px 0;font-size:10px;color:var(--muted);">Verschil t.o.v. het slagingspercentage van de eigen fractie · groen = beter dan fractiegemiddelde, rood = slechter.</div>';
+}
+
 // ── CAMERA'S & WONINGSLUITINGEN ────────────────────────────────────────────────
 function getWijkUitAdres(adres) {
   // LEGACY FALLBACK: pakt het eerste woord van het adres (meestal gewoon de
@@ -3055,7 +3262,7 @@ function renderCbStats() {
 
 function populateCbFilters() {
   const selPh = document.getElementById('filterCbPh');
-  const phLijst = [...new Set(collegebrieven.map(b => b.portefeuillehouder).filter(Boolean).flatMap(p => p.split(', ')))].sort();
+  const phLijst = [...new Set(collegebrieven.map(b => b.portefeuillehouder).filter(Boolean).flatMap(p => p.split(' | ')))].sort();
   phLijst.forEach(p => { const o = document.createElement('option'); o.value = p; o.textContent = p; selPh.appendChild(o); });
   document.getElementById('cbCount').textContent = collegebrieven.length + ' brieven';
 }
@@ -3148,7 +3355,7 @@ function renderPortefeuillehouderDashboard() {
 
   const map = {};
   collegebrieven.forEach(b => {
-    const namen = (b.portefeuillehouder || 'Onbekend').split(', ').map(n => n.trim()).filter(Boolean);
+    const namen = (b.portefeuillehouder || 'Onbekend').split(' | ').map(n => n.trim()).filter(Boolean);
     const lengte = (b.tekst || '').split(/\s+/).filter(Boolean).length;
     const hoogClaims = (b.claims || []).filter(c => c.prioriteit === 'HOOG').length;
     namen.forEach(naam => {
@@ -3197,7 +3404,7 @@ function renderGeldChart() {
   if (!el) return;
   const perPh = {};
   collegebrieven.forEach(b => {
-    const namen = (b.portefeuillehouder || 'Onbekend').split(', ').map(n => n.trim()).filter(Boolean);
+    const namen = (b.portefeuillehouder || 'Onbekend').split(' | ').map(n => n.trim()).filter(Boolean);
     (b.claims || []).forEach(c => {
       const bedrag = parseEuroBedrag(c.claim);
       if (bedrag == null) return;
@@ -3443,6 +3650,50 @@ function labelSindsDatum(datumStr) {
   if (!datumStr) return '';
   const d = new Date(datumStr + 'T00:00:00');
   return `Data bijgehouden sinds ${d.toLocaleDateString('nl-NL', { day:'numeric', month:'long', year:'numeric' })}`;
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW — ALLES / VANAF-VOLLEDIGE-DEKKING FILTER (Uitval-tab, alle 9 grafieken)
+// De dekking is in stappen gegroeid (totaal sinds 3 juli, uitsplitsing per
+// lijn/oorzaak/halte/dagdeel sinds 27 juli, totaal_per_lijn sinds 3 augustus,
+// volledige 12-haltes-dekking sinds 12 augustus) — vergelijkingen die deze
+// grenzen overschrijden zijn appels-met-peren. Deze filter snijdt op de
+// STRENGSTE (laatste) van die grenzen, zodat "Vanaf volledige dekking" voor
+// alle 9 grafieken tegelijk een eerlijk vergelijkbare periode oplevert.
+// Géén hardcoded datum: schuift vanzelf mee als de dekking ooit verandert.
+// ══════════════════════════════════════════════════════════════════════════
+function volledigeDekkingVanaf() {
+  const kandidaten = ['totaal', 'per_lijn', 'totaal_per_lijn']
+    .map(eersteDatumMetVeld)
+    .filter(Boolean);
+  if (!kandidaten.length) return null;
+  return kandidaten.sort().reverse()[0]; // laatste (strengste) datum wint
+}
+
+function actievePercentageHistorie() {
+  if (_uvDekkingsFilter === 'alles') return percentageHistorie;
+  const grens = volledigeDekkingVanaf();
+  if (!grens) return percentageHistorie;
+  return Object.fromEntries(Object.entries(percentageHistorie).filter(([datum]) => datum >= grens));
+}
+
+function renderUvDekkingsFilterButtons() {
+  const el = document.getElementById('uvDekkingsFilterButtons');
+  if (!el) return;
+  const grens = volledigeDekkingVanaf();
+  const grensLabel = grens ? new Date(grens + 'T00:00:00').toLocaleDateString('nl-NL', { day:'numeric', month:'short' }) : '?';
+  el.innerHTML = `
+    <button type="button" class="filter-select"
+      style="cursor:pointer;${_uvDekkingsFilter === 'compleet' ? 'background:var(--teal);color:white;font-weight:700;' : ''}"
+      onclick="setUvDekkingsFilter('compleet')">Vanaf volledige dekking (${grensLabel})</button>
+    <button type="button" class="filter-select"
+      style="cursor:pointer;${_uvDekkingsFilter === 'alles' ? 'background:var(--teal);color:white;font-weight:700;' : ''}"
+      onclick="setUvDekkingsFilter('alles')">Alles (incl. deelperiodes)</button>`;
+}
+
+function setUvDekkingsFilter(waarde) {
+  _uvDekkingsFilter = waarde;
+  renderUitval();
 }
 
 // ── HELPERS ───────────────────────────────────────────────────────────────────
