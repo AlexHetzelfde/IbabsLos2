@@ -167,6 +167,41 @@
       <div id="motieAmendementViz"><div class="empty">Laden...</div></div>
     </div>
 
+    <!-- NIEUW: samen vs. solo indienen -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-header">
+        <span class="card-title">Samen indienen vs. solo</span>
+        <span style="font-size:11px;color:var(--muted);">slaagt een gezamenlijk voorstel vaker?</span>
+      </div>
+      <div id="samenVsSoloViz"><div class="empty">Laden...</div></div>
+    </div>
+
+    <!-- NIEUW: motie/amendement volume per maand -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-header">
+        <span class="card-title">Motie- vs. amendement-volume per maand</span>
+      </div>
+      <div class="viz-bar-list" id="typeVolumeChart"><div class="empty">Laden...</div></div>
+    </div>
+
+    <!-- NIEUW: raadslid t.o.v. eigen fractiegemiddelde -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-header">
+        <span class="card-title">Raadslid t.o.v. eigen fractiegemiddelde</span>
+        <span style="font-size:11px;color:var(--muted);">min. 3 moties met uitslag</span>
+      </div>
+      <div id="raadslidVsFractieChart"><div class="empty">Laden...</div></div>
+    </div>
+
+    <!-- NIEUW: samenwerking tussen individuele raadsleden -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-header">
+        <span class="card-title">Samenwerking tussen raadsleden</span>
+        <span style="font-size:11px;color:var(--muted);">via indiener + medeondertekenaars, dwars door fracties</span>
+      </div>
+      <div class="viz-bar-list" id="raadslidSamenwerkingChart"><div class="empty">Laden...</div></div>
+    </div>
+
     <div class="filter-bar">
       <select class="filter-select" id="filterPartij" onchange="renderMoties()">
         <option value="">Alle partijen</option>
@@ -476,6 +511,17 @@
       <span style="font-size:11px;color:var(--muted);">aangekondigde storingen &amp; werkzaamheden</span>
     </div>
     <div id="ebsMeldingenLijst"><div class="empty">Laden...</div></div>
+  </div>
+
+  <!-- NIEUW: dekking is in stappen gegroeid (3 haltes → 12 haltes op 12 aug,
+       uitsplitsingen pas vanaf 27 jul/3 aug) — deze filter geldt voor alle
+       9 grafieken hieronder tegelijk, zodat je niet per grafiek een andere
+       (onvergelijkbare) periode aan het bekijken bent. -->
+  <div class="card" style="margin-bottom:16px;">
+    <div class="card-header">
+      <span class="card-title">Periode voor alle grafieken hieronder</span>
+    </div>
+    <div class="filter-bar" style="padding:12px 16px;" id="uvDekkingsFilterButtons"></div>
   </div>
 
   <div class="stats" id="uitvalStats" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px;">
