@@ -616,6 +616,41 @@ function renderUitvalVergelijking() {
 }
 
 // ── EBS UITVAL ────────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════════════════
+// ZICHTBAARHEID KAARTEN IN 'ALLES'-MODUS
+// In "Alles (incl. deelperiodes)" tonen we alleen grafieken/tabellen die
+// betrouwbaar zijn sinds de LAUNCH van de scraper (3 juli): dat is puur
+// totaal/cancelled/pct per dag (en dus ook per maand, dat is dezelfde data
+// anders gegroepeerd). Alle grafieken die op per_lijn/per_oorzaak/per_halte/
+// per_dagdeel (pas sinds 27 juli) of totaal_per_lijn (pas sinds 3 augustus,
+// en tot 12 augustus zelfs fout) leunen, zijn voor een groot deel van de
+// "Alles"-periode niet gedekt of onbetrouwbaar — die verbergen we dus in
+// deze modus i.p.v. onvolledige/foutieve cijfers te tonen. In "Vanaf
+// volledige dekking" zijn ze weer gewoon zichtbaar.
+// ══════════════════════════════════════════════════════════════════════════
+function pasUvKaartZichtbaarheidAan() {
+  const isAlles = _uvDekkingsFilter === 'alles';
+  const zet = (id, toon) => { const el = document.getElementById(id); if (el) el.style.display = toon ? '' : 'none'; };
+
+  zet('uvVglCard', !isAlles);
+  zet('uvDagdeelCard', !isAlles);
+  zet('uvPctPerLijnCard', !isAlles);
+  zet('uvLijnHalteRow', !isAlles);
+  zet('uvOorzaakCard', !isAlles);
+  zet('uvTopLijnStat', !isAlles);
+  zet('uvTopOorzaakStat', !isAlles);
+
+  // "Uitval per dag" staat samen met "Uitval per dagdeel" in een 2-koloms
+  // rij — als de dagdeel-kaart verdwijnt, laat de dag-kaart de volle rij
+  // gebruiken i.p.v. een lege helft over te laten.
+  const dagRow = document.getElementById('uvDagRow');
+  if (dagRow) dagRow.style.gridTemplateColumns = isAlles ? '1fr' : '';
+
+  // Idem voor de stats-rij: van 4 naar 2 kolommen als 2 stat-boxen weg zijn.
+  const statsRow = document.getElementById('uitvalStats');
+  if (statsRow) statsRow.style.gridTemplateColumns = isAlles ? 'repeat(2,1fr)' : 'repeat(4,1fr)';
+}
+
 function renderUitval() {
   const uitgevallen = uitval.filter(r => r.status === 'cancelled');
 
@@ -662,29 +697,47 @@ function renderUitval() {
   document.getElementById('uvPeriode').textContent =
     alleDatums.length ? alleDatums[0] + ' t/m vandaag' : (vandaagKey ? vandaagKey + ' t/m vandaag' : 'geen data');
 
-  const topLijnEntry = Object.entries(lijnTeller).sort((a,b) => b[1]-a[1])[0];
-  if (topLijnEntry) {
-    document.getElementById('uvTopLijn').textContent = topLijnEntry[0];
-    document.getElementById('uvTopLijnSub').textContent = topLijnEntry[1] + ' uitvallen (cumulatief)';
+  if (_uvDekkingsFilter !== 'alles') {
+    const topLijnEntry = Object.entries(lijnTeller).sort((a,b) => b[1]-a[1])[0];
+    if (topLijnEntry) {
+      document.getElementById('uvTopLijn').textContent = topLijnEntry[0];
+      document.getElementById('uvTopLijnSub').textContent = topLijnEntry[1] + ' uitvallen (cumulatief)';
+    }
+
+    const topOorzaakEntry = Object.entries(oorzaakTeller).sort((a,b) => b[1]-a[1])[0];
+    if (topOorzaakEntry) {
+      document.getElementById('uvTopOorzaak').textContent = topOorzaakEntry[0];
+      document.getElementById('uvTopOorzaakSub').textContent = topOorzaakEntry[1] + 'x geregistreerd (cumulatief)';
+    }
   }
 
-  const topOorzaakEntry = Object.entries(oorzaakTeller).sort((a,b) => b[1]-a[1])[0];
-  if (topOorzaakEntry) {
-    document.getElementById('uvTopOorzaak').textContent = topOorzaakEntry[0];
-    document.getElementById('uvTopOorzaakSub').textContent = topOorzaakEntry[1] + 'x geregistreerd (cumulatief)';
-  }
+  // ── KAARTEN TONEN/VERBERGEN VOOR HET GEKOZEN DEKKINGSFILTER ────────────────
+  pasUvKaartZichtbaarheidAan();
 
   // ── UITVAL PER DAG (SVG) ──────────────────────────────────────────────────
   renderUvDekkingsFilterButtons();
   renderUvDagPeriodeButtons();
   renderUvDagChart();
 
-  // NIEUW: per maand + per lijn percentage
+  // NIEUW: per maand (totaal/cancelled — betrouwbaar sinds launch, altijd tonen)
   renderUitvalPerMaandCharts();
-  renderUitvalPctPerLijnChart();
-  renderUitvalVergelijking();
 
-  // ── UITVAL PER DAGDEEL (cumulatief) ───────────────────────────────────────
+  // Per-lijn percentage en lijn/maand-vergelijking leunen op totaal_per_lijn
+  // resp. per_lijn — niet betrouwbaar/gedekt sinds launch, dus overslaan
+  // (en container leegmaken) in "Alles"-modus.
+  if (_uvDekkingsFilter !== 'alles') {
+    renderUitvalPctPerLijnChart();
+    renderUitvalVergelijking();
+  } else {
+    const pctLijnEl = document.getElementById('uvPctPerLijnChart'); if (pctLijnEl) pctLijnEl.innerHTML = '';
+    const vglChartEl = document.getElementById('uvVglChart'); if (vglChartEl) vglChartEl.innerHTML = '';
+    const vglTotEl = document.getElementById('uvVglTotalen'); if (vglTotEl) vglTotEl.innerHTML = '';
+  }
+
+  // ── UITVAL PER DAGDEEL (cumulatief) ─────────────────────────────────────
+  // per_dagdeel bestaat pas sinds 27 juli — niet sinds launch, dus overslaan
+  // in "Alles"-modus (kaart is dan sowieso verborgen, zie hierboven).
+  if (_uvDekkingsFilter !== 'alles') {
   const dagdeelVolgorde = ['ochtendspits','dal','avondspits','avond','nacht','onbekend'];
   const dagdeelLabels   = { ochtendspits:'Ochtendspits (7–9)', dal:'Dal (9–16)', avondspits:'Avondspits (16–19)', avond:'Avond (19–24)', nacht:'Nacht (0–7)', onbekend:'Onbekend' };
   const maxDd = Math.max(...Object.values(dagdeelTeller), 1);
@@ -735,6 +788,14 @@ function renderUitval() {
       <div class="viz-bar-pct">${n}</div>
     </div>`).join('') || '<div class="viz-empty">Geen data</div>')
     + `<div style="padding:8px 20px 0;font-size:10px;color:var(--muted);">${sindsPerLijnVeld}</div>`;
+  } else {
+    // "Alles"-modus: kaarten zijn verborgen (zie pasUvKaartZichtbaarheidAan),
+    // containers leegmaken zodat er geen oude/stale content in blijft staan
+    // als iemand heen-en-weer schakelt tussen de twee filters.
+    ['uvDagdeelChart', 'uvLijnChart', 'uvHalteChart', 'uvOorzaakChart'].forEach(id => {
+      const el = document.getElementById(id); if (el) el.innerHTML = '';
+    });
+  }
 
   // ── FILTER-OPTIES VULLEN ──────────────────────────────────────────────────
   const selLijn = document.getElementById('filterUvLijn');
