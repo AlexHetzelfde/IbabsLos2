@@ -549,7 +549,13 @@ def main():
         datum   = parse_datum(row.get("datumbericht"))
         type_   = row.get("typeselectie", "")
         ph_raw  = row.get("portefeuillehouderselectie", "") or ""
-        ph      = ", ".join([p.strip() for p in ph_raw.split("\r\n") if p.strip()])
+        # FIX: was ", ".join(...) — maar Nederlandse bestuurlijke naam-
+        # notatie ("Laan, van der H.") bevat zelf al een komma. Bij meerdere
+        # portefeuillehouders op één brief was dan niet meer te onderscheiden
+        # welke komma een naam scheidt en welke twee personen scheidt — één
+        # persoon werd daardoor in het dashboard als twee mensen geteld.
+        # " | " kan niet in een naam voorkomen, dus ondubbelzinnig.
+        ph      = " | ".join([p.strip() for p in ph_raw.split("\r\n") if p.strip()])
 
         print(f"  [{i+1}/{len(relevante_rows)}] {datum} — {titel[:55]}", end=" ", flush=True)
 
