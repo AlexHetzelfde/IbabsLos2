@@ -3653,21 +3653,35 @@ function labelSindsDatum(datumStr) {
 }
 
 // ══════════════════════════════════════════════════════════════════════════
-// NIEUW — ALLES / VANAF-VOLLEDIGE-DEKKING FILTER (Uitval-tab, alle 9 grafieken)
-// De dekking is in stappen gegroeid (totaal sinds 3 juli, uitsplitsing per
-// lijn/oorzaak/halte/dagdeel sinds 27 juli, totaal_per_lijn sinds 3 augustus,
-// volledige 12-haltes-dekking sinds 12 augustus) — vergelijkingen die deze
-// grenzen overschrijden zijn appels-met-peren. Deze filter snijdt op de
-// STRENGSTE (laatste) van die grenzen, zodat "Vanaf volledige dekking" voor
-// alle 9 grafieken tegelijk een eerlijk vergelijkbare periode oplevert.
-// Géén hardcoded datum: schuift vanzelf mee als de dekking ooit verandert.
+// ALLES / VANAF-VOLLEDIGE-DEKKING FILTER (Uitval-tab, alle 9 grafieken)
+// De dekking is in stappen gegroeid: totaal sinds 3 juli, uitsplitsing per
+// lijn/oorzaak/halte/dagdeel sinds 27 juli, totaal_per_lijn-VELD sinds 3
+// augustus, volledige 12-haltes-dekking sinds 12/13 augustus.
+//
+// LET OP — dit was eerst automatisch gedetecteerd (laatste datum waarop elk
+// veld voor het eerst BESTAAT), maar dat bleek onbetrouwbaar: het detecteert
+// alleen of een veld aanwezig is, niet of de waarde erin klopt. Twee stille
+// bugs maakten de auto-detectie fout:
+//   1. totaal_per_lijn bestond al vanaf 3 augustus, maar de berekening was
+//      tot en met 11 augustus kapot (telde alleen geannuleerde ritten i.p.v.
+//      alle ritten — dus per lijn leek de uitval bijna 100%). Pas op 12
+//      augustus 16:03 gefixt.
+//   2. De haltedekking ging pas op 12 augustus (in twee stappen, 15:44 en
+//      16:16) van 3 naar 12 haltes. 12 augustus is dus zelf een overgangsdag
+//      (begon met 3 haltes, eindigde met 12) — niet vergelijkbaar met erna.
+//      Ritten/dag springt van ~857 (t/m 11 aug) naar ~1700-2500 (vanaf 13
+//      aug) — bijna 3x zoveel, puur door haltedekking.
+// De eerste dag waarop zowel de haltedekking volledig én totaal_per_lijn
+// correct was, is dus 13 augustus 2026 — niet 3 augustus zoals de
+// veld-aanwezigheid-check dacht.
+//
+// Vandaar: HARDCODED datum. Als de dekking ooit weer verandert (nieuwe
+// haltes, nieuw veld, nieuwe bugfix), moet deze datum handmatig worden
+// bijgewerkt — controleer dan wél eerst of de nieuwe brondata daadwerkelijk
+// klopt (niet alleen of het veld bestaat) voor je de datum verzet.
 // ══════════════════════════════════════════════════════════════════════════
 function volledigeDekkingVanaf() {
-  const kandidaten = ['totaal', 'per_lijn', 'totaal_per_lijn']
-    .map(eersteDatumMetVeld)
-    .filter(Boolean);
-  if (!kandidaten.length) return null;
-  return kandidaten.sort().reverse()[0]; // laatste (strengste) datum wint
+  return '2026-08-13';
 }
 
 function actievePercentageHistorie() {
