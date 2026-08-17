@@ -527,12 +527,12 @@
   <div class="stats" id="uitvalStats" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px;">
     <div class="stat"><div class="stat-label">Uitgevallen ritten</div><div class="stat-value" id="uvTotaal">—</div><div class="stat-sub" id="uvTotaalRitten">laden...</div><div class="stat-sub" id="uvPeriode">laden...</div></div>
     <div class="stat"><div class="stat-label">Uitvalpercentage</div><div class="stat-value" style="color:var(--stop);" id="uvPct">—</div><div class="stat-sub" id="uvPctSub">van alle gescrapte ritten</div></div>
-    <div class="stat"><div class="stat-label">Meest getroffen lijn</div><div class="stat-value" style="font-size:36px;padding-top:10px;" id="uvTopLijn">—</div><div class="stat-sub" id="uvTopLijnSub">laden...</div></div>
-    <div class="stat"><div class="stat-label">Meest voorkomende oorzaak</div><div class="stat-value" style="font-size:20px;padding-top:14px;line-height:1.2;" id="uvTopOorzaak">—</div><div class="stat-sub" id="uvTopOorzaakSub">laden...</div></div>
+    <div class="stat" id="uvTopLijnStat"><div class="stat-label">Meest getroffen lijn</div><div class="stat-value" style="font-size:36px;padding-top:10px;" id="uvTopLijn">—</div><div class="stat-sub" id="uvTopLijnSub">laden...</div></div>
+    <div class="stat" id="uvTopOorzaakStat"><div class="stat-label">Meest voorkomende oorzaak</div><div class="stat-value" style="font-size:20px;padding-top:14px;line-height:1.2;" id="uvTopOorzaak">—</div><div class="stat-sub" id="uvTopOorzaakSub">laden...</div></div>
   </div>
 
 <!-- NIEUW: interactieve vergelijking uitval per lijn per maand -->
-<div class="card" style="margin-bottom:16px;">
+<div class="card" style="margin-bottom:16px;" id="uvVglCard">
   <div class="card-header">
     <span class="card-title">Uitval per lijn per maand</span>
     <span style="font-size:11px;color:var(--muted);">kies lijn(en) + 1 maand</span>
@@ -551,13 +551,13 @@
   <div style="padding:12px 20px 4px;" id="uvVglChart"><div class="empty">Laden...</div></div>
 </div>
   
-  <div class="viz-row" style="margin-bottom:16px;">
+  <div class="viz-row" style="margin-bottom:16px;" id="uvDagRow">
     <div class="card">
   <div class="card-header"><span class="card-title">Uitval per dag</span><span style="font-size:11px;color:var(--muted);">cancelled</span></div>
   <div class="filter-bar" style="padding:10px 20px 0;" id="uvDagPeriodeButtons"></div>
   <div style="padding:12px 20px 0;" id="uvDagChart"><div class="empty">Laden...</div></div>
 </div>
-    <div class="card">
+    <div class="card" id="uvDagdeelCard">
       <div class="card-header"><span class="card-title">Uitval per dagdeel</span></div>
       <div class="viz-bar-list" id="uvDagdeelChart"><div class="empty">Laden...</div></div>
     </div>
@@ -580,7 +580,7 @@
   </div>
 
   <!-- NIEUW: uitvalpercentage per buslijn -->
-  <div class="card" style="margin-bottom:16px;">
+  <div class="card" style="margin-bottom:16px;" id="uvPctPerLijnCard">
     <div class="card-header">
       <span class="card-title">Uitvalpercentage per lijn</span>
       <span style="font-size:11px;color:var(--muted);">vult zich vanaf de scraper-update, lijnen met &lt;10 ritten weggelaten</span>
@@ -588,7 +588,7 @@
     <div class="viz-bar-list" id="uvPctPerLijnChart"><div class="empty">Laden...</div></div>
   </div>
 
-  <div class="viz-row" style="margin-bottom:16px;">
+  <div class="viz-row" style="margin-bottom:16px;" id="uvLijnHalteRow">
     <div class="card">
       <div class="card-header"><span class="card-title">Uitval per lijn</span></div>
       <div class="viz-bar-list" id="uvLijnChart"><div class="empty">Laden...</div></div>
@@ -599,7 +599,7 @@
     </div>
   </div>
 
-  <div class="card" style="margin-bottom:16px;">
+  <div class="card" style="margin-bottom:16px;" id="uvOorzaakCard">
     <div class="card-header"><span class="card-title">Uitval per oorzaakcategorie</span></div>
     <div class="viz-bar-list" id="uvOorzaakChart"><div class="empty">Laden...</div></div>
   </div>
