@@ -1,9 +1,9 @@
 [
   {
-    "id": "EBS:1395:1059_2026-08-21",
-    "journey_id": "EBS:1395:1059",
+    "id": "EBS:1391:1071_2026-08-21",
+    "journey_id": "EBS:1391:1071",
     "datum": "2026-08-21",
-    "lijn": "395",
+    "lijn": "391",
     "lijnkleur": "#e1251b",
     "categorie": "R-net",
     "product_label": "MeerPlus",
@@ -21,19 +21,19 @@
       {
         "halte_id": "NL:S:37223552",
         "halte_naam": "De Vlinder",
-        "geplande_tijd": "12:35",
+        "geplande_tijd": "13:03",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron E",
-        "bestemming": "Zaandam ZMC"
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Centraal"
       }
     ],
-    "eerste_tijd": "12:35",
+    "eerste_tijd": "13:03",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-08-21 09:20:30",
-    "eerst_gezien": "2026-08-21 09:20:30"
+    "bijgewerkt": "2026-08-21 09:40:32",
+    "eerst_gezien": "2026-08-21 09:40:32"
   },
   {
     "id": "EBS:1395:1059_2026-08-21",
@@ -72,10 +72,10 @@
     "eerst_gezien": "2026-08-21 09:30:35"
   },
   {
-    "id": "EBS:1307:1257_2026-08-21",
-    "journey_id": "EBS:1307:1257",
+    "id": "EBS:1395:1059_2026-08-21",
+    "journey_id": "EBS:1395:1059",
     "datum": "2026-08-21",
-    "lijn": "307",
+    "lijn": "395",
     "lijnkleur": "#e1251b",
     "categorie": "R-net",
     "product_label": "MeerPlus",
@@ -91,21 +91,21 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:30001305",
-        "halte_naam": "Amsterdam, Busstation Station Noord",
-        "geplande_tijd": "11:42",
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "12:35",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron A7",
-        "bestemming": "Purmerend De Purmer"
+        "platform": "Perron E",
+        "bestemming": "Zaandam ZMC"
       }
     ],
-    "eerste_tijd": "11:42",
+    "eerste_tijd": "12:35",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-08-21 09:20:30",
-    "eerst_gezien": "2026-08-21 09:20:30"
+    "bijgewerkt": "2026-08-21 09:40:32",
+    "eerst_gezien": "2026-08-21 09:40:32"
   },
   {
     "id": "EBS:1307:1257_2026-08-21",
@@ -142,6 +142,42 @@
     "dagdeel": "dal",
     "bijgewerkt": "2026-08-21 09:30:35",
     "eerst_gezien": "2026-08-21 09:30:35"
+  },
+  {
+    "id": "EBS:1307:1257_2026-08-21",
+    "journey_id": "EBS:1307:1257",
+    "datum": "2026-08-21",
+    "lijn": "307",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "11:42",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A7",
+        "bestemming": "Purmerend De Purmer"
+      }
+    ],
+    "eerste_tijd": "11:42",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-08-21 09:40:32",
+    "eerst_gezien": "2026-08-21 09:40:32"
   },
   {
     "id": "EBS:1306:1056_2026-08-21",
