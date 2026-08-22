@@ -36,12 +36,12 @@
     "eerst_gezien": "2026-08-22 19:20:33"
   },
   {
-    "id": "EBS:1110:6066_2026-08-22",
-    "journey_id": "EBS:1110:6066",
+    "id": "EBS:1370:6062_2026-08-22",
+    "journey_id": "EBS:1370:6062",
     "datum": "2026-08-22",
-    "lijn": "110",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
+    "lijn": "370",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
     "product_label": "MeerPlus",
     "drukte_icoon": "crowd1.svg",
     "drukte_omschrijving": "Zitplaatsen beschikbaar",
@@ -55,21 +55,21 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:30001305",
-        "halte_naam": "Amsterdam, Busstation Station Noord",
-        "geplande_tijd": "22:34",
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "22:49",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron A2",
-        "bestemming": "Volendam-Edam"
+        "platform": "Perron B",
+        "bestemming": "Amsterdam Zuidoost"
       }
     ],
-    "eerste_tijd": "22:34",
+    "eerste_tijd": "22:49",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-08-22 19:10:31",
-    "eerst_gezien": "2026-08-22 19:10:31"
+    "bijgewerkt": "2026-08-22 19:30:36",
+    "eerst_gezien": "2026-08-22 19:30:36"
   },
   {
     "id": "EBS:1110:6066_2026-08-22",
@@ -103,6 +103,89 @@
       }
     ],
     "eerste_tijd": "22:34",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-08-22 19:20:33",
+    "eerst_gezien": "2026-08-22 19:20:33"
+  },
+  {
+    "id": "EBS:1110:6066_2026-08-22",
+    "journey_id": "EBS:1110:6066",
+    "datum": "2026-08-22",
+    "lijn": "110",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd0.svg",
+    "drukte_omschrijving": "leeg",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "22:34",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A2",
+        "bestemming": "Volendam-Edam"
+      },
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "23:06",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron F",
+        "bestemming": "Purmerend"
+      }
+    ],
+    "eerste_tijd": "22:34",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-08-22 19:30:36",
+    "eerst_gezien": "2026-08-22 19:30:36"
+  },
+  {
+    "id": "EBS:1100:6064_2026-08-22",
+    "journey_id": "EBS:1100:6064",
+    "datum": "2026-08-22",
+    "lijn": "100",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd2.svg",
+    "drukte_omschrijving": "Weinig zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "22:17",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron B",
+        "bestemming": "Amsterdam Noord"
+      }
+    ],
+    "eerste_tijd": "22:17",
     "dagdeel": "avond",
     "bijgewerkt": "2026-08-22 19:20:33",
     "eerst_gezien": "2026-08-22 19:20:33"
@@ -140,80 +223,8 @@
     ],
     "eerste_tijd": "22:17",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-08-22 19:10:31",
-    "eerst_gezien": "2026-08-22 19:10:31"
-  },
-  {
-    "id": "EBS:1100:6064_2026-08-22",
-    "journey_id": "EBS:1100:6064",
-    "datum": "2026-08-22",
-    "lijn": "100",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": "crowd2.svg",
-    "drukte_omschrijving": "Weinig zitplaatsen beschikbaar",
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37400100",
-        "halte_naam": "Purmerend, Busstation Tramplein",
-        "geplande_tijd": "22:17",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron B",
-        "bestemming": "Amsterdam Noord"
-      }
-    ],
-    "eerste_tijd": "22:17",
-    "dagdeel": "avond",
-    "bijgewerkt": "2026-08-22 19:20:33",
-    "eerst_gezien": "2026-08-22 19:20:33"
-  },
-  {
-    "id": "EBS:1314:6118_2026-08-22",
-    "journey_id": "EBS:1314:6118",
-    "datum": "2026-08-22",
-    "lijn": "314",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:38491011",
-        "halte_naam": "Edam, Busstation",
-        "geplande_tijd": "21:43",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron D",
-        "bestemming": "Amsterdam Centraal"
-      }
-    ],
-    "eerste_tijd": "21:43",
-    "dagdeel": "avond",
-    "bijgewerkt": "2026-08-22 19:10:31",
-    "eerst_gezien": "2026-08-22 19:10:31"
+    "bijgewerkt": "2026-08-22 19:30:36",
+    "eerst_gezien": "2026-08-22 19:30:36"
   },
   {
     "id": "EBS:1314:6118_2026-08-22",
@@ -252,15 +263,15 @@
     "eerst_gezien": "2026-08-22 19:20:33"
   },
   {
-    "id": "EBS:1316:6106_2026-08-22",
-    "journey_id": "EBS:1316:6106",
+    "id": "EBS:1314:6118_2026-08-22",
+    "journey_id": "EBS:1314:6118",
     "datum": "2026-08-22",
-    "lijn": "316",
+    "lijn": "314",
     "lijnkleur": "#e1251b",
     "categorie": "R-net",
     "product_label": "MeerPlus",
-    "drukte_icoon": "crowd2.svg",
-    "drukte_omschrijving": "Weinig zitplaatsen beschikbaar",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Personeel",
@@ -273,19 +284,19 @@
       {
         "halte_id": "NL:S:38491011",
         "halte_naam": "Edam, Busstation",
-        "geplande_tijd": "21:38",
+        "geplande_tijd": "21:43",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron A",
+        "platform": "Perron D",
         "bestemming": "Amsterdam Centraal"
       }
     ],
-    "eerste_tijd": "21:38",
+    "eerste_tijd": "21:43",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-08-22 19:10:31",
-    "eerst_gezien": "2026-08-22 19:10:31"
+    "bijgewerkt": "2026-08-22 19:30:36",
+    "eerst_gezien": "2026-08-22 19:30:36"
   },
   {
     "id": "EBS:1316:6106_2026-08-22",
@@ -322,6 +333,42 @@
     "dagdeel": "avond",
     "bijgewerkt": "2026-08-22 19:20:33",
     "eerst_gezien": "2026-08-22 19:20:33"
+  },
+  {
+    "id": "EBS:1316:6106_2026-08-22",
+    "journey_id": "EBS:1316:6106",
+    "datum": "2026-08-22",
+    "lijn": "316",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd2.svg",
+    "drukte_omschrijving": "Weinig zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "21:38",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Amsterdam Centraal"
+      }
+    ],
+    "eerste_tijd": "21:38",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-08-22 19:30:36",
+    "eerst_gezien": "2026-08-22 19:30:36"
   },
   {
     "id": "EBS:1370:6056_2026-08-22",
