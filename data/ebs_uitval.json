@@ -1,5 +1,41 @@
 [
   {
+    "id": "EBS:1306:7086_2026-08-23",
+    "journey_id": "EBS:1306:7086",
+    "datum": "2026-08-23",
+    "lijn": "306",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37402090",
+        "halte_naam": "Purmerend, Station Overwhere (Churchilllaan)",
+        "geplande_tijd": "19:36",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Amsterdam Noord"
+      }
+    ],
+    "eerste_tijd": "19:36",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-08-23 16:10:31",
+    "eerst_gezien": "2026-08-23 16:10:31"
+  },
+  {
     "id": "EBS:1306:7073_2026-08-23",
     "journey_id": "EBS:1306:7073",
     "datum": "2026-08-23",
@@ -19,17 +55,6 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:30001305",
-        "halte_naam": "Amsterdam, Busstation Station Noord",
-        "geplande_tijd": "18:05",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron A6",
-        "bestemming": "Purmerend Overwhere"
-      },
-      {
         "halte_id": "NL:S:37402090",
         "halte_naam": "Purmerend, Station Overwhere (Churchilllaan)",
         "geplande_tijd": "18:24",
@@ -41,10 +66,10 @@
         "bestemming": "Purmerend Overwhere"
       }
     ],
-    "eerste_tijd": "18:05",
+    "eerste_tijd": "18:24",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-08-23 15:50:29",
-    "eerst_gezien": "2026-08-23 15:50:29"
+    "bijgewerkt": "2026-08-23 16:10:31",
+    "eerst_gezien": "2026-08-23 16:10:31"
   },
   {
     "id": "EBS:1306:7073_2026-08-23",
