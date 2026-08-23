@@ -1,1 +1,38 @@
-[]
+[
+  {
+    "id": "EBS:1110:7006_2026-08-23",
+    "journey_id": "EBS:1110:7006",
+    "datum": "2026-08-23",
+    "lijn": "110",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd0.svg",
+    "drukte_omschrijving": "leeg",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "08:34",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A2",
+        "bestemming": "Volendam-Edam"
+      }
+    ],
+    "eerste_tijd": "08:34",
+    "dagdeel": "ochtendspits",
+    "bijgewerkt": "2026-08-23 03:30:38",
+    "eerst_gezien": "2026-08-23 03:30:38"
+  }
+]
