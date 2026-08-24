@@ -1,5 +1,52 @@
 [
   {
+    "id": "EBS:1306:1157_2026-08-24",
+    "journey_id": "EBS:1306:1157",
+    "datum": "2026-08-24",
+    "lijn": "306",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Materieel",
+      "Storing"
+    ],
+    "oorzaak_raw": "Cause: Materieel, Storing",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "22:34",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A6",
+        "bestemming": "Purmerend Overwhere"
+      },
+      {
+        "halte_id": "NL:S:37402090",
+        "halte_naam": "Purmerend, Station Overwhere (Churchilllaan)",
+        "geplande_tijd": "22:52",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Purmerend Overwhere"
+      }
+    ],
+    "eerste_tijd": "22:34",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-08-24 20:20:30",
+    "eerst_gezien": "2026-08-24 20:20:30"
+  },
+  {
     "id": "EBS:1067:1061_2026-08-24",
     "journey_id": "EBS:1067:1061",
     "datum": "2026-08-24",
@@ -34,6 +81,42 @@
     "dagdeel": "avond",
     "bijgewerkt": "2026-08-24 20:10:28",
     "eerst_gezien": "2026-08-24 20:10:28"
+  },
+  {
+    "id": "EBS:1067:1061_2026-08-24",
+    "journey_id": "EBS:1067:1061",
+    "datum": "2026-08-24",
+    "lijn": "67",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd0.svg",
+    "drukte_omschrijving": "leeg",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Materieel",
+      "Storing"
+    ],
+    "oorzaak_raw": "Cause: Materieel, Storing",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "22:22",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Zaandam"
+      }
+    ],
+    "eerste_tijd": "22:22",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-08-24 20:20:30",
+    "eerst_gezien": "2026-08-24 20:20:30"
   },
   {
     "id": "EBS:1101:1651_2026-08-24",
