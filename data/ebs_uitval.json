@@ -39,12 +39,23 @@
         "realtime": false,
         "platform": null,
         "bestemming": "Amsterdam Noorderpark"
+      },
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "10:52",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Noorderpark"
       }
     ],
     "eerste_tijd": "10:32",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-08-25 07:20:40",
-    "eerst_gezien": "2026-08-25 07:20:40"
+    "bijgewerkt": "2026-08-25 07:30:35",
+    "eerst_gezien": "2026-08-25 07:30:35"
   },
   {
     "id": "EBS:1394:1060_2026-08-25",
@@ -101,44 +112,8 @@
     ],
     "eerste_tijd": "10:32",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-08-25 07:30:35",
-    "eerst_gezien": "2026-08-25 07:30:35"
-  },
-  {
-    "id": "EBS:1307:1245_2026-08-25",
-    "journey_id": "EBS:1307:1245",
-    "datum": "2026-08-25",
-    "lijn": "307",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:30001305",
-        "halte_naam": "Amsterdam, Busstation Station Noord",
-        "geplande_tijd": "10:12",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron A6",
-        "bestemming": "Purmerend De Purmer"
-      }
-    ],
-    "eerste_tijd": "10:12",
-    "dagdeel": "dal",
-    "bijgewerkt": "2026-08-25 07:20:40",
-    "eerst_gezien": "2026-08-25 07:20:40"
+    "bijgewerkt": "2026-08-25 07:40:30",
+    "eerst_gezien": "2026-08-25 07:40:30"
   },
   {
     "id": "EBS:1307:1245_2026-08-25",
@@ -177,12 +152,12 @@
     "eerst_gezien": "2026-08-25 07:30:35"
   },
   {
-    "id": "EBS:1064:1014_2026-08-25",
-    "journey_id": "EBS:1064:1014",
+    "id": "EBS:1307:1245_2026-08-25",
+    "journey_id": "EBS:1307:1245",
     "datum": "2026-08-25",
-    "lijn": "64",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
+    "lijn": "307",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
     "product_label": "MeerPlus",
     "drukte_icoon": "crowd1.svg",
     "drukte_omschrijving": "Zitplaatsen beschikbaar",
@@ -193,35 +168,24 @@
     ],
     "oorzaak_raw": "Cause: Personeel, Logistiek",
     "terminus_alert": null,
-    "advies": "Advice: In verband met werkzaamheden rondom de George Gershwinstraat rijdt bus 64 een andere route. Meer info: www.meerplus.nl",
+    "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "10:00",
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "10:12",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron B",
-        "bestemming": "Zaandam"
-      },
-      {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "10:04",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Zaandam"
+        "platform": "Perron A6",
+        "bestemming": "Purmerend De Purmer"
       }
     ],
-    "eerste_tijd": "10:00",
+    "eerste_tijd": "10:12",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-08-25 07:20:40",
-    "eerst_gezien": "2026-08-25 07:20:40"
+    "bijgewerkt": "2026-08-25 07:40:30",
+    "eerst_gezien": "2026-08-25 07:40:30"
   },
   {
     "id": "EBS:1064:1014_2026-08-25",
@@ -271,12 +235,12 @@
     "eerst_gezien": "2026-08-25 07:30:35"
   },
   {
-    "id": "EBS:1306:1044_2026-08-25",
-    "journey_id": "EBS:1306:1044",
+    "id": "EBS:1064:1014_2026-08-25",
+    "journey_id": "EBS:1064:1014",
     "datum": "2026-08-25",
-    "lijn": "306",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
+    "lijn": "64",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
     "product_label": "MeerPlus",
     "drukte_icoon": "crowd1.svg",
     "drukte_omschrijving": "Zitplaatsen beschikbaar",
@@ -287,24 +251,35 @@
     ],
     "oorzaak_raw": "Cause: Personeel, Logistiek",
     "terminus_alert": null,
-    "advies": null,
+    "advies": "Advice: In verband met werkzaamheden rondom de George Gershwinstraat rijdt bus 64 een andere route. Meer info: www.meerplus.nl",
     "haltes": [
       {
-        "halte_id": "NL:S:37402090",
-        "halte_naam": "Purmerend, Station Overwhere (Churchilllaan)",
-        "geplande_tijd": "09:50",
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "10:00",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron B",
+        "bestemming": "Zaandam"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "10:04",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
         "platform": null,
-        "bestemming": "Amsterdam Noord"
+        "bestemming": "Zaandam"
       }
     ],
-    "eerste_tijd": "09:50",
+    "eerste_tijd": "10:00",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-08-25 07:20:40",
-    "eerst_gezien": "2026-08-25 07:20:40"
+    "bijgewerkt": "2026-08-25 07:40:30",
+    "eerst_gezien": "2026-08-25 07:40:30"
   },
   {
     "id": "EBS:1306:1044_2026-08-25",
@@ -343,12 +318,12 @@
     "eerst_gezien": "2026-08-25 07:30:35"
   },
   {
-    "id": "EBS:1069:1017_2026-08-25",
-    "journey_id": "EBS:1069:1017",
+    "id": "EBS:1306:1044_2026-08-25",
+    "journey_id": "EBS:1306:1044",
     "datum": "2026-08-25",
-    "lijn": "69",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
+    "lijn": "306",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
     "product_label": "MeerPlus",
     "drukte_icoon": "crowd1.svg",
     "drukte_omschrijving": "Zitplaatsen beschikbaar",
@@ -362,43 +337,21 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37320410",
-        "halte_naam": "Assendelft/Krommenie-Assendelft, Rangeerder",
-        "geplande_tijd": "09:45",
+        "halte_id": "NL:S:37402090",
+        "halte_naam": "Purmerend, Station Overwhere (Churchilllaan)",
+        "geplande_tijd": "09:50",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
         "platform": null,
-        "bestemming": "Zaandam"
-      },
-      {
-        "halte_id": "NL:S:37221160",
-        "halte_naam": "Zaanse Schans",
-        "geplande_tijd": "10:15",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Zaandam Station"
-      },
-      {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "10:34",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Zaandam Station"
+        "bestemming": "Amsterdam Noord"
       }
     ],
-    "eerste_tijd": "09:45",
+    "eerste_tijd": "09:50",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-08-25 07:20:40",
-    "eerst_gezien": "2026-08-25 07:20:40"
+    "bijgewerkt": "2026-08-25 07:40:30",
+    "eerst_gezien": "2026-08-25 07:40:30"
   },
   {
     "id": "EBS:1069:1017_2026-08-25",
