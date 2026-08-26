@@ -15,42 +15,6 @@
       "-"
     ],
     "oorzaak_raw": "Cause: Personeel, -",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:30001305",
-        "halte_naam": "Amsterdam, Busstation Station Noord",
-        "geplande_tijd": "23:11",
-        "vertraging_min": 6,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron A1",
-        "bestemming": "Marken"
-      }
-    ],
-    "eerste_tijd": "23:11",
-    "dagdeel": "avond",
-    "bijgewerkt": "2026-08-26 21:10:28",
-    "eerst_gezien": "2026-08-26 21:10:28"
-  },
-  {
-    "id": "EBS:1111:1137_2026-08-26",
-    "journey_id": "EBS:1111:1137",
-    "datum": "2026-08-26",
-    "lijn": "111",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "-"
-    ],
-    "oorzaak_raw": "Cause: Personeel, -",
     "terminus_alert": "Terminates at Vijfhoek",
     "advies": null,
     "haltes": [
@@ -3780,12 +3744,23 @@
         "realtime": false,
         "platform": "Perron A",
         "bestemming": "Zaandam Station"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "00:34",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Zaandam Station"
       }
     ],
     "eerste_tijd": "00:26",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-08-26 21:00:40",
-    "eerst_gezien": "2026-08-26 21:00:40"
+    "bijgewerkt": "2026-08-26 21:10:28",
+    "eerst_gezien": "2026-08-26 21:10:28"
   },
   {
     "id": "EBS:1111:1138_2026-08-26",
@@ -3831,7 +3806,7 @@
     ],
     "eerste_tijd": "00:26",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-08-26 21:10:28",
-    "eerst_gezien": "2026-08-26 21:10:28"
+    "bijgewerkt": "2026-08-26 21:20:35",
+    "eerst_gezien": "2026-08-26 21:20:35"
   }
 ]
