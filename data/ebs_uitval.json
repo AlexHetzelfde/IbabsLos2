@@ -1,7 +1,7 @@
 [
   {
-    "id": "EBS:1111:1007_2026-08-28",
-    "journey_id": "EBS:1111:1007",
+    "id": "EBS:1111:1014_2026-08-28",
+    "journey_id": "EBS:1111:1014",
     "datum": "2026-08-28",
     "lijn": "111",
     "lijnkleur": "#004899",
@@ -21,30 +21,19 @@
       {
         "halte_id": "NL:S:37223552",
         "halte_naam": "De Vlinder",
-        "geplande_tijd": "06:06",
+        "geplande_tijd": "07:17",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron E",
-        "bestemming": "Marken"
-      },
-      {
-        "halte_id": "NL:S:30001305",
-        "halte_naam": "Amsterdam, Busstation Station Noord",
-        "geplande_tijd": "06:29",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron A1",
-        "bestemming": "Marken"
+        "platform": "Perron A",
+        "bestemming": "Zaandam Station"
       }
     ],
-    "eerste_tijd": "06:06",
-    "dagdeel": "nacht",
-    "bijgewerkt": "2026-08-28 03:30:32",
-    "eerst_gezien": "2026-08-28 03:30:32"
+    "eerste_tijd": "07:17",
+    "dagdeel": "ochtendspits",
+    "bijgewerkt": "2026-08-28 03:50:23",
+    "eerst_gezien": "2026-08-28 03:50:23"
   },
   {
     "id": "EBS:1111:1007_2026-08-28",
@@ -92,5 +81,52 @@
     "dagdeel": "nacht",
     "bijgewerkt": "2026-08-28 03:40:25",
     "eerst_gezien": "2026-08-28 03:40:25"
+  },
+  {
+    "id": "EBS:1111:1007_2026-08-28",
+    "journey_id": "EBS:1111:1007",
+    "datum": "2026-08-28",
+    "lijn": "111",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd0.svg",
+    "drukte_omschrijving": "leeg",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "06:06",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron E",
+        "bestemming": "Marken"
+      },
+      {
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "06:29",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A1",
+        "bestemming": "Marken"
+      }
+    ],
+    "eerste_tijd": "06:06",
+    "dagdeel": "nacht",
+    "bijgewerkt": "2026-08-28 03:50:23",
+    "eerst_gezien": "2026-08-28 03:50:23"
   }
 ]
