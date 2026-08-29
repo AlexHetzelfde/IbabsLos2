@@ -39,12 +39,23 @@
         "realtime": false,
         "platform": null,
         "bestemming": "Krommenie"
+      },
+      {
+        "halte_id": "NL:S:37221160",
+        "halte_naam": "Zaanse Schans",
+        "geplande_tijd": "11:40",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Krommenie station"
       }
     ],
     "eerste_tijd": "11:16",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-08-29 08:00:32",
-    "eerst_gezien": "2026-08-29 08:00:32"
+    "bijgewerkt": "2026-08-29 08:10:24",
+    "eerst_gezien": "2026-08-29 08:10:24"
   },
   {
     "id": "EBS:1069:6022_2026-08-29",
@@ -101,55 +112,8 @@
     ],
     "eerste_tijd": "11:16",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-08-29 08:10:24",
-    "eerst_gezien": "2026-08-29 08:10:24"
-  },
-  {
-    "id": "EBS:1111:6023_2026-08-29",
-    "journey_id": "EBS:1111:6023",
-    "datum": "2026-08-29",
-    "lijn": "111",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "10:35",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron A",
-        "bestemming": "Zaandam Station"
-      },
-      {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "10:45",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Zaandam Station"
-      }
-    ],
-    "eerste_tijd": "10:35",
-    "dagdeel": "dal",
-    "bijgewerkt": "2026-08-29 08:00:32",
-    "eerst_gezien": "2026-08-29 08:00:32"
+    "bijgewerkt": "2026-08-29 08:20:23",
+    "eerst_gezien": "2026-08-29 08:20:23"
   },
   {
     "id": "EBS:1111:6023_2026-08-29",
@@ -199,15 +163,15 @@
     "eerst_gezien": "2026-08-29 08:10:24"
   },
   {
-    "id": "EBS:1067:6006_2026-08-29",
-    "journey_id": "EBS:1067:6006",
+    "id": "EBS:1111:6023_2026-08-29",
+    "journey_id": "EBS:1111:6023",
     "datum": "2026-08-29",
-    "lijn": "67",
+    "lijn": "111",
     "lijnkleur": "#004899",
     "categorie": "M-net",
     "product_label": "MeerPlus",
-    "drukte_icoon": "crowd0.svg",
-    "drukte_omschrijving": "leeg",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Personeel",
@@ -215,24 +179,35 @@
     ],
     "oorzaak_raw": "Cause: Personeel, Logistiek",
     "terminus_alert": null,
-    "advies": "Advice: Deze halte is vervallen ivm een evenement. Meer info? meerplus.nl",
+    "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "10:17",
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "10:35",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
         "platform": "Perron A",
-        "bestemming": "Purmerend via Wormerveer"
+        "bestemming": "Zaandam Station"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "10:45",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Zaandam Station"
       }
     ],
-    "eerste_tijd": "10:17",
+    "eerste_tijd": "10:35",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-08-29 08:00:32",
-    "eerst_gezien": "2026-08-29 08:00:32"
+    "bijgewerkt": "2026-08-29 08:20:23",
+    "eerst_gezien": "2026-08-29 08:20:23"
   },
   {
     "id": "EBS:1067:6006_2026-08-29",
