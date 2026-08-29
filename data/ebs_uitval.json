@@ -47,10 +47,10 @@
     "eerst_gezien": "2026-08-29 10:30:28"
   },
   {
-    "id": "EBS:1067:6012_2026-08-29",
-    "journey_id": "EBS:1067:6012",
+    "id": "EBS:1064:6027_2026-08-29",
+    "journey_id": "EBS:1064:6027",
     "datum": "2026-08-29",
-    "lijn": "67",
+    "lijn": "64",
     "lijnkleur": "#004899",
     "categorie": "M-net",
     "product_label": "MeerPlus",
@@ -62,25 +62,36 @@
       "Logistiek"
     ],
     "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": "Advice: Deze halte is vervallen ivm een evenement. Meer info? meerplus.nl",
+    "terminus_alert": "Terminates at Vinkenstraat",
+    "advies": "Advice: In verband met werkzaamheden rondom de George Gershwinstraat rijdt bus 64 een andere route. Meer info: www.meerplus.nl",
     "haltes": [
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "13:48",
+        "vertraging_min": 0,
+        "status": "gereden",
+        "vertrokken": false,
+        "realtime": true,
+        "platform": null,
+        "bestemming": "Zaandijk Rooswijk"
+      },
       {
         "halte_id": "NL:S:37220130",
         "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "13:17",
+        "geplande_tijd": "13:54",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron A",
-        "bestemming": "Purmerend via Wormerveer"
+        "platform": "Perron H",
+        "bestemming": "Zaandijk Rooswijk"
       }
     ],
-    "eerste_tijd": "13:17",
+    "eerste_tijd": "13:48",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-08-29 10:20:24",
-    "eerst_gezien": "2026-08-29 10:20:24"
+    "bijgewerkt": "2026-08-29 10:40:22",
+    "eerst_gezien": "2026-08-29 10:40:22"
   },
   {
     "id": "EBS:1067:6012_2026-08-29",
@@ -117,6 +128,42 @@
     "dagdeel": "dal",
     "bijgewerkt": "2026-08-29 10:30:28",
     "eerst_gezien": "2026-08-29 10:30:28"
+  },
+  {
+    "id": "EBS:1067:6012_2026-08-29",
+    "journey_id": "EBS:1067:6012",
+    "datum": "2026-08-29",
+    "lijn": "67",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": "Advice: Deze halte is vervallen ivm een evenement. Meer info? meerplus.nl",
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "13:17",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Purmerend via Wormerveer"
+      }
+    ],
+    "eerste_tijd": "13:17",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-08-29 10:40:22",
+    "eerst_gezien": "2026-08-29 10:40:22"
   },
   {
     "id": "EBS:1069:6025_2026-08-29",
@@ -162,8 +209,8 @@
     ],
     "eerste_tijd": "12:43",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-08-29 10:30:28",
-    "eerst_gezien": "2026-08-29 10:30:28"
+    "bijgewerkt": "2026-08-29 10:40:22",
+    "eerst_gezien": "2026-08-29 10:40:22"
   },
   {
     "id": "EBS:1067:6013_2026-08-29",
