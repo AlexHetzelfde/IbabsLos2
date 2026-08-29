@@ -1,7 +1,7 @@
 [
   {
-    "id": "EBS:1064:6027_2026-08-29",
-    "journey_id": "EBS:1064:6027",
+    "id": "EBS:1064:6026_2026-08-29",
+    "journey_id": "EBS:1064:6026",
     "datum": "2026-08-29",
     "lijn": "64",
     "lijnkleur": "#004899",
@@ -15,36 +15,36 @@
       "Logistiek"
     ],
     "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": "Terminates at Vinkenstraat",
-    "advies": "Advice: In verband met werkzaamheden rondom de George Gershwinstraat rijdt bus 64 een andere route. Meer info: www.meerplus.nl",
+    "terminus_alert": null,
+    "advies": null,
     "haltes": [
-      {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "13:48",
-        "vertraging_min": 0,
-        "status": "gereden",
-        "vertrokken": false,
-        "realtime": true,
-        "platform": null,
-        "bestemming": "Zaandijk Rooswijk"
-      },
       {
         "halte_id": "NL:S:37220130",
         "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "13:54",
+        "geplande_tijd": "14:53",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron H",
-        "bestemming": "Zaandijk Rooswijk"
+        "platform": "Perron B",
+        "bestemming": "Zaandam"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "14:57",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Zaandam"
       }
     ],
-    "eerste_tijd": "13:48",
+    "eerste_tijd": "14:53",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-08-29 11:10:30",
-    "eerst_gezien": "2026-08-29 11:10:30"
+    "bijgewerkt": "2026-08-29 11:30:30",
+    "eerst_gezien": "2026-08-29 11:30:30"
   },
   {
     "id": "EBS:1064:6027_2026-08-29",
@@ -92,6 +92,53 @@
     "dagdeel": "dal",
     "bijgewerkt": "2026-08-29 11:20:25",
     "eerst_gezien": "2026-08-29 11:20:25"
+  },
+  {
+    "id": "EBS:1064:6027_2026-08-29",
+    "journey_id": "EBS:1064:6027",
+    "datum": "2026-08-29",
+    "lijn": "64",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": "Terminates at Vinkenstraat",
+    "advies": "Advice: In verband met werkzaamheden rondom de George Gershwinstraat rijdt bus 64 een andere route. Meer info: www.meerplus.nl",
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "13:48",
+        "vertraging_min": 0,
+        "status": "gereden",
+        "vertrokken": false,
+        "realtime": true,
+        "platform": null,
+        "bestemming": "Zaandijk Rooswijk"
+      },
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "13:54",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron H",
+        "bestemming": "Zaandijk Rooswijk"
+      }
+    ],
+    "eerste_tijd": "13:48",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-08-29 11:30:30",
+    "eerst_gezien": "2026-08-29 11:30:30"
   },
   {
     "id": "EBS:1067:6012_2026-08-29",
