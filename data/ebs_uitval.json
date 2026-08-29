@@ -36,10 +36,10 @@
     "eerst_gezien": "2026-08-29 04:50:23"
   },
   {
-    "id": "EBS:1067:6000_2026-08-29",
-    "journey_id": "EBS:1067:6000",
+    "id": "EBS:1111:6011_2026-08-29",
+    "journey_id": "EBS:1111:6011",
     "datum": "2026-08-29",
-    "lijn": "67",
+    "lijn": "111",
     "lijnkleur": "#004899",
     "categorie": "M-net",
     "product_label": "MeerPlus",
@@ -52,24 +52,35 @@
     ],
     "oorzaak_raw": "Cause: Personeel, Logistiek",
     "terminus_alert": null,
-    "advies": "Advice: Deze halte is vervallen ivm een evenement. Meer info? meerplus.nl",
+    "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "07:17",
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "08:19",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
         "platform": "Perron A",
-        "bestemming": "Purmerend via Wormerveer"
+        "bestemming": "Zaandam Station"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "08:26",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Zaandam Station"
       }
     ],
-    "eerste_tijd": "07:17",
+    "eerste_tijd": "08:19",
     "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-08-29 04:40:23",
-    "eerst_gezien": "2026-08-29 04:40:23"
+    "bijgewerkt": "2026-08-29 05:00:34",
+    "eerst_gezien": "2026-08-29 05:00:34"
   },
   {
     "id": "EBS:1067:6000_2026-08-29",
@@ -106,5 +117,41 @@
     "dagdeel": "ochtendspits",
     "bijgewerkt": "2026-08-29 04:50:23",
     "eerst_gezien": "2026-08-29 04:50:23"
+  },
+  {
+    "id": "EBS:1067:6000_2026-08-29",
+    "journey_id": "EBS:1067:6000",
+    "datum": "2026-08-29",
+    "lijn": "67",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd0.svg",
+    "drukte_omschrijving": "leeg",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": "Advice: Deze halte is vervallen ivm een evenement. Meer info? meerplus.nl",
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "07:17",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Purmerend via Wormerveer"
+      }
+    ],
+    "eerste_tijd": "07:17",
+    "dagdeel": "ochtendspits",
+    "bijgewerkt": "2026-08-29 05:00:34",
+    "eerst_gezien": "2026-08-29 05:00:34"
   }
 ]
