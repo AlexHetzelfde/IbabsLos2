@@ -54,8 +54,8 @@
     ],
     "eerste_tijd": "13:53",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-08-31 10:50:26",
-    "eerst_gezien": "2026-08-31 10:50:26"
+    "bijgewerkt": "2026-08-31 11:00:41",
+    "eerst_gezien": "2026-08-31 11:00:41"
   },
   {
     "id": "EBS:1394:1094_2026-08-31",
@@ -112,55 +112,8 @@
     ],
     "eerste_tijd": "13:53",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-08-31 11:00:41",
-    "eerst_gezien": "2026-08-31 11:00:41"
-  },
-  {
-    "id": "EBS:1394:1081_2026-08-31",
-    "journey_id": "EBS:1394:1081",
-    "datum": "2026-08-31",
-    "lijn": "394",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "13:26",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron E",
-        "bestemming": "Zaandam Station"
-      },
-      {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "13:41",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Zaandam Station"
-      }
-    ],
-    "eerste_tijd": "13:26",
-    "dagdeel": "dal",
-    "bijgewerkt": "2026-08-31 10:50:26",
-    "eerst_gezien": "2026-08-31 10:50:26"
+    "bijgewerkt": "2026-08-31 11:10:25",
+    "eerst_gezien": "2026-08-31 11:10:25"
   },
   {
     "id": "EBS:1394:1081_2026-08-31",
@@ -210,10 +163,10 @@
     "eerst_gezien": "2026-08-31 11:00:41"
   },
   {
-    "id": "EBS:1316:1074_2026-08-31",
-    "journey_id": "EBS:1316:1074",
+    "id": "EBS:1394:1081_2026-08-31",
+    "journey_id": "EBS:1394:1081",
     "datum": "2026-08-31",
-    "lijn": "316",
+    "lijn": "394",
     "lijnkleur": "#e1251b",
     "categorie": "R-net",
     "product_label": "MeerPlus",
@@ -229,21 +182,32 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:38491011",
-        "halte_naam": "Edam, Busstation",
-        "geplande_tijd": "13:24",
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "13:26",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron A",
-        "bestemming": "Amsterdam Centraal"
+        "platform": "Perron E",
+        "bestemming": "Zaandam Station"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "13:41",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Zaandam Station"
       }
     ],
-    "eerste_tijd": "13:24",
+    "eerste_tijd": "13:26",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-08-31 10:50:26",
-    "eerst_gezien": "2026-08-31 10:50:26"
+    "bijgewerkt": "2026-08-31 11:10:25",
+    "eerst_gezien": "2026-08-31 11:10:25"
   },
   {
     "id": "EBS:1316:1074_2026-08-31",
@@ -280,6 +244,42 @@
     "dagdeel": "dal",
     "bijgewerkt": "2026-08-31 11:00:41",
     "eerst_gezien": "2026-08-31 11:00:41"
+  },
+  {
+    "id": "EBS:1316:1074_2026-08-31",
+    "journey_id": "EBS:1316:1074",
+    "datum": "2026-08-31",
+    "lijn": "316",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "13:24",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Amsterdam Centraal"
+      }
+    ],
+    "eerste_tijd": "13:24",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-08-31 11:10:25",
+    "eerst_gezien": "2026-08-31 11:10:25"
   },
   {
     "id": "EBS:1370:1048_2026-08-31",
