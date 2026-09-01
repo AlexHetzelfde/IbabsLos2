@@ -1,5 +1,41 @@
 [
   {
+    "id": "EBS:1069:1039_2026-09-01",
+    "journey_id": "EBS:1069:1039",
+    "datum": "2026-09-01",
+    "lijn": "69",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37320410",
+        "halte_naam": "Assendelft/Krommenie-Assendelft, Rangeerder",
+        "geplande_tijd": "15:15",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Zaandam"
+      }
+    ],
+    "eerste_tijd": "15:15",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-09-01 11:30:35",
+    "eerst_gezien": "2026-09-01 11:30:35"
+  },
+  {
     "id": "EBS:1101:1635_2026-09-01",
     "journey_id": "EBS:1101:1635",
     "datum": "2026-09-01",
@@ -36,15 +72,15 @@
     "eerst_gezien": "2026-09-01 11:20:24"
   },
   {
-    "id": "EBS:1069:1036_2026-09-01",
-    "journey_id": "EBS:1069:1036",
+    "id": "EBS:1101:1635_2026-09-01",
+    "journey_id": "EBS:1101:1635",
     "datum": "2026-09-01",
-    "lijn": "69",
+    "lijn": "101",
     "lijnkleur": "#004899",
     "categorie": "M-net",
     "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "drukte_icoon": "crowd0.svg",
+    "drukte_omschrijving": "leeg",
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Personeel",
@@ -55,32 +91,21 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "14:14",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron I",
-        "bestemming": "Krommenie"
-      },
-      {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "14:17",
+        "halte_id": "NL:S:37400500",
+        "halte_naam": "Purmerend, Korenstraat",
+        "geplande_tijd": "14:51",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
         "platform": null,
-        "bestemming": "Krommenie"
+        "bestemming": "Ringlijn Purmerend"
       }
     ],
-    "eerste_tijd": "14:14",
+    "eerste_tijd": "14:51",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-09-01 11:10:29",
-    "eerst_gezien": "2026-09-01 11:10:29"
+    "bijgewerkt": "2026-09-01 11:30:35",
+    "eerst_gezien": "2026-09-01 11:30:35"
   },
   {
     "id": "EBS:1069:1036_2026-09-01",
@@ -141,12 +166,12 @@
     "eerst_gezien": "2026-09-01 11:20:24"
   },
   {
-    "id": "EBS:1316:1080_2026-09-01",
-    "journey_id": "EBS:1316:1080",
+    "id": "EBS:1069:1036_2026-09-01",
+    "journey_id": "EBS:1069:1036",
     "datum": "2026-09-01",
-    "lijn": "316",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
+    "lijn": "69",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
     "product_label": "MeerPlus",
     "drukte_icoon": "crowd1.svg",
     "drukte_omschrijving": "Zitplaatsen beschikbaar",
@@ -160,21 +185,43 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:38491011",
-        "halte_naam": "Edam, Busstation",
-        "geplande_tijd": "14:09",
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "14:14",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron A",
-        "bestemming": "Amsterdam Centraal"
+        "platform": "Perron I",
+        "bestemming": "Krommenie"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "14:17",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Krommenie"
+      },
+      {
+        "halte_id": "NL:S:37221160",
+        "halte_naam": "Zaanse Schans",
+        "geplande_tijd": "14:40",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Krommenie station"
       }
     ],
-    "eerste_tijd": "14:09",
+    "eerste_tijd": "14:14",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-09-01 11:10:29",
-    "eerst_gezien": "2026-09-01 11:10:29"
+    "bijgewerkt": "2026-09-01 11:30:35",
+    "eerst_gezien": "2026-09-01 11:30:35"
   },
   {
     "id": "EBS:1316:1080_2026-09-01",
@@ -211,6 +258,42 @@
     "dagdeel": "dal",
     "bijgewerkt": "2026-09-01 11:20:24",
     "eerst_gezien": "2026-09-01 11:20:24"
+  },
+  {
+    "id": "EBS:1316:1080_2026-09-01",
+    "journey_id": "EBS:1316:1080",
+    "datum": "2026-09-01",
+    "lijn": "316",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "14:09",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Amsterdam Centraal"
+      }
+    ],
+    "eerste_tijd": "14:09",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-09-01 11:30:35",
+    "eerst_gezien": "2026-09-01 11:30:35"
   },
   {
     "id": "EBS:1100:1061_2026-09-01",
