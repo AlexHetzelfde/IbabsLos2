@@ -1,11 +1,11 @@
 [
   {
-    "id": "EBS:1391:1007_2026-09-02",
-    "journey_id": "EBS:1391:1007",
+    "id": "EBS:1104:1012_2026-09-02",
+    "journey_id": "EBS:1104:1012",
     "datum": "2026-09-02",
-    "lijn": "391",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
+    "lijn": "104",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
     "product_label": "MeerPlus",
     "drukte_icoon": "crowd1.svg",
     "drukte_omschrijving": "Zitplaatsen beschikbaar",
@@ -19,21 +19,21 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "06:17",
+        "halte_id": "NL:S:37400500",
+        "halte_naam": "Purmerend, Korenstraat",
+        "geplande_tijd": "06:42",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron C",
-        "bestemming": "Amsterdam Centraal"
+        "platform": null,
+        "bestemming": "Amsterdam Noord"
       }
     ],
-    "eerste_tijd": "06:17",
+    "eerste_tijd": "06:42",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-09-02 03:00:51",
-    "eerst_gezien": "2026-09-02 03:00:51"
+    "bijgewerkt": "2026-09-02 03:20:25",
+    "eerst_gezien": "2026-09-02 03:20:25"
   },
   {
     "id": "EBS:1391:1007_2026-09-02",
@@ -70,5 +70,41 @@
     "dagdeel": "nacht",
     "bijgewerkt": "2026-09-02 03:10:26",
     "eerst_gezien": "2026-09-02 03:10:26"
+  },
+  {
+    "id": "EBS:1391:1007_2026-09-02",
+    "journey_id": "EBS:1391:1007",
+    "datum": "2026-09-02",
+    "lijn": "391",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "06:17",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Centraal"
+      }
+    ],
+    "eerste_tijd": "06:17",
+    "dagdeel": "nacht",
+    "bijgewerkt": "2026-09-02 03:20:25",
+    "eerst_gezien": "2026-09-02 03:20:25"
   }
 ]
