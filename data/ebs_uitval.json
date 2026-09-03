@@ -28,12 +28,23 @@
         "realtime": false,
         "platform": "Perron C",
         "bestemming": "Amsterdam Noorderpark"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "22:42",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Amsterdam Noorderpark"
       }
     ],
     "eerste_tijd": "22:40",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-09-03 19:10:36",
-    "eerst_gezien": "2026-09-03 19:10:36"
+    "bijgewerkt": "2026-09-03 19:20:33",
+    "eerst_gezien": "2026-09-03 19:20:33"
   },
   {
     "id": "EBS:1394:1178_2026-09-03",
@@ -75,12 +86,23 @@
         "realtime": false,
         "platform": null,
         "bestemming": "Amsterdam Noorderpark"
+      },
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "22:58",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Noorderpark"
       }
     ],
     "eerste_tijd": "22:40",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-09-03 19:20:33",
-    "eerst_gezien": "2026-09-03 19:20:33"
+    "bijgewerkt": "2026-09-03 19:30:48",
+    "eerst_gezien": "2026-09-03 19:30:48"
   },
   {
     "id": "EBS:1110:1077_2026-09-03",
@@ -115,8 +137,8 @@
     ],
     "eerste_tijd": "22:32",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-09-03 19:10:36",
-    "eerst_gezien": "2026-09-03 19:10:36"
+    "bijgewerkt": "2026-09-03 19:20:33",
+    "eerst_gezien": "2026-09-03 19:20:33"
   },
   {
     "id": "EBS:1110:1077_2026-09-03",
@@ -147,9 +169,67 @@
         "realtime": false,
         "platform": "Perron A",
         "bestemming": "Edam-Volendam"
+      },
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "22:59",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Noord"
       }
     ],
     "eerste_tijd": "22:32",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-09-03 19:30:48",
+    "eerst_gezien": "2026-09-03 19:30:48"
+  },
+  {
+    "id": "EBS:1394:1171_2026-09-03",
+    "journey_id": "EBS:1394:1171",
+    "datum": "2026-09-03",
+    "lijn": "394",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "22:17",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron E",
+        "bestemming": "Zaandam Station"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "22:29",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Zaandam Station"
+      }
+    ],
+    "eerste_tijd": "22:17",
     "dagdeel": "avond",
     "bijgewerkt": "2026-09-03 19:20:33",
     "eerst_gezien": "2026-09-03 19:20:33"
@@ -198,19 +278,19 @@
     ],
     "eerste_tijd": "22:17",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-09-03 19:10:36",
-    "eerst_gezien": "2026-09-03 19:10:36"
+    "bijgewerkt": "2026-09-03 19:30:48",
+    "eerst_gezien": "2026-09-03 19:30:48"
   },
   {
-    "id": "EBS:1394:1171_2026-09-03",
-    "journey_id": "EBS:1394:1171",
+    "id": "EBS:1394:1172_2026-09-03",
+    "journey_id": "EBS:1394:1172",
     "datum": "2026-09-03",
     "lijn": "394",
     "lijnkleur": "#e1251b",
     "categorie": "R-net",
     "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "drukte_icoon": "crowd0.svg",
+    "drukte_omschrijving": "leeg",
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Personeel",
@@ -223,27 +303,16 @@
       {
         "halte_id": "NL:S:37223552",
         "halte_naam": "De Vlinder",
-        "geplande_tijd": "22:17",
+        "geplande_tijd": "21:43",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron E",
-        "bestemming": "Zaandam Station"
-      },
-      {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "22:29",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Zaandam Station"
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Noorderpark"
       }
     ],
-    "eerste_tijd": "22:17",
+    "eerste_tijd": "21:43",
     "dagdeel": "avond",
     "bijgewerkt": "2026-09-03 19:20:33",
     "eerst_gezien": "2026-09-03 19:20:33"
@@ -281,44 +350,8 @@
     ],
     "eerste_tijd": "21:43",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-09-03 19:10:36",
-    "eerst_gezien": "2026-09-03 19:10:36"
-  },
-  {
-    "id": "EBS:1394:1172_2026-09-03",
-    "journey_id": "EBS:1394:1172",
-    "datum": "2026-09-03",
-    "lijn": "394",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": "crowd0.svg",
-    "drukte_omschrijving": "leeg",
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "21:43",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron C",
-        "bestemming": "Amsterdam Noorderpark"
-      }
-    ],
-    "eerste_tijd": "21:43",
-    "dagdeel": "avond",
-    "bijgewerkt": "2026-09-03 19:20:33",
-    "eerst_gezien": "2026-09-03 19:20:33"
+    "bijgewerkt": "2026-09-03 19:30:48",
+    "eerst_gezien": "2026-09-03 19:30:48"
   },
   {
     "id": "EBS:1110:1068_2026-09-03",
@@ -353,8 +386,8 @@
     ],
     "eerste_tijd": "21:37",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-09-03 19:20:33",
-    "eerst_gezien": "2026-09-03 19:20:33"
+    "bijgewerkt": "2026-09-03 19:30:48",
+    "eerst_gezien": "2026-09-03 19:30:48"
   },
   {
     "id": "EBS:1110:1068_2026-09-03",
