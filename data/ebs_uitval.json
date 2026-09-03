@@ -1,39 +1,39 @@
 [
   {
-    "id": "EBS:1110:1068_2026-09-03",
-    "journey_id": "EBS:1110:1068",
+    "id": "EBS:1394:1172_2026-09-03",
+    "journey_id": "EBS:1394:1172",
     "datum": "2026-09-03",
-    "lijn": "110",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
+    "lijn": "394",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
     "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "drukte_icoon": "crowd0.svg",
+    "drukte_omschrijving": "leeg",
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Personeel",
-      "-"
+      "Logistiek"
     ],
-    "oorzaak_raw": "Cause: Personeel, -",
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
     "terminus_alert": null,
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:30001305",
-        "halte_naam": "Amsterdam, Busstation Station Noord",
-        "geplande_tijd": "21:04",
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "21:43",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron A2",
-        "bestemming": "Volendam-Edam"
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Noorderpark"
       }
     ],
-    "eerste_tijd": "21:04",
+    "eerste_tijd": "21:43",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-09-03 18:00:47",
-    "eerst_gezien": "2026-09-03 18:00:47"
+    "bijgewerkt": "2026-09-03 18:20:32",
+    "eerst_gezien": "2026-09-03 18:20:32"
   },
   {
     "id": "EBS:1110:1068_2026-09-03",
@@ -83,40 +83,51 @@
     "eerst_gezien": "2026-09-03 18:10:31"
   },
   {
-    "id": "EBS:1395:1137_2026-09-03",
-    "journey_id": "EBS:1395:1137",
+    "id": "EBS:1110:1068_2026-09-03",
+    "journey_id": "EBS:1110:1068",
     "datum": "2026-09-03",
-    "lijn": "395",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
+    "lijn": "110",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
     "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "drukte_icoon": "crowd0.svg",
+    "drukte_omschrijving": "leeg",
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Personeel",
-      "Logistiek"
+      "-"
     ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "oorzaak_raw": "Cause: Personeel, -",
     "terminus_alert": null,
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "20:54",
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "21:04",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron E",
-        "bestemming": "Zaandam ZMC"
+        "platform": "Perron A2",
+        "bestemming": "Volendam-Edam"
+      },
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "21:37",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron F",
+        "bestemming": "Purmerend"
       }
     ],
-    "eerste_tijd": "20:54",
+    "eerste_tijd": "21:04",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-09-03 18:00:47",
-    "eerst_gezien": "2026-09-03 18:00:47"
+    "bijgewerkt": "2026-09-03 18:20:32",
+    "eerst_gezien": "2026-09-03 18:20:32"
   },
   {
     "id": "EBS:1395:1137_2026-09-03",
@@ -150,6 +161,78 @@
       }
     ],
     "eerste_tijd": "20:54",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-09-03 18:10:31",
+    "eerst_gezien": "2026-09-03 18:10:31"
+  },
+  {
+    "id": "EBS:1395:1137_2026-09-03",
+    "journey_id": "EBS:1395:1137",
+    "datum": "2026-09-03",
+    "lijn": "395",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "20:54",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron E",
+        "bestemming": "Zaandam ZMC"
+      }
+    ],
+    "eerste_tijd": "20:54",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-09-03 18:20:32",
+    "eerst_gezien": "2026-09-03 18:20:32"
+  },
+  {
+    "id": "EBS:1100:1130_2026-09-03",
+    "journey_id": "EBS:1100:1130",
+    "datum": "2026-09-03",
+    "lijn": "100",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "-"
+    ],
+    "oorzaak_raw": "Cause: Personeel, -",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "20:47",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron B",
+        "bestemming": "Amsterdam Noord"
+      }
+    ],
+    "eerste_tijd": "20:47",
     "dagdeel": "avond",
     "bijgewerkt": "2026-09-03 18:10:31",
     "eerst_gezien": "2026-09-03 18:10:31"
@@ -187,80 +270,8 @@
     ],
     "eerste_tijd": "20:47",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-09-03 18:00:47",
-    "eerst_gezien": "2026-09-03 18:00:47"
-  },
-  {
-    "id": "EBS:1100:1130_2026-09-03",
-    "journey_id": "EBS:1100:1130",
-    "datum": "2026-09-03",
-    "lijn": "100",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "-"
-    ],
-    "oorzaak_raw": "Cause: Personeel, -",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37400100",
-        "halte_naam": "Purmerend, Busstation Tramplein",
-        "geplande_tijd": "20:47",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron B",
-        "bestemming": "Amsterdam Noord"
-      }
-    ],
-    "eerste_tijd": "20:47",
-    "dagdeel": "avond",
-    "bijgewerkt": "2026-09-03 18:10:31",
-    "eerst_gezien": "2026-09-03 18:10:31"
-  },
-  {
-    "id": "EBS:1395:1138_2026-09-03",
-    "journey_id": "EBS:1395:1138",
-    "datum": "2026-09-03",
-    "lijn": "395",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "20:30",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron B",
-        "bestemming": "Amsterdam Sloterdijk"
-      }
-    ],
-    "eerste_tijd": "20:30",
-    "dagdeel": "avond",
-    "bijgewerkt": "2026-09-03 18:00:47",
-    "eerst_gezien": "2026-09-03 18:00:47"
+    "bijgewerkt": "2026-09-03 18:20:32",
+    "eerst_gezien": "2026-09-03 18:20:32"
   },
   {
     "id": "EBS:1395:1138_2026-09-03",
@@ -299,10 +310,10 @@
     "eerst_gezien": "2026-09-03 18:10:31"
   },
   {
-    "id": "EBS:1391:1130_2026-09-03",
-    "journey_id": "EBS:1391:1130",
+    "id": "EBS:1395:1138_2026-09-03",
+    "journey_id": "EBS:1395:1138",
     "datum": "2026-09-03",
-    "lijn": "391",
+    "lijn": "395",
     "lijnkleur": "#e1251b",
     "categorie": "R-net",
     "product_label": "MeerPlus",
@@ -320,19 +331,19 @@
       {
         "halte_id": "NL:S:37223552",
         "halte_naam": "De Vlinder",
-        "geplande_tijd": "20:07",
+        "geplande_tijd": "20:30",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron D",
-        "bestemming": "Zaandam ZMC"
+        "platform": "Perron B",
+        "bestemming": "Amsterdam Sloterdijk"
       }
     ],
-    "eerste_tijd": "20:07",
+    "eerste_tijd": "20:30",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-09-03 18:00:47",
-    "eerst_gezien": "2026-09-03 18:00:47"
+    "bijgewerkt": "2026-09-03 18:20:32",
+    "eerst_gezien": "2026-09-03 18:20:32"
   },
   {
     "id": "EBS:1391:1130_2026-09-03",
