@@ -4397,10 +4397,10 @@
     "eerst_gezien": "2026-09-04 23:00:44"
   },
   {
-    "id": "EBS:1094:1002_2026-09-04",
-    "journey_id": "EBS:1094:1002",
+    "id": "EBS:1014:1020_2026-09-04",
+    "journey_id": "EBS:1014:1020",
     "datum": "2026-09-04",
-    "lijn": "N94",
+    "lijn": "N14",
     "lijnkleur": "#000000",
     "categorie": "M-net",
     "product_label": "MeerPlus",
@@ -4416,43 +4416,21 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "01:52",
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "02:25",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron C",
-        "bestemming": "Amsterdam Centraal"
-      },
-      {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "01:54",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Amsterdam Centraal"
-      },
-      {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "02:01",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron C",
-        "bestemming": "Amsterdam Centraal"
+        "platform": "Perron F",
+        "bestemming": "Hoorn"
       }
     ],
-    "eerste_tijd": "01:52",
+    "eerste_tijd": "02:25",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-09-04 22:50:31",
-    "eerst_gezien": "2026-09-04 22:50:31"
+    "bijgewerkt": "2026-09-04 23:10:26",
+    "eerst_gezien": "2026-09-04 23:10:26"
   },
   {
     "id": "EBS:1094:1002_2026-09-04",
@@ -4513,15 +4491,15 @@
     "eerst_gezien": "2026-09-04 23:00:44"
   },
   {
-    "id": "EBS:1094:1000_2026-09-04",
-    "journey_id": "EBS:1094:1000",
+    "id": "EBS:1094:1002_2026-09-04",
+    "journey_id": "EBS:1094:1002",
     "datum": "2026-09-04",
     "lijn": "N94",
     "lijnkleur": "#000000",
     "categorie": "M-net",
     "product_label": "MeerPlus",
-    "drukte_icoon": "crowd0.svg",
-    "drukte_omschrijving": "leeg",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Personeel",
@@ -4532,9 +4510,31 @@
     "advies": null,
     "haltes": [
       {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "01:52",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Centraal"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "01:54",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Amsterdam Centraal"
+      },
+      {
         "halte_id": "NL:S:37223552",
         "halte_naam": "De Vlinder",
-        "geplande_tijd": "01:31",
+        "geplande_tijd": "02:01",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
@@ -4543,10 +4543,10 @@
         "bestemming": "Amsterdam Centraal"
       }
     ],
-    "eerste_tijd": "01:31",
+    "eerste_tijd": "01:52",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-09-04 22:50:31",
-    "eerst_gezien": "2026-09-04 22:50:31"
+    "bijgewerkt": "2026-09-04 23:10:26",
+    "eerst_gezien": "2026-09-04 23:10:26"
   },
   {
     "id": "EBS:1094:1000_2026-09-04",
@@ -4583,5 +4583,41 @@
     "dagdeel": "nacht",
     "bijgewerkt": "2026-09-04 23:00:44",
     "eerst_gezien": "2026-09-04 23:00:44"
+  },
+  {
+    "id": "EBS:1094:1000_2026-09-04",
+    "journey_id": "EBS:1094:1000",
+    "datum": "2026-09-04",
+    "lijn": "N94",
+    "lijnkleur": "#000000",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd0.svg",
+    "drukte_omschrijving": "leeg",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "01:31",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Centraal"
+      }
+    ],
+    "eerste_tijd": "01:31",
+    "dagdeel": "nacht",
+    "bijgewerkt": "2026-09-04 23:10:26",
+    "eerst_gezien": "2026-09-04 23:10:26"
   }
 ]
