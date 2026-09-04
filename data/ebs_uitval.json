@@ -1,11 +1,11 @@
 [
   {
-    "id": "EBS:1315:1079_2026-09-04",
-    "journey_id": "EBS:1315:1079",
+    "id": "EBS:1064:1033_2026-09-04",
+    "journey_id": "EBS:1064:1033",
     "datum": "2026-09-04",
-    "lijn": "315",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
+    "lijn": "64",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
     "product_label": "MeerPlus",
     "drukte_icoon": "crowd1.svg",
     "drukte_omschrijving": "Zitplaatsen beschikbaar",
@@ -15,25 +15,36 @@
       "Logistiek"
     ],
     "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
+    "terminus_alert": "Terminates at Vinkenstraat",
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:30001305",
-        "halte_naam": "Amsterdam, Busstation Station Noord",
-        "geplande_tijd": "13:49",
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "14:04",
+        "vertraging_min": 0,
+        "status": "gereden",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Zaandijk Rooswijk"
+      },
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "14:11",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron A3",
-        "bestemming": "Monnickendam"
+        "platform": "Perron H",
+        "bestemming": "Zaandijk Rooswijk"
       }
     ],
-    "eerste_tijd": "13:49",
+    "eerste_tijd": "14:04",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-09-04 10:30:38",
-    "eerst_gezien": "2026-09-04 10:30:38"
+    "bijgewerkt": "2026-09-04 10:50:32",
+    "eerst_gezien": "2026-09-04 10:50:32"
   },
   {
     "id": "EBS:1315:1079_2026-09-04",
@@ -83,15 +94,15 @@
     "eerst_gezien": "2026-09-04 10:40:36"
   },
   {
-    "id": "EBS:1308:1074_2026-09-04",
-    "journey_id": "EBS:1308:1074",
+    "id": "EBS:1315:1079_2026-09-04",
+    "journey_id": "EBS:1315:1079",
     "datum": "2026-09-04",
-    "lijn": "308",
+    "lijn": "315",
     "lijnkleur": "#e1251b",
     "categorie": "R-net",
     "product_label": "MeerPlus",
-    "drukte_icoon": "crowd0.svg",
-    "drukte_omschrijving": "leeg",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Personeel",
@@ -102,9 +113,20 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37403640",
-        "halte_naam": "Purmerend, Neckerstraat",
-        "geplande_tijd": "13:21",
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "13:49",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A3",
+        "bestemming": "Monnickendam"
+      },
+      {
+        "halte_id": "NL:S:37392150",
+        "halte_naam": "Monnickendam, Swaensborch",
+        "geplande_tijd": "14:07",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
@@ -113,10 +135,10 @@
         "bestemming": "Amsterdam Noord"
       }
     ],
-    "eerste_tijd": "13:21",
+    "eerste_tijd": "13:49",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-09-04 10:30:38",
-    "eerst_gezien": "2026-09-04 10:30:38"
+    "bijgewerkt": "2026-09-04 10:50:32",
+    "eerst_gezien": "2026-09-04 10:50:32"
   },
   {
     "id": "EBS:1308:1074_2026-09-04",
@@ -155,15 +177,15 @@
     "eerst_gezien": "2026-09-04 10:40:36"
   },
   {
-    "id": "EBS:1316:1070_2026-09-04",
-    "journey_id": "EBS:1316:1070",
+    "id": "EBS:1308:1074_2026-09-04",
+    "journey_id": "EBS:1308:1074",
     "datum": "2026-09-04",
-    "lijn": "316",
+    "lijn": "308",
     "lijnkleur": "#e1251b",
     "categorie": "R-net",
     "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "drukte_icoon": "crowd0.svg",
+    "drukte_omschrijving": "leeg",
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Personeel",
@@ -174,21 +196,21 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:38491011",
-        "halte_naam": "Edam, Busstation",
-        "geplande_tijd": "12:54",
+        "halte_id": "NL:S:37403640",
+        "halte_naam": "Purmerend, Neckerstraat",
+        "geplande_tijd": "13:21",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron A",
-        "bestemming": "Amsterdam Centraal"
+        "platform": null,
+        "bestemming": "Amsterdam Noord"
       }
     ],
-    "eerste_tijd": "12:54",
+    "eerste_tijd": "13:21",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-09-04 10:30:38",
-    "eerst_gezien": "2026-09-04 10:30:38"
+    "bijgewerkt": "2026-09-04 10:50:32",
+    "eerst_gezien": "2026-09-04 10:50:32"
   },
   {
     "id": "EBS:1316:1070_2026-09-04",
@@ -225,6 +247,42 @@
     "dagdeel": "dal",
     "bijgewerkt": "2026-09-04 10:40:36",
     "eerst_gezien": "2026-09-04 10:40:36"
+  },
+  {
+    "id": "EBS:1316:1070_2026-09-04",
+    "journey_id": "EBS:1316:1070",
+    "datum": "2026-09-04",
+    "lijn": "316",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "12:54",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Amsterdam Centraal"
+      }
+    ],
+    "eerste_tijd": "12:54",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-09-04 10:50:32",
+    "eerst_gezien": "2026-09-04 10:50:32"
   },
   {
     "id": "EBS:1308:1063_2026-09-04",
