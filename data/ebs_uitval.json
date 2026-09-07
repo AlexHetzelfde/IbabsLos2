@@ -28,12 +28,23 @@
         "realtime": false,
         "platform": "Perron A",
         "bestemming": "Zaandam Station"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "20:42",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Zaandam Station"
       }
     ],
     "eerste_tijd": "20:34",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-09-07 17:10:27",
-    "eerst_gezien": "2026-09-07 17:10:27"
+    "bijgewerkt": "2026-09-07 17:20:30",
+    "eerst_gezien": "2026-09-07 17:20:30"
   },
   {
     "id": "EBS:1111:1112_2026-09-07",
@@ -79,6 +90,89 @@
     ],
     "eerste_tijd": "20:34",
     "dagdeel": "avond",
+    "bijgewerkt": "2026-09-07 17:30:38",
+    "eerst_gezien": "2026-09-07 17:30:38"
+  },
+  {
+    "id": "EBS:1111:1110_2026-09-07",
+    "journey_id": "EBS:1111:1110",
+    "datum": "2026-09-07",
+    "lijn": "111",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Materieel",
+      "Storing"
+    ],
+    "oorzaak_raw": "Cause: Materieel, Storing",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "20:04",
+        "vertraging_min": -1,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Zaandam Station"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "20:12",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Zaandam Station"
+      }
+    ],
+    "eerste_tijd": "20:04",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-09-07 17:30:38",
+    "eerst_gezien": "2026-09-07 17:30:38"
+  },
+  {
+    "id": "EBS:1314:1142_2026-09-07",
+    "journey_id": "EBS:1314:1142",
+    "datum": "2026-09-07",
+    "lijn": "314",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "19:43",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron D",
+        "bestemming": "Amsterdam Centraal"
+      }
+    ],
+    "eerste_tijd": "19:43",
+    "dagdeel": "avond",
     "bijgewerkt": "2026-09-07 17:20:30",
     "eerst_gezien": "2026-09-07 17:20:30"
   },
@@ -115,44 +209,8 @@
     ],
     "eerste_tijd": "19:43",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-09-07 17:10:27",
-    "eerst_gezien": "2026-09-07 17:10:27"
-  },
-  {
-    "id": "EBS:1314:1142_2026-09-07",
-    "journey_id": "EBS:1314:1142",
-    "datum": "2026-09-07",
-    "lijn": "314",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:38491011",
-        "halte_naam": "Edam, Busstation",
-        "geplande_tijd": "19:43",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron D",
-        "bestemming": "Amsterdam Centraal"
-      }
-    ],
-    "eerste_tijd": "19:43",
-    "dagdeel": "avond",
-    "bijgewerkt": "2026-09-07 17:20:30",
-    "eerst_gezien": "2026-09-07 17:20:30"
+    "bijgewerkt": "2026-09-07 17:30:38",
+    "eerst_gezien": "2026-09-07 17:30:38"
   },
   {
     "id": "EBS:1112:1093_2026-09-07",
