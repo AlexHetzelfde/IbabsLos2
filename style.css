@@ -207,7 +207,10 @@ tbody tr:hover td { background: var(--paper); }
 .cb-claim-score { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); }
 .cb-claim-text { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
 .cb-claim-verificatie { font-size: 12px; color: var(--muted); line-height: 1.5; }
-.cb-claim-kruischeck { font-size: 11px; color: var(--go); margin-top: 3px; background: var(--go-bg); padding: 3px 8px; display: inline-block; }
+.cb-claim-kruischeck { font-size: 11px; margin-top: 3px; padding: 3px 8px; display: inline-block; }
+.cb-claim-kruischeck.bevestigd { background: var(--go-bg); color: var(--go); }
+.cb-claim-kruischeck.weersproken { background: var(--stop-bg); color: var(--stop); }
+.cb-claim-kruischeck.neutraal { background: var(--hold-bg); color: var(--hold); }
 .cb-geen-claims { padding: 16px 20px; font-size: 12px; color: var(--muted); font-style: italic; }
 .cb-stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
 
