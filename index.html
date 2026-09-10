@@ -76,22 +76,37 @@
       <div id="activiteitHeatmap"><div class="empty">Laden...</div></div>
     </div>
 
-    <!-- NIEUW #15: Onderwerpenranglijst -->
-    <div class="card" style="margin-bottom:16px;">
-      <div class="card-header">
-        <span class="card-title">Onderwerpenranglijst</span>
-        <span style="font-size:11px;color:var(--muted);">keyword-telling op titels, alle databronnen</span>
-      </div>
-      <div class="viz-bar-list" id="onderwerpenChart"><div class="empty">Laden...</div></div>
-    </div>
+    <!-- NIEUW #15 werd vervangen: onderwerpenranglijst plaatsgemaakt voor
+         een overzicht van laatste activiteiten per databron hieronder -->
 
     <div class="overview-grid">
       <div class="card">
         <div class="card-header">
-          <span class="card-title">Recente vergaderingen</span>
+          <span class="card-title">Vergaderingen — recent &amp; aankomend</span>
           <button class="card-link" onclick="switchTab(document.querySelector('[data-tab=vergaderingen]'))">Alle →</button>
         </div>
         <div class="card-body" id="ovVerg"><div class="empty">Laden...</div></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Laatste stemmingen</span>
+          <button class="card-link" onclick="switchTab(document.querySelector('[data-tab=stemmingen]'))">Alle →</button>
+        </div>
+        <div class="card-body" id="ovStem"><div class="empty">Laden...</div></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">EBS — laatste cijfers</span>
+          <button class="card-link" onclick="switchTab(document.querySelector('[data-tab=uitval]'))">Alle →</button>
+        </div>
+        <div class="card-body" id="ovEbs"><div class="empty">Laden...</div></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Laatste moties</span>
+          <button class="card-link" onclick="switchTab(document.querySelector('[data-tab=moties]'))">Alle →</button>
+        </div>
+        <div class="card-body" id="ovMot"><div class="empty">Laden...</div></div>
       </div>
       <div class="card">
         <div class="card-header">
@@ -100,13 +115,13 @@
         </div>
         <div class="card-body" id="ovBk"><div class="empty">Laden...</div></div>
       </div>
-    </div>
-    <div class="card">
-      <div class="card-header">
-        <span class="card-title">Recente collegebrieven met claims</span>
-        <button class="card-link" onclick="switchTab(document.querySelector('[data-tab=collegebrieven]'))">Alle →</button>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Recente collegebrieven met claims</span>
+          <button class="card-link" onclick="switchTab(document.querySelector('[data-tab=collegebrieven]'))">Alle →</button>
+        </div>
+        <div class="card-body" id="ovCb"><div class="empty">Laden...</div></div>
       </div>
-      <div class="card-body" id="ovCb"><div class="empty">Laden...</div></div>
     </div>
   </div>
 
@@ -521,7 +536,15 @@
     <div class="card-header">
       <span class="card-title">Periode voor alle grafieken hieronder</span>
     </div>
-    <div class="filter-bar" style="padding:12px 16px;" id="uvDekkingsFilterButtons"></div>
+    <div class="filter-bar" style="padding:12px 16px;align-items:flex-end;gap:16px;">
+      <div class="filter-bar" style="padding:0;" id="uvDekkingsFilterButtons"></div>
+      <div>
+        <label style="display:block;font-size:10px;color:var(--muted);margin-bottom:4px;">Of kies één maand</label>
+        <select class="filter-select" id="uvMaandFilter" onchange="setUvMaandFilter(this.value)">
+          <option value="">(hele periode)</option>
+        </select>
+      </div>
+    </div>
   </div>
 
   <div class="stats" id="uitvalStats" style="grid-template-columns:repeat(4,1fr);margin-bottom:16px;">
@@ -553,14 +576,19 @@
   
   <div class="viz-row" style="margin-bottom:16px;" id="uvDagRow">
     <div class="card">
-  <div class="card-header"><span class="card-title">Uitval per dag</span><span style="font-size:11px;color:var(--muted);">cancelled</span></div>
+  <div class="card-header"><span class="card-title">Uitval per dag</span><span style="font-size:11px;color:var(--muted);">aantal</span></div>
   <div class="filter-bar" style="padding:10px 20px 0;" id="uvDagPeriodeButtons"></div>
   <div style="padding:12px 20px 0;" id="uvDagChart"><div class="empty">Laden...</div></div>
 </div>
-    <div class="card" id="uvDagdeelCard">
-      <div class="card-header"><span class="card-title">Uitval per dagdeel</span></div>
-      <div class="viz-bar-list" id="uvDagdeelChart"><div class="empty">Laden...</div></div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Uitvalpercentage per dag</span><span style="font-size:11px;color:var(--muted);">% van totaal ritten</span></div>
+      <div style="padding:12px 20px 0;" id="uvDagPctChart"><div class="empty">Laden...</div></div>
     </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px;" id="uvDagdeelCard">
+    <div class="card-header"><span class="card-title">Uitval per dagdeel</span></div>
+    <div class="viz-bar-list" id="uvDagdeelChart"><div class="empty">Laden...</div></div>
   </div>
 
   <!-- NIEUW: uitval per maand (aantal + percentage) -->
