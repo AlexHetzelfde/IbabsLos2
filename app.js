@@ -38,6 +38,7 @@ function getAllFracties() {
 let vergaderingen = [], moties = [], camerasActief = [], camerasGeschiedenis = [], woningsluitingen = [], collegebrieven = [], stemmingen = [], uitval = [], nosLokaal = [], aanbestedingen = [], ebsMeldingen = [];
 let _uvDagPeriodeDagen = 7; // default: laatste 7 dagen, tegen de wall-of-bars
 let _uvDekkingsFilter = 'compleet'; // 'compleet' = alleen dagen met volledige dekking, 'alles' = hele geschiedenis incl. deelperiodes
+let _uvMaandFilter = ''; // '' = geen maandfilter, anders 'YYYY-MM' — toont dan alléén die maand, ongeacht _uvDekkingsFilter
 let huidigeClaims = [];
 let _chartFractie = null;
 let totaalTeller = {};
@@ -52,7 +53,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   renderOpgeslagenClaims();
   // NIEUW: cross-dataset visualisaties — pas renderen als alle bronnen binnen zijn
   renderActiviteitHeatmap();
-  renderOnderwerpenChart();
   document.getElementById('headerMeta').textContent =
     vergaderingen[0]?.bijgewerkt ? 'bijgewerkt ' + vergaderingen[0].bijgewerkt : '';
 });
@@ -87,7 +87,7 @@ async function loadMoties() {
     const r = await fetch('./data/moties.json');
     if (!r.ok) throw new Error(r.status);
     moties = await r.json();
-    renderMoties(); renderMotiesVisuals(); populatePartijFilter();
+    renderMoties(); renderMotiesVisuals(); populatePartijFilter(); renderOvMot();
     // NIEUW #12
     renderMotieAmendementViz();
     // NIEUW: samenwerkingsnetwerk raadsleden, samen-vs-solo, type-volume, raadslid-vs-fractiegemiddelde
@@ -168,6 +168,7 @@ async function loadStemmingen() {
     stemmingen = await r.json();
     renderStemmingen();
     renderStemStats();
+    renderOvStem();
     // NIEUW #10 + #11
     renderCoalitieTijdChart();
   } catch (e) {
@@ -243,6 +244,16 @@ function setUvDagPeriode(dagen) {
   _uvDagPeriodeDagen = dagen;
   renderUvDagPeriodeButtons();
   renderUvDagChart();
+  renderUvDagPctChart();
+}
+
+// NIEUW: geeft aan of "vandaag" (nog niet gearchiveerd in percentageHistorie)
+// mag meetellen bij de huidige weergave. Zonder maandfilter altijd ja; met
+// een maandfilter alleen als de gekozen maand ook de huidige maand is —
+// anders zou een oude maand ten onrechte vandaag se cijfers erbij krijgen.
+function vandaagTeltMeeInMaandFilter() {
+  if (!_uvMaandFilter) return true;
+  return _uvMaandFilter === new Date().toISOString().slice(0, 7);
 }
 
 function renderUvDagChart() {
@@ -254,7 +265,7 @@ function renderUvDagChart() {
     dagMap[datum] = { totaal: d.totaal || 0, cancelled: d.cancelled || 0 };
   });
   const vandaagKey = Object.keys(totaalTeller)[0];
-  if (vandaagKey) {
+  if (vandaagKey && vandaagTeltMeeInMaandFilter()) {
     dagMap[vandaagKey] = {
       totaal: totaalTeller[vandaagKey]?.totaal || 0,
       cancelled: uitval.filter(r => r.status === 'cancelled').length,
@@ -316,6 +327,86 @@ function renderUvDagChart() {
     </div>`;
 }
 
+// NIEUW: uitvalpercentage per dag — zelfde databron en periodefilter als
+// renderUvDagChart() hierboven, maar dan als percentage (cancelled/totaal)
+// i.p.v. absoluut aantal. Het totaal aantal ritten per dag zit al in
+// percentageHistorie, dus dit vereist geen nieuwe berekening in de scraper.
+function renderUvDagPctChart() {
+  const pctEl = document.getElementById('uvDagPctChart');
+  if (!pctEl) return;
+
+  const dagMap = {};
+  Object.entries(actievePercentageHistorie()).forEach(([datum, d]) => {
+    dagMap[datum] = { totaal: d.totaal || 0, cancelled: d.cancelled || 0 };
+  });
+  const vandaagKey = Object.keys(totaalTeller)[0];
+  if (vandaagKey && vandaagTeltMeeInMaandFilter()) {
+    dagMap[vandaagKey] = {
+      totaal: totaalTeller[vandaagKey]?.totaal || 0,
+      cancelled: uitval.filter(r => r.status === 'cancelled').length,
+    };
+  }
+
+  let dagLijst = Object.entries(dagMap).sort((a,b) => a[0].localeCompare(b[0]));
+
+  if (_uvDagPeriodeDagen != null) {
+    const grens = new Date();
+    grens.setDate(grens.getDate() - (_uvDagPeriodeDagen - 1));
+    const grensStr = grens.toISOString().slice(0, 10);
+    dagLijst = dagLijst.filter(([datum]) => datum >= grensStr);
+  }
+
+  // Dagen zonder ritten geven geen zinvol percentage — overslaan
+  dagLijst = dagLijst.filter(([, d]) => d.totaal > 0);
+
+  if (dagLijst.length < 1) {
+    pctEl.innerHTML = '<div class="viz-empty">Onvoldoende data voor deze periode</div>';
+    return;
+  }
+
+  const W = 680, H = 180;
+  const PAD = { t: 10, r: 16, b: 36, l: 36 };
+  const pW = W - PAD.l - PAD.r, pH = H - PAD.t - PAD.b;
+  const pcts = dagLijst.map(([, d]) => (d.cancelled / d.totaal) * 100);
+  const maxP = Math.max(...pcts, 1);
+  const slot = pW / dagLijst.length;
+  const barW = Math.max(3, Math.floor(slot * 0.6));
+  const labelStap = Math.max(1, Math.ceil(dagLijst.length / 20));
+
+  const bars = dagLijst.map(([datum, d], i) => {
+    const pct  = (d.cancelled / d.totaal) * 100;
+    const x    = PAD.l + i * slot + (slot - barW) / 2;
+    const yB   = PAD.t + pH;
+    const hPct = Math.round((pct / maxP) * pH);
+    const dd   = datum.slice(5);
+    const label = (i % labelStap === 0)
+      ? `<text x="${x+barW/2}" y="${H-4}" text-anchor="middle" font-size="9" fill="var(--muted)">${dd}</text>`
+      : '';
+    return `
+      <rect x="${x}" y="${yB - hPct}" width="${barW}" height="${hPct}" fill="var(--teal)" opacity="0.82" rx="1">
+        <title>${datum}: ${pct.toFixed(1)}% (${d.cancelled} van ${d.totaal})</title></rect>
+      ${label}`;
+  }).join('');
+
+  const yTicks = [0, maxP/2, maxP].map(v => {
+    const y = PAD.t + pH - (v/maxP)*pH;
+    return `<line x1="${PAD.l}" y1="${y}" x2="${PAD.l+pW}" y2="${y}" stroke="var(--rule)" stroke-width="0.5"/>
+            <text x="${PAD.l-4}" y="${y+3}" text-anchor="end" font-size="9" fill="var(--muted)">${v.toFixed(0)}%</text>`;
+  }).join('');
+
+  pctEl.innerHTML = `
+    <svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:${H}px;">
+      ${yTicks}
+      <line x1="${PAD.l}" y1="${PAD.t}" x2="${PAD.l}" y2="${PAD.t+pH}" stroke="var(--rule)" stroke-width="1"/>
+      <line x1="${PAD.l}" y1="${PAD.t+pH}" x2="${PAD.l+pW}" y2="${PAD.t+pH}" stroke="var(--rule)" stroke-width="1"/>
+      ${bars}
+    </svg>
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;padding:4px 0 12px;font-size:10px;color:var(--muted);">
+      <span style="display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;background:var(--teal);opacity:.82;display:inline-block;"></span>Uitvalpercentage</span>
+      <span>${labelSindsDatum(eersteDatumMetVeld('totaal'))}</span>
+    </div>`;
+}
+
 // ══════════════════════════════════════════════════════════════════════════
 // NIEUW — UITVAL PER MAAND (aantal + percentage)
 // Aggregeert de al bestaande percentageHistorie (per dag) naar maandtotalen.
@@ -331,9 +422,10 @@ function bouwUitvalPerMaand() {
     perMaand[maand].totaal    += d.totaal || 0;
     perMaand[maand].cancelled += d.cancelled || 0;
   });
-  // Vandaag (nog niet gearchiveerd in percentageHistorie) apart meetellen
+  // Vandaag (nog niet gearchiveerd in percentageHistorie) apart meetellen —
+  // maar alleen als vandaag ook binnen het gekozen maandfilter valt.
   const vandaagKey = Object.keys(totaalTeller)[0];
-  if (vandaagKey) {
+  if (vandaagKey && vandaagTeltMeeInMaandFilter()) {
     const maand = vandaagKey.slice(0, 7);
     if (!perMaand[maand]) perMaand[maand] = { totaal: 0, cancelled: 0 };
     perMaand[maand].totaal    += totaalTeller[vandaagKey]?.totaal || 0;
@@ -640,12 +732,6 @@ function pasUvKaartZichtbaarheidAan() {
   zet('uvTopLijnStat', !isAlles);
   zet('uvTopOorzaakStat', !isAlles);
 
-  // "Uitval per dag" staat samen met "Uitval per dagdeel" in een 2-koloms
-  // rij — als de dagdeel-kaart verdwijnt, laat de dag-kaart de volle rij
-  // gebruiken i.p.v. een lege helft over te laten.
-  const dagRow = document.getElementById('uvDagRow');
-  if (dagRow) dagRow.style.gridTemplateColumns = isAlles ? '1fr' : '';
-
   // Idem voor de stats-rij: van 4 naar 2 kolommen als 2 stat-boxen weg zijn.
   const statsRow = document.getElementById('uitvalStats');
   if (statsRow) statsRow.style.gridTemplateColumns = isAlles ? 'repeat(2,1fr)' : 'repeat(4,1fr)';
@@ -675,27 +761,34 @@ function renderUitval() {
     optellenIn(dagdeelTeller, dag.per_dagdeel);
   });
 
-  // Vandaag is nog niet gearchiveerd in percentageHistorie — apart optellen
+  // Vandaag is nog niet gearchiveerd in percentageHistorie — apart optellen,
+  // maar alleen als vandaag ook binnen het gekozen maandfilter valt. Anders
+  // zou een oude, afgesloten maand ten onrechte de cijfers van vandaag erbij
+  // krijgen.
   const vandaagKey = Object.keys(totaalTeller)[0];
-  if (vandaagKey) totaalCumulatief += totaalTeller[vandaagKey].totaal || 0;
-  cancelledCumulatief += uitgevallen.length;
+  const vandaagTeltMee = vandaagTeltMeeInMaandFilter();
   const lijnKleurMap = {}; // kleur is niet opgeslagen in de historie, alleen bekend uit vandaag
-  uitgevallen.forEach(r => {
-    lijnTeller[r.lijn] = (lijnTeller[r.lijn] || 0) + 1;
-    if (r.lijn && r.lijnkleur) lijnKleurMap[r.lijn] = r.lijnkleur;
-    (r.oorzaak_categorieen || []).forEach(o => { oorzaakTeller[o] = (oorzaakTeller[o] || 0) + 1; });
-    const eersteHalte = (r.haltes || [])[0];
-    if (eersteHalte) halteTeller[eersteHalte.halte_naam] = (halteTeller[eersteHalte.halte_naam] || 0) + 1;
-    dagdeelTeller[r.dagdeel] = (dagdeelTeller[r.dagdeel] || 0) + 1;
-  });
+  if (vandaagTeltMee) {
+    if (vandaagKey) totaalCumulatief += totaalTeller[vandaagKey].totaal || 0;
+    cancelledCumulatief += uitgevallen.length;
+    uitgevallen.forEach(r => {
+      lijnTeller[r.lijn] = (lijnTeller[r.lijn] || 0) + 1;
+      if (r.lijn && r.lijnkleur) lijnKleurMap[r.lijn] = r.lijnkleur;
+      (r.oorzaak_categorieen || []).forEach(o => { oorzaakTeller[o] = (oorzaakTeller[o] || 0) + 1; });
+      const eersteHalte = (r.haltes || [])[0];
+      if (eersteHalte) halteTeller[eersteHalte.halte_naam] = (halteTeller[eersteHalte.halte_naam] || 0) + 1;
+      dagdeelTeller[r.dagdeel] = (dagdeelTeller[r.dagdeel] || 0) + 1;
+    });
+  }
 
   // ── STATS ─────────────────────────────────────────────────────────────────
   document.getElementById('uvTotaal').textContent = cancelledCumulatief;
   document.getElementById('uvTotaalRitten').textContent = 'van ' + totaalCumulatief.toLocaleString('nl-NL') + ' ritten totaal';
   const pct = totaalCumulatief ? Math.round(cancelledCumulatief / totaalCumulatief * 100) : 0;
   document.getElementById('uvPct').textContent = pct + '%';
+  const periodeEinde = vandaagTeltMee ? 'vandaag' : (alleDatums[alleDatums.length - 1] || '');
   document.getElementById('uvPeriode').textContent =
-    alleDatums.length ? alleDatums[0] + ' t/m vandaag' : (vandaagKey ? vandaagKey + ' t/m vandaag' : 'geen data');
+    alleDatums.length ? `${alleDatums[0]} t/m ${periodeEinde}` : (vandaagKey && vandaagTeltMee ? vandaagKey + ' t/m vandaag' : 'geen data');
 
   if (_uvDekkingsFilter !== 'alles') {
     const topLijnEntry = Object.entries(lijnTeller).sort((a,b) => b[1]-a[1])[0];
@@ -718,6 +811,7 @@ function renderUitval() {
   renderUvDekkingsFilterButtons();
   renderUvDagPeriodeButtons();
   renderUvDagChart();
+  renderUvDagPctChart();
 
   // NIEUW: per maand (totaal/cancelled — betrouwbaar sinds launch, altijd tonen)
   renderUitvalPerMaandCharts();
@@ -804,6 +898,7 @@ function renderUitval() {
     .forEach(l => { const o = document.createElement('option'); o.value = l; o.textContent = 'Lijn ' + l; selLijn.appendChild(o); });
 
   renderUitvalLijst();
+  renderOvEbs();
 }
 
 function renderUitvalLijst() {
@@ -1205,47 +1300,10 @@ function renderActiviteitHeatmap() {
 }
 
 // ══════════════════════════════════════════════════════════════════════════
-// NIEUW #15 — ONDERWERPENRANGLIJST (Overzicht-tab)
-// Simpele keyword-telling op titels van alle databronnen — werkt zonder AI.
+// Overzicht-tab: "laatste activiteiten"-kaarten per databron. Vervangt de
+// oude onderwerpenranglijst (keyword-telling) door een concreet overzicht:
+// wat is er recent gebeurd, en wat staat er nog aan te komen.
 // ══════════════════════════════════════════════════════════════════════════
-const ONDERWERP_KEYWORDS = {
-  'Wonen':                ['woning', 'wonen', 'huur', 'appartement', 'volkshuisvesting'],
-  'Veiligheid':           ['veilig', 'ondermijning', 'crimine', 'politie', 'handhaving'],
-  'Jeugd & onderwijs':    ['jeugd', 'onderwijs', 'school', 'kinderopvang', 'leerplicht'],
-  'Verkeer & mobiliteit':  ['verkeer', 'fiets', 'mobiliteit', 'parkeren', 'weg', 'brug'],
-  'Zorg':                 ['zorg', 'ggd', 'gezondheid', 'vaccinatie', 'wmo'],
-  'Financiën':            ['begroting', 'financ', 'budget', 'subsidie', 'krediet'],
-  'Milieu & duurzaamheid':['milieu', 'duurzaa', 'klimaat', 'energie', 'circulaire'],
-  'Cultuur & erfgoed':    ['cultuur', 'erfgoed', 'monument', 'museum'],
-  'Economie':             ['economie', 'onderneming', 'bedrijv', 'toerisme'],
-  'Bestuur':              ['bestuur', 'college', 'portefeuille', 'verordening'],
-};
-
-function renderOnderwerpenChart() {
-  const el = document.getElementById('onderwerpenChart');
-  if (!el) return;
-
-  const titels = [
-    ...vergaderingen.map(v => v.titel),
-    ...vergaderingen.flatMap(v => (v.agendapunten || []).map(a => a.titel)),
-    ...moties.map(m => m.titel),
-    ...collegebrieven.map(b => b.titel),
-    ...stemmingen.map(s => s.titel),
-  ].filter(Boolean).join(' \n ').toLowerCase();
-
-  const tellingen = Object.entries(ONDERWERP_KEYWORDS).map(([naam, keywords]) => {
-    const count = keywords.reduce((som, kw) => som + Math.max(0, titels.split(kw).length - 1), 0);
-    return { naam, count };
-  }).filter(t => t.count > 0).sort((a, b) => b.count - a.count);
-
-  if (!tellingen.length) { el.innerHTML = '<div class="viz-empty">Geen onderwerpen herkend</div>'; return; }
-  const maxC = tellingen[0].count;
-  el.innerHTML = tellingen.map(t => `<div class="viz-bar-row">
-    <div class="viz-bar-label" style="width:170px;">${esc(t.naam)}</div>
-    <div class="viz-bar-track"><div class="viz-bar-fill" style="width:${Math.round(t.count/maxC*100)}%;background:var(--teal);"></div></div>
-    <div class="viz-bar-pct">${t.count}</div>
-  </div>`).join('');
-}
 
 // ── VERGADERINGEN ─────────────────────────────────────────────────────────────
 function renderVerg() {
@@ -1368,15 +1426,29 @@ function copyCmd(id, e) {
 }
 
 function renderOvVerg() {
-  document.getElementById('ovVerg').innerHTML =
-    vergaderingen.slice(0, 5).map(v => `
+  const vandaag = new Date().toISOString().slice(0, 10);
+  const gesorteerd = [...vergaderingen].sort((a, b) => (b.datum || '').localeCompare(a.datum || ''));
+  const recent    = gesorteerd.filter(v => (v.datum || '') <= vandaag).slice(0, 4);
+  const aankomend = gesorteerd.filter(v => (v.datum || '') > vandaag)
+    .sort((a, b) => (a.datum || '').localeCompare(b.datum || '')).slice(0, 3);
+
+  const item = v => `
       <div class="mini-item">
         <div class="mini-date">${fmtDate(v.datum, 'short')}</div>
         <div>
           <div class="mini-title">${esc(v.titel)}</div>
           <div class="mini-type">${esc(v.type || '')}</div>
         </div>
-      </div>`).join('') || '<div class="empty">Geen data</div>';
+      </div>`;
+
+  let html = '';
+  if (aankomend.length) {
+    html += `<div style="font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;padding:2px 0 4px;">Aankomend</div>`
+      + aankomend.map(item).join('')
+      + `<div style="font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;padding:10px 0 4px;">Recent</div>`;
+  }
+  html += recent.map(item).join('') || '<div class="empty">Geen data</div>';
+  document.getElementById('ovVerg').innerHTML = html;
 }
 
 // ══════════════════════════════════════════════════════════════════════════
@@ -2373,13 +2445,19 @@ function renderWoningPerDagChart() {
 }
 
 function renderOvBk() {
-  const camItems = [...camerasActief, ...camerasGeschiedenis].map(c => ({
-    datum: c.start, titel: `Cameratoezicht ${c.camera}`, link: (c.periodes?.[0]?.link) || '#', type: 'Camera',
+  const camActiefItems = camerasActief.map(c => ({
+    datum: c.start, titel: `Cameratoezicht ${c.camera} — actief`, link: (c.periodes?.[0]?.link) || '#', type: 'Camera',
+  }));
+  // NIEUW: camerasGeschiedenis toont nu de eind-datum (wanneer de camera weer
+  // is uitgeschakeld) i.p.v. de start-datum — dat is immers de "sluiting"
+  // waar dit kaartje naar genoemd is.
+  const camGeschiedenisItems = camerasGeschiedenis.map(c => ({
+    datum: c.eind || c.start, titel: `Cameratoezicht ${c.camera} — beëindigd`, link: (c.periodes?.[0]?.link) || '#', type: 'Camerasluiting',
   }));
   const woningItems = woningsluitingen.map(w => ({
     datum: w.datum, titel: w.titel, link: w.link || '#', type: 'Woningsluiting',
   }));
-  const combined = [...camItems, ...woningItems]
+  const combined = [...camActiefItems, ...camGeschiedenisItems, ...woningItems]
     .filter(x => x.datum)
     .sort((a, b) => b.datum.localeCompare(a.datum))
     .slice(0, 5);
@@ -2392,6 +2470,75 @@ function renderOvBk() {
         <div class="mini-type">${esc(x.type)}</div>
       </div>
     </div>`).join('') || '<div class="empty">Geen data</div>';
+}
+
+// NIEUW: laatste stemmingen + hoe ze verliepen (Overzicht-tab)
+function renderOvStem() {
+  const el = document.getElementById('ovStem');
+  if (!el) return;
+  const gesorteerd = [...stemmingen].sort((a, b) => (b.datum || '').localeCompare(a.datum || ''));
+  el.innerHTML = gesorteerd.slice(0, 5).map(s => {
+    const uitslag = s.uitslag_tekst || s.uitslag || 'nog geen uitslag';
+    const kleur = /aangenomen/i.test(uitslag) ? 'var(--go)' : /verworpen/i.test(uitslag) ? 'var(--stop)' : 'var(--muted)';
+    return `
+      <div class="mini-item">
+        <div class="mini-date">${fmtDate(s.datum, 'short')}</div>
+        <div>
+          <div class="mini-title">${esc(s.titel)}</div>
+          <div class="mini-type" style="color:${kleur};">${esc(uitslag)}</div>
+        </div>
+      </div>`;
+  }).join('') || '<div class="empty">Geen data</div>';
+}
+
+// NIEUW: laatste moties (Overzicht-tab)
+function renderOvMot() {
+  const el = document.getElementById('ovMot');
+  if (!el) return;
+  const statusMap = { aangenomen:['badge-go','Aangenomen'], verworpen:['badge-stop','Verworpen'], ingetrokken:['badge-hold','Ingetrokken'], aangehouden:['badge-hold','Aangehouden'] };
+  const gesorteerd = [...moties].sort((a, b) => (b.datum || '').localeCompare(a.datum || ''));
+  el.innerHTML = gesorteerd.slice(0, 5).map(m => {
+    const [cls, label] = statusMap[m.status] || ['badge-hold', 'In behandeling'];
+    return `
+      <div class="mini-item">
+        <div class="mini-date">${fmtDate(m.datum, 'short')}</div>
+        <div>
+          <div class="mini-title">${esc(m.titel)}</div>
+          <div class="mini-type"><span class="badge ${cls}">${label}</span> ${esc(m.partij || '')}</div>
+        </div>
+      </div>`;
+  }).join('') || '<div class="empty">Geen data</div>';
+}
+
+// NIEUW: laatste EBS-cijfers (Overzicht-tab) — hergebruikt de cumulatieve
+// stats die renderUitval() al berekent, om dubbele logica te voorkomen.
+function renderOvEbs() {
+  const el = document.getElementById('ovEbs');
+  if (!el) return;
+  const totaal       = document.getElementById('uvTotaal')?.textContent || '—';
+  const totaalRitten = document.getElementById('uvTotaalRitten')?.textContent || '';
+  const pct          = document.getElementById('uvPct')?.textContent || '—';
+  const periode      = document.getElementById('uvPeriode')?.textContent || '';
+  const topLijn      = document.getElementById('uvTopLijn')?.textContent || '—';
+  const topLijnSub   = document.getElementById('uvTopLijnSub')?.textContent || '';
+  el.innerHTML = `
+    <div style="display:flex;flex-wrap:wrap;gap:20px;padding:4px 0 8px;">
+      <div>
+        <div style="font-size:11px;color:var(--muted);">Uitgevallen ritten</div>
+        <div style="font-size:24px;font-weight:700;">${totaal}</div>
+        <div style="font-size:11px;color:var(--muted);">${totaalRitten}</div>
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--muted);">Uitvalpercentage</div>
+        <div style="font-size:24px;font-weight:700;color:var(--stop);">${pct}</div>
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--muted);">Meest getroffen lijn</div>
+        <div style="font-size:24px;font-weight:700;">${topLijn}</div>
+        <div style="font-size:11px;color:var(--muted);">${topLijnSub}</div>
+      </div>
+    </div>
+    <div style="font-size:10px;color:var(--muted);">${periode}</div>`;
 }
 
 function renderBekendmakingenLijst() {
@@ -2526,8 +2673,8 @@ function renderCamRedenChart() {
 
 // ══════════════════════════════════════════════════════════════════════════
 // NIEUW — REDEN VOOR WONINGSLUITING
-// Zelfde keyword-classificatie-stijl als ONDERWERP_KEYWORDS, toegepast op
-// het bestaande excerpt-veld — geen scraper-wijziging nodig, data lag er al.
+// Zelfde keyword-classificatie-stijl als voorheen bij de onderwerpenranglijst,
+// toegepast op het bestaande excerpt-veld — geen scraper-wijziging nodig, data lag er al.
 // ══════════════════════════════════════════════════════════════════════════
 const WONING_REDEN_KEYWORDS = {
   'Drugs':                ['drugs', 'verdovende middelen', 'hennep', 'cocaïne', 'harddrugs'],
@@ -3328,6 +3475,18 @@ function populateCbFilters() {
   document.getElementById('cbCount').textContent = collegebrieven.length + ' brieven';
 }
 
+// NIEUW: kleurklasse voor een kruischeck-tekst — zowel de niet-AI kruischeck
+// (kruischeck_claim() in scrape_collegeberichten.py) als een eventuele
+// toekomstige AI-kruischeck geven platte Nederlandse tekst terug, dus dit
+// classificeert op de tekst zelf, niet op een apart veld.
+function kruischeckKlasse(tekst) {
+  if (!tekst) return '';
+  const t = tekst.toLowerCase();
+  if (t.startsWith('bevestigd')) return 'bevestigd';
+  if (t.startsWith('afwijkend') || t.includes('tegenstrijdig') || t.includes('tegenspr')) return 'weersproken';
+  return 'neutraal'; // bv. "Gerelateerd raadsbesluit/motie gevonden" — geen bevestiging of ontkrachting, wel relevant
+}
+
 function renderCollegebrieven() {
   const typeF   = document.getElementById('filterCbType').value;
   const phF     = document.getElementById('filterCbPh').value;
@@ -3373,7 +3532,7 @@ function renderCollegebrieven() {
                     </div>
                     <div class="cb-claim-text">"${esc(c.claim)}"</div>
                     <div class="cb-claim-verificatie">${esc(c.verificatie || '')}</div>
-                    ${c.kruischeck ? `<div class="cb-claim-kruischeck">${esc(c.kruischeck)}</div>` : ''}
+                    ${c.kruischeck ? `<div class="cb-claim-kruischeck ${kruischeckKlasse(c.kruischeck)}">${esc(c.kruischeck)}</div>` : ''}
                   </div>`;
               }).join('')
           }
@@ -3746,6 +3905,14 @@ function volledigeDekkingVanaf() {
 }
 
 function actievePercentageHistorie() {
+  // Een gekozen maand heeft voorrang boven de compleet/alles-knoppen: de
+  // dropdown biedt toch alleen maanden aan die binnen "volledige dekking"
+  // vallen, dus een extra ondergrens is dan niet nodig.
+  if (_uvMaandFilter) {
+    return Object.fromEntries(
+      Object.entries(percentageHistorie).filter(([datum]) => datum.slice(0, 7) === _uvMaandFilter)
+    );
+  }
   if (_uvDekkingsFilter === 'alles') return percentageHistorie;
   const grens = volledigeDekkingVanaf();
   if (!grens) return percentageHistorie;
@@ -3759,15 +3926,46 @@ function renderUvDekkingsFilterButtons() {
   const grensLabel = grens ? new Date(grens + 'T00:00:00').toLocaleDateString('nl-NL', { day:'numeric', month:'short' }) : '?';
   el.innerHTML = `
     <button type="button" class="filter-select"
-      style="cursor:pointer;${_uvDekkingsFilter === 'compleet' ? 'background:var(--teal);color:white;font-weight:700;' : ''}"
+      style="cursor:pointer;${!_uvMaandFilter && _uvDekkingsFilter === 'compleet' ? 'background:var(--teal);color:white;font-weight:700;' : ''}"
       onclick="setUvDekkingsFilter('compleet')">Vanaf volledige dekking (${grensLabel})</button>
     <button type="button" class="filter-select"
-      style="cursor:pointer;${_uvDekkingsFilter === 'alles' ? 'background:var(--teal);color:white;font-weight:700;' : ''}"
+      style="cursor:pointer;${!_uvMaandFilter && _uvDekkingsFilter === 'alles' ? 'background:var(--teal);color:white;font-weight:700;' : ''}"
       onclick="setUvDekkingsFilter('alles')">Alles (incl. deelperiodes)</button>`;
+  populateUvMaandFilter();
 }
 
 function setUvDekkingsFilter(waarde) {
   _uvDekkingsFilter = waarde;
+  _uvMaandFilter = ''; // knop kiezen = terug naar de hele periode, geen losse maand meer
+  renderUitval();
+}
+
+// NIEUW: dropdown om één specifieke maand te bekijken (alle 9 EBS-grafieken
+// volgen deze keuze via actievePercentageHistorie()). Alleen maanden binnen
+// "volledige dekking" worden aangeboden, want daarbuiten is de uitsplitsing
+// per lijn/halte/oorzaak niet betrouwbaar (zie toelichting hierboven).
+function populateUvMaandFilter() {
+  const el = document.getElementById('uvMaandFilter');
+  if (!el) return;
+  const grens = volledigeDekkingVanaf();
+  const maanden = new Set(
+    Object.keys(percentageHistorie).filter(d => !grens || d >= grens).map(d => d.slice(0, 7))
+  );
+  const vandaagKey = Object.keys(totaalTeller)[0];
+  if (vandaagKey && (!grens || vandaagKey >= grens)) maanden.add(vandaagKey.slice(0, 7));
+
+  const lijst = [...maanden].sort().reverse();
+  el.innerHTML = '<option value="">(hele periode)</option>' + lijst.map(m => {
+    const [jaar, mnd] = m.split('-');
+    const naam = MAAND_NAMEN_KORT_UV[parseInt(mnd, 10) - 1] || mnd;
+    return `<option value="${m}">${naam} ${jaar}</option>`;
+  }).join('');
+  el.value = _uvMaandFilter;
+}
+
+function setUvMaandFilter(waarde) {
+  _uvMaandFilter = waarde;
+  if (waarde) _uvDekkingsFilter = 'compleet'; // een specifieke maand valt altijd binnen de volledige dekking
   renderUitval();
 }
 
