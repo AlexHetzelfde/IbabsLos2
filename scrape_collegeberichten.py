@@ -5,7 +5,13 @@ downloadt de bijbehorende PDFs, extraheert de tekst, en detecteert
 checkwaardige claims via twee lagen:
 
   1. CODE — altijd actief, regex-patronen op geldbedragen, percentages,
-             beloftetaal, datumdeadlines, vage beweringen
+             beloftetaal, datumdeadlines, jaartalvergelijkingen,
+             vastgoedwaarden en vage beweringen. Elke code-claim krijgt
+             ook een niet-AI kruischeck: een deterministische vergelijking
+             met stemmingen, moties, aanbestedingen en eerdere
+             collegebrieven van dezelfde portefeuillehouder (zie
+             kruischeck_claim()) — geen taalmodel, alleen tekst- en
+             bedragvergelijking.
   2. AI   — optioneel, Gemini 1.5 Flash voor diepere claimanalyse
 
 Claims krijgen een "bron"-veld: "code" of "ai".
@@ -198,14 +204,36 @@ CODE_PATRONEN = [
         "LAAG",
         "Vage bewering zonder getal of bron — vraag om kwantificering"
     ),
+    # Jaar-op-jaar vergelijkingen met een expliciet jaartal — NIEUW.
+    # Dit is scherper dan het algemene "vergeleken met vorig jaar"-patroon
+    # hierboven, omdat het jaartal zelf te verifiëren is (bv. "in 2023 was
+    # dit nog 40%").
+    (
+        r'\b(?:in|sinds)\s+20\d\d\s+(?:was|waren|bedroeg|bedroegen|lag|lagen)\b',
+        "MIDDEL",
+        "Controleer het genoemde jaartal via het jaarverslag of de begroting van dat jaar"
+    ),
+    # Vastgoed- en taxatiewaarden — NIEUW. Komt vaak voor bij woningsluitingen,
+    # aankoop/verkoop van gemeentelijk vastgoed en grondexploitaties, en werd
+    # eerder alleen gevangen als er toevallig ook een €-teken bij stond.
+    (
+        r'\b(?:woz-waarde|getaxeerd(?:e|\s+op)?|marktwaarde|residuele\s+waarde|'
+        r'boekwaarde)\b',
+        "MIDDEL",
+        "Controleer waardering via taxatierapport of WOZ-gegevens"
+    ),
 ]
 
 
-def detecteer_code_claims(tekst):
+def detecteer_code_claims(tekst, context=None):
     """
     Detecteert checkwaardige claims via regex-patronen.
     Werkt altijd, ook zonder Gemini API key.
     Geeft maximaal 10 claims terug met bron='code'.
+
+    'context' (optioneel) schakelt de niet-AI kruischeck in — zie
+    kruischeck_claim() hieronder. Zonder context blijft 'kruischeck' None,
+    exact zoals voorheen.
     """
     if not tekst:
         return []
@@ -236,7 +264,7 @@ def detecteer_code_claims(tekst):
                     "prioriteit": prioriteit,
                     "score":      PRIO_SCORE[prioriteit],
                     "bron":       "code",
-                    "kruischeck": None,
+                    "kruischeck": kruischeck_claim(zin, context) if context else None,
                 })
                 break  # één match per zin is genoeg
 
@@ -248,6 +276,179 @@ def detecteer_code_claims(tekst):
     claims.sort(key=lambda c: volgorde.get(c["prioriteit"], 9))
 
     return claims
+
+
+# ── NIET-AI KRUISCHECK ─────────────────────────────────────────────────────────
+#
+# Vergelijkt een gedetecteerde claim deterministisch (geen AI, geen taalmodel)
+# met data die de dashboard al zelf verzamelt: aanbestedingen (bedragen),
+# stemmingen (raadsbesluiten), moties, en eerder verwerkte collegebrieven van
+# dezelfde portefeuillehouder. Puur op tekst-overlap en getallen — dus 100%
+# reproduceerbaar en uit te leggen.
+
+_STOPWOORDEN = {
+    "college", "gemeente", "zaanstad", "wordt", "worden", "hebben", "heeft",
+    "wij", "deze", "onze", "voor", "over", "naar", "vanaf", "tegen", "binnen",
+    "raad", "brief", "kennisgeving", "informeren", "informatie", "verzoek",
+}
+
+def _belangrijke_woorden(tekst):
+    """Geeft de betekenisvolle woorden (>=5 tekens, geen stopwoord) uit tekst."""
+    woorden = re.findall(r"[a-zA-ZÀ-ÿ]{5,}", (tekst or "").lower())
+    return {w for w in woorden if w not in _STOPWOORDEN}
+
+
+def _woord_overlap(a, b, minimum=2):
+    """True als twee teksten minstens 'minimum' betekenisvolle woorden delen."""
+    return len(_belangrijke_woorden(a) & _belangrijke_woorden(b)) >= minimum
+
+
+def _parse_bedrag(tekst):
+    """
+    Zet een Nederlandstalig bedrag ('€ 2,5 miljoen', '450.000 euro') om naar
+    een float in euro's. Geeft None als er geen bedrag in de tekst staat.
+    Twee vormen, precies zoals de twee €-patronen in CODE_PATRONEN: met
+    €-teken (het woord "euro" hoeft er dan niet bij te staan), of met het
+    woord "euro" voluit (dan hoeft er geen €-teken te staan).
+    """
+    m = re.search(
+        r'€\s*(\d(?:[\d.,]*\d)?)\s*(miljoen|miljard|mln|mld|duizend|k)?',
+        tekst, re.IGNORECASE
+    )
+    if not m:
+        m = re.search(
+            r'\b(\d(?:[\d.,]*\d)?)\s*(miljoen\s+euro|miljard\s+euro|euro)\b',
+            tekst, re.IGNORECASE
+        )
+    if not m:
+        return None
+    ruw = m.group(1)
+    eenheid = (m.group(2) or "").lower().replace(" euro", "").strip()
+    if eenheid == "euro":
+        eenheid = ""
+    # NL-notatie: punt = duizendtal-scheiding, komma = decimaal
+    getal_str = ruw.replace(".", "").replace(",", ".")
+    try:
+        getal = float(getal_str)
+    except ValueError:
+        return None
+    vermenigvuldiger = {
+        "miljoen": 1_000_000, "mln": 1_000_000,
+        "miljard": 1_000_000_000, "mld": 1_000_000_000,
+        "duizend": 1_000, "k": 1_000,
+    }.get(eenheid, 1)
+    return getal * vermenigvuldiger
+
+
+def _dagen_verschil(datum_a, datum_b):
+    try:
+        da = datetime.strptime(datum_a[:10], "%Y-%m-%d")
+        db = datetime.strptime(datum_b[:10], "%Y-%m-%d")
+        return abs((da - db).days)
+    except (ValueError, TypeError):
+        return None
+
+
+def kruischeck_claim(claim_tekst, context):
+    """
+    Probeert een claim te bevestigen of tegen te spreken met de dashboard-eigen
+    data. Geeft een korte Nederlandse toelichting terug, of None als er geen
+    relevante match is gevonden (dan blijft het aan een lezer om het na te
+    trekken — we verzinnen geen kruischeck die er niet is).
+    """
+    brief_titel  = context.get("titel", "") or ""
+    brief_datum  = context.get("datum") or ""
+    brief_ph     = context.get("portefeuillehouder", "") or ""
+    zoekbasis    = f"{brief_titel} {claim_tekst}"
+    bedrag       = _parse_bedrag(claim_tekst)
+
+    # 1) Bedrag vergelijken met aanbestedingen (geraamde/gegunde waarde)
+    if bedrag is not None:
+        for proc in context.get("aanbestedingen", []):
+            titel_a = proc.get("titel", "")
+            if not _woord_overlap(zoekbasis, titel_a):
+                continue
+            for pub in proc.get("publicaties", []):
+                for veld in ("gegunde_waarde", "geraamde_waarde"):
+                    waarde = pub.get(veld)
+                    if waarde is None:
+                        continue
+                    try:
+                        waarde = float(waarde)
+                    except (TypeError, ValueError):
+                        continue
+                    if waarde == 0:
+                        continue
+                    afwijking = abs(bedrag - waarde) / waarde
+                    if afwijking <= 0.10:
+                        return (f"Bevestigd: komt overeen met {veld.replace('_', ' ')} "
+                                f"in aanbesteding '{titel_a[:60]}'")
+                    if afwijking >= 0.30:
+                        waarde_nl = f"{waarde:,.0f}".replace(",", ".")
+                        return (f"Afwijkend: aanbesteding '{titel_a[:60]}' noemt "
+                                f"€{waarde_nl} ({veld.replace('_', ' ')}) i.p.v. "
+                                f"het hier genoemde bedrag — controleer welk bedrag klopt")
+
+    # 2) Onderwerp + periode vergelijken met stemmingen (raadsbesluiten)
+    for stem in context.get("stemmingen", []):
+        titel_s = stem.get("titel", "")
+        datum_s = stem.get("datum", "")
+        if not _woord_overlap(zoekbasis, titel_s):
+            continue
+        verschil = _dagen_verschil(brief_datum, datum_s) if brief_datum and datum_s else None
+        if verschil is not None and verschil > 400:
+            continue
+        uitslag = stem.get("uitslag_tekst") or stem.get("uitslag") or "nog geen uitslag bekend"
+        return f"Gerelateerd raadsbesluit gevonden: '{titel_s[:60]}' — uitslag: {uitslag}"
+
+    # 3) Onderwerp + periode vergelijken met moties
+    for motie in context.get("moties", []):
+        titel_m = motie.get("titel", "") or motie.get("onderwerp", "")
+        datum_m = motie.get("datum", "")
+        if not titel_m or not _woord_overlap(zoekbasis, titel_m):
+            continue
+        verschil = _dagen_verschil(brief_datum, datum_m) if brief_datum and datum_m else None
+        if verschil is not None and verschil > 400:
+            continue
+        uitslag = motie.get("uitslag") or motie.get("status") or "status onbekend"
+        return f"Gerelateerde motie gevonden: '{titel_m[:60]}' — {uitslag}"
+
+    # 4) Tegenstrijdigheid met een eerdere brief van dezelfde portefeuillehouder
+    if brief_ph:
+        for eerdere in context.get("eerdere_brieven", {}).values():
+            if eerdere.get("portefeuillehouder") != brief_ph:
+                continue
+            if eerdere.get("titel") == brief_titel:
+                continue  # zelfde brief (kan bij nabewerking voorkomen)
+            for c in (eerdere.get("claims") or []):
+                oude_claim = c.get("claim", "")
+                if not _woord_overlap(claim_tekst, oude_claim, minimum=3):
+                    continue
+                oud_bedrag = _parse_bedrag(oude_claim)
+                if bedrag is not None and oud_bedrag is not None and oud_bedrag != 0:
+                    afwijking = abs(bedrag - oud_bedrag) / oud_bedrag
+                    if afwijking >= 0.10:
+                        return (f"Mogelijk tegenstrijdig met eerdere brief "
+                                f"'{eerdere.get('titel', '')[:60]}' ({eerdere.get('datum', '')}): "
+                                f"daar werd een ander bedrag genoemd over hetzelfde onderwerp")
+
+    return None
+
+
+def laad_referentiedata():
+    """Laadt de datasets die de kruischeck gebruikt. Ontbrekend bestand → lege lijst."""
+    referenties = {}
+    for naam, pad in (
+        ("stemmingen", "data/stemmingen.json"),
+        ("moties", "data/moties.json"),
+        ("aanbestedingen", "data/aanbestedingen.json"),
+    ):
+        try:
+            with open(pad, encoding="utf-8") as f:
+                referenties[naam] = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            referenties[naam] = []
+    return referenties
 
 
 # ── AI-GEBASEERDE CLAIMANALYSE ────────────────────────────────────────────────
@@ -537,6 +738,14 @@ def main():
     bestaand = load_existing()
     print(f"Bestaande JSON: {len(bestaand)} brieven")
 
+    # Referentiedata voor de niet-AI kruischeck (één keer laden, niet per brief)
+    referenties = laad_referentiedata()
+    print(
+        f"Kruischeck-data geladen: {len(referenties['stemmingen'])} stemmingen, "
+        f"{len(referenties['moties'])} moties, "
+        f"{len(referenties['aanbestedingen'])} aanbestedingen"
+    )
+
     # Per brief verwerken
     print("Brieven verwerken...")
     verwerkt = 0
@@ -604,8 +813,16 @@ def main():
         # Tekst extraheren
         tekst = extraheer_pdf_tekst(pdf_bytes)
 
-        # Laag 1: code-gebaseerde claims (altijd)
-        code_claims = detecteer_code_claims(tekst) if tekst else []
+        # Laag 1: code-gebaseerde claims (altijd), incl. niet-AI kruischeck
+        # tegen stemmingen/moties/aanbestedingen/eerdere brieven
+        claim_context = {
+            "titel": titel, "datum": datum, "portefeuillehouder": ph,
+            "stemmingen": referenties["stemmingen"],
+            "moties": referenties["moties"],
+            "aanbestedingen": referenties["aanbestedingen"],
+            "eerdere_brieven": bestaand,
+        }
+        code_claims = detecteer_code_claims(tekst, claim_context) if tekst else []
 
         # Laag 2: AI-claims (optioneel)
         ai_claims = []
