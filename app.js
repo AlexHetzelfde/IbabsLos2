@@ -1619,13 +1619,27 @@ function populatePartijFilter() {
   partijen.forEach(p => { const o = document.createElement('option'); o.value = p; o.textContent = p; sel.appendChild(o); });
 }
 
+// NIEUW: als de scraper geen "Uitslag"-tekst kon vinden maar het
+// stempercentage wel bekend is, leiden we de uitslag hier ook af — dezelfde
+// logica als de fallback in scrape_moties.py. Zo blijven moties die al vóór
+// die fix zijn opgehaald (met status:null maar wel voor_pct) niet ten
+// onrechte verborgen totdat er een nieuwe scrape draait.
+function effectieveMotieStatus(m) {
+  if (m.status) return m.status;
+  if (m.voor_pct != null) {
+    if (m.voor_pct > 50) return 'aangenomen';
+    if (m.voor_pct < 50) return 'verworpen';
+  }
+  return null; // echt nog geen uitslag bekend — terecht "in behandeling"
+}
+
 function renderMoties() {
   const partij = document.getElementById('filterPartij').value;
   const status = document.getElementById('filterStatus').value;
   const type   = document.getElementById('filterType').value;
-  let f = moties.filter(m => m.status != null);
+  let f = moties.filter(m => effectieveMotieStatus(m) != null);
   if (partij) f = f.filter(m => m.partij === partij);
-  if (status) f = f.filter(m => m.status === status);
+  if (status) f = f.filter(m => effectieveMotieStatus(m) === status);
   if (type)   f = f.filter(m => m.type === type);
   document.getElementById('motiesTable').innerHTML = f.length === 0
     ? '<tr><td colspan="5" class="empty">Geen moties gevonden.</td></tr>'
@@ -1634,7 +1648,7 @@ function renderMoties() {
           <td><div class="motie-title">${esc(m.titel)}</div>${m.type ? `<div class="motie-desc">${esc(m.type)}</div>` : ''}</td>
           <td><span class="badge badge-teal">${esc(m.partij || '—')}</span></td>
           <td style="font-family:'JetBrains Mono',monospace;font-size:11px;white-space:nowrap;">${fmtDate(m.datum,'full')}</td>
-          <td>${statusBadge(m.status)}</td>
+          <td>${statusBadge(effectieveMotieStatus(m))}</td>
           <td>${stemmingBar(m)}</td>
         </tr>`).join('');
 }
@@ -1675,8 +1689,9 @@ function berekenPartijStatsVoorType(typeFilter) {
     if (!stats[m.partij]) stats[m.partij] = { totaal: 0, aangenomen: 0, verworpen: 0 };
     const s = stats[m.partij];
     s.totaal++;
-    if (m.status === 'aangenomen') s.aangenomen++;
-    if (m.status === 'verworpen')  s.verworpen++;
+    const eff = effectieveMotieStatus(m);
+    if (eff === 'aangenomen') s.aangenomen++;
+    if (eff === 'verworpen')  s.verworpen++;
   });
   return Object.entries(stats).map(([naam, s]) => {
     const ms = s.aangenomen + s.verworpen;
@@ -2498,7 +2513,7 @@ function renderOvMot() {
   const statusMap = { aangenomen:['badge-go','Aangenomen'], verworpen:['badge-stop','Verworpen'], ingetrokken:['badge-hold','Ingetrokken'], aangehouden:['badge-hold','Aangehouden'] };
   const gesorteerd = [...moties].sort((a, b) => (b.datum || '').localeCompare(a.datum || ''));
   el.innerHTML = gesorteerd.slice(0, 5).map(m => {
-    const [cls, label] = statusMap[m.status] || ['badge-hold', 'In behandeling'];
+    const [cls, label] = statusMap[effectieveMotieStatus(m)] || ['badge-hold', 'In behandeling'];
     return `
       <div class="mini-item">
         <div class="mini-date">${fmtDate(m.datum, 'short')}</div>
