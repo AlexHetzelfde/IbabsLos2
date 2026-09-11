@@ -16,17 +16,6 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:30001305",
-        "halte_naam": "Amsterdam, Busstation Station Noord",
-        "geplande_tijd": "23:27",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron A3",
-        "bestemming": "Monnickendam"
-      },
-      {
         "halte_id": "NL:S:37392150",
         "halte_naam": "Monnickendam, Swaensborch",
         "geplande_tijd": "23:44",
@@ -38,10 +27,10 @@
         "bestemming": "Amsterdam Noord"
       }
     ],
-    "eerste_tijd": "23:27",
+    "eerste_tijd": "23:44",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-09-11 21:00:51",
-    "eerst_gezien": "2026-09-11 21:00:51"
+    "bijgewerkt": "2026-09-11 21:30:44",
+    "eerst_gezien": "2026-09-11 21:30:44"
   },
   {
     "id": "EBS:1315:1151_2026-09-11",
@@ -2184,6 +2173,39 @@
     "eerst_gezien": "2026-09-11 04:01:08"
   },
   {
+    "id": "EBS:1315:1157_2026-09-11",
+    "journey_id": "EBS:1315:1157",
+    "datum": "2026-09-11",
+    "lijn": "315",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "00:57",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A3",
+        "bestemming": "Monnickendam"
+      }
+    ],
+    "eerste_tijd": "00:57",
+    "dagdeel": "nacht",
+    "bijgewerkt": "2026-09-11 21:30:44",
+    "eerst_gezien": "2026-09-11 21:30:44"
+  },
+  {
     "id": "EBS:1308:1168_2026-09-11",
     "journey_id": "EBS:1308:1168",
     "datum": "2026-09-11",
@@ -2217,8 +2239,8 @@
     "eerst_gezien": "2026-09-11 21:15:35"
   },
   {
-    "id": "EBS:1308:1161_2026-09-11",
-    "journey_id": "EBS:1308:1161",
+    "id": "EBS:1308:1168_2026-09-11",
+    "journey_id": "EBS:1308:1168",
     "datum": "2026-09-11",
     "lijn": "308",
     "lijnkleur": "#e1251b",
@@ -2233,21 +2255,21 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:30001305",
-        "halte_naam": "Amsterdam, Busstation Station Noord",
-        "geplande_tijd": "00:00",
+        "halte_id": "NL:S:37403640",
+        "halte_naam": "Purmerend, Neckerstraat",
+        "geplande_tijd": "00:31",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron A1",
-        "bestemming": "Purmerend Weidevenne"
+        "platform": null,
+        "bestemming": "Amsterdam Noord"
       }
     ],
-    "eerste_tijd": "00:00",
+    "eerste_tijd": "00:31",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-09-11 21:00:51",
-    "eerst_gezien": "2026-09-11 21:00:51"
+    "bijgewerkt": "2026-09-11 21:30:44",
+    "eerst_gezien": "2026-09-11 21:30:44"
   },
   {
     "id": "EBS:1308:1161_2026-09-11",
@@ -2281,5 +2303,38 @@
     "dagdeel": "nacht",
     "bijgewerkt": "2026-09-11 21:15:35",
     "eerst_gezien": "2026-09-11 21:15:35"
+  },
+  {
+    "id": "EBS:1308:1161_2026-09-11",
+    "journey_id": "EBS:1308:1161",
+    "datum": "2026-09-11",
+    "lijn": "308",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "00:00",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A1",
+        "bestemming": "Purmerend Weidevenne"
+      }
+    ],
+    "eerste_tijd": "00:00",
+    "dagdeel": "nacht",
+    "bijgewerkt": "2026-09-11 21:30:44",
+    "eerst_gezien": "2026-09-11 21:30:44"
   }
 ]
