@@ -120,18 +120,37 @@ def fetch_stemming_detail(opener, motie_id):
 
     # Uitslag / status
     # HTML: <dt class="col-sm-3">Uitslag</dt><dd class="col-sm-9">Aangenomen</dd>
+    # NIEUW: de waarde in <dd> kan ook in een geneste tag staan (bv. een
+    # gekleurde <span>Aangenomen</span> voor styling) — de oude regex
+    # ([^<]+) eiste platte tekst en miste dat dan volledig, ook al stond de
+    # uitslag er wel degelijk. Nu pakken we alles tot </dd> en strippen
+    # eventuele tags zelf, zodat beide vormen werken.
     m = re.search(
-        r'<dt[^>]*>\s*Uitslag\s*</dt>\s*<dd[^>]*>\s*([^<]+)\s*</dd>',
-        html
+        r'<dt[^>]*>\s*Uitslag\s*</dt>\s*<dd[^>]*>(.*?)</dd>',
+        html, re.DOTALL
     )
     if m:
-        result["status"] = m.group(1).strip().lower()
+        tekst = re.sub(r'<[^>]+>', ' ', m.group(1))
+        tekst = re.sub(r'\s+', ' ', tekst).strip()
+        if tekst:
+            result["status"] = tekst.lower()
 
     # Voor-percentage: class="vote-summary-bar-in-favour w-59 d-flex"
     m = re.search(r'vote-summary-bar-in-favour\s+w-(\d+)', html)
     if m:
         result["voor_pct"]  = int(m.group(1))
         result["tegen_pct"] = 100 - int(m.group(1))
+
+    # NIEUW: fallback als de Uitslag-tekst hierboven onverhoopt nog steeds
+    # niet gevonden werd (bv. door een verdere wijziging in de pagina) maar
+    # het stempercentage wel bekend is — dan is de uitslag zelf ondubbelzinnig
+    # af te leiden. Bij precies 50/50 (gestaakte stemmen) blijft status
+    # bewust leeg: dat is geen eenduidige aangenomen/verworpen-uitslag.
+    if "status" not in result and result.get("voor_pct") is not None:
+        if result["voor_pct"] > 50:
+            result["status"] = "aangenomen"
+        elif result["voor_pct"] < 50:
+            result["status"] = "verworpen"
 
     # Fracties voor: <div class="vote-summary-legend-in-favour ..."><div class="text">...</div>
     m = re.search(
