@@ -32,8 +32,8 @@
     ],
     "eerste_tijd": "08:18",
     "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-09-12 04:45:37",
-    "eerst_gezien": "2026-09-12 04:45:37"
+    "bijgewerkt": "2026-09-12 05:00:52",
+    "eerst_gezien": "2026-09-12 05:00:52"
   },
   {
     "id": "EBS:1395:6009_2026-09-12",
@@ -68,8 +68,8 @@
     ],
     "eerste_tijd": "08:18",
     "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-09-12 05:00:52",
-    "eerst_gezien": "2026-09-12 05:00:52"
+    "bijgewerkt": "2026-09-12 05:15:34",
+    "eerst_gezien": "2026-09-12 05:15:34"
   },
   {
     "id": "EBS:1100:6008_2026-09-12",
@@ -108,12 +108,12 @@
     "eerst_gezien": "2026-09-12 05:00:52"
   },
   {
-    "id": "EBS:1395:6008_2026-09-12",
-    "journey_id": "EBS:1395:6008",
+    "id": "EBS:1100:6008_2026-09-12",
+    "journey_id": "EBS:1100:6008",
     "datum": "2026-09-12",
-    "lijn": "395",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
+    "lijn": "100",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
     "product_label": "MeerPlus",
     "drukte_icoon": null,
     "drukte_omschrijving": null,
@@ -127,21 +127,21 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "07:51",
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "08:17",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
         "platform": "Perron B",
-        "bestemming": "Amsterdam Sloterdijk"
+        "bestemming": "Amsterdam Noord"
       }
     ],
-    "eerste_tijd": "07:51",
+    "eerste_tijd": "08:17",
     "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-09-12 04:45:37",
-    "eerst_gezien": "2026-09-12 04:45:37"
+    "bijgewerkt": "2026-09-12 05:15:34",
+    "eerst_gezien": "2026-09-12 05:15:34"
   },
   {
     "id": "EBS:1395:6008_2026-09-12",
@@ -178,5 +178,41 @@
     "dagdeel": "ochtendspits",
     "bijgewerkt": "2026-09-12 05:00:52",
     "eerst_gezien": "2026-09-12 05:00:52"
+  },
+  {
+    "id": "EBS:1395:6008_2026-09-12",
+    "journey_id": "EBS:1395:6008",
+    "datum": "2026-09-12",
+    "lijn": "395",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "07:51",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron B",
+        "bestemming": "Amsterdam Sloterdijk"
+      }
+    ],
+    "eerste_tijd": "07:51",
+    "dagdeel": "ochtendspits",
+    "bijgewerkt": "2026-09-12 05:15:34",
+    "eerst_gezien": "2026-09-12 05:15:34"
   }
 ]
