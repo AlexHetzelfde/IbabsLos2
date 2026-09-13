@@ -151,6 +151,23 @@ CODE_PATRONEN = [
         "HOOG",
         "Controleer aantal via CBS, gemeentelijke rapportage of aanbieder"
     ),
+    # Concrete aantallen — ALGEMEEN, NIEUW. Het patroon hierboven werkt alleen
+    # voor een vaste lijst zelfstandige naamwoorden en miste daardoor elk
+    # ander telbaar ding dat het college claimt te hebben gerealiseerd of
+    # geplaatst ("40 laadpalen", "15 speeltuinen", "8 handhavers"). Dit vangt
+    # elke "wij/we/het college hebben/heeft ... [getal] [naamwoord]"-claim,
+    # ongeacht het naamwoord zelf — precies het soort zelf-gerapporteerde
+    # college-cijfer waar het om gaat.
+    # De negative lookahead sluit maandnamen uit, zodat een datum als
+    # "3 juni" niet als aantalclaim wordt gelezen.
+    (
+        r'(?=.*\b(?:wij|we|het college)\s+(?:hebben|heeft)\b)'
+        r'(?=.*\b\d+(?:\.\d+)?\s+'
+        r'(?!januari|februari|maart|april|mei|juni|juli|augustus|'
+        r'september|oktober|november|december)[a-zà-ÿ]{4,}\b)',
+        "HOOG",
+        "Controleer dit concrete aantal via CBS, gemeentelijke rapportage of de betrokken uitvoerder"
+    ),
     # Concrete aantallen incidenten/meldingen
     (
         r'\b\d+\s*(?:meldingen|klachten|incidenten|overtredingen|'
@@ -222,7 +239,108 @@ CODE_PATRONEN = [
         "MIDDEL",
         "Controleer waardering via taxatierapport of WOZ-gegevens"
     ),
+    # Relatieve termijnen — NIEUW. "binnen 6 weken" is net zo goed een
+    # controleerbare toezegging als een harde einddatum, maar werd door het
+    # bestaande datumdeadline-patroon (dat op jaartallen/kwartalen let)
+    # gemist.
+    (
+        r'\bbinnen\s+\d+\s*(?:dag|dagen|week|weken|maand|maanden|jaar|jaren)\b',
+        "MIDDEL",
+        "Controleer of deze termijn is gehaald via een latere collegebrief of raadsvraag"
+    ),
+    # Looptijd/contractduur — NIEUW. Vaak relevant bij aanbestedingen en
+    # samenwerkingsovereenkomsten; een genoemde looptijd is direct te
+    # vergelijken met de aanbestedingsdata die het dashboard al heeft.
+    (
+        r'\b(?:looptijd|contractperiode|contractduur)\s+van\s+\d+\s*'
+        r'(?:jaar|jaren|maand|maanden)\b',
+        "MIDDEL",
+        "Vergelijk de genoemde looptijd met de onderliggende aanbesteding of overeenkomst"
+    ),
+    # Vermenigvuldigingsfactoren — NIEUW. "verdubbeld", "drie keer zoveel" is
+    # net zo'n harde, verifieerbare claim als een percentage, maar wordt door
+    # geen van de bestaande patronen gevangen omdat er geen cijfer/€/% in de
+    # zin zelf hoeft te staan.
+    (
+        r'\b(?:verdubbeld(?:e)?|verdrievoudigd(?:e)?|verviervoudigd(?:e)?|'
+        r'gehalveerd(?:e)?|\d+\s*keer\s+zo\s*(?:veel|groot|hoog|laag)|'
+        r'een\s+factor\s+\d+)\b',
+        "MIDDEL",
+        "Controleer de genoemde toe- of afname via de onderliggende cijfers"
+    ),
+    # Toezeggingen gekoppeld aan een met naam genoemde bestuurder — NIEUW.
+    # Dit maakt een toezegging persoonlijk herleidbaar, wat 'm nieuwswaardiger
+    # maakt dan een anonieme "het college zal".
+    (
+        r'\bwethouder\s+[A-Z][a-zà-ÿ]+(?:\s+[A-Z][a-zà-ÿ]+)?\s+'
+        r'(?:heeft|zal|gaat|is van plan|zegt toe|heeft toegezegd)\b',
+        "MIDDEL",
+        "Controleer deze persoonlijke toezegging via het raadsverslag of latere correspondentie"
+    ),
+    # Vage tijdsaanduidingen — NIEUW, aanvullend op de bestaande harde
+    # datumdeadlines. "Op korte termijn" en "de komende periode" klinken als
+    # een toezegging maar zijn niet aan een controleerbare datum te knopen.
+    (
+        r'\b(?:op korte termijn|op afzienbare termijn|zo spoedig mogelijk|'
+        r'de komende periode|de komende tijd|binnenkort|op termijn)\b',
+        "LAAG",
+        "Vage tijdsaanduiding zonder harde datum — vraag om een concrete termijn"
+    ),
+    # Ongefundeerde positieve zelfevaluatie — NIEUW. Colleges rapporteren
+    # zelden negatief over eigen beleid; een kwalitatief oordeel zonder cijfer
+    # is daarom extra de moeite van het navragen waard.
+    (
+        r'\b(?:succesvol verlopen|goed verlopen|naar tevredenheid|'
+        r'positief ontvangen|positief geëvalueerd|breed gedragen)\b',
+        "LAAG",
+        "Zelfevaluatie zonder onderliggend cijfer — vraag naar de meetbare uitkomst"
+    ),
 ]
+
+
+# ── LAAG 0: INTERNE REKENKUNDIGE CONSISTENTIE ─────────────────────────────────
+#
+# Deze check heeft geen enkele externe data nodig — hij rekent puur na of een
+# "gestegen/gedaald van X naar Y"-formulering wel klopt met de twee genoemde
+# getallen. Dat vangt tikfouten en slordige formuleringen die met platte
+# regex-detectie (die alleen op het BESTAAN van een getal let) nooit zouden
+# opvallen.
+_RICHTING_WOORDEN = {
+    "gestegen":   "op", "toegenomen": "op", "gegroeid":  "op", "opgelopen": "op",
+    "gedaald":    "neer", "afgenomen": "neer", "gekrompen": "neer", "gezakt": "neer",
+}
+
+def check_richting_tegenstrijdigheid(zin):
+    """
+    Vindt claims van de vorm "gestegen van X naar Y" en controleert of de
+    richting (stijging/daling) daadwerkelijk klopt met de twee genoemde
+    getallen. Geeft een kant-en-klare kruischeck-tekst terug (beginnend met
+    "Afwijkend:", zodat de bestaande kleurcodering in de UI 'm automatisch
+    als weersproken toont), of None als er niets te controleren valt of de
+    richting wél klopt.
+    """
+    patroon = (
+        r'\b(' + '|'.join(_RICHTING_WOORDEN) + r')\s+van\s+'
+        r'(\d+(?:[.,]\d+)?)\s*(?:%|procent)?\s+naar\s+'
+        r'(\d+(?:[.,]\d+)?)\s*(?:%|procent)?'
+    )
+    m = re.search(patroon, zin, re.IGNORECASE)
+    if not m:
+        return None
+    woord     = m.group(1).lower()
+    richting  = _RICHTING_WOORDEN[woord]
+    try:
+        van   = float(m.group(2).replace(',', '.'))
+        naar  = float(m.group(3).replace(',', '.'))
+    except ValueError:
+        return None
+    if richting == "op" and naar <= van:
+        return (f"Afwijkend: '{woord}' duidt op een toename, maar {van:g} naar {naar:g} "
+                f"is geen stijging — controleer of dit een tikfout of onjuiste formulering is")
+    if richting == "neer" and naar >= van:
+        return (f"Afwijkend: '{woord}' duidt op een afname, maar {van:g} naar {naar:g} "
+                f"is geen daling — controleer of dit een tikfout of onjuiste formulering is")
+    return None
 
 
 def detecteer_code_claims(tekst, context=None):
@@ -248,6 +366,26 @@ def detecteer_code_claims(tekst, context=None):
         zin = zin.strip()
         # Te kort of te lang om zinvol te zijn
         if len(zin) < 25 or len(zin) > 500:
+            continue
+
+        # Laag 0: interne rekenkundige tegenstrijdigheid — gaat vóór de
+        # gewone patronen, want dit is een hard feitelijk probleem in de zin
+        # zelf, geen "vraag dit na"-signaal. Werkt zonder context/externe data.
+        tegenstrijdigheid = check_richting_tegenstrijdigheid(zin)
+        if tegenstrijdigheid:
+            sleutel = zin[:50].lower()
+            if sleutel not in gezien:
+                gezien.add(sleutel)
+                claims.append({
+                    "claim":      zin[:250],
+                    "verificatie": "Controleer of dit een tikfout of onjuiste formulering in de brief is",
+                    "prioriteit": "HOOG",
+                    "score":      PRIO_SCORE["HOOG"],
+                    "bron":       "code",
+                    "kruischeck": tegenstrijdigheid,
+                })
+                if len(claims) >= 10:
+                    break
             continue
 
         for patroon, prioriteit, verificatie in CODE_PATRONEN:
@@ -290,6 +428,19 @@ _STOPWOORDEN = {
     "college", "gemeente", "zaanstad", "wordt", "worden", "hebben", "heeft",
     "wij", "deze", "onze", "voor", "over", "naar", "vanaf", "tegen", "binnen",
     "raad", "brief", "kennisgeving", "informeren", "informatie", "verzoek",
+    # NIEUW: generieke bestuurs-/procedurewoorden die in vrijwel elk
+    # raadsstuk voorkomen en daardoor géén signaal zijn dat twee documenten
+    # over hetzelfde ONDERWERP gaan — ontdekt doordat "wijziging" + het
+    # toevallig gedeelde "Waterland" (uit twee heel verschillende namen,
+    # "Zaanstreek-Waterland" vs "Twiske-Waterland") een valse match gaf.
+    "wijziging", "wijzigen", "vaststellen", "vaststelling", "verordening",
+    "besluit", "voorstel", "regeling", "toelichting", "advies", "betreft",
+    "onderwerp", "portefeuille", "portefeuillehouder", "leden", "geachte",
+    # NIEUW: documenttype-labels — deze staan per definitie in vrijwel elke
+    # titel binnen hun eigen categorie (elke motie heet "Motie ...") en zijn
+    # dus geen bruikbaar onderwerp-signaal. Ontdekt doordat twee compleet
+    # ongerelateerde moties via het woord "Motie" zelf als eigennaam matchten.
+    "motie", "moties", "amendement", "amendementen", "vreemd",
 }
 
 def _belangrijke_woorden(tekst):
@@ -298,9 +449,44 @@ def _belangrijke_woorden(tekst):
     return {w for w in woorden if w not in _STOPWOORDEN}
 
 
+def _geeft_gedeelde_eigennaam(a, b):
+    """
+    NIEUW: True als a en b een betekenisvol woord delen dat in de brontekst
+    ook daadwerkelijk met een hoofdletter voorkomt (in minstens één van de
+    twee) — dat wijst op een eigennaam (straat, plaats, projectnaam) in
+    plaats van toevallig gedeeld jargon, en is daarom ook met maar één
+    treffer al een betrouwbaar signaal. Ontdekt doordat een brief over
+    "Veiligheidsmaatregelen Zuiddijk" niet aan de woningsluiting op diezelfde
+    Zuiddijk werd gekoppeld: één gedeeld woord haalde de gewone drempel van
+    twee niet, terwijl het wél de exacte, specifieke straatnaam was.
+
+    Sluit woorden uit die ALLEEN voorkomen als tweede helft van een
+    koppelteken-naam (bv. "Waterland" in "Zaanstreek-Waterland" versus
+    "Twiske-Waterland") — dat is het fragment van een langere, per geval
+    verschillende naam, geen zelfstandige eigennaam-match. Zonder deze
+    uitzondering gaf "Zaanstreek-Waterland" een valse match met het
+    volledig ongerelateerde "Twiske-Waterland".
+    """
+    gedeeld = _belangrijke_woorden(a) & _belangrijke_woorden(b)
+    if not gedeeld:
+        return False
+    volledige_tekst = f"{a or ''} {b or ''}"
+    los_hoofdletter = re.findall(r'(?<!-)\b([A-ZÀ-Þ][a-zà-ÿ]{4,})\b', volledige_tekst)
+    hoofdletter_woorden = {w.lower() for w in los_hoofdletter}
+    return bool(gedeeld & hoofdletter_woorden)
+
+
 def _woord_overlap(a, b, minimum=2):
-    """True als twee teksten minstens 'minimum' betekenisvolle woorden delen."""
-    return len(_belangrijke_woorden(a) & _belangrijke_woorden(b)) >= minimum
+    """
+    True als twee teksten minstens 'minimum' betekenisvolle woorden delen,
+    óf als ze samen al aan één gedeelde eigennaam genoeg hebben (zie
+    _geeft_gedeelde_eigennaam) — dat laatste is vaak specifieker dan twee
+    toevallig gedeelde gewone woorden.
+    """
+    gedeeld = _belangrijke_woorden(a) & _belangrijke_woorden(b)
+    if len(gedeeld) >= minimum:
+        return True
+    return _geeft_gedeelde_eigennaam(a, b)
 
 
 def _parse_bedrag(tekst):
@@ -349,6 +535,124 @@ def _dagen_verschil(datum_a, datum_b):
         return None
 
 
+def _interne_brief_tegenstrijdigheid(claim_tekst, context):
+    """
+    NIEUW: doorzoekt de rest van DEZELFDE brief op een andere zin over
+    kennelijk hetzelfde onderwerp met een ander bedrag. Dit vangt het geval
+    waarin een brief zelf op twee plekken een verschillend cijfer noemt —
+    de meest rechtstreekse vorm van interne inconsistentie, en iets waar de
+    bestaande lagen (die allemaal buiten de brief zelf kijken) niets over
+    zeggen.
+    """
+    volledige_tekst = context.get("volledige_tekst") or ""
+    if not volledige_tekst:
+        return None
+    bedrag = _parse_bedrag(claim_tekst)
+    if bedrag is None:
+        return None
+    for andere_zin in re.split(r'(?<=[.!?])\s+|\n', volledige_tekst):
+        andere_zin = andere_zin.strip()
+        if not andere_zin or len(andere_zin) < 25 or andere_zin == claim_tekst.strip():
+            continue
+        if not _woord_overlap(claim_tekst, andere_zin, minimum=3):
+            continue
+        ander_bedrag = _parse_bedrag(andere_zin)
+        if ander_bedrag is None or ander_bedrag == 0 or ander_bedrag == bedrag:
+            continue
+        afwijking = abs(bedrag - ander_bedrag) / max(ander_bedrag, bedrag)
+        if afwijking >= 0.10:
+            return (f"Afwijkend: dezelfde brief noemt elders een ander bedrag over "
+                    f"kennelijk hetzelfde onderwerp: \"{andere_zin[:90]}\"")
+    return None
+
+
+def _ebs_gemiddeld_pct_rond_datum(ebs_data, datum_str, dagen=30):
+    """
+    Gemiddeld dagelijks EBS-uitvalpercentage in de 'dagen' dagen tot en met
+    datum_str, berekend uit de eigen (al gescrapete) EBS-geschiedenis.
+    """
+    try:
+        d_eind = datetime.strptime(datum_str[:10], "%Y-%m-%d")
+    except (ValueError, TypeError):
+        return None
+    d_start = d_eind - timedelta(days=dagen)
+    totaal = cancelled = 0
+    for d, v in (ebs_data or {}).items():
+        try:
+            dd = datetime.strptime(d, "%Y-%m-%d")
+        except ValueError:
+            continue
+        if d_start <= dd <= d_eind:
+            totaal += v.get("totaal", 0) or 0
+            cancelled += v.get("cancelled", 0) or 0
+    if totaal == 0:
+        return None
+    return round(cancelled / totaal * 100, 1)
+
+
+def _ebs_kruischeck(claim_tekst, context):
+    """
+    NIEUW: als een claim over EBS/busvervoer gaat én een percentage bevat,
+    vergelijk dat met het daadwerkelijk gemeten uitvalpercentage uit de
+    EBS-tab van dit dashboard, in de 30 dagen voorafgaand aan de brief. Dit
+    is de enige laag die een claim toetst aan data die het dashboard zelf
+    continu en onafhankelijk van het college verzamelt.
+    """
+    tekst_lower = claim_tekst.lower()
+    if not any(w in tekst_lower for w in ("ebs", "buslijn", "busvervoer", "streekvervoer")):
+        return None
+    m = re.search(r'(\d+(?:[.,]\d+)?)\s*(?:%|procent)', claim_tekst)
+    if not m:
+        return None
+    try:
+        genoemd_pct = float(m.group(1).replace(',', '.'))
+    except ValueError:
+        return None
+    werkelijk_pct = _ebs_gemiddeld_pct_rond_datum(
+        context.get("ebs_percentage_historie"), context.get("datum") or ""
+    )
+    if werkelijk_pct is None:
+        return None
+    afwijking = abs(genoemd_pct - werkelijk_pct)
+    if afwijking <= 1.0:
+        return f"Bevestigd: komt overeen met het gemeten EBS-uitvalpercentage rond deze periode ({werkelijk_pct}%)"
+    if afwijking >= 3.0:
+        return (f"Afwijkend: het gemeten EBS-uitvalpercentage in de 30 dagen rond deze brief "
+                f"was {werkelijk_pct}%, niet {genoemd_pct:g}% — controleer om welke periode/lijn het gaat")
+    return None
+
+
+def _sluiting_kruischeck(zoekbasis, context):
+    """
+    NIEUW: koppelt een claim aan een bekende woningsluiting of camera-inzet
+    op basis van adres/naam-overlap. Blijft, net als de stemmingen/moties-
+    laag, bewust bij "gerelateerd gevonden" — de vrije tekst rond een
+    sluitingsduur is te wisselend van formulering om daar veilig een
+    bevestigd/afwijkend-oordeel op te baseren.
+    """
+    for w in context.get("woningsluitingen", []):
+        titel_w = w.get("titel", "")
+        if not titel_w or not _woord_overlap(zoekbasis, titel_w):
+            continue
+        duur = w.get("duur_maanden")
+        eind = w.get("eind_datum")
+        if duur:
+            return f"Gerelateerde woningsluiting gevonden: '{titel_w[:60]}' — geregistreerde duur: {duur} maanden"
+        if eind:
+            return f"Gerelateerde woningsluiting gevonden: '{titel_w[:60]}' — einddatum: {eind}"
+
+    for c in context.get("cameras", []):
+        naam = c.get("camera", "")
+        if not naam or not _woord_overlap(zoekbasis, naam):
+            continue
+        eind = c.get("eind")
+        if eind:
+            return f"Gerelateerd cameratoezicht gevonden: '{naam}' — beëindigd op {eind}"
+        return f"Gerelateerd cameratoezicht gevonden: '{naam}' — nog actief volgens de eigen data"
+
+    return None
+
+
 def kruischeck_claim(claim_tekst, context):
     """
     Probeert een claim te bevestigen of tegen te spreken met de dashboard-eigen
@@ -362,7 +666,19 @@ def kruischeck_claim(claim_tekst, context):
     zoekbasis    = f"{brief_titel} {claim_tekst}"
     bedrag       = _parse_bedrag(claim_tekst)
 
-    # 1) Bedrag vergelijken met aanbestedingen (geraamde/gegunde waarde)
+    # 1) NIEUW — tegenstrijdigheid binnen dezelfde brief. Gaat als eerste,
+    # want een brief die zichzelf tegenspreekt is de sterkste, meest
+    # rechtstreekse bevinding die deze functie kan doen.
+    intern = _interne_brief_tegenstrijdigheid(claim_tekst, context)
+    if intern:
+        return intern
+
+    # 2) NIEUW — EBS-kruischeck tegen de eigen, onafhankelijk gemeten data.
+    ebs_resultaat = _ebs_kruischeck(claim_tekst, context)
+    if ebs_resultaat:
+        return ebs_resultaat
+
+    # 3) Bedrag vergelijken met aanbestedingen (geraamde/gegunde waarde)
     if bedrag is not None:
         for proc in context.get("aanbestedingen", []):
             titel_a = proc.get("titel", "")
@@ -389,7 +705,7 @@ def kruischeck_claim(claim_tekst, context):
                                 f"€{waarde_nl} ({veld.replace('_', ' ')}) i.p.v. "
                                 f"het hier genoemde bedrag — controleer welk bedrag klopt")
 
-    # 2) Onderwerp + periode vergelijken met stemmingen (raadsbesluiten)
+    # 4) Onderwerp + periode vergelijken met stemmingen (raadsbesluiten)
     for stem in context.get("stemmingen", []):
         titel_s = stem.get("titel", "")
         datum_s = stem.get("datum", "")
@@ -401,7 +717,7 @@ def kruischeck_claim(claim_tekst, context):
         uitslag = stem.get("uitslag_tekst") or stem.get("uitslag") or "nog geen uitslag bekend"
         return f"Gerelateerd raadsbesluit gevonden: '{titel_s[:60]}' — uitslag: {uitslag}"
 
-    # 3) Onderwerp + periode vergelijken met moties
+    # 5) Onderwerp + periode vergelijken met moties
     for motie in context.get("moties", []):
         titel_m = motie.get("titel", "") or motie.get("onderwerp", "")
         datum_m = motie.get("datum", "")
@@ -413,7 +729,12 @@ def kruischeck_claim(claim_tekst, context):
         uitslag = motie.get("uitslag") or motie.get("status") or "status onbekend"
         return f"Gerelateerde motie gevonden: '{titel_m[:60]}' — {uitslag}"
 
-    # 4) Tegenstrijdigheid met een eerdere brief van dezelfde portefeuillehouder
+    # 6) NIEUW — gerelateerde woningsluiting of camera-inzet
+    sluiting_resultaat = _sluiting_kruischeck(zoekbasis, context)
+    if sluiting_resultaat:
+        return sluiting_resultaat
+
+    # 7) Tegenstrijdigheid met een eerdere brief van dezelfde portefeuillehouder
     if brief_ph:
         for eerdere in context.get("eerdere_brieven", {}).values():
             if eerdere.get("portefeuillehouder") != brief_ph:
@@ -436,18 +757,38 @@ def kruischeck_claim(claim_tekst, context):
 
 
 def laad_referentiedata():
-    """Laadt de datasets die de kruischeck gebruikt. Ontbrekend bestand → lege lijst."""
+    """Laadt de datasets die de kruischeck gebruikt. Ontbrekend bestand → lege lijst/dict."""
     referenties = {}
     for naam, pad in (
         ("stemmingen", "data/stemmingen.json"),
         ("moties", "data/moties.json"),
         ("aanbestedingen", "data/aanbestedingen.json"),
+        ("woningsluitingen", "data/woningsluitingen.json"),
     ):
         try:
             with open(pad, encoding="utf-8") as f:
                 referenties[naam] = json.load(f)
         except (FileNotFoundError, json.JSONDecodeError):
             referenties[naam] = []
+
+    # Camera's: actief + geschiedenis samengevoegd, want voor de kruischeck
+    # maakt het niet uit of een camera nog aanstaat of al is uitgeschakeld.
+    cameras = []
+    for pad in ("data/cameras_actief.json", "data/cameras_geschiedenis.json"):
+        try:
+            with open(pad, encoding="utf-8") as f:
+                cameras.extend(json.load(f))
+        except (FileNotFoundError, json.JSONDecodeError):
+            pass
+    referenties["cameras"] = cameras
+
+    # EBS-percentagehistorie: een dict (datum -> cijfers), geen lijst.
+    try:
+        with open("data/ebs_percentage_historie.json", encoding="utf-8") as f:
+            referenties["ebs_percentage_historie"] = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        referenties["ebs_percentage_historie"] = {}
+
     return referenties
 
 
@@ -743,7 +1084,10 @@ def main():
     print(
         f"Kruischeck-data geladen: {len(referenties['stemmingen'])} stemmingen, "
         f"{len(referenties['moties'])} moties, "
-        f"{len(referenties['aanbestedingen'])} aanbestedingen"
+        f"{len(referenties['aanbestedingen'])} aanbestedingen, "
+        f"{len(referenties['woningsluitingen'])} woningsluitingen, "
+        f"{len(referenties['cameras'])} camera's, "
+        f"{len(referenties['ebs_percentage_historie'])} dagen EBS-historie"
     )
 
     # Per brief verwerken
@@ -820,7 +1164,11 @@ def main():
             "stemmingen": referenties["stemmingen"],
             "moties": referenties["moties"],
             "aanbestedingen": referenties["aanbestedingen"],
+            "woningsluitingen": referenties["woningsluitingen"],
+            "cameras": referenties["cameras"],
+            "ebs_percentage_historie": referenties["ebs_percentage_historie"],
             "eerdere_brieven": bestaand,
+            "volledige_tekst": tekst,
         }
         code_claims = detecteer_code_claims(tekst, claim_context) if tekst else []
 
