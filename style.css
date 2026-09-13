@@ -159,6 +159,34 @@ tbody tr:hover td { background: var(--paper); }
 
 /* ── VISUALISATIES ── */
 .viz-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+
+/* ── DUBBELE RANGE-SLIDER (eigen periode, EBS-tab) ──────────────────────── */
+.uv-slider-wrap { position: relative; height: 32px; margin: 8px 20px 16px; }
+.uv-slider-track, .uv-slider-range {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  height: 4px; border-radius: 2px; left: 0; right: 0;
+}
+.uv-slider-track { background: var(--rule); }
+.uv-slider-range { background: var(--teal); }
+.uv-slider-input {
+  position: absolute; top: 0; left: 0; width: 100%; height: 32px;
+  margin: 0; background: transparent; pointer-events: none;
+  -webkit-appearance: none; appearance: none;
+}
+.uv-slider-input::-webkit-slider-thumb {
+  -webkit-appearance: none; pointer-events: auto;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--teal); border: 2px solid var(--white);
+  box-shadow: 0 1px 3px rgba(0,0,0,.3); cursor: pointer;
+  margin-top: 0;
+}
+.uv-slider-input::-moz-range-thumb {
+  pointer-events: auto; width: 14px; height: 14px; border-radius: 50%;
+  background: var(--teal); border: 2px solid var(--white);
+  box-shadow: 0 1px 3px rgba(0,0,0,.3); cursor: pointer;
+}
+.uv-slider-input::-webkit-slider-runnable-track { background: transparent; }
+.uv-slider-input::-moz-range-track { background: transparent; }
 .viz-bar-list { padding: 8px 20px 12px; }
 .viz-bar-row { display: flex; align-items: center; gap: 10px; padding: 6px 0; border-bottom: 1px solid var(--rule); }
 .viz-bar-row:last-child { border-bottom: none; }
