@@ -586,6 +586,24 @@
     </div>
   </div>
 
+  <!-- NIEUW: dubbele slider voor een zelf-gekozen periode, geldt voor beide
+       grafieken hierboven. Onafhankelijk van de 24u/3d/.../Alles-knoppen —
+       slepen aan de slider overschrijft die knoppen, en andersom. -->
+  <div class="card" style="margin-bottom:16px;">
+    <div class="card-header">
+      <span class="card-title">Eigen periode instellen</span>
+      <span style="font-size:11px;color:var(--muted);" id="uvDagSliderLabel">–</span>
+    </div>
+    <div class="uv-slider-wrap">
+      <div class="uv-slider-track"></div>
+      <div class="uv-slider-range" id="uvDagSliderRange"></div>
+      <input type="range" class="uv-slider-input" id="uvDagSliderStart" min="0" max="0" value="0"
+        oninput="setUvDagAangepastBereik()">
+      <input type="range" class="uv-slider-input" id="uvDagSliderEind" min="0" max="0" value="0"
+        oninput="setUvDagAangepastBereik()">
+    </div>
+  </div>
+
   <div class="card" style="margin-bottom:16px;" id="uvDagdeelCard">
     <div class="card-header"><span class="card-title">Uitval per dagdeel</span></div>
     <div class="viz-bar-list" id="uvDagdeelChart"><div class="empty">Laden...</div></div>
@@ -619,6 +637,7 @@
   <div class="viz-row" style="margin-bottom:16px;" id="uvLijnHalteRow">
     <div class="card">
       <div class="card-header"><span class="card-title">Uitval per lijn</span></div>
+      <div class="filter-bar" style="padding:10px 20px 0;" id="uvLijnGebiedButtons"></div>
       <div class="viz-bar-list" id="uvLijnChart"><div class="empty">Laden...</div></div>
     </div>
     <div class="card">
