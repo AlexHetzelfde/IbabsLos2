@@ -39,6 +39,8 @@ let vergaderingen = [], moties = [], camerasActief = [], camerasGeschiedenis = [
 let _uvDagPeriodeDagen = 7; // default: laatste 7 dagen, tegen de wall-of-bars
 let _uvDekkingsFilter = 'compleet'; // 'compleet' = alleen dagen met volledige dekking, 'alles' = hele geschiedenis incl. deelperiodes
 let _uvMaandFilter = ''; // '' = geen maandfilter, anders 'YYYY-MM' — toont dan alléén die maand, ongeacht _uvDekkingsFilter
+let _uvDagAangepastStart = null; // ISO-datum, of null als er geen eigen periode (slider) actief is voor de dag-grafieken
+let _uvDagAangepastEind  = null;
 let huidigeClaims = [];
 let _chartFractie = null;
 let totaalTeller = {};
@@ -242,7 +244,114 @@ function renderUvDagPeriodeButtons() {
 
 function setUvDagPeriode(dagen) {
   _uvDagPeriodeDagen = dagen;
+  _uvDagAangepastStart = null;
+  _uvDagAangepastEind  = null;
   renderUvDagPeriodeButtons();
+  syncUvDagSliderMetPeriode();
+  renderUvDagChart();
+  renderUvDagPctChart();
+}
+
+// NIEUW: gedeeld periodefilter voor de twee dag-grafieken. Een zelf
+// gekozen bereik (via de slider) heeft voorrang op de 24u/3d/.../Alles
+// knoppen; is er geen eigen bereik gezet, dan geldt de knoppen-selectie.
+function dagLijstPeriodeFilter(dagLijst) {
+  if (_uvDagAangepastStart && _uvDagAangepastEind) {
+    return dagLijst.filter(([datum]) => datum >= _uvDagAangepastStart && datum <= _uvDagAangepastEind);
+  }
+  if (_uvDagPeriodeDagen != null) {
+    const grens = new Date();
+    grens.setDate(grens.getDate() - (_uvDagPeriodeDagen - 1));
+    const grensStr = grens.toISOString().slice(0, 10);
+    return dagLijst.filter(([datum]) => datum >= grensStr);
+  }
+  return dagLijst;
+}
+
+// NIEUW: dubbele slider voor een zelf gekozen periode (deelt hetzelfde
+// bereik als de knoppen, in dagen sinds de eerste dag met data).
+// De ondergrens van de slider moet meebewegen met de compleet/alles-knoppen
+// hierboven: in "compleet"-modus is alles vóór 13 augustus toch al
+// weggefilterd door actievePercentageHistorie(), dus de slider mag daar niet
+// een bereik lijken aan te bieden dat altijd op "geen data" uitkomt.
+let _uvDagSliderVorigeStartDatum = null;
+
+function uvDagSliderStartDatum() {
+  if (_uvDekkingsFilter === 'alles') return eersteDatumMetVeld('totaal');
+  return volledigeDekkingVanaf() || eersteDatumMetVeld('totaal');
+}
+
+function syncUvDagSliderBounds() {
+  const startEl = document.getElementById('uvDagSliderStart');
+  const eindEl  = document.getElementById('uvDagSliderEind');
+  if (!startEl || !eindEl) return;
+  const referentieDatum = uvDagSliderStartDatum();
+  if (!referentieDatum) return;
+  const dagenTotaal = Math.round((new Date() - new Date(referentieDatum + 'T00:00:00')) / 86400000);
+  const eerderMax = parseInt(startEl.max, 10);
+  const referentieVerschoven = _uvDagSliderVorigeStartDatum !== null && _uvDagSliderVorigeStartDatum !== referentieDatum;
+  startEl.min = eindEl.min = '0';
+  startEl.max = eindEl.max = String(dagenTotaal);
+  if (!Number.isFinite(eerderMax) || eerderMax === 0 || referentieVerschoven) {
+    // Eerste keer, of de referentiedatum is verschoven (compleet <-> alles):
+    // hele beschikbare periode selecteren, oude dag-offsets zijn niet meer geldig.
+    startEl.value = '0';
+    eindEl.value = String(dagenTotaal);
+  } else if (parseInt(eindEl.value, 10) === eerderMax) {
+    // Eindknop stond op "vandaag" — laat 'm meegroeien met een nieuwe dag
+    eindEl.value = String(dagenTotaal);
+  }
+  _uvDagSliderVorigeStartDatum = referentieDatum;
+  renderUvDagSliderVisueel();
+}
+
+function syncUvDagSliderMetPeriode() {
+  const startEl = document.getElementById('uvDagSliderStart');
+  const eindEl  = document.getElementById('uvDagSliderEind');
+  if (!startEl || !eindEl) return;
+  const max = parseInt(startEl.max, 10) || 0;
+  eindEl.value = String(max);
+  startEl.value = String(_uvDagPeriodeDagen == null ? 0 : Math.max(0, max - (_uvDagPeriodeDagen - 1)));
+  renderUvDagSliderVisueel();
+}
+
+function renderUvDagSliderVisueel() {
+  const startEl = document.getElementById('uvDagSliderStart');
+  const eindEl  = document.getElementById('uvDagSliderEind');
+  const rangeEl = document.getElementById('uvDagSliderRange');
+  const labelEl = document.getElementById('uvDagSliderLabel');
+  const referentieDatum = uvDagSliderStartDatum();
+  if (!startEl || !eindEl || !rangeEl || !labelEl || !referentieDatum) return;
+  const max = parseInt(startEl.max, 10) || 1;
+  let a = parseInt(startEl.value, 10), b = parseInt(eindEl.value, 10);
+  if (a > b) { [a, b] = [b, a]; }
+  rangeEl.style.left  = (a / max * 100) + '%';
+  rangeEl.style.right = (100 - b / max * 100) + '%';
+  const naarLabel = (offset) => {
+    const d = new Date(referentieDatum + 'T00:00:00');
+    d.setDate(d.getDate() + offset);
+    return d.toLocaleDateString('nl-NL', { day: 'numeric', month: 'short', year: 'numeric' });
+  };
+  labelEl.textContent = `${naarLabel(a)} — ${naarLabel(b)}`;
+}
+
+function setUvDagAangepastBereik() {
+  const startEl = document.getElementById('uvDagSliderStart');
+  const eindEl  = document.getElementById('uvDagSliderEind');
+  const referentieDatum = uvDagSliderStartDatum();
+  if (!startEl || !eindEl || !referentieDatum) return;
+  let a = parseInt(startEl.value, 10), b = parseInt(eindEl.value, 10);
+  if (a > b) { [a, b] = [b, a]; }
+  const naarDatumStr = (offset) => {
+    const d = new Date(referentieDatum + 'T00:00:00');
+    d.setDate(d.getDate() + offset);
+    return d.toISOString().slice(0, 10);
+  };
+  _uvDagAangepastStart = naarDatumStr(a);
+  _uvDagAangepastEind  = naarDatumStr(b);
+  _uvDagPeriodeDagen = null; // eigen periode overschrijft de knoppen
+  renderUvDagPeriodeButtons(); // geen knop moet nu nog "actief" ogen
+  renderUvDagSliderVisueel();
   renderUvDagChart();
   renderUvDagPctChart();
 }
@@ -273,13 +382,7 @@ function renderUvDagChart() {
   }
 
   let dagLijst = Object.entries(dagMap).sort((a,b) => a[0].localeCompare(b[0]));
-
-  if (_uvDagPeriodeDagen != null) {
-    const grens = new Date();
-    grens.setDate(grens.getDate() - (_uvDagPeriodeDagen - 1));
-    const grensStr = grens.toISOString().slice(0, 10);
-    dagLijst = dagLijst.filter(([datum]) => datum >= grensStr);
-  }
+  dagLijst = dagLijstPeriodeFilter(dagLijst);
 
   if (dagLijst.length < 1) {
     dagEl.innerHTML = '<div class="viz-empty">Onvoldoende data voor deze periode</div>';
@@ -348,13 +451,7 @@ function renderUvDagPctChart() {
   }
 
   let dagLijst = Object.entries(dagMap).sort((a,b) => a[0].localeCompare(b[0]));
-
-  if (_uvDagPeriodeDagen != null) {
-    const grens = new Date();
-    grens.setDate(grens.getDate() - (_uvDagPeriodeDagen - 1));
-    const grensStr = grens.toISOString().slice(0, 10);
-    dagLijst = dagLijst.filter(([datum]) => datum >= grensStr);
-  }
+  dagLijst = dagLijstPeriodeFilter(dagLijst);
 
   // Dagen zonder ritten geven geen zinvol percentage — overslaan
   dagLijst = dagLijst.filter(([, d]) => d.totaal > 0);
@@ -413,6 +510,73 @@ function renderUvDagPctChart() {
 // Werkt met alle bestaande data, geen scraper-wijziging nodig.
 // ══════════════════════════════════════════════════════════════════════════
 const MAAND_NAMEN_KORT_UV = ['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];
+
+// NIEUW: welke gebieden een EBS-lijn aandoet, voor het gebiedsfilter bij
+// "Uitval per lijn". Gebaseerd op de officiële routes (OV in Nederland wiki,
+// concessie Zaanstreek-Waterland, geraadpleegd sep 2026) — geen aanname,
+// per lijn nagetrokken. Een lijn die twee gebieden verbindt (bv. 800 tussen
+// Amsterdam en Zaanstad) staat bewust onder beide, zodat 'ie bij allebei de
+// filters verschijnt.
+const EBS_LIJN_GEBIEDEN = {
+  '63':  ['Zaanstad'],
+  '64':  ['Zaanstad'],
+  '65':  ['Zaanstad', 'Overig'],                              // Beverwijk
+  '67':  ['Zaanstad', 'Purmerend'],
+  '69':  ['Zaanstad'],
+  '100': ['Amsterdam', 'Waterland', 'Purmerend'],
+  '101': ['Purmerend'],
+  '102': ['Purmerend'],
+  '103': ['Amsterdam', 'Waterland', 'Purmerend'],
+  '104': ['Amsterdam', 'Waterland', 'Purmerend'],
+  '110': ['Amsterdam', 'Waterland', 'Edam-Volendam', 'Purmerend'],
+  '111': ['Zaanstad', 'Amsterdam', 'Waterland'],
+  '112': ['Amsterdam', 'Waterland', 'Edam-Volendam'],
+  '119': ['Amsterdam', 'Waterland'],
+  '272': ['Purmerend', 'Waterland', 'Amsterdam'],
+  '273': ['Edam-Volendam', 'Waterland', 'Amsterdam'],
+  '305': ['Amsterdam', 'Waterland', 'Purmerend'],
+  '306': ['Amsterdam', 'Waterland', 'Purmerend'],
+  '307': ['Amsterdam', 'Waterland', 'Purmerend'],
+  '308': ['Amsterdam', 'Waterland', 'Purmerend'],
+  '314': ['Amsterdam', 'Waterland', 'Edam-Volendam', 'Overig'], // Hoorn
+  '315': ['Amsterdam', 'Waterland'],
+  '316': ['Amsterdam', 'Waterland', 'Edam-Volendam'],
+  '370': ['Purmerend', 'Waterland', 'Amsterdam'],
+  '391': ['Amsterdam', 'Zaanstad'],
+  '394': ['Amsterdam', 'Zaanstad'],
+  '395': ['Amsterdam', 'Zaanstad'],
+  '413': ['Purmerend'],
+  '414': ['Zaanstad'],
+  '416': ['Purmerend'],
+  '419': ['Waterland'],
+  '456': ['Zaanstad'],
+  '610': ['Waterland', 'Edam-Volendam'],
+  '614': ['Edam-Volendam', 'Overig'],                          // Hoorn
+  '800': ['Amsterdam', 'Zaanstad'],
+  '801': ['Zaanstad', 'Purmerend', 'Edam-Volendam'],
+  'N06': ['Amsterdam', 'Waterland', 'Purmerend'],
+  'N07': ['Amsterdam', 'Waterland', 'Purmerend'],
+  'N11': ['Amsterdam', 'Waterland'],
+  'N14': ['Amsterdam', 'Waterland', 'Edam-Volendam', 'Overig'], // Hoorn
+  'N19': ['Amsterdam', 'Zaanstad'],
+  'N94': ['Amsterdam', 'Zaanstad'],
+};
+const EBS_GEBIEDEN = ['Zaanstad', 'Amsterdam', 'Purmerend', 'Waterland', 'Edam-Volendam', 'Overig'];
+let _uvLijnGebied = ''; // '' = alle lijnen, anders één van EBS_GEBIEDEN
+
+function renderUvLijnGebiedButtons() {
+  const el = document.getElementById('uvLijnGebiedButtons');
+  if (!el) return;
+  const knop = (waarde, label) => `<button type="button" class="filter-select"
+    style="cursor:pointer;${_uvLijnGebied === waarde ? 'background:var(--teal);color:white;font-weight:700;' : ''}"
+    onclick="setUvLijnGebied('${waarde}')">${label}</button>`;
+  el.innerHTML = knop('', 'Alle lijnen') + EBS_GEBIEDEN.map(g => knop(g, g)).join('');
+}
+
+function setUvLijnGebied(gebied) {
+  _uvLijnGebied = gebied;
+  renderUitval();
+}
 
 function bouwUitvalPerMaand() {
   const perMaand = {};
@@ -810,6 +974,7 @@ function renderUitval() {
   // ── UITVAL PER DAG (SVG) ──────────────────────────────────────────────────
   renderUvDekkingsFilterButtons();
   renderUvDagPeriodeButtons();
+  syncUvDagSliderBounds();
   renderUvDagChart();
   renderUvDagPctChart();
 
@@ -836,18 +1001,26 @@ function renderUitval() {
   const dagdeelLabels   = { ochtendspits:'Ochtendspits (7–9)', dal:'Dal (9–16)', avondspits:'Avondspits (16–19)', avond:'Avond (19–24)', nacht:'Nacht (0–7)', onbekend:'Onbekend' };
   const maxDd = Math.max(...Object.values(dagdeelTeller), 1);
   const sindsPerLijnVeld = labelSindsDatum(eersteDatumMetVeld('per_lijn'));
+  // NIEUW: percentage van het totaal aantal uitgevallen ritten in deze
+  // weergave, tussen haakjes naast het aantal — zelfde referentiepunt
+  // (cancelledCumulatief) voor alle vier de grafieken hieronder.
+  const metPct = (n) => `${n} (${cancelledCumulatief ? (Math.round(n / cancelledCumulatief * 1000) / 10) : 0}%)`;
   document.getElementById('uvDagdeelChart').innerHTML = (dagdeelVolgorde
     .filter(d => dagdeelTeller[d] > 0)
     .map(d => `<div class="viz-bar-row">
       <div class="viz-bar-label" style="width:160px;">${dagdeelLabels[d]}</div>
       <div class="viz-bar-track"><div class="viz-bar-fill" style="width:${Math.round(dagdeelTeller[d]/maxDd*100)}%;background:var(--stop);"></div></div>
-      <div class="viz-bar-pct">${dagdeelTeller[d]}</div>
+      <div class="viz-bar-pct">${metPct(dagdeelTeller[d])}</div>
     </div>`).join('') || '<div class="viz-empty">Geen data</div>')
     + `<div style="padding:8px 20px 0;font-size:10px;color:var(--muted);">${sindsPerLijnVeld}</div>`;
 
   // ── UITVAL PER LIJN (cumulatief) ──────────────────────────────────────────
-  const maxLijn = Math.max(...Object.values(lijnTeller), 1);
-  const lijnLijst = Object.entries(lijnTeller).sort((a,b) => b[1]-a[1]);
+  renderUvLijnGebiedButtons();
+  let lijnLijst = Object.entries(lijnTeller).sort((a,b) => b[1]-a[1]);
+  if (_uvLijnGebied) {
+    lijnLijst = lijnLijst.filter(([lijn]) => (EBS_LIJN_GEBIEDEN[lijn] || []).includes(_uvLijnGebied));
+  }
+  const maxLijn = Math.max(...lijnLijst.map(([,n]) => n), 1);
   document.getElementById('uvLijnChart').innerHTML = (lijnLijst
     .map(([lijn, n]) => {
       const kleur = lijnKleurMap[lijn] || 'var(--navy)';
@@ -856,9 +1029,9 @@ function renderUitval() {
           <span class="badge" style="background:${kleur};color:#fff;font-size:11px;font-weight:700;">${esc(lijn)}</span>
         </div>
         <div class="viz-bar-track"><div class="viz-bar-fill" style="width:${Math.round(n/maxLijn*100)}%;background:var(--stop);"></div></div>
-        <div class="viz-bar-pct">${n}</div>
+        <div class="viz-bar-pct">${metPct(n)}</div>
       </div>`;
-    }).join('') || '<div class="viz-empty">Geen data</div>')
+    }).join('') || `<div class="viz-empty">${_uvLijnGebied ? 'Geen uitval op lijnen richting ' + esc(_uvLijnGebied) + ' in deze periode' : 'Geen data'}</div>`)
     + `<div style="padding:8px 20px 0;font-size:10px;color:var(--muted);">${sindsPerLijnVeld} · lijnen buiten Zaandam-centrum pas volledig sinds de uitbreiding naar 12 haltes (12 aug).</div>`;
 
   // ── UITVAL PER HALTE (cumulatief) ─────────────────────────────────────────
@@ -868,9 +1041,9 @@ function renderUitval() {
     .map(([naam, n]) => `<div class="viz-bar-row">
       <div class="viz-bar-label" style="width:200px;" title="${esc(naam)}">${esc(naam)}</div>
       <div class="viz-bar-track"><div class="viz-bar-fill" style="width:${Math.round(n/maxHalte*100)}%;background:var(--teal);"></div></div>
-      <div class="viz-bar-pct">${n}</div>
+      <div class="viz-bar-pct">${metPct(n)}</div>
     </div>`).join('') || '<div class="viz-empty">Geen data</div>')
-    + `<div style="padding:8px 20px 0;font-size:10px;color:var(--muted);">${sindsPerLijnVeld} · 9 van de 12 haltes worden pas sinds 12 augustus gevolgd.</div>`;
+    + `<div style="padding:8px 20px 0;font-size:10px;color:var(--muted);">${sindsPerLijnVeld} · 9 van de 12 haltes worden pas sinds 12 augustus gevolgd. Percentages tellen niet op tot 100%: één uitgevallen rit raakt vaak meerdere haltes.</div>`;
 
   // ── UITVAL PER OORZAAK ────────────────────────────────────────────────────
   const maxOorzaak = Math.max(...Object.values(oorzaakTeller), 1);
@@ -879,9 +1052,9 @@ function renderUitval() {
     .map(([oorzaak, n]) => `<div class="viz-bar-row">
       <div class="viz-bar-label" style="width:200px;">${esc(oorzaak)}</div>
       <div class="viz-bar-track"><div class="viz-bar-fill" style="width:${Math.round(n/maxOorzaak*100)}%;background:var(--hold);"></div></div>
-      <div class="viz-bar-pct">${n}</div>
+      <div class="viz-bar-pct">${metPct(n)}</div>
     </div>`).join('') || '<div class="viz-empty">Geen data</div>')
-    + `<div style="padding:8px 20px 0;font-size:10px;color:var(--muted);">${sindsPerLijnVeld}</div>`;
+    + `<div style="padding:8px 20px 0;font-size:10px;color:var(--muted);">${sindsPerLijnVeld} · een rit kan meerdere oorzaakcategorieën hebben, percentages tellen daarom niet op tot 100%.</div>`;
   } else {
     // "Alles"-modus: kaarten zijn verborgen (zie pasUvKaartZichtbaarheidAan),
     // containers leegmaken zodat er geen oude/stale content in blijft staan
@@ -3952,6 +4125,11 @@ function renderUvDekkingsFilterButtons() {
 function setUvDekkingsFilter(waarde) {
   _uvDekkingsFilter = waarde;
   _uvMaandFilter = ''; // knop kiezen = terug naar de hele periode, geen losse maand meer
+  // De dag-slider z'n referentiepunt verschuift mee (compleet start bij 13
+  // aug, alles bij 3 juli) — een eventueel eigen sleepbereik daarvóór is dan
+  // niet meer zinvol, dus terug naar de volledige nieuwe periode.
+  _uvDagAangepastStart = null;
+  _uvDagAangepastEind  = null;
   renderUitval();
 }
 
