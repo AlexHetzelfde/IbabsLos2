@@ -971,6 +971,9 @@ function renderUitval() {
   // ── KAARTEN TONEN/VERBERGEN VOOR HET GEKOZEN DEKKINGSFILTER ────────────────
   pasUvKaartZichtbaarheidAan();
 
+  // ── WEKELIJKSE 2%-NORM (los van de periodefilters hieronder) ──────────────
+  renderUvWekelijkseNorm();
+
   // ── UITVAL PER DAG (SVG) ──────────────────────────────────────────────────
   renderUvDekkingsFilterButtons();
   renderUvDagPeriodeButtons();
@@ -4090,6 +4093,108 @@ function labelSindsDatum(datumStr) {
 // ══════════════════════════════════════════════════════════════════════════
 function volledigeDekkingVanaf() {
   return '2026-08-13';
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW: wekelijkse 2%-norm. EBS mag contractueel niet meer dan 2% van de
+// ritten per week (maandag t/m zondag, ISO-weeknorm) laten uitvallen. Deze
+// toets loopt over de hele periode met volledige dekking (13 aug) en staat
+// los van de compleet/alles-knoppen, de maand-dropdown en de dag-slider
+// hierboven — die zijn bedoeld om te verkennen, dit is een vaste toets die
+// altijd dezelfde, volledige periode moet laten zien.
+// ══════════════════════════════════════════════════════════════════════════
+const EBS_WEEKNORM_PCT = 2;
+
+function isoWeekMaandag(datumStr) {
+  const d = new Date(datumStr + 'T00:00:00');
+  const dag = d.getDay(); // 0 = zondag, 1 = maandag, ..., 6 = zaterdag
+  const offsetNaarMaandag = (dag === 0) ? -6 : 1 - dag;
+  d.setDate(d.getDate() + offsetNaarMaandag);
+  return d.toISOString().slice(0, 10);
+}
+
+function berekenUitvalPerWeek() {
+  const grens = volledigeDekkingVanaf();
+  const dagenMap = {};
+  Object.entries(percentageHistorie).forEach(([datum, d]) => {
+    if (grens && datum < grens) return;
+    dagenMap[datum] = { totaal: d.totaal || 0, cancelled: d.cancelled || 0 };
+  });
+  // Vandaag (nog niet gearchiveerd in percentageHistorie) apart meetellen
+  const vandaagKey = Object.keys(totaalTeller)[0];
+  if (vandaagKey && (!grens || vandaagKey >= grens)) {
+    dagenMap[vandaagKey] = {
+      totaal: totaalTeller[vandaagKey]?.totaal || 0,
+      cancelled: uitval.filter(r => r.status === 'cancelled').length,
+    };
+  }
+
+  const weken = {};
+  Object.entries(dagenMap).forEach(([datum, d]) => {
+    const maandag = isoWeekMaandag(datum);
+    if (!weken[maandag]) weken[maandag] = { totaal: 0, cancelled: 0 };
+    weken[maandag].totaal += d.totaal;
+    weken[maandag].cancelled += d.cancelled;
+  });
+
+  const vandaag = new Date().toISOString().slice(0, 10);
+  return Object.entries(weken).map(([maandag, w]) => {
+    const zondagDate = new Date(maandag + 'T00:00:00');
+    zondagDate.setDate(zondagDate.getDate() + 6);
+    const zondag = zondagDate.toISOString().slice(0, 10);
+    // Drie mogelijke statussen: nog bezig, wél voorbij maar met minder dan
+    // 7 gemeten dagen (alleen de allereerste week, die vóór 13 augustus
+    // begint), of een eerlijke, volledige weekmeting.
+    let status;
+    if (zondag >= vandaag) status = 'lopend';
+    else if (grens && maandag < grens) status = 'onvolledige_dekking';
+    else status = 'compleet';
+    return {
+      maandag, zondag, status,
+      totaal: w.totaal, cancelled: w.cancelled,
+      pct: w.totaal ? Math.round(w.cancelled / w.totaal * 1000) / 10 : 0,
+    };
+  }).sort((a, b) => b.maandag.localeCompare(a.maandag));
+}
+
+function renderUvWekelijkseNorm() {
+  const lijstEl = document.getElementById('uvNormLijst');
+  const samenEl = document.getElementById('uvNormSamenvatting');
+  if (!lijstEl || !samenEl) return;
+
+  const weken = berekenUitvalPerWeek();
+  if (!weken.length) {
+    lijstEl.innerHTML = '<div class="empty">Nog geen volledige week met data</div>';
+    samenEl.textContent = '';
+    return;
+  }
+
+  const completeWeken = weken.filter(w => w.status === 'compleet');
+  const overschrijdingen = completeWeken.filter(w => w.pct > EBS_WEEKNORM_PCT);
+  samenEl.textContent = completeWeken.length
+    ? `${overschrijdingen.length} van de ${completeWeken.length} volledige weken boven de ${EBS_WEEKNORM_PCT}%-norm`
+    : 'nog geen volledige week sinds 13 augustus';
+
+  const fmt = (d) => new Date(d + 'T00:00:00').toLocaleDateString('nl-NL', { day: 'numeric', month: 'short' });
+  const BADGES = {
+    lopend:              ['Loopt nog',          'var(--muted)'],
+    onvolledige_dekking: ['Onvolledige dekking', 'var(--muted)'],
+  };
+
+  lijstEl.innerHTML = weken.map(w => {
+    const label = `${fmt(w.maandag)} – ${fmt(w.zondag)}`;
+    const [badge, kleur] = BADGES[w.status] || (
+      w.pct > EBS_WEEKNORM_PCT ? ['Overschrijding', 'var(--stop)'] : ['Binnen norm', 'var(--go)']
+    );
+    return `
+      <div class="mini-item">
+        <div class="mini-date">${label}</div>
+        <div style="flex:1;display:flex;align-items:center;justify-content:space-between;gap:12px;">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;">${w.pct.toFixed(1)}%</span>
+          <span class="badge" style="background:${kleur};color:#fff;">${badge}</span>
+        </div>
+      </div>`;
+  }).join('');
 }
 
 function actievePercentageHistorie() {
