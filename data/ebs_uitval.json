@@ -32,8 +32,8 @@
     ],
     "eerste_tijd": "07:15",
     "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-09-15 03:46:05",
-    "eerst_gezien": "2026-09-15 03:46:05"
+    "bijgewerkt": "2026-09-15 04:00:56",
+    "eerst_gezien": "2026-09-15 04:00:56"
   },
   {
     "id": "EBS:1065:1009_2026-09-15",
@@ -64,48 +64,23 @@
         "realtime": false,
         "platform": "Perron E",
         "bestemming": "Beverwijk"
+      },
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "07:36",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron F",
+        "bestemming": "Beverwijk"
       }
     ],
     "eerste_tijd": "07:15",
     "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-09-15 04:00:56",
-    "eerst_gezien": "2026-09-15 04:00:56"
-  },
-  {
-    "id": "EBS:1065:1000_2026-09-15",
-    "journey_id": "EBS:1065:1000",
-    "datum": "2026-09-15",
-    "lijn": "65",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "06:33",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron B",
-        "bestemming": "Zaandam"
-      }
-    ],
-    "eerste_tijd": "06:33",
-    "dagdeel": "nacht",
-    "bijgewerkt": "2026-09-15 03:46:05",
-    "eerst_gezien": "2026-09-15 03:46:05"
+    "bijgewerkt": "2026-09-15 04:15:41",
+    "eerst_gezien": "2026-09-15 04:15:41"
   },
   {
     "id": "EBS:1065:1000_2026-09-15",
@@ -144,12 +119,12 @@
     "eerst_gezien": "2026-09-15 04:00:56"
   },
   {
-    "id": "EBS:1370:1006_2026-09-15",
-    "journey_id": "EBS:1370:1006",
+    "id": "EBS:1065:1000_2026-09-15",
+    "journey_id": "EBS:1065:1000",
     "datum": "2026-09-15",
-    "lijn": "370",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
+    "lijn": "65",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
     "product_label": "MeerPlus",
     "drukte_icoon": "crowd1.svg",
     "drukte_omschrijving": "Zitplaatsen beschikbaar",
@@ -163,21 +138,21 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37400100",
-        "halte_naam": "Purmerend, Busstation Tramplein",
-        "geplande_tijd": "06:22",
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "06:33",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
         "platform": "Perron B",
-        "bestemming": "Amsterdam Zuidoost"
+        "bestemming": "Zaandam"
       }
     ],
-    "eerste_tijd": "06:22",
+    "eerste_tijd": "06:33",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-09-15 03:46:05",
-    "eerst_gezien": "2026-09-15 03:46:05"
+    "bijgewerkt": "2026-09-15 04:15:41",
+    "eerst_gezien": "2026-09-15 04:15:41"
   },
   {
     "id": "EBS:1370:1006_2026-09-15",
@@ -214,6 +189,42 @@
     "dagdeel": "nacht",
     "bijgewerkt": "2026-09-15 04:00:56",
     "eerst_gezien": "2026-09-15 04:00:56"
+  },
+  {
+    "id": "EBS:1370:1006_2026-09-15",
+    "journey_id": "EBS:1370:1006",
+    "datum": "2026-09-15",
+    "lijn": "370",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "06:22",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron B",
+        "bestemming": "Amsterdam Zuidoost"
+      }
+    ],
+    "eerste_tijd": "06:22",
+    "dagdeel": "nacht",
+    "bijgewerkt": "2026-09-15 04:15:41",
+    "eerst_gezien": "2026-09-15 04:15:41"
   },
   {
     "id": "EBS:1065:1001_2026-09-15",
