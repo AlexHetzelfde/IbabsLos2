@@ -3371,8 +3371,8 @@
     "eerst_gezien": "2026-09-15 03:15:37"
   },
   {
-    "id": "EBS:1006:1205_2026-09-15",
-    "journey_id": "EBS:1006:1205",
+    "id": "EBS:1006:1209_2026-09-15",
+    "journey_id": "EBS:1006:1209",
     "datum": "2026-09-15",
     "lijn": "N06",
     "lijnkleur": "#000000",
@@ -3381,29 +3381,26 @@
     "drukte_icoon": "crowd1.svg",
     "drukte_omschrijving": "Zitplaatsen beschikbaar",
     "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Verkeer",
-      "Stremming/Omleiding"
-    ],
-    "oorzaak_raw": "Cause: Verkeer, Stremming/Omleiding",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
     "terminus_alert": null,
-    "advies": "Advice: Vanwege spoed asfalt werkzaamheden aan de Doctor J. M. Den Uyllaan en de v. IJsendijkstraat in Purmerend rijden de bussen vanavond een aangepaste route. Excuus voor het ongemak.",
+    "advies": null,
     "haltes": [
       {
         "halte_id": "NL:S:37400100",
         "halte_naam": "Purmerend, Busstation Tramplein",
-        "geplande_tijd": "01:46",
+        "geplande_tijd": "02:46",
         "vertraging_min": 0,
         "status": "gereden",
         "vertrokken": false,
-        "realtime": true,
+        "realtime": false,
         "platform": "Perron C",
         "bestemming": "Amsterdam Centraal"
       },
       {
         "halte_id": "NL:S:37402090",
         "halte_naam": "Purmerend, Station Overwhere (Churchilllaan)",
-        "geplande_tijd": "01:53",
+        "geplande_tijd": "02:53",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
@@ -3414,19 +3411,19 @@
       {
         "halte_id": "NL:S:37400500",
         "halte_naam": "Purmerend, Korenstraat",
-        "geplande_tijd": "02:02",
+        "geplande_tijd": "03:02",
         "vertraging_min": 0,
         "status": "gereden",
         "vertrokken": false,
-        "realtime": true,
+        "realtime": false,
         "platform": null,
         "bestemming": "Amsterdam Centraal"
       }
     ],
-    "eerste_tijd": "01:46",
+    "eerste_tijd": "02:46",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-09-15 23:00:45",
-    "eerst_gezien": "2026-09-15 23:00:45"
+    "bijgewerkt": "2026-09-15 23:30:34",
+    "eerst_gezien": "2026-09-15 23:30:34"
   },
   {
     "id": "EBS:1006:1205_2026-09-15",
@@ -3485,5 +3482,60 @@
     "dagdeel": "nacht",
     "bijgewerkt": "2026-09-15 23:15:26",
     "eerst_gezien": "2026-09-15 23:15:26"
+  },
+  {
+    "id": "EBS:1006:1205_2026-09-15",
+    "journey_id": "EBS:1006:1205",
+    "datum": "2026-09-15",
+    "lijn": "N06",
+    "lijnkleur": "#000000",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "01:46",
+        "vertraging_min": 1,
+        "status": "gereden",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Centraal"
+      },
+      {
+        "halte_id": "NL:S:37402090",
+        "halte_naam": "Purmerend, Station Overwhere (Churchilllaan)",
+        "geplande_tijd": "01:53",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Amsterdam Centraal"
+      },
+      {
+        "halte_id": "NL:S:37400500",
+        "halte_naam": "Purmerend, Korenstraat",
+        "geplande_tijd": "02:02",
+        "vertraging_min": 1,
+        "status": "gereden",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Amsterdam Centraal"
+      }
+    ],
+    "eerste_tijd": "01:46",
+    "dagdeel": "nacht",
+    "bijgewerkt": "2026-09-15 23:30:34",
+    "eerst_gezien": "2026-09-15 23:30:34"
   }
 ]
