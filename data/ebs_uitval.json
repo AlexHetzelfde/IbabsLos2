@@ -36,6 +36,53 @@
     "eerst_gezien": "2026-09-16 11:15:26"
   },
   {
+    "id": "EBS:1801:1420_2026-09-16",
+    "journey_id": "EBS:1801:1420",
+    "datum": "2026-09-16",
+    "lijn": "801",
+    "lijnkleur": "#f39200",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "14:40",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron G",
+        "bestemming": "Volendam"
+      },
+      {
+        "halte_id": "NL:S:37221160",
+        "halte_naam": "Zaanse Schans",
+        "geplande_tijd": "14:49",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Volendam-Edam"
+      }
+    ],
+    "eerste_tijd": "14:40",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-09-16 11:30:38",
+    "eerst_gezien": "2026-09-16 11:30:38"
+  },
+  {
     "id": "EBS:1395:1075_2026-09-16",
     "journey_id": "EBS:1395:1075",
     "datum": "2026-09-16",
@@ -72,12 +119,12 @@
     "eerst_gezien": "2026-09-16 11:15:26"
   },
   {
-    "id": "EBS:1112:1056_2026-09-16",
-    "journey_id": "EBS:1112:1056",
+    "id": "EBS:1395:1075_2026-09-16",
+    "journey_id": "EBS:1395:1075",
     "datum": "2026-09-16",
-    "lijn": "112",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
+    "lijn": "395",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
     "product_label": "MeerPlus",
     "drukte_icoon": null,
     "drukte_omschrijving": null,
@@ -91,21 +138,21 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:38491011",
-        "halte_naam": "Edam, Busstation",
-        "geplande_tijd": "14:19",
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "14:35",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron B",
-        "bestemming": "Amsterdam Noord"
+        "platform": "Perron E",
+        "bestemming": "Zaandam ZMC"
       }
     ],
-    "eerste_tijd": "14:19",
+    "eerste_tijd": "14:35",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-09-16 11:00:45",
-    "eerst_gezien": "2026-09-16 11:00:45"
+    "bijgewerkt": "2026-09-16 11:30:38",
+    "eerst_gezien": "2026-09-16 11:30:38"
   },
   {
     "id": "EBS:1112:1056_2026-09-16",
@@ -139,6 +186,78 @@
       }
     ],
     "eerste_tijd": "14:19",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-09-16 11:15:26",
+    "eerst_gezien": "2026-09-16 11:15:26"
+  },
+  {
+    "id": "EBS:1112:1056_2026-09-16",
+    "journey_id": "EBS:1112:1056",
+    "datum": "2026-09-16",
+    "lijn": "112",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "14:19",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron B",
+        "bestemming": "Amsterdam Noord"
+      }
+    ],
+    "eerste_tijd": "14:19",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-09-16 11:30:38",
+    "eerst_gezien": "2026-09-16 11:30:38"
+  },
+  {
+    "id": "EBS:1063:1033_2026-09-16",
+    "journey_id": "EBS:1063:1033",
+    "datum": "2026-09-16",
+    "lijn": "63",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "13:56",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron E",
+        "bestemming": "Assendelft"
+      }
+    ],
+    "eerste_tijd": "13:56",
     "dagdeel": "dal",
     "bijgewerkt": "2026-09-16 11:15:26",
     "eerst_gezien": "2026-09-16 11:15:26"
@@ -176,138 +295,8 @@
     ],
     "eerste_tijd": "13:56",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-09-16 11:00:45",
-    "eerst_gezien": "2026-09-16 11:00:45"
-  },
-  {
-    "id": "EBS:1063:1033_2026-09-16",
-    "journey_id": "EBS:1063:1033",
-    "datum": "2026-09-16",
-    "lijn": "63",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": null,
-    "drukte_omschrijving": null,
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "13:56",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron E",
-        "bestemming": "Assendelft"
-      }
-    ],
-    "eerste_tijd": "13:56",
-    "dagdeel": "dal",
-    "bijgewerkt": "2026-09-16 11:15:26",
-    "eerst_gezien": "2026-09-16 11:15:26"
-  },
-  {
-    "id": "EBS:1065:1035_2026-09-16",
-    "journey_id": "EBS:1065:1035",
-    "datum": "2026-09-16",
-    "lijn": "65",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": null,
-    "drukte_omschrijving": null,
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "13:48",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron E",
-        "bestemming": "Beverwijk"
-      },
-      {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "14:08",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron F",
-        "bestemming": "Beverwijk"
-      }
-    ],
-    "eerste_tijd": "13:48",
-    "dagdeel": "dal",
-    "bijgewerkt": "2026-09-16 11:00:45",
-    "eerst_gezien": "2026-09-16 11:00:45"
-  },
-  {
-    "id": "EBS:1065:1035_2026-09-16",
-    "journey_id": "EBS:1065:1035",
-    "datum": "2026-09-16",
-    "lijn": "65",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": null,
-    "drukte_omschrijving": null,
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "13:48",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron E",
-        "bestemming": "Beverwijk"
-      },
-      {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "14:08",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron F",
-        "bestemming": "Beverwijk"
-      }
-    ],
-    "eerste_tijd": "13:48",
-    "dagdeel": "dal",
-    "bijgewerkt": "2026-09-16 11:15:26",
-    "eerst_gezien": "2026-09-16 11:15:26"
+    "bijgewerkt": "2026-09-16 11:30:38",
+    "eerst_gezien": "2026-09-16 11:30:38"
   },
   {
     "id": "EBS:1801:1412_2026-09-16",
@@ -329,17 +318,6 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:38491011",
-        "halte_naam": "Edam, Busstation",
-        "geplande_tijd": "13:26",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron F",
-        "bestemming": "Zaandam"
-      },
-      {
         "halte_id": "NL:S:37221160",
         "halte_naam": "Zaanse Schans",
         "geplande_tijd": "13:53",
@@ -351,18 +329,18 @@
         "bestemming": "Zaandam Station"
       }
     ],
-    "eerste_tijd": "13:26",
+    "eerste_tijd": "13:53",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-09-16 11:15:26",
-    "eerst_gezien": "2026-09-16 11:15:26"
+    "bijgewerkt": "2026-09-16 11:30:38",
+    "eerst_gezien": "2026-09-16 11:30:38"
   },
   {
-    "id": "EBS:1316:1674_2026-09-16",
-    "journey_id": "EBS:1316:1674",
+    "id": "EBS:1065:1035_2026-09-16",
+    "journey_id": "EBS:1065:1035",
     "datum": "2026-09-16",
-    "lijn": "316",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
+    "lijn": "65",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
     "product_label": "MeerPlus",
     "drukte_icoon": null,
     "drukte_omschrijving": null,
@@ -376,21 +354,79 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:38491011",
-        "halte_naam": "Edam, Busstation",
-        "geplande_tijd": "13:24",
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "13:48",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron A",
-        "bestemming": "Amsterdam Centraal"
+        "platform": "Perron E",
+        "bestemming": "Beverwijk"
+      },
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "14:08",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron F",
+        "bestemming": "Beverwijk"
       }
     ],
-    "eerste_tijd": "13:24",
+    "eerste_tijd": "13:48",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-09-16 11:00:45",
-    "eerst_gezien": "2026-09-16 11:00:45"
+    "bijgewerkt": "2026-09-16 11:15:26",
+    "eerst_gezien": "2026-09-16 11:15:26"
+  },
+  {
+    "id": "EBS:1065:1035_2026-09-16",
+    "journey_id": "EBS:1065:1035",
+    "datum": "2026-09-16",
+    "lijn": "65",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "13:48",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron E",
+        "bestemming": "Beverwijk"
+      },
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "14:08",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron F",
+        "bestemming": "Beverwijk"
+      }
+    ],
+    "eerste_tijd": "13:48",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-09-16 11:30:38",
+    "eerst_gezien": "2026-09-16 11:30:38"
   },
   {
     "id": "EBS:1316:1674_2026-09-16",
@@ -485,6 +521,64 @@
     "dagdeel": "dal",
     "bijgewerkt": "2026-09-16 11:15:26",
     "eerst_gezien": "2026-09-16 11:15:26"
+  },
+  {
+    "id": "EBS:1111:1067_2026-09-16",
+    "journey_id": "EBS:1111:1067",
+    "datum": "2026-09-16",
+    "lijn": "111",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Materieel",
+      "Storing"
+    ],
+    "oorzaak_raw": "Cause: Materieel, Storing",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "13:13",
+        "vertraging_min": 17,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron D",
+        "bestemming": "Amsterdam Noord"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "13:15",
+        "vertraging_min": 15,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Amsterdam Noord"
+      },
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "13:32",
+        "vertraging_min": 8,
+        "status": "gereden",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron E",
+        "bestemming": "Amsterdam Noord"
+      }
+    ],
+    "eerste_tijd": "13:13",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-09-16 11:30:38",
+    "eerst_gezien": "2026-09-16 11:30:38"
   },
   {
     "id": "EBS:1063:1029_2026-09-16",
@@ -700,42 +794,6 @@
     "eerst_gezien": "2026-09-16 10:30:42"
   },
   {
-    "id": "EBS:1801:1404_2026-09-16",
-    "journey_id": "EBS:1801:1404",
-    "datum": "2026-09-16",
-    "lijn": "801",
-    "lijnkleur": "#f39200",
-    "categorie": "M-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": null,
-    "drukte_omschrijving": null,
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37221160",
-        "halte_naam": "Zaanse Schans",
-        "geplande_tijd": "11:53",
-        "vertraging_min": 93,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Zaandam Station"
-      }
-    ],
-    "eerste_tijd": "11:53",
-    "dagdeel": "dal",
-    "bijgewerkt": "2026-09-16 11:15:26",
-    "eerst_gezien": "2026-09-16 11:15:26"
-  },
-  {
     "id": "EBS:1305:1062_2026-09-16",
     "journey_id": "EBS:1305:1062",
     "datum": "2026-09-16",
@@ -830,7 +888,7 @@
         "halte_id": "NL:S:37223552",
         "halte_naam": "De Vlinder",
         "geplande_tijd": "11:19",
-        "vertraging_min": 101,
+        "vertraging_min": 116,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
@@ -841,7 +899,7 @@
         "halte_id": "NL:S:37220130",
         "halte_naam": "Station Zaandam (Provincialeweg)",
         "geplande_tijd": "11:38",
-        "vertraging_min": 92,
+        "vertraging_min": 107,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
@@ -851,8 +909,8 @@
     ],
     "eerste_tijd": "11:19",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-09-16 11:00:45",
-    "eerst_gezien": "2026-09-16 11:00:45"
+    "bijgewerkt": "2026-09-16 11:15:26",
+    "eerst_gezien": "2026-09-16 11:15:26"
   },
   {
     "id": "EBS:1065:1025_2026-09-16",
@@ -877,7 +935,7 @@
         "halte_id": "NL:S:37223552",
         "halte_naam": "De Vlinder",
         "geplande_tijd": "11:19",
-        "vertraging_min": 116,
+        "vertraging_min": 131,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
@@ -888,7 +946,7 @@
         "halte_id": "NL:S:37220130",
         "halte_naam": "Station Zaandam (Provincialeweg)",
         "geplande_tijd": "11:38",
-        "vertraging_min": 107,
+        "vertraging_min": 122,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
@@ -898,8 +956,8 @@
     ],
     "eerste_tijd": "11:19",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-09-16 11:15:26",
-    "eerst_gezien": "2026-09-16 11:15:26"
+    "bijgewerkt": "2026-09-16 11:30:38",
+    "eerst_gezien": "2026-09-16 11:30:38"
   },
   {
     "id": "EBS:1306:1054_2026-09-16",
