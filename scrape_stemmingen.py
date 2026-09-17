@@ -300,9 +300,15 @@ def load_existing():
 
 # ── HOOFDPROGRAMMA ────────────────────────────────────────────────────────────
 def main():
-    vandaag   = datetime.now()
-    vanaf_env = os.environ.get("SCRAPE_VANAF", "").strip()
-    grens     = vanaf_env if vanaf_env else (vandaag - timedelta(days=30)).strftime("%Y-%m-%d")
+    # Datumbereik: minimaal 30 dagen terug, ÁLTIJD — ongeacht wat SCRAPE_VANAF
+    # (gevoed door de scrape-tracker) doorgeeft. Zelfde reden als bij
+    # scrape_moties.py: iBabs kan een rij met vertraging toevoegen, en de
+    # bestaande "al_verwerkt"-check verderop zorgt dat dit vrijwel niets
+    # extra kost voor stemmingen die al compleet zijn.
+    vandaag            = datetime.now()
+    vanaf_env          = os.environ.get("SCRAPE_VANAF", "").strip()
+    dertig_dagen_terug = (vandaag - timedelta(days=30)).strftime("%Y-%m-%d")
+    grens              = min(vanaf_env, dertig_dagen_terug) if vanaf_env else dertig_dagen_terug
     print(f"Stemmingen vanaf: {grens}")
 
     # Sessie
