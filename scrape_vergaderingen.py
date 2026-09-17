@@ -32,12 +32,37 @@ HEADERS = {
 }
 
 
+# ── RETRY-HELPER ──────────────────────────────────────────────────────────────
+# Zelfde patroon als in scrape_moties.py: retries met backoff bij tijdelijke
+# netwerkfouten. Zonder deze wrapper had één trage/haperende response de hele
+# run laten afbreken (zoals bij de FOUT: The read operation timed out van de
+# laatste run) — nu wordt eerst een paar keer opnieuw geprobeerd voor we
+# opgeven.
+def open_met_retry(opener, req, timeout=30, retries=3, wachttijden=(2, 5, 10)):
+    """
+    Voert opener.open(req) uit met retries bij tijdelijke netwerkfouten
+    (timeouts, 5xx-serverfouten, connectieproblemen). Geeft de response
+    terug bij succes, of raised de laatste fout na alle pogingen.
+    """
+    laatste_fout = None
+    for poging in range(1, retries + 1):
+        try:
+            return opener.open(req, timeout=timeout)
+        except Exception as e:
+            laatste_fout = e
+            if poging < retries:
+                wacht = wachttijden[min(poging - 1, len(wachttijden) - 1)]
+                print(f"(poging {poging}/{retries} mislukt: {e} — {wacht}s wachten)", end=" ", flush=True)
+                time.sleep(wacht)
+    raise laatste_fout
+
+
 def fetch_agenda_range(opener, start_dt, end_dt):
     start_str = urllib.parse.quote(start_dt.strftime("%Y-%m-%dT00:00:00+02:00"))
     end_str   = urllib.parse.quote(end_dt.strftime("%Y-%m-%dT00:00:00+02:00"))
     url = f"{BASE_URL}/Calendar/GetAgendasForCalendar?start={start_str}&end={end_str}"
     req = urllib.request.Request(url, headers=HEADERS)
-    with opener.open(req, timeout=15) as resp:
+    with open_met_retry(opener, req, timeout=15) as resp:
         return json.loads(resp.read().decode("utf-8"))
 
 
@@ -45,11 +70,11 @@ def fetch_vergadering_details(opener, agenda_id):
     url = f"{BASE_URL}/Agenda/Index/{agenda_id}"
     req = urllib.request.Request(url, headers={**HEADERS, "Accept": "text/html"})
     try:
-        with opener.open(req, timeout=20) as resp:
+        with open_met_retry(opener, req, timeout=20) as resp:
             html = resp.read().decode("utf-8")
     except Exception as e:
-        print(f"(HTML-fetch mislukt: {e})", end=" ")
-        return [], None
+        print(f"(HTML-fetch mislukt na retries: {e})", end=" ")
+        return [], None, None
 
     # Agendapunten
     punten = []
@@ -64,11 +89,17 @@ def fetch_vergadering_details(opener, agenda_id):
             punten.append({"nummer": nummer.strip(), "titel": titel.strip()})
 
     # Video
+    # TODO: de video-extractielogica ontbreekt nog (nooit geïmplementeerd of
+    # per ongeluk verwijderd) — video_id/video_link zijn hier altijd None
+    # tot dit alsnog geparsed wordt. "heeft_video" hieronder is nu afgeleid
+    # van video_link i.p.v. hard op True gezet, dus dat veld klopt in elk
+    # geval al wel weer (het staat gewoon overal False totdat de video-parser
+    # er is).
     video_id   = None
     video_link = None
-        
 
     return punten, video_link, video_id
+
 
 def load_existing():
     """Laad bestaande vergaderingen.json als die bestaat."""
@@ -82,7 +113,6 @@ def load_existing():
 
 def main():
     # Datumbereik: via env var SCRAPE_VANAF of standaard afgelopen 7 dagen
-    import os
     vandaag       = datetime.now()
     over_30_dagen = vandaag + timedelta(days=30)
     vanaf_env     = os.environ.get("SCRAPE_VANAF", "").strip()
@@ -95,7 +125,11 @@ def main():
     jar    = http.cookiejar.CookieJar()
     opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar))
     try:
-        opener.open(urllib.request.Request(CALENDAR_URL, headers=HEADERS), timeout=15)
+        open_met_retry(
+            opener,
+            urllib.request.Request(CALENDAR_URL, headers=HEADERS),
+            timeout=15,
+        )
         print("OK")
     except Exception as e:
         print(f"MISLUKT ({e})")
@@ -107,7 +141,7 @@ def main():
         raad  = [i for i in items if RAAD_CLASS in i.get("classNames", [])]
         print(f"{len(raad)} raadsvergaderingen")
     except Exception as e:
-        print(f"FOUT: {e}")
+        print(f"FOUT na retries: {e}")
         return
 
     # Bestaande data inladen
@@ -138,7 +172,9 @@ def main():
             "url":          f"{BASE_URL}{item.get('url', '')}",
             "video_id":     video_id,
             "video_link":   video_link,
-            "heeft_video":  True,
+            # FIX: was hard op True gezet, ongeacht of er daadwerkelijk een
+            # video gevonden was. Nu afgeleid van video_link.
+            "heeft_video":  bool(video_link),
             "agendapunten": agendapunten,
             "bijgewerkt":   vandaag.strftime("%d-%m-%Y"),
         }
