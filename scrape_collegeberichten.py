@@ -1002,9 +1002,15 @@ def main():
     else:
         print("⚠  Geen GEMINI_API_KEY — alleen code-gebaseerde claimdetectie")
 
-    vandaag   = datetime.now()
-    vanaf_env = os.environ.get("SCRAPE_VANAF", "").strip()
-    grens     = vanaf_env if vanaf_env else (vandaag - timedelta(days=7)).strftime("%Y-%m-%d")
+    # Datumbereik: minimaal 30 dagen terug, ÁLTIJD — ongeacht wat SCRAPE_VANAF
+    # (gevoed door de scrape-tracker) doorgeeft. Zelfde reden als bij
+    # scrape_moties.py en scrape_stemmingen.py. De bestaande skip-check
+    # verderop (`"claims" in bestaand[item_id]`) zorgt dat dit vrijwel niets
+    # extra kost voor brieven die al verwerkt zijn.
+    vandaag            = datetime.now()
+    vanaf_env          = os.environ.get("SCRAPE_VANAF", "").strip()
+    dertig_dagen_terug = (vandaag - timedelta(days=30)).strftime("%Y-%m-%d")
+    grens              = min(vanaf_env, dertig_dagen_terug) if vanaf_env else dertig_dagen_terug
     print(f"Collegeberichten vanaf: {grens}")
 
     # Sessie
