@@ -218,10 +218,19 @@ def load_existing():
 
 
 def main():
-    # Datumbereik: via env var SCRAPE_VANAF of standaard afgelopen 7 dagen
-    vandaag     = datetime.now()
-    vanaf_env   = os.environ.get("SCRAPE_VANAF", "").strip()
-    grens_datum = vanaf_env if vanaf_env else (vandaag - timedelta(days=7)).strftime("%Y-%m-%d")
+    # Datumbereik: minimaal 30 dagen terug, ÁLTIJD — ongeacht wat SCRAPE_VANAF
+    # (gevoed door de scrape-tracker in de workflow) doorgeeft. iBabs voegt
+    # soms met een paar dagen vertraging een compleet nieuwe rij toe aan een
+    # oude motie (nieuw DT_RowId, bv. bij een "ingetrokken"-status) — als het
+    # venster dan al voorbij die datum is geschoven, wordt zo'n rij nooit meer
+    # opgehaald. Een handmatige, nóg vroegere datum (via workflow_dispatch)
+    # blijft gewoon mogelijk: we pakken altijd de vroegste van de twee.
+    # Kost vrijwel niets extra, want moties met een definitieve status worden
+    # verderop toch al overgeslagen (zie DEFINITIEVE_STATUSSEN hieronder).
+    vandaag            = datetime.now()
+    vanaf_env          = os.environ.get("SCRAPE_VANAF", "").strip()
+    dertig_dagen_terug = (vandaag - timedelta(days=30)).strftime("%Y-%m-%d")
+    grens_datum        = min(vanaf_env, dertig_dagen_terug) if vanaf_env else dertig_dagen_terug
 
     print(f"Alleen moties vanaf: {grens_datum}")
 
