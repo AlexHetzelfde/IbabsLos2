@@ -1,7 +1,7 @@
 [
   {
-    "id": "EBS:1067:1039_2026-09-18",
-    "journey_id": "EBS:1067:1039",
+    "id": "EBS:1067:1041_2026-09-18",
+    "journey_id": "EBS:1067:1041",
     "datum": "2026-09-18",
     "lijn": "67",
     "lijnkleur": "#004899",
@@ -21,7 +21,7 @@
       {
         "halte_id": "NL:S:37400100",
         "halte_naam": "Purmerend, Busstation Tramplein",
-        "geplande_tijd": "14:44",
+        "geplande_tijd": "15:14",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
@@ -30,10 +30,10 @@
         "bestemming": "Zaandam"
       }
     ],
-    "eerste_tijd": "14:44",
+    "eerste_tijd": "15:14",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-09-18 11:15:28",
-    "eerst_gezien": "2026-09-18 11:15:28"
+    "bijgewerkt": "2026-09-18 11:45:29",
+    "eerst_gezien": "2026-09-18 11:45:29"
   },
   {
     "id": "EBS:1067:1039_2026-09-18",
@@ -72,51 +72,40 @@
     "eerst_gezien": "2026-09-18 11:30:38"
   },
   {
-    "id": "EBS:1394:1100_2026-09-18",
-    "journey_id": "EBS:1394:1100",
+    "id": "EBS:1067:1039_2026-09-18",
+    "journey_id": "EBS:1067:1039",
     "datum": "2026-09-18",
-    "lijn": "394",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
+    "lijn": "67",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
     "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "drukte_icoon": "crowd0.svg",
+    "drukte_omschrijving": "leeg",
     "status": "cancelled",
     "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
+      "Verkeer",
+      "Stremming/Omleiding"
     ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "oorzaak_raw": "Cause: Verkeer, Stremming/Omleiding",
     "terminus_alert": null,
-    "advies": null,
+    "advies": "Advice: Vanwege stremming Lagendijk rijdt bus 67 een andere route. Maak gebruik van de tijdelijke haltes op de Guisweg of op de Verzetstraat. Meer info? meerplus.nl",
     "haltes": [
       {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "14:29",
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "14:44",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron C",
-        "bestemming": "Amsterdam Noorderpark"
-      },
-      {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "14:32",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Amsterdam Noorderpark"
+        "platform": "Perron A",
+        "bestemming": "Zaandam"
       }
     ],
-    "eerste_tijd": "14:29",
+    "eerste_tijd": "14:44",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-09-18 11:15:28",
-    "eerst_gezien": "2026-09-18 11:15:28"
+    "bijgewerkt": "2026-09-18 11:45:29",
+    "eerst_gezien": "2026-09-18 11:45:29"
   },
   {
     "id": "EBS:1394:1100_2026-09-18",
@@ -177,12 +166,12 @@
     "eerst_gezien": "2026-09-18 11:30:38"
   },
   {
-    "id": "EBS:1111:1077_2026-09-18",
-    "journey_id": "EBS:1111:1077",
+    "id": "EBS:1394:1100_2026-09-18",
+    "journey_id": "EBS:1394:1100",
     "datum": "2026-09-18",
-    "lijn": "111",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
+    "lijn": "394",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
     "product_label": "MeerPlus",
     "drukte_icoon": "crowd1.svg",
     "drukte_omschrijving": "Zitplaatsen beschikbaar",
@@ -198,30 +187,30 @@
       {
         "halte_id": "NL:S:37220130",
         "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "14:28",
+        "geplande_tijd": "14:29",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron D",
-        "bestemming": "Marken"
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Noorderpark"
       },
       {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "14:30",
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "14:51",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": null,
-        "bestemming": "Marken"
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Noorderpark"
       }
     ],
-    "eerste_tijd": "14:28",
+    "eerste_tijd": "14:29",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-09-18 11:15:28",
-    "eerst_gezien": "2026-09-18 11:15:28"
+    "bijgewerkt": "2026-09-18 11:45:29",
+    "eerst_gezien": "2026-09-18 11:45:29"
   },
   {
     "id": "EBS:1111:1077_2026-09-18",
@@ -282,10 +271,10 @@
     "eerst_gezien": "2026-09-18 11:30:38"
   },
   {
-    "id": "EBS:1067:1037_2026-09-18",
-    "journey_id": "EBS:1067:1037",
+    "id": "EBS:1111:1077_2026-09-18",
+    "journey_id": "EBS:1111:1077",
     "datum": "2026-09-18",
-    "lijn": "67",
+    "lijn": "111",
     "lijnkleur": "#004899",
     "categorie": "M-net",
     "product_label": "MeerPlus",
@@ -293,29 +282,51 @@
     "drukte_omschrijving": "Zitplaatsen beschikbaar",
     "status": "cancelled",
     "oorzaak_categorieen": [
-      "Verkeer",
-      "Stremming/Omleiding"
+      "Personeel",
+      "Logistiek"
     ],
-    "oorzaak_raw": "Cause: Verkeer, Stremming/Omleiding",
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
     "terminus_alert": null,
-    "advies": "Advice: Vanwege stremming Lagendijk rijdt bus 67 een andere route. Maak gebruik van de tijdelijke haltes op de Guisweg of op de Verzetstraat. Meer info? meerplus.nl",
+    "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37400100",
-        "halte_naam": "Purmerend, Busstation Tramplein",
-        "geplande_tijd": "14:14",
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "14:28",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron A",
-        "bestemming": "Zaandam"
+        "platform": "Perron D",
+        "bestemming": "Marken"
+      },
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "14:47",
+        "vertraging_min": 0,
+        "status": "gereden",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron E",
+        "bestemming": "Marken"
+      },
+      {
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "15:12",
+        "vertraging_min": 0,
+        "status": "gereden",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A1",
+        "bestemming": "Marken"
       }
     ],
-    "eerste_tijd": "14:14",
+    "eerste_tijd": "14:28",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-09-18 11:15:28",
-    "eerst_gezien": "2026-09-18 11:15:28"
+    "bijgewerkt": "2026-09-18 11:45:29",
+    "eerst_gezien": "2026-09-18 11:45:29"
   },
   {
     "id": "EBS:1067:1037_2026-09-18",
@@ -352,6 +363,42 @@
     "dagdeel": "dal",
     "bijgewerkt": "2026-09-18 11:30:38",
     "eerst_gezien": "2026-09-18 11:30:38"
+  },
+  {
+    "id": "EBS:1067:1037_2026-09-18",
+    "journey_id": "EBS:1067:1037",
+    "datum": "2026-09-18",
+    "lijn": "67",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Verkeer",
+      "Stremming/Omleiding"
+    ],
+    "oorzaak_raw": "Cause: Verkeer, Stremming/Omleiding",
+    "terminus_alert": null,
+    "advies": "Advice: Vanwege stremming Lagendijk rijdt bus 67 een andere route. Maak gebruik van de tijdelijke haltes op de Guisweg of op de Verzetstraat. Meer info? meerplus.nl",
+    "haltes": [
+      {
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "14:14",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Zaandam"
+      }
+    ],
+    "eerste_tijd": "14:14",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-09-18 11:45:29",
+    "eerst_gezien": "2026-09-18 11:45:29"
   },
   {
     "id": "EBS:1111:1060_2026-09-18",
@@ -397,8 +444,8 @@
     ],
     "eerste_tijd": "14:05",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-09-18 11:15:28",
-    "eerst_gezien": "2026-09-18 11:15:28"
+    "bijgewerkt": "2026-09-18 11:30:38",
+    "eerst_gezien": "2026-09-18 11:30:38"
   },
   {
     "id": "EBS:1111:1060_2026-09-18",
@@ -429,70 +476,12 @@
         "realtime": false,
         "platform": "Perron A",
         "bestemming": "Zaandam Station"
-      },
-      {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "14:17",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Zaandam Station"
       }
     ],
     "eerste_tijd": "14:05",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-09-18 11:30:38",
-    "eerst_gezien": "2026-09-18 11:30:38"
-  },
-  {
-    "id": "EBS:1394:1087_2026-09-18",
-    "journey_id": "EBS:1394:1087",
-    "datum": "2026-09-18",
-    "lijn": "394",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "14:02",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron E",
-        "bestemming": "Zaandam Station"
-      },
-      {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "14:17",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Zaandam Station"
-      }
-    ],
-    "eerste_tijd": "14:02",
-    "dagdeel": "dal",
-    "bijgewerkt": "2026-09-18 11:15:28",
-    "eerst_gezien": "2026-09-18 11:15:28"
+    "bijgewerkt": "2026-09-18 11:45:29",
+    "eerst_gezien": "2026-09-18 11:45:29"
   },
   {
     "id": "EBS:1394:1087_2026-09-18",
@@ -542,40 +531,40 @@
     "eerst_gezien": "2026-09-18 11:30:38"
   },
   {
-    "id": "EBS:1067:1035_2026-09-18",
-    "journey_id": "EBS:1067:1035",
+    "id": "EBS:1394:1087_2026-09-18",
+    "journey_id": "EBS:1394:1087",
     "datum": "2026-09-18",
-    "lijn": "67",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
+    "lijn": "394",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
     "product_label": "MeerPlus",
     "drukte_icoon": "crowd1.svg",
     "drukte_omschrijving": "Zitplaatsen beschikbaar",
     "status": "cancelled",
     "oorzaak_categorieen": [
-      "Verkeer",
-      "Stremming/Omleiding"
+      "Personeel",
+      "Logistiek"
     ],
-    "oorzaak_raw": "Cause: Verkeer, Stremming/Omleiding",
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
     "terminus_alert": null,
-    "advies": "Advice: Vanwege stremming Lagendijk rijdt bus 67 een andere route. Maak gebruik van de tijdelijke haltes op de Guisweg of op de Verzetstraat. Meer info? meerplus.nl",
+    "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37400100",
-        "halte_naam": "Purmerend, Busstation Tramplein",
-        "geplande_tijd": "13:44",
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "14:02",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron A",
-        "bestemming": "Zaandam"
+        "platform": "Perron E",
+        "bestemming": "Zaandam Station"
       }
     ],
-    "eerste_tijd": "13:44",
+    "eerste_tijd": "14:02",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-09-18 11:15:28",
-    "eerst_gezien": "2026-09-18 11:15:28"
+    "bijgewerkt": "2026-09-18 11:45:29",
+    "eerst_gezien": "2026-09-18 11:45:29"
   },
   {
     "id": "EBS:1067:1035_2026-09-18",
@@ -612,6 +601,39 @@
     "dagdeel": "dal",
     "bijgewerkt": "2026-09-18 11:30:38",
     "eerst_gezien": "2026-09-18 11:30:38"
+  },
+  {
+    "id": "EBS:1067:1035_2026-09-18",
+    "journey_id": "EBS:1067:1035",
+    "datum": "2026-09-18",
+    "lijn": "67",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "13:44",
+        "vertraging_min": 1,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Zaandam"
+      }
+    ],
+    "eerste_tijd": "13:44",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-09-18 11:45:29",
+    "eerst_gezien": "2026-09-18 11:45:29"
   },
   {
     "id": "EBS:1067:1033_2026-09-18",
