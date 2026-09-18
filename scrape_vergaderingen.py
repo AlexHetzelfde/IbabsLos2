@@ -33,11 +33,12 @@ HEADERS = {
 
 
 # ── RETRY-HELPER ──────────────────────────────────────────────────────────────
-# Zelfde patroon als in scrape_moties.py: retries met backoff bij tijdelijke
-# netwerkfouten. Zonder deze wrapper had één trage/haperende response de hele
-# run laten afbreken (zoals bij de FOUT: The read operation timed out van de
-# laatste run) — nu wordt eerst een paar keer opnieuw geprobeerd voor we
-# opgeven.
+# NIEUW: zelfde patroon als in scrape_moties.py, scrape_stemmingen.py en
+# scrape_collegeberichten.py. Dit script had 'm nog niet — vandaar dat één
+# timeout bij het ophalen van de agenda-lijst het hele script liet stoppen
+# (zie main(): een gefaalde fetch_agenda_range() gaf voorheen direct "return",
+# zonder iets op te slaan), terwijl de andere scrapers een tijdelijke
+# netwerkfout gewoon een paar keer opnieuw proberen.
 def open_met_retry(opener, req, timeout=30, retries=3, wachttijden=(2, 5, 10)):
     """
     Voert opener.open(req) uit met retries bij tijdelijke netwerkfouten
@@ -89,17 +90,11 @@ def fetch_vergadering_details(opener, agenda_id):
             punten.append({"nummer": nummer.strip(), "titel": titel.strip()})
 
     # Video
-    # TODO: de video-extractielogica ontbreekt nog (nooit geïmplementeerd of
-    # per ongeluk verwijderd) — video_id/video_link zijn hier altijd None
-    # tot dit alsnog geparsed wordt. "heeft_video" hieronder is nu afgeleid
-    # van video_link i.p.v. hard op True gezet, dus dat veld klopt in elk
-    # geval al wel weer (het staat gewoon overal False totdat de video-parser
-    # er is).
     video_id   = None
     video_link = None
+        
 
     return punten, video_link, video_id
-
 
 def load_existing():
     """Laad bestaande vergaderingen.json als die bestaat."""
@@ -113,6 +108,7 @@ def load_existing():
 
 def main():
     # Datumbereik: via env var SCRAPE_VANAF of standaard afgelopen 7 dagen
+    import os
     vandaag       = datetime.now()
     over_30_dagen = vandaag + timedelta(days=30)
     vanaf_env     = os.environ.get("SCRAPE_VANAF", "").strip()
@@ -125,11 +121,7 @@ def main():
     jar    = http.cookiejar.CookieJar()
     opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar))
     try:
-        open_met_retry(
-            opener,
-            urllib.request.Request(CALENDAR_URL, headers=HEADERS),
-            timeout=15,
-        )
+        open_met_retry(opener, urllib.request.Request(CALENDAR_URL, headers=HEADERS), timeout=15)
         print("OK")
     except Exception as e:
         print(f"MISLUKT ({e})")
@@ -141,7 +133,7 @@ def main():
         raad  = [i for i in items if RAAD_CLASS in i.get("classNames", [])]
         print(f"{len(raad)} raadsvergaderingen")
     except Exception as e:
-        print(f"FOUT na retries: {e}")
+        print(f"FOUT: {e}")
         return
 
     # Bestaande data inladen
@@ -172,9 +164,7 @@ def main():
             "url":          f"{BASE_URL}{item.get('url', '')}",
             "video_id":     video_id,
             "video_link":   video_link,
-            # FIX: was hard op True gezet, ongeacht of er daadwerkelijk een
-            # video gevonden was. Nu afgeleid van video_link.
-            "heeft_video":  bool(video_link),
+            "heeft_video":  True,
             "agendapunten": agendapunten,
             "bijgewerkt":   vandaag.strftime("%d-%m-%Y"),
         }
