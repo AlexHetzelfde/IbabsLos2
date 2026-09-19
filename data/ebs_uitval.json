@@ -25,12 +25,23 @@
         "realtime": false,
         "platform": "Perron I",
         "bestemming": "Krommenie"
+      },
+      {
+        "halte_id": "NL:S:37221160",
+        "halte_naam": "Zaanse Schans",
+        "geplande_tijd": "19:46",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Krommenie station"
       }
     ],
     "eerste_tijd": "19:25",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-09-19 16:00:49",
-    "eerst_gezien": "2026-09-19 16:00:49"
+    "bijgewerkt": "2026-09-19 16:15:31",
+    "eerst_gezien": "2026-09-19 16:15:31"
   },
   {
     "id": "EBS:1069:6254_2026-09-19",
@@ -73,41 +84,8 @@
     ],
     "eerste_tijd": "19:25",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-09-19 16:15:31",
-    "eerst_gezien": "2026-09-19 16:15:31"
-  },
-  {
-    "id": "EBS:1065:6246_2026-09-19",
-    "journey_id": "EBS:1065:6246",
-    "datum": "2026-09-19",
-    "lijn": "65",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": null,
-    "drukte_omschrijving": null,
-    "status": "cancelled",
-    "oorzaak_categorieen": [],
-    "oorzaak_raw": null,
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "19:23",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron E",
-        "bestemming": "Beverwijk"
-      }
-    ],
-    "eerste_tijd": "19:23",
-    "dagdeel": "avond",
-    "bijgewerkt": "2026-09-19 16:00:49",
-    "eerst_gezien": "2026-09-19 16:00:49"
+    "bijgewerkt": "2026-09-19 16:30:38",
+    "eerst_gezien": "2026-09-19 16:30:38"
   },
   {
     "id": "EBS:1065:6246_2026-09-19",
@@ -154,6 +132,86 @@
     "eerst_gezien": "2026-09-19 16:15:31"
   },
   {
+    "id": "EBS:1065:6246_2026-09-19",
+    "journey_id": "EBS:1065:6246",
+    "datum": "2026-09-19",
+    "lijn": "65",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "19:23",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron E",
+        "bestemming": "Beverwijk"
+      },
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "19:40",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron F",
+        "bestemming": "Beverwijk"
+      }
+    ],
+    "eerste_tijd": "19:23",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-09-19 16:30:38",
+    "eerst_gezien": "2026-09-19 16:30:38"
+  },
+  {
+    "id": "EBS:1069:6249_2026-09-19",
+    "journey_id": "EBS:1069:6249",
+    "datum": "2026-09-19",
+    "lijn": "69",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37221160",
+        "halte_naam": "Zaanse Schans",
+        "geplande_tijd": "18:41",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Zaandam Station"
+      }
+    ],
+    "eerste_tijd": "18:41",
+    "dagdeel": "avondspits",
+    "bijgewerkt": "2026-09-19 16:30:38",
+    "eerst_gezien": "2026-09-19 16:30:38"
+  },
+  {
     "id": "EBS:1111:6292_2026-09-19",
     "journey_id": "EBS:1111:6292",
     "datum": "2026-09-19",
@@ -164,8 +222,11 @@
     "drukte_icoon": null,
     "drukte_omschrijving": null,
     "status": "cancelled",
-    "oorzaak_categorieen": [],
-    "oorzaak_raw": null,
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
     "terminus_alert": null,
     "advies": null,
     "haltes": [
@@ -183,52 +244,8 @@
     ],
     "eerste_tijd": "18:32",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-09-19 16:15:31",
-    "eerst_gezien": "2026-09-19 16:15:31"
-  },
-  {
-    "id": "EBS:1069:6249_2026-09-19",
-    "journey_id": "EBS:1069:6249",
-    "datum": "2026-09-19",
-    "lijn": "69",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": null,
-    "drukte_omschrijving": null,
-    "status": "cancelled",
-    "oorzaak_categorieen": [],
-    "oorzaak_raw": null,
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37320410",
-        "halte_naam": "Assendelft/Krommenie-Assendelft, Rangeerder",
-        "geplande_tijd": "18:15",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Zaandam"
-      },
-      {
-        "halte_id": "NL:S:37221160",
-        "halte_naam": "Zaanse Schans",
-        "geplande_tijd": "18:41",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Zaandam Station"
-      }
-    ],
-    "eerste_tijd": "18:15",
-    "dagdeel": "avondspits",
-    "bijgewerkt": "2026-09-19 16:00:49",
-    "eerst_gezien": "2026-09-19 16:00:49"
+    "bijgewerkt": "2026-09-19 16:30:38",
+    "eerst_gezien": "2026-09-19 16:30:38"
   },
   {
     "id": "EBS:1069:6249_2026-09-19",
