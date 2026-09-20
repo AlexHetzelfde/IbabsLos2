@@ -1,38 +1,5 @@
 [
   {
-    "id": "EBS:1110:7262_2026-09-20",
-    "journey_id": "EBS:1110:7262",
-    "datum": "2026-09-20",
-    "lijn": "110",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": "crowd0.svg",
-    "drukte_omschrijving": "leeg",
-    "status": "cancelled",
-    "oorzaak_categorieen": [],
-    "oorzaak_raw": null,
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:38491011",
-        "halte_naam": "Edam, Busstation",
-        "geplande_tijd": "23:08",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron F",
-        "bestemming": "Purmerend"
-      }
-    ],
-    "eerste_tijd": "23:08",
-    "dagdeel": "avond",
-    "bijgewerkt": "2026-09-20 21:00:49",
-    "eerst_gezien": "2026-09-20 21:00:49"
-  },
-  {
     "id": "EBS:1063:7048_2026-09-20",
     "journey_id": "EBS:1063:7048",
     "datum": "2026-09-20",
@@ -1167,12 +1134,23 @@
         "realtime": false,
         "platform": "Perron A",
         "bestemming": "Edam-Volendam"
+      },
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "00:28",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Noord"
       }
     ],
     "eerste_tijd": "00:02",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-09-20 20:45:38",
-    "eerst_gezien": "2026-09-20 20:45:38"
+    "bijgewerkt": "2026-09-20 21:00:49",
+    "eerst_gezien": "2026-09-20 21:00:49"
   },
   {
     "id": "EBS:1110:7271_2026-09-20",
@@ -1215,7 +1193,7 @@
     ],
     "eerste_tijd": "00:02",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-09-20 21:00:49",
-    "eerst_gezien": "2026-09-20 21:00:49"
+    "bijgewerkt": "2026-09-20 21:15:33",
+    "eerst_gezien": "2026-09-20 21:15:33"
   }
 ]
