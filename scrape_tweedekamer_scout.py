@@ -41,6 +41,7 @@ import os
 import time
 import urllib.request
 import urllib.parse
+import urllib.error
 from datetime import datetime, timedelta
 
 BASE_URL = "https://gegevensmagazijn.tweedekamer.nl/OData/v4/2.0"
@@ -57,12 +58,29 @@ HEADERS = {
 
 
 # ── RETRY-HELPER ──────────────────────────────────────────────────────────────
-# Zelfde bewezen patroon als in de Zaanstad-scrapers (scrape_moties.py e.a.).
+# Zelfde bewezen patroon als in de Zaanstad-scrapers (scrape_moties.py e.a.),
+# met één toevoeging: bij een HTTPError (zoals de 400 Bad Request die de
+# eerste live-test opleverde) wordt de foutmelding van de server zelf erbij
+# gelogd. Een kale "HTTP Error 400: Bad Request" zegt niets over WAT er niet
+# klopt aan de query — OData-services geven bij een foute $filter vrijwel
+# altijd een leesbare uitleg terug in de response-body, en die willen we zien.
 def open_met_retry(req, timeout=30, retries=3, wachttijden=(2, 5, 10)):
     laatste_fout = None
     for poging in range(1, retries + 1):
         try:
             return urllib.request.urlopen(req, timeout=timeout)
+        except urllib.error.HTTPError as e:
+            try:
+                foutdetail = e.read().decode("utf-8", errors="replace")[:1000]
+            except Exception:
+                foutdetail = "(kon foutdetail niet lezen)"
+            laatste_fout = e
+            print(f"\n  HTTP {e.code} {e.reason} — respons van de server:")
+            print(f"  {foutdetail}\n")
+            if poging < retries:
+                wacht = wachttijden[min(poging - 1, len(wachttijden) - 1)]
+                print(f"(poging {poging}/{retries} mislukt — {wacht}s wachten)", end=" ", flush=True)
+                time.sleep(wacht)
         except Exception as e:
             laatste_fout = e
             if poging < retries:
@@ -82,10 +100,16 @@ def zoek_stemmingen_activiteit(vanaf, tot):
     'gegevensmagazijn' Rust-library, die exact dit soort $filter-syntax op
     Activiteit/Besluit gebruikt (Soort eq '...', Datum ge/lt ...).
     """
+    # NIEUW: expliciete 'Z' (UTC) achter de datetime-literals. Veel OData-
+    # services geven een 400 Bad Request bij een datetime zonder
+    # tijdzone-aanduiding — dit is een gerichte, beargumenteerde aanpassing
+    # naar aanleiding van de eerste live 400-fout, maar nog geen bevestigde
+    # oplossing; de verbeterde foutmelding hierboven laat zien of dit
+    # daadwerkelijk de oorzaak was, of dat er iets anders mis is.
     filter_expr = (
         "Soort eq 'Stemmingen' and Verwijderd eq false "
-        f"and Datum ge {vanaf.strftime('%Y-%m-%d')}T00:00:00 "
-        f"and Datum lt {tot.strftime('%Y-%m-%d')}T00:00:00"
+        f"and Datum ge {vanaf.strftime('%Y-%m-%d')}T00:00:00Z "
+        f"and Datum lt {tot.strftime('%Y-%m-%d')}T00:00:00Z"
     )
     params = {
         "$filter":  filter_expr,
