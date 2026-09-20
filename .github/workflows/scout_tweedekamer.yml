@@ -1,0 +1,78 @@
+name: Scout Tweede Kamer
+
+on:
+  workflow_dispatch:
+    inputs:
+      forceren:
+        description: 'Scout altijd draaien, ook als het geen maandag is (voor testen)'
+        required: false
+        type: boolean
+        default: false
+
+concurrency:
+  group: scout-tweedekamer
+  cancel-in-progress: false
+
+jobs:
+  scout:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python instellen
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Data-map aanmaken
+        run: mkdir -p data
+
+      - name: Tweede Kamer scout (alleen op maandag, of handmatig geforceerd)
+        # Draait normaal alleen op maandag (UTC) — bedoeld om vast te stellen
+        # op welke dag deze week de plenaire stemmingen zijn, voordat de
+        # eigenlijke scraper later die dag draait. Via het vinkje "forceren"
+        # bij "Run workflow" kun je 'm ook op een andere dag draaien, puur om
+        # te testen of de query tegen de live API werkt.
+        run: |
+          if [ "${{ github.event.inputs.forceren }}" = "true" ]; then
+            echo "Handmatig geforceerd via 'forceren' — scout uitvoeren."
+            python scrape_tweedekamer_scout.py
+          elif [ "$(date -u +%u)" = "1" ]; then
+            echo "Vandaag is maandag (UTC) — scout uitvoeren."
+            python scrape_tweedekamer_scout.py
+          else
+            echo "Vandaag is geen maandag (UTC, dag $(date -u +%u)) en niet geforceerd — scout overslaan."
+          fi
+
+      - name: Wijzigingen committen en pushen
+        # Alleen het scout-bestand zelf toevoegen — niet de hele data/-map —
+        # zodat deze workflow nooit per ongeluk iets van scrape.yml meeneemt
+        # of daarmee botst, ook al draaien ze rond hetzelfde tijdstip.
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/tweedekamer_scout.json
+          if git diff --staged --quiet; then
+            echo "Geen wijzigingen om te committen, overslaan."
+            exit 0
+          fi
+          git commit -m "tweedekamer-scout: update $(date -u +'%Y-%m-%d')"
+          MAX_POGINGEN=5
+          WACHTTIJDEN=(3 6 12 20 30)
+          for ((poging=1; poging<=MAX_POGINGEN; poging++)); do
+            if git push; then
+              echo "Push gelukt (poging $poging)"
+              break
+            fi
+            if [ "$poging" -eq "$MAX_POGINGEN" ]; then
+              echo "Push definitief mislukt na $MAX_POGINGEN pogingen"
+              exit 1
+            fi
+            wacht=${WACHTTIJDEN[$((poging-1))]}
+            echo "Push mislukt (poging $poging/$MAX_POGINGEN) — ${wacht}s wachten en opnieuw pullen/rebasen"
+            sleep "$wacht"
+            git pull --rebase --autostash
+          done
