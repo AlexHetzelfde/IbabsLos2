@@ -26,6 +26,21 @@ jobs:
         run: pip install pypdf --break-system-packages
       - name: Data-map aanmaken
         run: mkdir -p data
+      - name: Tweede Kamer scout (alleen op maandag)
+        # NIEUW: deze workflow wordt extern zo'n 4x per dag getriggerd, maar
+        # de Tweede Kamer-stemmingendag hoeft maar één keer per week gecheckt
+        # te worden. Vandaar deze eigen dag-check in plaats van de scout op
+        # elke run te laten meelopen — de overige 3 momenten op een dag doet
+        # deze stap niets, alleen een korte logregel.
+        id: tk_scout
+        run: |
+          if [ "$(date -u +%u)" = "1" ]; then
+            echo "Vandaag is maandag (UTC) — Tweede Kamer-scout uitvoeren."
+            python scrape_tweedekamer_scout.py
+          else
+            echo "Vandaag is geen maandag (UTC, dag $(date -u +%u)) — scout overslaan."
+          fi
+        continue-on-error: true
       - name: Startdatum bepalen (sinds laatste scrape)
         if: ${{ github.event.inputs.vanaf == '' }}
         run: |
