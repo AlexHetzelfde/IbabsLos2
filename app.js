@@ -1386,7 +1386,16 @@ function updateStats() {
   document.getElementById('statM').textContent = moties.length;
   const aang = moties.filter(m => m.status === 'aangenomen').length;
   const verw  = moties.filter(m => m.status === 'verworpen').length;
-  document.getElementById('statMsub').textContent = aang + ' aangenomen · ' + verw + ' verworpen';
+  // NIEUW: aparte teller voor moties waarvan de vergadering al geweest is
+  // maar waarvoor geen uitslag is gevonden — het openstaande-moties-signaal.
+  const openstaand = moties.filter(m => effectieveMotieStatus(m) === 'geen_uitslag').length;
+  document.getElementById('statMsub').textContent = aang + ' aangenomen · ' + verw + ' verworpen'
+    + (openstaand ? ' · ' + openstaand + ' zonder uitslag' : '');
+
+  // NIEUW: teller in de tabkop zelf, zodat 'm zichtbaar is zonder eerst naar
+  // de moties-tab te navigeren.
+  const motieTab = document.querySelector('.tab[data-tab="moties"]');
+  if (motieTab) motieTab.textContent = openstaand ? `Moties (${openstaand} open)` : 'Moties';
 
   const cameraNamenOoit = new Set([...camerasActief, ...camerasGeschiedenis].map(c => c.camera));
   document.getElementById('statB').textContent = camerasActief.length + woningsluitingen.length;
@@ -1800,19 +1809,59 @@ function populatePartijFilter() {
 // logica als de fallback in scrape_moties.py. Zo blijven moties die al vóór
 // die fix zijn opgehaald (met status:null maar wel voor_pct) niet ten
 // onrechte verborgen totdat er een nieuwe scrape draait.
+//
+// GEWIJZIGD: geeft niet meer null terug zodra er geen uitslag bekend is.
+// Voorheen verdween zo'n motie stilzwijgend uit renderMoties() (zie het
+// filter daar) — precies de openstaande moties die journalistiek het
+// interessantst zijn, waren daardoor onzichtbaar. Nu een expliciete
+// tussenstatus: 'nog_te_behandelen' als de motiedatum nog in de toekomst
+// ligt (de vergadering moet nog plaatsvinden), anders 'geen_uitslag' — de
+// vergadering is al geweest maar er is geen Uitslag-veld gevonden.
 function effectieveMotieStatus(m) {
   if (m.status) return m.status;
   if (m.voor_pct != null) {
     if (m.voor_pct > 50) return 'aangenomen';
     if (m.voor_pct < 50) return 'verworpen';
   }
-  return null; // echt nog geen uitslag bekend — terecht "in behandeling"
+  if (!m.datum) return null; // echt niets om op te varen
+  return dagenSinds(m.datum) < 0 ? 'nog_te_behandelen' : 'geen_uitslag';
+}
+
+// NIEUW: dagen sinds datumStr (YYYY-MM-DD), negatief als datumStr in de
+// toekomst ligt. null bij een onbruikbare datum.
+function dagenSinds(datumStr) {
+  if (!datumStr) return null;
+  const d = new Date(datumStr + 'T00:00:00');
+  if (isNaN(d)) return null;
+  const nu = new Date();
+  nu.setHours(0, 0, 0, 0);
+  return Math.round((nu - d) / 86400000);
+}
+
+// NIEUW: eigen badge voor moties (i.p.v. de gedeelde statusBadge(), die ook
+// door renderRaadsvragen() wordt gebruikt en dus niet de motie-specifieke
+// 'geen_uitslag'-dagenteller hoort te kennen).
+function motieStatusBadge(m) {
+  const s = effectieveMotieStatus(m);
+  if (s === 'nog_te_behandelen') {
+    return `<span class="badge badge-teal">Nog te behandelen</span>`;
+  }
+  if (s === 'geen_uitslag') {
+    const dagen = dagenSinds(m.datum);
+    const label = dagen != null ? `Geen uitslag · ${dagen}d` : 'Geen uitslag';
+    const titel = `Geen Uitslag-veld gevonden sinds de vergadering van ${fmtDate(m.datum, 'full')}`;
+    return `<span class="badge badge-hold" title="${esc(titel)}">${esc(label)}</span>`;
+  }
+  return statusBadge(s);
 }
 
 function renderMoties() {
   const partij = document.getElementById('filterPartij').value;
   const status = document.getElementById('filterStatus').value;
   const type   = document.getElementById('filterType').value;
+  // effectieveMotieStatus() geeft nu alleen nog null terug bij een motie
+  // zonder bruikbare datum — 'geen_uitslag' en 'nog_te_behandelen' tellen
+  // hier terecht mee, zodat openstaande moties niet meer verdwijnen.
   let f = moties.filter(m => effectieveMotieStatus(m) != null);
   if (partij) f = f.filter(m => m.partij === partij);
   if (status) f = f.filter(m => effectieveMotieStatus(m) === status);
@@ -1824,7 +1873,7 @@ function renderMoties() {
           <td><div class="motie-title">${esc(m.titel)}</div>${m.type ? `<div class="motie-desc">${esc(m.type)}</div>` : ''}</td>
           <td><span class="badge badge-teal">${esc(m.partij || '—')}</span></td>
           <td style="font-family:'JetBrains Mono',monospace;font-size:11px;white-space:nowrap;">${fmtDate(m.datum,'full')}</td>
-          <td>${statusBadge(effectieveMotieStatus(m))}</td>
+          <td>${motieStatusBadge(m)}</td>
           <td>${stemmingBar(m)}</td>
         </tr>`).join('');
 }
