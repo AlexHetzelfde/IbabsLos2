@@ -542,6 +542,42 @@
     <div id="uvNormLijst"><div class="empty">Laden...</div></div>
   </div>
 
+  <!-- NIEUW: EBS-chat. Stel vragen aan de uitvaldata. Staat los van de periodefilters
+       hieronder; antwoorden komen uitsluitend uit functies op ebs_percentage_historie.json
+       (vanaf 13 aug). Gemini krijgt de data zelf nooit te zien, alleen de uitkomsten. -->
+  <div class="card" style="margin-bottom:16px;" id="ebsChatCard">
+    <div class="card-header">
+      <span class="card-title">Vraag het aan de EBS-data</span>
+      <span style="font-size:11px;color:var(--muted);">alleen uitgevallen ritten · betrouwbaar vanaf 13 aug</span>
+    </div>
+    <div class="ebs-chat-body">
+      <div class="ebs-chat-keyrij" id="ebsChatKeyRij">
+        <label class="form-label" for="ebsChatKey">Gemini API key</label>
+        <input type="password" class="form-input" id="ebsChatKey" placeholder="AIzaSy..." autocomplete="off"
+          oninput="ebsChatSleutelOpslaan(this.value)">
+        <span class="form-hint">Alleen in je browser bewaard, nooit in de repo. Laat leeg om de sleutel van Factcheck te gebruiken. Sleutels binnen één Google-project delen dezelfde limiet; gebruik voor een aparte limiet een sleutel uit een ander project.</span>
+      </div>
+      <button class="btn-text" id="ebsChatKeyWijzig" style="display:none;text-align:left;" onclick="ebsChatToonSleutelRij()">Andere sleutel gebruiken</button>
+
+      <div class="ebs-chat-chips">
+        <button class="ebs-chat-chip" onclick="ebsChatStel('Welke lijn viel de afgelopen 7 dagen het vaakst uit?')">Welke lijn viel de afgelopen 7 dagen het vaakst uit?</button>
+        <button class="ebs-chat-chip" onclick="ebsChatStel('Hoe vaak viel lijn 391 gisteren uit?')">Hoe vaak viel lijn 391 gisteren uit?</button>
+        <button class="ebs-chat-chip" onclick="ebsChatStel('Hoeveel weken zaten boven de 2%-norm?')">Hoeveel weken zaten boven de 2%-norm?</button>
+        <button class="ebs-chat-chip" onclick="ebsChatStel('Wat zijn de meest genoemde oorzaken van uitval?')">Wat zijn de meest genoemde oorzaken?</button>
+        <button class="ebs-chat-chip" onclick="ebsChatStel('Hoeveel ritten zijn vandaag uitgevallen?')">Hoeveel ritten zijn vandaag uitgevallen?</button>
+      </div>
+
+      <div class="ebs-chat-log" id="ebsChatLog" aria-live="polite"></div>
+
+      <div class="ebs-chat-invoer">
+        <input type="text" class="form-input" id="ebsChatInput" placeholder="Bijv. hoe vaak viel lijn 391 gisteren uit?"
+          onkeydown="if(event.key==='Enter'){ebsChatVerstuur();}">
+        <button class="btn-primary" id="ebsChatBtn" onclick="ebsChatVerstuur()">Vraag</button>
+      </div>
+      <div class="form-hint">Gemini formuleert het antwoord; de cijfers rekent je browser uit. Controleer de bronregel onder elk antwoord voordat je iets publiceert. Vertragingen en combinaties (lijn × dagdeel, halte of oorzaak) worden niet bijgehouden.</div>
+    </div>
+  </div>
+
   <!-- NIEUW: dekking is in stappen gegroeid (3 haltes → 12 haltes op 12 aug,
        uitsplitsingen pas vanaf 27 jul/3 aug) — deze filter geldt voor alle
        9 grafieken hieronder tegelijk, zodat je niet per grafiek een andere
