@@ -206,6 +206,12 @@ def parse_motie(row):
         "tegen_pct":          None,
         "fracties_voor":      None,
         "fracties_tegen":     None,
+        # NIEUW: datum waarop deze motie voor het laatst tegen de iBabs-
+        # detailpagina is gecontroleerd. Los van 'status' — een motie zonder
+        # uitslag kan hierdoor toch een controle-datum hebben, waarmee de
+        # frontend "nog niet gecontroleerd" kan onderscheiden van "gecontroleerd,
+        # nog geen uitslag".
+        "laatst_gecontroleerd": None,
     }
 
 
@@ -328,10 +334,37 @@ def main():
         print(f"  [{i+1}/{len(recente_rows)}] {m['datum']} {m['titel'][:50]}", end=" ", flush=True)
         detail = fetch_stemming_detail(opener, m["id"])
         m.update(detail)
+        m["laatst_gecontroleerd"] = vandaag.strftime("%Y-%m-%d")
         status_label = m.get("status") or "geen uitslag"
         print(f"→ {status_label}")
         bestaand[m["id"]] = m
         time.sleep(0.35)
+
+    # NIEUW: moties die BUITEN het venster van 30 dagen vallen (op basis van
+    # datummotie) maar nog geen definitieve status hebben, worden hier
+    # alsnog hercontroleerd. Zonder dit gaat een openstaande motie na 30
+    # dagen stilletjes uit het venster en wordt hij nooit meer gecontroleerd
+    # — precies het scenario waarbij een aangehouden motie na verloop van
+    # tijd alsnog in stemming komt zonder dat het dashboard dat opmerkt.
+    # Kost weinig: alleen moties zonder aangenomen/verworpen/ingetrokken
+    # worden hier geraakt, en de meeste vallen toch al binnen het venster.
+    recente_ids = {row.get("DT_RowId") for row in recente_rows}
+    open_buiten_venster = [
+        (mid, mo) for mid, mo in bestaand.items()
+        if mid not in recente_ids
+        and (mo.get("status") or "") not in DEFINITIEVE_STATUSSEN
+    ]
+    if open_buiten_venster:
+        print(f"\nOpenstaande moties buiten het venster van 30 dagen: {len(open_buiten_venster)} — hercontroleren...")
+        for i, (mid, mo) in enumerate(open_buiten_venster):
+            print(f"  [{i+1}/{len(open_buiten_venster)}] {mo.get('datum')} {(mo.get('titel') or '')[:50]}", end=" ", flush=True)
+            detail = fetch_stemming_detail(opener, mid)
+            mo.update(detail)
+            mo["laatst_gecontroleerd"] = vandaag.strftime("%Y-%m-%d")
+            status_label = mo.get("status") or "nog steeds geen uitslag"
+            print(f"→ {status_label}")
+            bestaand[mid] = mo
+            time.sleep(0.35)
 
     # Opslaan: nieuwste eerst
     resultaat = sorted(
