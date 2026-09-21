@@ -1,11 +1,11 @@
 [
   {
-    "id": "EBS:1314:1011_2026-09-21",
-    "journey_id": "EBS:1314:1011",
+    "id": "EBS:1112:1026_2026-09-21",
+    "journey_id": "EBS:1112:1026",
     "datum": "2026-09-21",
-    "lijn": "314",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
+    "lijn": "112",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
     "product_label": "MeerPlus",
     "drukte_icoon": "crowd1.svg",
     "drukte_omschrijving": "Zitplaatsen beschikbaar",
@@ -21,19 +21,55 @@
       {
         "halte_id": "NL:S:38491011",
         "halte_naam": "Edam, Busstation",
-        "geplande_tijd": "06:57",
+        "geplande_tijd": "08:00",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron E",
-        "bestemming": "Hoorn"
+        "platform": "Perron B",
+        "bestemming": "Amsterdam Noord"
       }
     ],
-    "eerste_tijd": "06:57",
+    "eerste_tijd": "08:00",
+    "dagdeel": "ochtendspits",
+    "bijgewerkt": "2026-09-21 04:45:33",
+    "eerst_gezien": "2026-09-21 04:45:33"
+  },
+  {
+    "id": "EBS:1111:1013_2026-09-21",
+    "journey_id": "EBS:1111:1013",
+    "datum": "2026-09-21",
+    "lijn": "111",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "06:58",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A1",
+        "bestemming": "Marken"
+      }
+    ],
+    "eerste_tijd": "06:58",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-09-21 04:15:26",
-    "eerst_gezien": "2026-09-21 04:15:26"
+    "bijgewerkt": "2026-09-21 04:45:33",
+    "eerst_gezien": "2026-09-21 04:45:33"
   },
   {
     "id": "EBS:1314:1011_2026-09-21",
@@ -72,15 +108,15 @@
     "eerst_gezien": "2026-09-21 04:30:36"
   },
   {
-    "id": "EBS:1111:1013_2026-09-21",
-    "journey_id": "EBS:1111:1013",
+    "id": "EBS:1314:1011_2026-09-21",
+    "journey_id": "EBS:1314:1011",
     "datum": "2026-09-21",
-    "lijn": "111",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
+    "lijn": "314",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
     "product_label": "MeerPlus",
-    "drukte_icoon": "crowd0.svg",
-    "drukte_omschrijving": "leeg",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Personeel",
@@ -91,32 +127,21 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "06:35",
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "06:57",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
         "platform": "Perron E",
-        "bestemming": "Marken"
-      },
-      {
-        "halte_id": "NL:S:30001305",
-        "halte_naam": "Amsterdam, Busstation Station Noord",
-        "geplande_tijd": "06:58",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron A1",
-        "bestemming": "Marken"
+        "bestemming": "Hoorn"
       }
     ],
-    "eerste_tijd": "06:35",
+    "eerste_tijd": "06:57",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-09-21 04:15:26",
-    "eerst_gezien": "2026-09-21 04:15:26"
+    "bijgewerkt": "2026-09-21 04:45:33",
+    "eerst_gezien": "2026-09-21 04:45:33"
   },
   {
     "id": "EBS:1111:1013_2026-09-21",
