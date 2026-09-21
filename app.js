@@ -4330,3 +4330,503 @@ function fmtDate(s, mode) {
 function esc(s) {
   return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
+
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW — EBS-CHAT (kaart in de Uitval-tab): vragen stellen aan de uitvaldata
+//
+// Opzet: Gemini krijgt NOOIT de data zelf te zien. Het model krijgt alleen
+// de vraag plus een lijstje functies (EBS_TOOLS hieronder). Het kiest een
+// functie, jouw browser voert die uit op percentageHistorie/uitval/
+// totaalTeller (al ingeladen door loadUitval), en Gemini formuleert het
+// antwoord uit het resultaat. Zo komen de getallen uit je eigen code en
+// niet uit het taalmodel, en bestaat er geen functie voor wat je niet
+// bijhoudt (vertragingen, lijn × dagdeel, verklaringen).
+//
+// Ondergrens: volledigeDekkingVanaf() (13 augustus). Daarvoor volgde de
+// scraper 3 i.p.v. 12 haltes en klopte totaal_per_lijn niet (zie de
+// toelichting bij die functie). Elke functie kapt de periode daarop af en
+// meldt dat in 'waarschuwingen'.
+//
+// Zoals de 2%-norm-kaart staat deze kaart los van de periodefilters van de
+// Uitval-tab: een antwoord hangt niet af van welke knop er aan staat.
+//
+// Sleutel: eigen veld (localStorage 'zr_gemini_key_ebs'), met terugval op de
+// sleutel van Factcheck ('zr_gemini_key'). Nooit in de repo zetten.
+// ══════════════════════════════════════════════════════════════════════════
+const EBS_CHAT_MODEL = 'gemini-3.1-flash-lite';   // zelfde model als Factcheck
+const EBS_CHAT_MAX_RONDES = 4;                    // max. functie-rondes per vraag
+const EBS_CHAT_KEY_EIGEN = 'zr_gemini_key_ebs';
+const EBS_CHAT_KEY_GEDEELD = 'zr_gemini_key';     // dezelfde opslag als Factcheck
+let _ebsChatBezig = false;
+
+// ── datumhulpjes in LOKALE tijd (geen UTC-verschuiving rond middernacht) ──
+function ebsIso(d) {
+  const p = n => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
+}
+function ebsDatum(iso) { return new Date(iso + 'T00:00:00'); }
+function ebsVerschuif(iso, dagen) { const d = ebsDatum(iso); d.setDate(d.getDate() + dagen); return ebsIso(d); }
+function ebsMaandag(iso) {
+  const d = ebsDatum(iso);
+  const dag = d.getDay();
+  d.setDate(d.getDate() + (dag === 0 ? -6 : 1 - dag));
+  return ebsIso(d);
+}
+function ebsVandaag() { return ebsIso(new Date()); }
+function ebsPct(a, b) { return b ? Math.round(a / b * 1000) / 10 : null; }
+
+// Periode bepalen uit {preset} of {van, tot}, afgekapt op de betrouwbare
+// data. Geeft {van, tot, dagen[], waarschuwingen[]} of {fout}.
+function ebsPeriode(args) {
+  args = args || {};
+  const grens = volledigeDekkingVanaf();
+  const vandaag = ebsVandaag();
+  const gisteren = ebsVerschuif(vandaag, -1);
+  const beschikbaar = Object.keys(percentageHistorie || {}).filter(d => d >= grens && d < vandaag).sort();
+  if (!beschikbaar.length) return { fout: `Er is (nog) geen uitvaldata geladen vanaf ${grens}.` };
+  const laatste = beschikbaar[beschikbaar.length - 1];
+
+  let van = args.van, tot = args.tot;
+  switch (args.preset) {
+    case 'gisteren':          van = tot = gisteren; break;
+    case 'laatste_7_dagen':   tot = gisteren; van = ebsVerschuif(gisteren, -6); break;
+    case 'laatste_30_dagen':  tot = gisteren; van = ebsVerschuif(gisteren, -29); break;
+    case 'vorige_week': { const m = ebsMaandag(vandaag); van = ebsVerschuif(m, -7); tot = ebsVerschuif(m, -1); break; }
+    case 'deze_week':         van = ebsMaandag(vandaag); tot = gisteren; break;
+    case 'vorige_maand': {
+      const d = ebsDatum(vandaag);
+      van = ebsIso(new Date(d.getFullYear(), d.getMonth() - 1, 1));
+      tot = ebsIso(new Date(d.getFullYear(), d.getMonth(), 0));
+      break;
+    }
+    case 'deze_maand':        van = vandaag.slice(0, 8) + '01'; tot = gisteren; break;
+    case 'alles':             van = grens; tot = gisteren; break;
+  }
+  van = van || grens;
+  tot = tot || gisteren;
+  const isDatum = s => /^\d{4}-\d{2}-\d{2}$/.test(String(s));
+  if (!isDatum(van) || !isDatum(tot)) return { fout: 'Ongeldige datum: gebruik het formaat JJJJ-MM-DD of een preset.' };
+  if (van > tot) return { fout: `De startdatum (${van}) ligt na de einddatum (${tot}).` };
+
+  const waarschuwingen = [];
+  const wil = `${van} t/m ${tot}`;
+  if (tot < grens) {
+    return { fout: `Voor ${wil} is geen vergelijkbare data: betrouwbare cijfers beginnen op ${grens} (daarvoor volgde de scraper 3 in plaats van 12 haltes en klopte het aantal ritten per lijn niet).` };
+  }
+  if (van < grens) {
+    waarschuwingen.push(`Periode ingekort: cijfers van vóór ${grens} zijn niet vergelijkbaar (toen volgde de scraper 3 in plaats van 12 haltes), dus de periode begint op ${grens}.`);
+    van = grens;
+  }
+  if (van > laatste) {
+    return { fout: `Voor ${wil} is nog geen data: de laatste volledige dag in de data is ${laatste}. Vandaag heeft een eigen functie (tussenstand).` };
+  }
+  if (tot > laatste) {
+    waarschuwingen.push(`Periode ingekort tot ${laatste}, de laatste volledige dag in de data (de lopende dag telt niet mee).`);
+    tot = laatste;
+  }
+  const dagen = beschikbaar.filter(d => d >= van && d <= tot);
+  const verwacht = Math.round((ebsDatum(tot) - ebsDatum(van)) / 86400000) + 1;
+  if (dagen.length < verwacht) waarschuwingen.push(`Er is data voor ${dagen.length} van de ${verwacht} dagen in deze periode.`);
+  return { van, tot, dagen, waarschuwingen };
+}
+
+function ebsResultaat(p, inhoud) {
+  const uit = { periode: { van: p.van, tot: p.tot, dagen: p.dagen.length }, ...inhoud };
+  if (p.waarschuwingen.length) uit.waarschuwingen = p.waarschuwingen;
+  return uit;
+}
+
+// Telt per sleutel op over dagen, bv. per_lijn: {"391": 14, ...}
+function ebsSom(dagen, veld) {
+  const uit = {};
+  dagen.forEach(d => {
+    const o = percentageHistorie[d] && percentageHistorie[d][veld];
+    if (!o) return;
+    Object.entries(o).forEach(([k, v]) => { uit[k] = (uit[k] || 0) + (Number(v) || 0); });
+  });
+  return uit;
+}
+function ebsTotalen(dagen) {
+  let ritten = 0, uitgevallen = 0;
+  dagen.forEach(d => { ritten += percentageHistorie[d].totaal || 0; uitgevallen += percentageHistorie[d].cancelled || 0; });
+  return { ritten, uitgevallen, percentage: ebsPct(uitgevallen, ritten) };
+}
+function ebsLijnNaam(x) { return String(x == null ? '' : x).replace(/^\s*lijn\s*/i, '').trim().toUpperCase(); }
+function ebsKlem(n, min, max, standaard) {
+  n = Number(n);
+  if (!Number.isFinite(n)) return standaard;
+  return Math.max(min, Math.min(max, Math.round(n)));
+}
+function ebsRegels(dagen) {
+  return dagen.map(d => {
+    const h = percentageHistorie[d];
+    return { datum: d, ritten: h.totaal || 0, uitgevallen: h.cancelled || 0, percentage: ebsPct(h.cancelled || 0, h.totaal || 0) };
+  });
+}
+
+// ── DE FUNCTIES DIE GEMINI MAG AANROEPEN ─────────────────────────────────
+const EBS_TOOLS = {
+  uitval_periode(args) {
+    const p = ebsPeriode(args); if (p.fout) return p;
+    const regels = ebsRegels(p.dagen);
+    const slechtste = [...regels].sort((a, b) => (b.percentage || 0) - (a.percentage || 0))[0];
+    const uit = { ...ebsTotalen(p.dagen), slechtste_dag: slechtste };
+    if (args.uitsplitsing === 'dag') uit.per_dag = regels;
+    return ebsResultaat(p, uit);
+  },
+
+  uitval_lijn(args) {
+    const p = ebsPeriode(args); if (p.fout) return p;
+    const namen = new Map();
+    p.dagen.forEach(d => {
+      ['totaal_per_lijn', 'per_lijn'].forEach(v => Object.keys(percentageHistorie[d][v] || {}).forEach(k => namen.set(k.toUpperCase(), k)));
+    });
+    const gevraagd = ebsLijnNaam(args.lijn);
+    const lijn = namen.get(gevraagd);
+    if (!lijn) {
+      return { fout: `Lijn '${args.lijn}' komt in deze periode niet voor in de data.`, bekende_lijnen: [...namen.values()].sort((a, b) => a.localeCompare(b, 'nl', { numeric: true })) };
+    }
+    let ritten = 0, uitgevallen = 0;
+    const regels = p.dagen.map(d => {
+      const h = percentageHistorie[d];
+      const r = (h.totaal_per_lijn || {})[lijn] || 0, u = (h.per_lijn || {})[lijn] || 0;
+      ritten += r; uitgevallen += u;
+      return { datum: d, ritten: r, uitgevallen: u, percentage: ebsPct(u, r) };
+    });
+    const slechtste = [...regels].sort((a, b) => b.uitgevallen - a.uitgevallen)[0];
+    const uit = { lijn, ritten, uitgevallen, percentage: ebsPct(uitgevallen, ritten), slechtste_dag: slechtste && slechtste.uitgevallen ? slechtste : null };
+    if (args.uitsplitsing === 'dag' || p.dagen.length <= 8) uit.per_dag = regels;
+    return ebsResultaat(p, uit);
+  },
+
+  top_lijnen(args) {
+    const p = ebsPeriode(args); if (p.fout) return p;
+    const uitg = ebsSom(p.dagen, 'per_lijn'), rit = ebsSom(p.dagen, 'totaal_per_lijn');
+    const opPct = args.sorteer_op === 'percentage';
+    const minRitten = ebsKlem(args.min_ritten, 0, 100000, 50);
+    let rijen = Object.keys(rit).map(l => ({ lijn: l, ritten: rit[l], uitgevallen: uitg[l] || 0, percentage: ebsPct(uitg[l] || 0, rit[l]) }));
+    if (opPct) rijen = rijen.filter(r => r.ritten >= minRitten);
+    rijen.sort((a, b) => opPct
+      ? ((b.percentage || 0) - (a.percentage || 0)) || (b.uitgevallen - a.uitgevallen)
+      : (b.uitgevallen - a.uitgevallen) || ((b.percentage || 0) - (a.percentage || 0)));
+    const uit = { gesorteerd_op: opPct ? 'uitvalpercentage' : 'aantal uitgevallen ritten', lijnen: rijen.slice(0, ebsKlem(args.aantal, 1, 15, 5)) };
+    if (opPct) uit.alleen_lijnen_met_minstens_ritten = minRitten;
+    return ebsResultaat(p, uit);
+  },
+
+  oorzaken(args) {
+    const p = ebsPeriode(args); if (p.fout) return p;
+    const som = ebsSom(p.dagen, 'per_oorzaak');
+    const rijen = Object.entries(som)
+      .map(([o, n]) => ({ oorzaak: o === '-' ? 'geen oorzaak opgegeven' : o, vermeldingen: n }))
+      .sort((a, b) => b.vermeldingen - a.vermeldingen);
+    return ebsResultaat(p, {
+      uitgevallen_ritten: ebsTotalen(p.dagen).uitgevallen,
+      oorzaken: rijen,
+      opmerking: 'Dit zijn vermeldingen, geen ritten: een uitgevallen rit kan meerdere oorzaken hebben en niet elke rit heeft een oorzaak. De aantallen tellen dus niet op tot het aantal uitgevallen ritten; gebruik ze als indicatie.',
+    });
+  },
+
+  haltes(args) {
+    const p = ebsPeriode(args); if (p.fout) return p;
+    const som = ebsSom(p.dagen, 'per_halte');
+    const rijen = Object.entries(som).map(([h, n]) => ({ halte: h, uitgevallen_ritten: n })).sort((a, b) => b.uitgevallen_ritten - a.uitgevallen_ritten);
+    return ebsResultaat(p, {
+      haltes: rijen.slice(0, ebsKlem(args.aantal, 1, 20, 10)),
+      opmerking: 'Elke uitgevallen rit telt één keer, bij de eerste gevolgde halte van die rit. Het zegt dus niet bij welke halte de bus is uitgevallen, en er is geen totaal aantal ritten per halte.',
+    });
+  },
+
+  dagdelen(args) {
+    const p = ebsPeriode(args); if (p.fout) return p;
+    const som = ebsSom(p.dagen, 'per_dagdeel');
+    const volgorde = ['ochtendspits', 'dal', 'avondspits', 'avond', 'nacht', 'onbekend'];
+    const rijen = Object.entries(som).map(([d, n]) => ({ dagdeel: d, uitgevallen_ritten: n }))
+      .sort((a, b) => volgorde.indexOf(a.dagdeel) - volgorde.indexOf(b.dagdeel));
+    return ebsResultaat(p, {
+      dagdelen: rijen,
+      dagdeel_indeling: 'ochtendspits 07-09 uur, dal 09-16, avondspits 16-19, avond 19-24, nacht 00-07 (op geplande vertrektijd)',
+      opmerking: 'Alleen aantallen uitgevallen ritten; er is geen totaal aantal ritten per dagdeel, dus geen percentage per dagdeel.',
+    });
+  },
+
+  vergelijk_periodes(args) {
+    const a = ebsPeriode({ preset: args.preset_a, van: args.van_a, tot: args.tot_a });
+    if (a.fout) return { fout: 'Periode A: ' + a.fout };
+    const b = ebsPeriode({ preset: args.preset_b, van: args.van_b, tot: args.tot_b });
+    if (b.fout) return { fout: 'Periode B: ' + b.fout };
+    const ta = ebsTotalen(a.dagen), tb = ebsTotalen(b.dagen);
+    const uit = {
+      periode_a: { van: a.van, tot: a.tot, dagen: a.dagen.length, ...ta },
+      periode_b: { van: b.van, tot: b.tot, dagen: b.dagen.length, ...tb },
+      verschil_procentpunt: ta.percentage != null && tb.percentage != null ? Math.round((tb.percentage - ta.percentage) * 10) / 10 : null,
+    };
+    const w = [...a.waarschuwingen.map(x => 'Periode A: ' + x), ...b.waarschuwingen.map(x => 'Periode B: ' + x)];
+    if (w.length) uit.waarschuwingen = w;
+    return uit;
+  },
+
+  weeknorm(args) {
+    const p = ebsPeriode({ preset: 'alles' }); if (p.fout) return p;
+    const grens = volledigeDekkingVanaf(), vandaag = ebsVandaag();
+    const weken = {};
+    p.dagen.forEach(d => {
+      const m = ebsMaandag(d);
+      const w = weken[m] || (weken[m] = { ritten: 0, uitgevallen: 0, dagen: 0 });
+      w.ritten += percentageHistorie[d].totaal || 0;
+      w.uitgevallen += percentageHistorie[d].cancelled || 0;
+      w.dagen++;
+    });
+    const rijen = Object.entries(weken).map(([maandag, w]) => {
+      const zondag = ebsVerschuif(maandag, 6);
+      const status = zondag >= vandaag ? 'loopt nog' : (maandag < grens ? 'onvolledige dekking' : 'compleet');
+      const percentage = ebsPct(w.uitgevallen, w.ritten);
+      return { maandag, zondag, status, dagen_met_data: w.dagen, ritten: w.ritten, uitgevallen: w.uitgevallen, percentage,
+               boven_norm: status === 'compleet' ? percentage > EBS_WEEKNORM_PCT : null };
+    }).sort((a, b) => b.maandag.localeCompare(a.maandag));
+    const compleet = rijen.filter(r => r.status === 'compleet');
+    return ebsResultaat(p, {
+      norm_percentage_per_week: EBS_WEEKNORM_PCT,
+      complete_weken: compleet.length,
+      complete_weken_boven_norm: compleet.filter(r => r.boven_norm).length,
+      weken: rijen.slice(0, ebsKlem(args.aantal_weken, 1, 20, 12)),
+      opmerking: 'Alleen weken met status compleet tellen mee voor de norm; de lopende week en de eerste, onvolledige week niet.',
+    });
+  },
+
+  vandaag() {
+    const dag = ebsVandaag();
+    const teller = totaalTeller && totaalTeller[dag];
+    const uitg = (uitval || []).filter(r => r.status === 'cancelled' && r.datum === dag);
+    if (!teller && !uitg.length) return { fout: 'Er zijn nog geen gegevens van vandaag geladen.' };
+    const ritten = (teller && teller.totaal) || 0;
+    const tel = fn => {
+      const t = {}; uitg.forEach(r => { const k = fn(r); if (k != null) t[k] = (t[k] || 0) + 1; });
+      return Object.entries(t).sort((a, b) => b[1] - a[1]);
+    };
+    return {
+      datum: dag,
+      status: 'de dag loopt nog: dit is een tussenstand',
+      ritten_tot_nu: ritten,
+      uitgevallen_tot_nu: uitg.length,
+      percentage_tot_nu: ebsPct(uitg.length, ritten),
+      per_lijn: tel(r => r.lijn).slice(0, 8).map(([lijn, n]) => ({ lijn, uitgevallen: n })),
+      per_dagdeel: tel(r => r.dagdeel).map(([dagdeel, n]) => ({ dagdeel, uitgevallen: n })),
+    };
+  },
+};
+
+const EBS_BRON = {
+  vandaag: 'ebs_uitval.json + ebs_totaal_teller.json',
+  _standaard: 'ebs_percentage_historie.json',
+};
+
+function ebsVoerUit(naam, args) {
+  const fn = EBS_TOOLS[naam];
+  let resultaat;
+  if (!fn) resultaat = { fout: `Onbekende functie: ${naam}` };
+  else {
+    try { resultaat = fn(args || {}); }
+    catch (e) { resultaat = { fout: `Fout bij uitvoeren van ${naam}: ${e.message}` }; }
+  }
+  if (!resultaat.fout) resultaat.bron = EBS_BRON[naam] || EBS_BRON._standaard;
+  return resultaat;
+}
+
+// ── FUNCTIEBESCHRIJVINGEN VOOR GEMINI ────────────────────────────────────
+const EBS_PERIODE_PARAMS = {
+  preset: { type: 'string', enum: ['gisteren', 'laatste_7_dagen', 'laatste_30_dagen', 'vorige_week', 'deze_week', 'vorige_maand', 'deze_maand', 'alles'],
+            description: 'Vaste periode voor uitdrukkingen als "gisteren", "de afgelopen week" of "vorige maand". Laat leeg als je van en tot gebruikt. Zonder periode: alle beschikbare dagen.' },
+  van: { type: 'string', description: 'Eerste dag, formaat JJJJ-MM-DD (alleen zonder preset).' },
+  tot: { type: 'string', description: 'Laatste dag, inclusief, formaat JJJJ-MM-DD (alleen zonder preset).' },
+};
+const EBS_TOOL_DECLARATIES = [
+  { name: 'uitval_periode',
+    description: 'Totaal aantal ritten, uitgevallen ritten en uitvalpercentage over een periode, plus de slechtste dag. Met uitsplitsing "dag" ook een lijst per dag.',
+    parameters: { type: 'object', properties: { ...EBS_PERIODE_PARAMS, uitsplitsing: { type: 'string', enum: ['totaal', 'dag'] } } } },
+  { name: 'uitval_lijn',
+    description: 'Hoe vaak één buslijn uitviel: aantal uitgevallen ritten, aantal ritten en percentage over een periode, plus slechtste dag.',
+    parameters: { type: 'object', properties: { lijn: { type: 'string', description: 'Lijnnummer, bv. "391" of "N14".' }, ...EBS_PERIODE_PARAMS, uitsplitsing: { type: 'string', enum: ['totaal', 'dag'] } }, required: ['lijn'] } },
+  { name: 'top_lijnen',
+    description: 'Ranglijst van lijnen met de meeste uitval, naar aantal uitgevallen ritten of naar uitvalpercentage.',
+    parameters: { type: 'object', properties: { ...EBS_PERIODE_PARAMS, sorteer_op: { type: 'string', enum: ['aantal', 'percentage'] }, aantal: { type: 'integer', description: 'Hoeveel lijnen (standaard 5, max 15).' }, min_ritten: { type: 'integer', description: 'Bij sorteren op percentage: minimaal aantal ritten in de periode (standaard 50), zodat kleine lijnen niet overschatten.' } } } },
+  { name: 'oorzaken',
+    description: 'Hoe vaak elke oorzaak van uitval wordt genoemd in een periode (indicatie, geen sluitende verdeling).',
+    parameters: { type: 'object', properties: { ...EBS_PERIODE_PARAMS } } },
+  { name: 'haltes',
+    description: 'Haltes met de meeste uitgevallen ritten (per rit geteld bij de eerste gevolgde halte).',
+    parameters: { type: 'object', properties: { ...EBS_PERIODE_PARAMS, aantal: { type: 'integer' } } } },
+  { name: 'dagdelen',
+    description: 'Aantal uitgevallen ritten per dagdeel (ochtendspits, dal, avondspits, avond, nacht). Geen percentages.',
+    parameters: { type: 'object', properties: { ...EBS_PERIODE_PARAMS } } },
+  { name: 'vergelijk_periodes',
+    description: 'Vergelijkt het uitvalpercentage van twee periodes (A en B).',
+    parameters: { type: 'object', properties: {
+      preset_a: EBS_PERIODE_PARAMS.preset, van_a: EBS_PERIODE_PARAMS.van, tot_a: EBS_PERIODE_PARAMS.tot,
+      preset_b: EBS_PERIODE_PARAMS.preset, van_b: EBS_PERIODE_PARAMS.van, tot_b: EBS_PERIODE_PARAMS.tot } } },
+  { name: 'weeknorm',
+    description: 'Uitvalpercentage per week (maandag t/m zondag) getoetst aan de contractuele 2%-norm: hoeveel volledige weken zaten erboven.',
+    parameters: { type: 'object', properties: { aantal_weken: { type: 'integer', description: 'Hoeveel weken teruggeven (standaard 12).' } } } },
+  { name: 'vandaag',
+    description: 'Tussenstand van vandaag: ritten en uitgevallen ritten tot nu toe, per lijn en dagdeel. Alleen voor vragen over vandaag.' },
+];
+
+function ebsChatSysteem() {
+  const vandaag = ebsVandaag();
+  const weekdag = ebsDatum(vandaag).toLocaleDateString('nl-NL', { weekday: 'long' });
+  return [
+    'Je beantwoordt vragen over de uitval van EBS-bussen in de regio Zaanstad, uitsluitend op basis van de resultaten van de beschikbare functies.',
+    `Vandaag is het ${weekdag} ${vandaag}. Betrouwbare data begint op ${volledigeDekkingVanaf()}.`,
+    'Regels:',
+    '1. Gebruik alleen getallen die letterlijk in een functieresultaat staan. Reken zelf niets uit; roep liever een functie aan.',
+    '2. Vraagt de vraag om iets dat niet wordt bijgehouden (vertragingen of minuten te laat, uitval per lijn én dagdeel, halte of oorzaak tegelijk, verklaringen waarom iets uitviel, andere vervoerders), zeg dat dan kort en noem wat er wél gevraagd kan worden. Roep dan geen functie aan.',
+    '3. Loopt een gevraagde periode deels vóór de startdatum, gebruik dan gewoon de functie: die kort de periode zelf in en meldt dat.',
+    '4. Alleen uitgevallen ritten worden bijgehouden, geen vertragingen. De cijfers gelden voor ritten langs de 12 haltes die de scraper volgt, niet voor het hele EBS-net.',
+    '5. Noem waarschuwingen en opmerkingen uit de resultaten als ze relevant zijn (bijvoorbeeld een ingekorte periode of een klein aantal ritten).',
+    '6. Geef geen oorzaken of verklaringen die niet in de resultaten staan.',
+    '7. Antwoord in het Nederlands, in maximaal vier korte zinnen, zonder opmaak of opsommingstekens.',
+  ].join('\n');
+}
+
+// ── DE GEMINI-AANROEP (met functie-rondes) ───────────────────────────────
+async function ebsChatVraag(vraag, sleutel) {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${EBS_CHAT_MODEL}:generateContent?key=${encodeURIComponent(sleutel)}`;
+  const contents = [{ role: 'user', parts: [{ text: vraag }] }];
+  const gebruikt = [];
+  for (let ronde = 0; ronde < EBS_CHAT_MAX_RONDES; ronde++) {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        system_instruction: { parts: [{ text: ebsChatSysteem() }] },
+        contents,
+        tools: [{ function_declarations: EBS_TOOL_DECLARATIES }],
+        generationConfig: { maxOutputTokens: 1024 },
+      }),
+    });
+    let data;
+    try { data = await res.json(); }
+    catch (e) { throw new Error(`Onleesbaar antwoord van Gemini (status ${res.status}).`); }
+    if (data.error) {
+      const err = new Error(data.error.message || 'Onbekende fout van Gemini');
+      err.status = data.error.code || res.status;
+      throw err;
+    }
+    const kandidaat = data.candidates && data.candidates[0];
+    const inhoud = kandidaat && kandidaat.content;
+    if (!inhoud || !inhoud.parts || !inhoud.parts.length) {
+      const reden = (kandidaat && kandidaat.finishReason) || (data.promptFeedback && data.promptFeedback.blockReason) || 'leeg antwoord';
+      throw new Error(`Geen antwoord van Gemini (${reden}).`);
+    }
+    const aanroepen = inhoud.parts.filter(p => p.functionCall || p.function_call);
+    if (!aanroepen.length) {
+      return { tekst: inhoud.parts.map(p => p.text || '').join('').trim(), gebruikt };
+    }
+    // Het antwoord van het model ONGEWIJZIGD terugsturen (bij Gemini 3 horen
+    // daar eventuele thought-signatures bij die terug moeten komen).
+    contents.push(inhoud);
+    const antwoorden = aanroepen.map(p => {
+      const fc = p.functionCall || p.function_call;
+      const args = fc.args || {};
+      const resultaat = ebsVoerUit(fc.name, args);
+      gebruikt.push({ functie: fc.name, args, resultaat });
+      return { functionResponse: { name: fc.name, response: { resultaat } } };
+    });
+    contents.push({ role: 'user', parts: antwoorden });
+  }
+  throw new Error(`Gemini kwam na ${EBS_CHAT_MAX_RONDES} rondes niet tot een antwoord. Probeer de vraag korter of specifieker te stellen.`);
+}
+
+// ── SLEUTEL + UI ─────────────────────────────────────────────────────────
+function ebsChatSleutel() {
+  return (localStorage.getItem(EBS_CHAT_KEY_EIGEN) || localStorage.getItem(EBS_CHAT_KEY_GEDEELD) || '').trim();
+}
+function ebsChatSleutelOpslaan(waarde) {
+  const w = (waarde || '').trim();
+  if (w) localStorage.setItem(EBS_CHAT_KEY_EIGEN, w); else localStorage.removeItem(EBS_CHAT_KEY_EIGEN);
+}
+function ebsChatToonSleutelRij() {
+  const rij = document.getElementById('ebsChatKeyRij'), knop = document.getElementById('ebsChatKeyWijzig');
+  if (rij) rij.style.display = '';
+  if (knop) knop.style.display = 'none';
+  const veld = document.getElementById('ebsChatKey');
+  if (veld) veld.focus();
+}
+function ebsChatInit() {
+  const rij = document.getElementById('ebsChatKeyRij'), knop = document.getElementById('ebsChatKeyWijzig');
+  if (!rij) return;
+  const veld = document.getElementById('ebsChatKey');
+  if (veld) veld.value = localStorage.getItem(EBS_CHAT_KEY_EIGEN) || '';
+  if (ebsChatSleutel()) { rij.style.display = 'none'; if (knop) knop.style.display = ''; }
+}
+
+function ebsBronHtml(gebruikt) {
+  if (!gebruikt.length) return '<div class="ebs-chat-bron">Geen cijfers uit je data gebruikt.</div>';
+  const regels = gebruikt.map(g => {
+    const per = g.resultaat && g.resultaat.periode;
+    const args = Object.entries(g.args || {}).map(([k, v]) => `${k}: ${v}`).join(', ');
+    const periode = per ? ` · ${fmtDate(per.van, 'short')} – ${fmtDate(per.tot, 'full')} (${per.dagen} dagen)` : '';
+    const bron = g.resultaat && g.resultaat.bron ? ` · ${g.resultaat.bron}` : '';
+    return `<div>${esc(g.functie)}(${esc(args)})${esc(periode)}${esc(bron)}</div>`;
+  }).join('');
+  let ruw = JSON.stringify(gebruikt.map(g => ({ functie: g.functie, args: g.args, resultaat: g.resultaat })), null, 1);
+  if (ruw.length > 8000) ruw = ruw.slice(0, 8000) + '\n… (ingekort)';
+  return `<div class="ebs-chat-bron">Bron: ${regels}<details><summary>Cijfers die zijn gebruikt</summary><pre>${esc(ruw)}</pre></details></div>`;
+}
+
+function ebsChatStel(vraag) {
+  const invoer = document.getElementById('ebsChatInput');
+  if (invoer) invoer.value = vraag;
+  return ebsChatVerstuur();
+}
+
+async function ebsChatVerstuur() {
+  const invoer = document.getElementById('ebsChatInput');
+  const log = document.getElementById('ebsChatLog');
+  const knop = document.getElementById('ebsChatBtn');
+  if (!invoer || !log || _ebsChatBezig) return;
+  const vraag = invoer.value.trim();
+  if (!vraag) return;
+
+  const voegToe = (klasse, html) => {
+    const div = document.createElement('div');
+    div.className = klasse;
+    div.innerHTML = html;
+    log.appendChild(div);
+    log.scrollTop = log.scrollHeight;
+    return div;
+  };
+  voegToe('ebs-chat-vraag', esc(vraag));
+
+  const sleutel = ebsChatSleutel();
+  if (!sleutel) {
+    ebsChatToonSleutelRij();
+    voegToe('ebs-chat-antwoord fout', '<div class="ebs-chat-tekst">Vul eerst een Gemini API key in.</div>');
+    return;
+  }
+  if (!Object.keys(percentageHistorie || {}).length) {
+    voegToe('ebs-chat-antwoord fout', '<div class="ebs-chat-tekst">De uitvaldata is nog niet geladen. Probeer het over een paar seconden opnieuw.</div>');
+    return;
+  }
+
+  _ebsChatBezig = true;
+  if (knop) { knop.disabled = true; knop.textContent = 'Bezig…'; }
+  invoer.value = '';
+  const wacht = voegToe('ebs-chat-antwoord', '<div class="ebs-chat-tekst" style="color:var(--muted);">Even rekenen…</div>');
+  try {
+    const { tekst, gebruikt } = await ebsChatVraag(vraag, sleutel);
+    wacht.innerHTML = `<div class="ebs-chat-tekst">${esc(tekst || '(geen tekst teruggekregen)')}</div>${ebsBronHtml(gebruikt)}`;
+  } catch (e) {
+    let melding = e.message;
+    if (e.status === 429) melding = 'Gemini meldt dat de limiet is bereikt (429). Wacht even, of gebruik een sleutel uit een ander Google-project: sleutels binnen één project delen dezelfde limiet.';
+    else if (e.status === 400 && /API key/i.test(e.message)) melding = 'Gemini accepteert deze API key niet. Controleer de sleutel.';
+    wacht.classList.add('fout');
+    wacht.innerHTML = `<div class="ebs-chat-tekst">${esc(melding)}</div>`;
+  } finally {
+    _ebsChatBezig = false;
+    if (knop) { knop.disabled = false; knop.textContent = 'Vraag'; }
+    log.scrollTop = log.scrollHeight;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', ebsChatInit);
