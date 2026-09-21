@@ -1,9 +1,45 @@
 [
   {
-    "id": "EBS:1063:1011_2026-09-21",
-    "journey_id": "EBS:1063:1011",
+    "id": "EBS:1305:1039_2026-09-21",
+    "journey_id": "EBS:1305:1039",
     "datum": "2026-09-21",
-    "lijn": "63",
+    "lijn": "305",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "09:56",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "De Rijp"
+      }
+    ],
+    "eerste_tijd": "09:56",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-09-21 06:31:16",
+    "eerst_gezien": "2026-09-21 06:31:16"
+  },
+  {
+    "id": "EBS:1111:1016_2026-09-21",
+    "journey_id": "EBS:1111:1016",
+    "datum": "2026-09-21",
+    "lijn": "111",
     "lijnkleur": "#004899",
     "categorie": "M-net",
     "product_label": "MeerPlus",
@@ -19,21 +55,21 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "08:27",
-        "vertraging_min": 0,
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "08:29",
+        "vertraging_min": 1,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron E",
-        "bestemming": "Assendelft"
+        "platform": null,
+        "bestemming": "Zaandam Station"
       }
     ],
-    "eerste_tijd": "08:27",
+    "eerste_tijd": "08:29",
     "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-09-21 06:00:44",
-    "eerst_gezien": "2026-09-21 06:00:44"
+    "bijgewerkt": "2026-09-21 06:31:16",
+    "eerst_gezien": "2026-09-21 06:31:16"
   },
   {
     "id": "EBS:1063:1011_2026-09-21",
@@ -70,53 +106,6 @@
     "dagdeel": "ochtendspits",
     "bijgewerkt": "2026-09-21 06:15:28",
     "eerst_gezien": "2026-09-21 06:15:28"
-  },
-  {
-    "id": "EBS:1111:1016_2026-09-21",
-    "journey_id": "EBS:1111:1016",
-    "datum": "2026-09-21",
-    "lijn": "111",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "08:19",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron A",
-        "bestemming": "Zaandam Station"
-      },
-      {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "08:29",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Zaandam Station"
-      }
-    ],
-    "eerste_tijd": "08:19",
-    "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-09-21 06:00:44",
-    "eerst_gezien": "2026-09-21 06:00:44"
   },
   {
     "id": "EBS:1111:1016_2026-09-21",
