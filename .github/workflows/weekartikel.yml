@@ -1,0 +1,77 @@
+name: Weekartikel
+on:
+  schedule:
+    # Vrijdag 19:00 UTC = 21:00 zomertijd / 20:00 wintertijd in Nederland.
+    # Zo is vrijdagavond zelf al (bijna) compleet meegenomen. GitHub Actions
+    # cron draait op eigen infrastructuur en kan op drukke momenten enkele
+    # tot enkele tientallen minuten later starten dan gepland; dat is geen
+    # probleem voor een wekelijks artikel. Zoals bij scrape.yml kan dit ook
+    # extern getriggerd worden via workflow_dispatch als cron onbetrouwbaar
+    # blijkt.
+    - cron: '0 19 * * 5'
+  workflow_dispatch:
+    inputs:
+      tot:
+        description: 'Laatste dag van de week, een vrijdag (YYYY-MM-DD) — leeg = meest recente vrijdag'
+        required: false
+        default: ''
+      forceer:
+        description: 'Bestaand artikel voor deze week overschrijven'
+        required: false
+        type: boolean
+        default: false
+concurrency:
+  group: weekartikel
+  cancel-in-progress: false
+jobs:
+  schrijf:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Python instellen
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Feiten verzamelen
+        id: feiten
+        run: |
+          python weekartikel_feiten.py ${{ github.event.inputs.tot && format('--tot {0}', github.event.inputs.tot) || '' }} --uit /tmp/feiten.json
+      - name: Artikel schrijven en controleren
+        id: schrijf
+        run: |
+          python weekartikel_schrijf.py --feiten /tmp/feiten.json ${{ github.event.inputs.forceer == 'true' && '--forceer' || '' }}
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      - name: Wijzigingen committen en pushen
+        # Loopt ook door als de vorige stap "overgeslagen" of "bestaat" meldde
+        # (exit-code 0, niets nieuws om te committen) — alleen een mislukt
+        # artikel (exit-code 1) stopt de job hierboven al.
+        if: success()
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/weekartikelen/
+          if git diff --staged --quiet; then
+            echo "Geen wijzigingen om te committen, overslaan."
+            exit 0
+          fi
+          git commit -m "weekartikel: $(date -u +'%Y-%m-%d')"
+          MAX_POGINGEN=5
+          WACHTTIJDEN=(3 6 12 20 30)
+          for ((poging=1; poging<=MAX_POGINGEN; poging++)); do
+            if git push; then
+              echo "Push gelukt (poging $poging)"
+              break
+            fi
+            if [ "$poging" -eq "$MAX_POGINGEN" ]; then
+              echo "Push definitief mislukt na $MAX_POGINGEN pogingen"
+              exit 1
+            fi
+            wacht=${WACHTTIJDEN[$((poging-1))]}
+            echo "Push mislukt (poging $poging/$MAX_POGINGEN) — ${wacht}s wachten en opnieuw pullen/rebasen"
+            sleep "$wacht"
+            git pull --rebase --autostash
+          done
