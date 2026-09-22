@@ -23,6 +23,7 @@
 <!-- TABS -->
 <nav>
   <div class="tab active" data-tab="overzicht"     onclick="switchTab(this)">Overzicht</div>
+  <div class="tab"        data-tab="weekartikel"   onclick="switchTab(this)">📰 Weekartikel</div>
   <div class="tab"        data-tab="vergaderingen"  onclick="switchTab(this)">Vergaderingen</div>
   <div class="tab"        data-tab="moties"         onclick="switchTab(this)">Moties</div>
   <div class="tab"        data-tab="bekendmakingen" onclick="switchTab(this)">Camera's &amp; Sluitingen</div>
@@ -126,6 +127,29 @@
   </div>
 
   <!-- ── VERGADERINGEN ── -->
+  <!-- NIEUW: Weekartikel. Automatisch samengestelde weekoverzichten (ma-vr),
+       gepubliceerd op vrijdagavond door .github/workflows/weekartikel.yml.
+       Gemini schrijft de tekst; de cijfers komen uit weekartikel_feiten.py en
+       worden bij het schrijven gecontroleerd (zie weekartikel_schrijf.py). -->
+  <div class="tab-content" id="tab-weekartikel">
+    <div class="alert-info">Automatisch samengestelde concepten, elke vrijdagavond gegenereerd uit de data van het dashboard. Elke alinea is onderbouwd met de feiten waarop hij is gebaseerd — klap "Onderbouwing" open om ze te controleren. Behandel dit als een concept, niet als een gepubliceerd artikel.</div>
+
+    <div class="wa-layout">
+      <div class="card wa-lijst-card">
+        <div class="card-header"><span class="card-title">Weken</span></div>
+        <div id="waLijst"><div class="empty">Laden...</div></div>
+      </div>
+
+      <div class="card wa-artikel-card">
+        <div class="card-header">
+          <span class="card-title" id="waWeekLabel">Weekartikel</span>
+          <span style="font-size:11px;color:var(--muted);" id="waMeta"></span>
+        </div>
+        <div id="waArtikel"><div class="empty">Selecteer een week.</div></div>
+      </div>
+    </div>
+  </div>
+
   <div class="tab-content" id="tab-vergaderingen">
     <div class="filter-bar">
       <select class="filter-select" id="filterVergType" onchange="renderVerg()">
