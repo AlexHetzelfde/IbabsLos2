@@ -50,7 +50,7 @@ let percentageHistorie = {};
 document.addEventListener('DOMContentLoaded', async () => {
   const savedKey = localStorage.getItem('zr_gemini_key');
   if (savedKey) document.getElementById('geminiKey').value = savedKey;
-  await Promise.all([loadVerg(), loadMoties(), loadCamerasEnSluitingen(), loadCollegebrieven(), loadStemmingen(), loadUitval(), loadNosLokaal(), loadAanbestedingen(), loadEbsMeldingen()]);
+  await Promise.all([loadVerg(), loadMoties(), loadCamerasEnSluitingen(), loadCollegebrieven(), loadStemmingen(), loadUitval(), loadNosLokaal(), loadAanbestedingen(), loadEbsMeldingen(), loadWeekartikelen()]);
   updateStats();
   renderOpgeslagenClaims();
   // NIEUW: cross-dataset visualisaties — pas renderen als alle bronnen binnen zijn
@@ -4830,3 +4830,119 @@ async function ebsChatVerstuur() {
 }
 
 document.addEventListener('DOMContentLoaded', ebsChatInit);
+
+// ══════════════════════════════════════════════════════════════════════════
+// NIEUW — WEEKARTIKEL-TAB
+// Toont de door .github/workflows/weekartikel.yml gegenereerde weekartikelen
+// (data/weekartikelen/index.json + <datum>.json). Puur weergave: het artikel
+// zelf is al gecontroleerd door weekartikel_schrijf.py vóór het werd
+// weggeschreven, dus hier wordt niets herberekend — alleen getoond, inclusief
+// de onderbouwing (feiten + bron) per alinea, zodat je dat zelf kunt nalopen.
+// ══════════════════════════════════════════════════════════════════════════
+let waIndex = [];
+let waHuidig = null;   // datum (YYYY-MM-DD) van het geselecteerde artikel
+
+async function loadWeekartikelen() {
+  const lijstEl = document.getElementById('waLijst');
+  try {
+    const r = await fetch('./data/weekartikelen/index.json');
+    if (!r.ok) throw new Error(r.status);
+    waIndex = await r.json();
+    if (!Array.isArray(waIndex)) throw new Error('onverwacht formaat in index.json');
+    renderWaLijst();
+    if (waIndex.length) {
+      await waSelecteer(waIndex[0].datum);
+    } else {
+      waHuidig = null;
+      const labelEl = document.getElementById('waWeekLabel'), metaEl = document.getElementById('waMeta'), artEl = document.getElementById('waArtikel');
+      if (labelEl) labelEl.textContent = 'Weekartikel';
+      if (metaEl) metaEl.textContent = '';
+      if (artEl) artEl.innerHTML = '<div class="empty">Nog geen weekartikelen — deze verschijnen elke vrijdagavond.</div>';
+    }
+  } catch (e) {
+    waIndex = [];
+    if (lijstEl) {
+      lijstEl.innerHTML = e.message === '404'
+        ? '<div class="empty">Nog geen weekartikelen — deze verschijnen elke vrijdagavond.</div>'
+        : `<div class="error-msg">Kon de artikelindex niet laden: ${esc(e.message)}</div>`;
+    }
+    const artEl = document.getElementById('waArtikel');
+    if (artEl) artEl.innerHTML = '';
+  }
+}
+
+function renderWaLijst() {
+  const el = document.getElementById('waLijst');
+  if (!el) return;
+  if (!waIndex.length) { el.innerHTML = '<div class="empty">Nog geen weekartikelen.</div>'; return; }
+  el.innerHTML = waIndex.map(w => `<div class="wa-lijst-item${w.datum === waHuidig ? ' actief' : ''}" data-datum="${esc(w.datum)}" onclick="waSelecteer('${esc(w.datum)}')">
+    <div class="wa-lijst-week">${esc(w.week)}</div>
+    <div class="wa-lijst-titel">${esc(w.titel)}</div>
+  </div>`).join('');
+}
+
+// gegenereerd_op is een volledige ISO-datumtijd ("2026-09-22T08:05:56"); fmtDate()
+// verwacht een kale datum (het plakt zelf "T00:00:00" erachter), dus een eigen
+// formatter voor dit ene datumtijd-veld.
+function waFmtDatumTijd(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  if (isNaN(d)) return iso;
+  const datum = d.toLocaleDateString('nl-NL', { day: 'numeric', month: 'short', year: 'numeric' });
+  const tijd = d.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
+  return `${datum}, ${tijd}`;
+}
+
+async function waSelecteer(datum) {
+  waHuidig = datum;
+  renderWaLijst();
+  const meta = waIndex.find(w => w.datum === datum);
+  const labelEl = document.getElementById('waWeekLabel'), metaEl = document.getElementById('waMeta'), artEl = document.getElementById('waArtikel');
+  if (labelEl) labelEl.textContent = meta ? meta.week : 'Weekartikel';
+  if (metaEl) metaEl.textContent = '';
+  if (artEl) artEl.innerHTML = '<div class="empty">Laden...</div>';
+  try {
+    const r = await fetch(`./data/weekartikelen/${encodeURIComponent(datum)}.json`);
+    if (!r.ok) throw new Error(r.status);
+    const art = await r.json();
+    if (metaEl) {
+      metaEl.textContent = `concept · ${art.woorden || '?'} woorden · gegenereerd ${waFmtDatumTijd(art.gegenereerd_op)}`;
+    }
+    if (artEl) artEl.innerHTML = waArtikelHtml(art);
+  } catch (e) {
+    if (artEl) artEl.innerHTML = e.message === '404'
+      ? '<div class="empty">Dit artikel kon niet worden gevonden.</div>'
+      : `<div class="error-msg">Kon het artikel niet laden: ${esc(e.message)}</div>`;
+  }
+}
+
+function waArtikelHtml(art) {
+  const feiten = {};
+  (art.feiten || []).forEach(f => { feiten[f.id] = f; });
+
+  const alineas = (art.alineas || []).map(a => {
+    const chips = (a.feiten || []).map(fid => {
+      const f = feiten[fid];
+      if (!f) return `<span class="wa-feit-chip">${esc(fid)}</span>`;
+      const titel = esc(f.tekst) + (f.bron_id ? ` (${esc(String(f.bron_id))})` : '');
+      const inner = `${esc(fid)}`;
+      return f.link
+        ? `<a class="wa-feit-chip" href="${esc(f.link)}" target="_blank" rel="noopener" title="${titel}">${inner} ↗</a>`
+        : `<span class="wa-feit-chip" title="${titel}">${inner}</span>`;
+    }).join('');
+    return `<div class="wa-alinea">
+      ${a.kop ? `<h4>${esc(a.kop)}</h4>` : ''}
+      <p>${esc(a.tekst)}</p>
+      <div class="wa-onderbouwing"><details><summary>Onderbouwing (${(a.feiten || []).length})</summary><div class="wa-feit-chips">${chips}</div></details></div>
+    </div>`;
+  }).join('');
+
+  const notities = (art.notities && art.notities.length)
+    ? `<div class="wa-notities"><strong>Niet meegenomen / let op:</strong><ul>${art.notities.map(n => `<li>${esc(n)}</li>`).join('')}</ul></div>`
+    : '';
+  const waarschuwingen = (art.controles && art.controles.waarschuwingen && art.controles.waarschuwingen.length)
+    ? `<div class="wa-notities"><strong>Opmerkingen bij het schrijven:</strong><ul>${art.controles.waarschuwingen.map(n => `<li>${esc(n)}</li>`).join('')}</ul></div>`
+    : '';
+
+  return `<h2 class="wa-titel">${esc(art.titel)}</h2>${alineas}${notities}${waarschuwingen}`;
+}
