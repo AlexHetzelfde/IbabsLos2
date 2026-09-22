@@ -60,7 +60,7 @@ DREMPEL_DUN = 12          # minder inhoudelijke feiten dan dit → korter artike
 MIN_INHOUDELIJK = 4       # minder dan dit → geen artikel
 TOLERANTIE_ONDER = 0.75   # accepteer vanaf 75% van de ondergrens
 TOLERANTIE_BOVEN = 1.20   # ... tot 120% van de bovengrens
-MAX_POGINGEN = 3
+MAX_POGINGEN = 4
 
 TELWOORDEN = {"twee": 2, "drie": 3, "vier": 4, "vijf": 5, "zes": 6, "zeven": 7, "acht": 8, "negen": 9, "tien": 10,
               "elf": 11, "twaalf": 12, "dertien": 13, "veertien": 14, "vijftien": 15, "zestien": 16, "zeventien": 17,
@@ -109,6 +109,11 @@ FEITENLIJST:
 
 
 # ── GEMINI (via de bestaande client) ─────────────────────────────────────────
+AI_MAX_TOKENS_ARTIKEL = 24576   # ruimer dan scrape_collegeberichten.py's 8192: een heel artikel
+                                # is een langer antwoord dan een claims-JSON, en bij Gemini 3.x
+                                # tellen "denktokens" mee in ditzelfde budget
+
+
 def gemini_schrijf(prompt):
     """Geeft (tekst, modelnaam). Gebruikt de client uit scrape_collegeberichten.py (modelketen + retries)."""
     import scrape_collegeberichten as sc
@@ -118,7 +123,12 @@ def gemini_schrijf(prompt):
     if not sc._GEM["keten"]:
         if not sc.init_gemini(sleutel):
             raise RuntimeError(sc._GEM["uitgeschakeld"] or "Gemini niet beschikbaar")
-    return sc.gemini_genereer(prompt, sleutel)
+    origineel = sc.AI_MAX_TOKENS
+    sc.AI_MAX_TOKENS = AI_MAX_TOKENS_ARTIKEL
+    try:
+        return sc.gemini_genereer(prompt, sleutel)
+    finally:
+        sc.AI_MAX_TOKENS = origineel
 
 
 def parse_json(tekst):
@@ -212,10 +222,16 @@ def controleer(art, res, doel):
         gedekt = set(label_getallen)
         for fid in a["feiten"]:
             gedekt |= per_feit[fid]
+        inhoudelijk_geciteerd = [feiten[fid] for fid in a["feiten"] if feiten[fid]["soort"] != "context"]
+        per_sectie_geciteerd = {}
+        for x in inhoudelijk_geciteerd:
+            per_sectie_geciteerd[x["sectie"]] = per_sectie_geciteerd.get(x["sectie"], 0) + 1
+        toegestane_tellingen = {len(inhoudelijk_geciteerd)} | set(per_sectie_geciteerd.values())
         for g in sorted(getallen_woorden(tekst) - gedekt):
-            # telwoorden ("twee brieven") zijn vaak zelf geteld: alleen goed als het feit dat de alinea noemt dat getal bevat
-            fouten.append(f"Alinea {i}: het telwoord voor {fmt_g(g)} staat niet in de feiten die je bij deze alinea noemt. "
-                          f"Tel niet zelf items op; noem het feit waarin het getal staat, of formuleer zonder aantal.")
+            if g in toegestane_tellingen:
+                continue   # bv. "twee brieven" bij precies twee geciteerde (niet-context) feiten: een natuurlijke telling, geen verzonnen rekenwerk
+            fouten.append(f"Alinea {i}: het telwoord voor {fmt_g(g)} staat niet in de feiten die je bij deze alinea noemt en komt ook niet "
+                          f"overeen met het aantal geciteerde feiten. Tel niet zelf items op die niet als zodanig in de feiten staan.")
         for g in sorted(getallen_cijfers(tekst)):
             if g in gedekt:
                 continue
@@ -348,6 +364,7 @@ def schrijf(res, map_, forceer=False, gemini=None):
         except ValueError as e:
             fouten = [f"Je antwoord was geen geldige JSON ({e}). Geef alleen het JSON-object."]
             print("  ✗ " + fouten[0])
+            print(f"    (model {model}, {len(tekst)} tekens ontvangen; fragment: {tekst[:200]!r} ... {tekst[-200:]!r})")
             continue
         fouten, waarschuwingen, aangevuld = controleer(art, res, doel)
         if not fouten:
@@ -359,7 +376,7 @@ def schrijf(res, map_, forceer=False, gemini=None):
                 print("  + verwijzing aangevuld: " + a_)
             toon_artikel(art)
             return "geschreven", p
-        print("  ✗ afgekeurd:")
+        print(f"  ✗ afgekeurd (model {model}):")
         for f_ in fouten:
             print("    - " + f_)
     print(f"\nMislukt na {MAX_POGINGEN} pogingen; er is niets weggeschreven.")
