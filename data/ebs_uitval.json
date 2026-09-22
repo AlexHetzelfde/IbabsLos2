@@ -32,8 +32,8 @@
     ],
     "eerste_tijd": "05:59",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-09-22 01:15:30",
-    "eerst_gezien": "2026-09-22 01:15:30"
+    "bijgewerkt": "2026-09-22 01:30:46",
+    "eerst_gezien": "2026-09-22 01:30:46"
   },
   {
     "id": "EBS:1306:1005_2026-09-22",
@@ -68,55 +68,8 @@
     ],
     "eerste_tijd": "05:59",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-09-22 01:30:46",
-    "eerst_gezien": "2026-09-22 01:30:46"
-  },
-  {
-    "id": "EBS:1315:1003_2026-09-22",
-    "journey_id": "EBS:1315:1003",
-    "datum": "2026-09-22",
-    "lijn": "315",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": null,
-    "drukte_omschrijving": null,
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:30001305",
-        "halte_naam": "Amsterdam, Busstation Station Noord",
-        "geplande_tijd": "05:23",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron A3",
-        "bestemming": "Monnickendam"
-      },
-      {
-        "halte_id": "NL:S:37392150",
-        "halte_naam": "Monnickendam, Swaensborch",
-        "geplande_tijd": "05:40",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Amsterdam Noord"
-      }
-    ],
-    "eerste_tijd": "05:23",
-    "dagdeel": "nacht",
-    "bijgewerkt": "2026-09-22 01:15:30",
-    "eerst_gezien": "2026-09-22 01:15:30"
+    "bijgewerkt": "2026-09-22 01:45:32",
+    "eerst_gezien": "2026-09-22 01:45:32"
   },
   {
     "id": "EBS:1315:1003_2026-09-22",
@@ -166,15 +119,15 @@
     "eerst_gezien": "2026-09-22 01:30:46"
   },
   {
-    "id": "EBS:1308:1000_2026-09-22",
-    "journey_id": "EBS:1308:1000",
+    "id": "EBS:1315:1003_2026-09-22",
+    "journey_id": "EBS:1315:1003",
     "datum": "2026-09-22",
-    "lijn": "308",
+    "lijn": "315",
     "lijnkleur": "#e1251b",
     "categorie": "R-net",
     "product_label": "MeerPlus",
-    "drukte_icoon": "crowd0.svg",
-    "drukte_omschrijving": "leeg",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Personeel",
@@ -185,9 +138,20 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37403640",
-        "halte_naam": "Purmerend, Neckerstraat",
-        "geplande_tijd": "04:52",
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "05:23",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A3",
+        "bestemming": "Monnickendam"
+      },
+      {
+        "halte_id": "NL:S:37392150",
+        "halte_naam": "Monnickendam, Swaensborch",
+        "geplande_tijd": "05:40",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
@@ -196,10 +160,10 @@
         "bestemming": "Amsterdam Noord"
       }
     ],
-    "eerste_tijd": "04:52",
+    "eerste_tijd": "05:23",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-09-22 01:15:30",
-    "eerst_gezien": "2026-09-22 01:15:30"
+    "bijgewerkt": "2026-09-22 01:45:32",
+    "eerst_gezien": "2026-09-22 01:45:32"
   },
   {
     "id": "EBS:1308:1000_2026-09-22",
@@ -236,5 +200,41 @@
     "dagdeel": "nacht",
     "bijgewerkt": "2026-09-22 01:30:46",
     "eerst_gezien": "2026-09-22 01:30:46"
+  },
+  {
+    "id": "EBS:1308:1000_2026-09-22",
+    "journey_id": "EBS:1308:1000",
+    "datum": "2026-09-22",
+    "lijn": "308",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd0.svg",
+    "drukte_omschrijving": "leeg",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37403640",
+        "halte_naam": "Purmerend, Neckerstraat",
+        "geplande_tijd": "04:52",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Amsterdam Noord"
+      }
+    ],
+    "eerste_tijd": "04:52",
+    "dagdeel": "nacht",
+    "bijgewerkt": "2026-09-22 01:45:32",
+    "eerst_gezien": "2026-09-22 01:45:32"
   }
 ]
