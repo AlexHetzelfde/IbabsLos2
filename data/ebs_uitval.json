@@ -36,37 +36,51 @@
     "eerst_gezien": "2026-09-24 10:00:54"
   },
   {
-    "id": "EBS:1391:1061_2026-09-24",
-    "journey_id": "EBS:1391:1061",
+    "id": "EBS:1101:1629_2026-09-24",
+    "journey_id": "EBS:1101:1629",
     "datum": "2026-09-24",
-    "lijn": "391",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
+    "lijn": "101",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
     "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "drukte_icoon": "crowd0.svg",
+    "drukte_omschrijving": "leeg",
     "status": "cancelled",
-    "oorzaak_categorieen": [],
-    "oorzaak_raw": null,
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
     "terminus_alert": null,
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "11:48",
-        "vertraging_min": 5,
+        "halte_id": "NL:S:37400500",
+        "halte_naam": "Purmerend, Korenstraat",
+        "geplande_tijd": "13:21",
+        "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron C",
-        "bestemming": "Amsterdam Centraal"
+        "platform": null,
+        "bestemming": "Ringlijn Purmerend"
+      },
+      {
+        "halte_id": "NL:S:37403640",
+        "halte_naam": "Purmerend, Neckerstraat",
+        "geplande_tijd": "13:44",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Ringlijn Purmerend"
       }
     ],
-    "eerste_tijd": "11:48",
+    "eerste_tijd": "13:21",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-09-24 09:46:09",
-    "eerst_gezien": "2026-09-24 09:46:09"
+    "bijgewerkt": "2026-09-24 10:15:31",
+    "eerst_gezien": "2026-09-24 10:15:31"
   },
   {
     "id": "EBS:1391:1061_2026-09-24",
@@ -100,6 +114,39 @@
     "dagdeel": "dal",
     "bijgewerkt": "2026-09-24 10:00:54",
     "eerst_gezien": "2026-09-24 10:00:54"
+  },
+  {
+    "id": "EBS:1391:1061_2026-09-24",
+    "journey_id": "EBS:1391:1061",
+    "datum": "2026-09-24",
+    "lijn": "391",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "11:48",
+        "vertraging_min": 34,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Centraal"
+      }
+    ],
+    "eerste_tijd": "11:48",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-09-24 10:15:31",
+    "eerst_gezien": "2026-09-24 10:15:31"
   },
   {
     "id": "EBS:1307:1243_2026-09-24",
