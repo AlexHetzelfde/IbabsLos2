@@ -1,5 +1,41 @@
 [
   {
+    "id": "EBS:1112:1058_2026-09-24",
+    "journey_id": "EBS:1112:1058",
+    "datum": "2026-09-24",
+    "lijn": "112",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "14:49",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron B",
+        "bestemming": "Amsterdam Noord"
+      }
+    ],
+    "eerste_tijd": "14:49",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-09-24 11:30:38",
+    "eerst_gezien": "2026-09-24 11:30:38"
+  },
+  {
     "id": "EBS:1102:1637_2026-09-24",
     "journey_id": "EBS:1102:1637",
     "datum": "2026-09-24",
@@ -36,10 +72,10 @@
     "eerst_gezien": "2026-09-24 11:15:32"
   },
   {
-    "id": "EBS:1111:1073_2026-09-24",
-    "journey_id": "EBS:1111:1073",
+    "id": "EBS:1102:1637_2026-09-24",
+    "journey_id": "EBS:1102:1637",
     "datum": "2026-09-24",
-    "lijn": "111",
+    "lijn": "102",
     "lijnkleur": "#004899",
     "categorie": "M-net",
     "product_label": "MeerPlus",
@@ -51,47 +87,25 @@
       "Logistiek"
     ],
     "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": "Terminates at Vijfhoek",
+    "terminus_alert": null,
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "13:57",
-        "vertraging_min": 0,
-        "status": "gereden",
-        "vertrokken": false,
-        "realtime": true,
-        "platform": "Perron D",
-        "bestemming": "Marken"
-      },
-      {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "13:59",
-        "vertraging_min": 1,
-        "status": "gereden",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Marken"
-      },
-      {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "14:16",
+        "halte_id": "NL:S:37400500",
+        "halte_naam": "Purmerend, Korenstraat",
+        "geplande_tijd": "14:44",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron E",
-        "bestemming": "Marken"
+        "platform": null,
+        "bestemming": "Ringlijn Purmerend"
       }
     ],
-    "eerste_tijd": "13:57",
+    "eerste_tijd": "14:44",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-09-24 11:00:55",
-    "eerst_gezien": "2026-09-24 11:00:55"
+    "bijgewerkt": "2026-09-24 11:30:38",
+    "eerst_gezien": "2026-09-24 11:30:38"
   },
   {
     "id": "EBS:1111:1073_2026-09-24",
@@ -163,6 +177,75 @@
     "eerst_gezien": "2026-09-24 11:15:32"
   },
   {
+    "id": "EBS:1111:1073_2026-09-24",
+    "journey_id": "EBS:1111:1073",
+    "datum": "2026-09-24",
+    "lijn": "111",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": "Terminates at Vijfhoek",
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "13:57",
+        "vertraging_min": 0,
+        "status": "gereden",
+        "vertrokken": false,
+        "realtime": true,
+        "platform": "Perron D",
+        "bestemming": "Marken"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "13:59",
+        "vertraging_min": 1,
+        "status": "gereden",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Marken"
+      },
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "14:16",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron E",
+        "bestemming": "Marken"
+      },
+      {
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "14:41",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A1",
+        "bestemming": "Marken"
+      }
+    ],
+    "eerste_tijd": "13:57",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-09-24 11:30:38",
+    "eerst_gezien": "2026-09-24 11:30:38"
+  },
+  {
     "id": "EBS:1101:1629_2026-09-24",
     "journey_id": "EBS:1101:1629",
     "datum": "2026-09-24",
@@ -181,17 +264,6 @@
     "terminus_alert": null,
     "advies": null,
     "haltes": [
-      {
-        "halte_id": "NL:S:37400500",
-        "halte_naam": "Purmerend, Korenstraat",
-        "geplande_tijd": "13:21",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Ringlijn Purmerend"
-      },
       {
         "halte_id": "NL:S:37403640",
         "halte_naam": "Purmerend, Neckerstraat",
@@ -226,10 +298,10 @@
         "bestemming": "Ringlijn Purmerend"
       }
     ],
-    "eerste_tijd": "13:21",
+    "eerste_tijd": "13:44",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-09-24 11:00:55",
-    "eerst_gezien": "2026-09-24 11:00:55"
+    "bijgewerkt": "2026-09-24 11:30:38",
+    "eerst_gezien": "2026-09-24 11:30:38"
   },
   {
     "id": "EBS:1101:1629_2026-09-24",
