@@ -19,33 +19,31 @@ import http.cookiejar
 from datetime import datetime, timedelta
 
 BASE_URL = "https://zaanstad.bestuurlijkeinformatie.nl"
-
 MOTIES_PAGE_URL = f"{BASE_URL}/Reports/Details/4b5dcb7b-adc3-4253-bad3-7bfd16341021"
 MOTIES_DATA_URL = f"{BASE_URL}/Reports/GetReportData/4b5dcb7b-adc3-4253-bad3-7bfd16341021"
-
 PAGE_SIZE = 100
-OUTPUT    = "data/moties.json"
+OUTPUT = "data/moties.json"
 
 HEADERS = {
-    "User-Agent":       (
+    "User-Agent": (
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
         "AppleWebKit/537.36 (KHTML, like Gecko) "
         "Chrome/148.0.0.0 Safari/537.36"
     ),
-    "Accept":           "application/json, text/javascript, */*; q=0.01",
-    "Content-Type":     "application/x-www-form-urlencoded; charset=UTF-8",
+    "Accept": "application/json, text/javascript, */*; q=0.01",
+    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
     "X-Requested-With": "XMLHttpRequest",
-    "Origin":           BASE_URL,
+    "Origin": BASE_URL,
 }
 
 MOTIES_COLUMNS = [
-    ("typeselectie",               False),
-    ("title",                      False),
-    ("datummotie",                 True),
-    ("raadsledenselectie",         True),
-    ("fractieselectie",            True),
+    ("typeselectie", False),
+    ("title", False),
+    ("datummotie", True),
+    ("raadsledenselectie", True),
+    ("fractieselectie", True),
     ("medeondertekenaarsselectie", True),
-    ("registrationdate",           True),
+    ("registrationdate", True),
 ]
 
 # Statussen die DEFINITIEF zijn — een motie met zo'n status verandert niet
@@ -57,6 +55,7 @@ DEFINITIEVE_STATUSSEN = {"aangenomen", "verworpen", "ingetrokken"}
 
 
 # ── RETRY-HELPER ──────────────────────────────────────────────────────────────
+
 def open_met_retry(opener, req, timeout=30, retries=3, wachttijden=(2, 5, 10)):
     """
     Voert opener.open(req) uit met retries bij tijdelijke netwerkfouten
@@ -80,21 +79,21 @@ def build_moties_body(start, draw):
     params = [("draw", str(draw))]
     for i, (name, has_pipe) in enumerate(MOTIES_COLUMNS):
         params += [
-            (f"columns[{i}][data]",          name),
-            (f"columns[{i}][name]",          name),
-            (f"columns[{i}][searchable]",    "true"),
-            (f"columns[{i}][orderable]",     "true"),
+            (f"columns[{i}][data]", name),
+            (f"columns[{i}][name]", name),
+            (f"columns[{i}][searchable]", "true"),
+            (f"columns[{i}][orderable]", "true"),
             (f"columns[{i}][search][value]", "|" if has_pipe else ""),
             (f"columns[{i}][search][regex]", "false"),
         ]
     params += [
         ("order[0][column]", "6"),
-        ("order[0][dir]",    "desc"),
-        ("order[0][name]",   "registrationdate"),
-        ("start",            str(start)),
-        ("length",           str(PAGE_SIZE)),
-        ("search[value]",    ""),
-        ("search[regex]",    "false"),
+        ("order[0][dir]", "desc"),
+        ("order[0][name]", "registrationdate"),
+        ("start", str(start)),
+        ("length", str(PAGE_SIZE)),
+        ("search[value]", ""),
+        ("search[regex]", "false"),
     ]
     return urllib.parse.urlencode(params).encode("utf-8")
 
@@ -103,7 +102,6 @@ def fetch_stemming_detail(opener, motie_id):
     """
     Haalt uitslag, voor/tegen percentages en fractielijsten op
     via de motie-detailpagina: /Reports/Item/{motie_id}
-
     De DT_RowId van de motie IS de UUID van de detailpagina —
     geen aparte stemmingen-koppeling nodig.
     """
@@ -138,7 +136,7 @@ def fetch_stemming_detail(opener, motie_id):
     # Voor-percentage: class="vote-summary-bar-in-favour w-59 d-flex"
     m = re.search(r'vote-summary-bar-in-favour\s+w-(\d+)', html)
     if m:
-        result["voor_pct"]  = int(m.group(1))
+        result["voor_pct"] = int(m.group(1))
         result["tegen_pct"] = 100 - int(m.group(1))
 
     # NIEUW: fallback als de Uitslag-tekst hierboven onverhoopt nog steeds
@@ -182,36 +180,38 @@ def parse_datum(s):
 
 
 def parse_motie(row):
-    titel    = row.get("title", "").strip()
-    type_raw = row.get("typeselectie", "").strip()
+    # FIX: row.get(key, "") geeft alleen "" terug als de key ONTBREEKT.
+    # Staat de key er wel maar is de waarde expliciet None (dit gebeurde bij
+    # "typeselectie" en kan in theorie ook bij "title"), dan geeft .get()
+    # gewoon None terug en crasht de daaropvolgende .strip() met een
+    # AttributeError. Vandaar nu overal "(row.get(key) or '').strip()" —
+    # hetzelfde patroon dat verderop al bij "indiener" en "agendapunt"
+    # gebruikt werd.
+    titel = (row.get("title") or "").strip()
+    type_raw = (row.get("typeselectie") or "").strip()
     if not type_raw:
         type_raw = "Amendement" if ("26A" in titel or "Amendement" in titel) else "Motie"
 
     fracties_raw = row.get("fractieselectie", "") or ""
-    fracties     = [f.strip() for f in fracties_raw.split("\r\n") if f.strip()]
-    mede_raw     = row.get("medeondertekenaarsselectie", "") or ""
+    fracties = [f.strip() for f in fracties_raw.split("\r\n") if f.strip()]
+
+    mede_raw = row.get("medeondertekenaarsselectie", "") or ""
 
     return {
-        "id":                 row.get("DT_RowId"),
-        "titel":              titel,
-        "type":               type_raw,
-        "partij":             fracties[0] if fracties else None,
-        "fracties":           fracties,
-        "indiener":           (row.get("raadsledenselectie") or "").strip() or None,
+        "id": row.get("DT_RowId"),
+        "titel": titel,
+        "type": type_raw,
+        "partij": fracties[0] if fracties else None,
+        "fracties": fracties,
+        "indiener": (row.get("raadsledenselectie") or "").strip() or None,
         "medeondertekenaars": [m.strip() for m in mede_raw.split("\r\n") if m.strip()],
-        "datum":              parse_datum(row.get("datummotie")),
-        "agendapunt":         (row.get("registrationdate") or "").strip(),
-        "status":             None,
-        "voor_pct":           None,
-        "tegen_pct":          None,
-        "fracties_voor":      None,
-        "fracties_tegen":     None,
-        # NIEUW: datum waarop deze motie voor het laatst tegen de iBabs-
-        # detailpagina is gecontroleerd. Los van 'status' — een motie zonder
-        # uitslag kan hierdoor toch een controle-datum hebben, waarmee de
-        # frontend "nog niet gecontroleerd" kan onderscheiden van "gecontroleerd,
-        # nog geen uitslag".
-        "laatst_gecontroleerd": None,
+        "datum": parse_datum(row.get("datummotie")),
+        "agendapunt": (row.get("registrationdate") or "").strip(),
+        "status": None,
+        "voor_pct": None,
+        "tegen_pct": None,
+        "fracties_voor": None,
+        "fracties_tegen": None,
     }
 
 
@@ -224,24 +224,14 @@ def load_existing():
 
 
 def main():
-    # Datumbereik: minimaal 30 dagen terug, ÁLTIJD — ongeacht wat SCRAPE_VANAF
-    # (gevoed door de scrape-tracker in de workflow) doorgeeft. iBabs voegt
-    # soms met een paar dagen vertraging een compleet nieuwe rij toe aan een
-    # oude motie (nieuw DT_RowId, bv. bij een "ingetrokken"-status) — als het
-    # venster dan al voorbij die datum is geschoven, wordt zo'n rij nooit meer
-    # opgehaald. Een handmatige, nóg vroegere datum (via workflow_dispatch)
-    # blijft gewoon mogelijk: we pakken altijd de vroegste van de twee.
-    # Kost vrijwel niets extra, want moties met een definitieve status worden
-    # verderop toch al overgeslagen (zie DEFINITIEVE_STATUSSEN hieronder).
-    vandaag            = datetime.now()
-    vanaf_env          = os.environ.get("SCRAPE_VANAF", "").strip()
-    dertig_dagen_terug = (vandaag - timedelta(days=30)).strftime("%Y-%m-%d")
-    grens_datum        = min(vanaf_env, dertig_dagen_terug) if vanaf_env else dertig_dagen_terug
-
+    # Datumbereik: via env var SCRAPE_VANAF of standaard afgelopen 7 dagen
+    vandaag = datetime.now()
+    vanaf_env = os.environ.get("SCRAPE_VANAF", "").strip()
+    grens_datum = vanaf_env if vanaf_env else (vandaag - timedelta(days=7)).strftime("%Y-%m-%d")
     print(f"Alleen moties vanaf: {grens_datum}")
 
     # Sessie
-    jar    = http.cookiejar.CookieJar()
+    jar = http.cookiejar.CookieJar()
     opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(jar))
     try:
         open_met_retry(
@@ -265,7 +255,7 @@ def main():
         print(f"\nFout: {e}")
         sys.exit(1)
 
-    total    = first.get("recordsTotal", 0)
+    total = first.get("recordsTotal", 0)
     all_rows = list(first.get("data", []))
     print(f"OK — {total} totaal")
 
@@ -291,7 +281,7 @@ def main():
             (parse_datum(r.get("registrationdate")) or "9999-99-99") < grens_datum
             for r in rows
         ):
-            print(f"  (pagina bij start={start} volledig ouder dan {grens_datum} — paginering gestopt)")
+            print(f" (pagina bij start={start} volledig ouder dan {grens_datum} — paginering gestopt)")
             break
 
         draw += 1; start += PAGE_SIZE
@@ -311,60 +301,47 @@ def main():
     # Per motie detailpagina ophalen voor uitslag + stemresultaten
     print("Detailpagina's ophalen...")
     overgeslagen = 0
+    mislukt = 0
     for i, row in enumerate(recente_rows):
-        m = parse_motie(row)
+        # FIX: een kapotte rij (parse-fout, onverwachte None-waarde, een
+        # timeout die door alle retries heen breekt, etc.) mag niet de hele
+        # run laten crashen. Zonder deze try/except gaat namelijk ALLE winst
+        # van deze run verloren: er wordt pas aan het einde van main() naar
+        # data/moties.json geschreven, dus een onafgevangen exception op
+        # bijvoorbeeld rij 5 van de 18 gooit ook de al verwerkte rijen 1 t/m 4
+        # weg — precies wat er in de vorige run gebeurde.
+        try:
+            m = parse_motie(row)
 
-        # FIX: sla moties over die al een DEFINITIEVE uitslag hebben — die
-        # verandert niet meer. Voorkomt dat elke run opnieuw de detailpagina
-        # van allang afgehandelde moties wordt gefetched. Zelfde patroon als
-        # scrape_stemmingen.py, maar hier expliciet beperkt tot definitieve
-        # statussen (zie DEFINITIEVE_STATUSSEN hierboven) — een motie die nog
-        # "in behandeling" is of geen status heeft, wordt gewoon opnieuw
-        # gecontroleerd.
-        bestaande_motie = bestaand.get(m["id"])
-        al_verwerkt = (
-            bestaande_motie is not None
-            and (bestaande_motie.get("status") or "") in DEFINITIEVE_STATUSSEN
-        )
-        if al_verwerkt:
-            print(f"  [{i+1}/{len(recente_rows)}] {m['datum']} {m['titel'][:50]} → al definitief verwerkt, overgeslagen")
-            overgeslagen += 1
-            continue
+            # FIX: sla moties over die al een DEFINITIEVE uitslag hebben — die
+            # verandert niet meer. Voorkomt dat elke run opnieuw de detailpagina
+            # van allang afgehandelde moties wordt gefetched. Zelfde patroon als
+            # scrape_stemmingen.py, maar hier expliciet beperkt tot definitieve
+            # statussen (zie DEFINITIEVE_STATUSSEN hierboven) — een motie die nog
+            # "in behandeling" is of geen status heeft, wordt gewoon opnieuw
+            # gecontroleerd.
+            bestaande_motie = bestaand.get(m["id"])
+            al_verwerkt = (
+                bestaande_motie is not None
+                and (bestaande_motie.get("status") or "") in DEFINITIEVE_STATUSSEN
+            )
+            if al_verwerkt:
+                print(f"  [{i+1}/{len(recente_rows)}] {m['datum']} {m['titel'][:50]} → al definitief verwerkt, overgeslagen")
+                overgeslagen += 1
+                continue
 
-        print(f"  [{i+1}/{len(recente_rows)}] {m['datum']} {m['titel'][:50]}", end=" ", flush=True)
-        detail = fetch_stemming_detail(opener, m["id"])
-        m.update(detail)
-        m["laatst_gecontroleerd"] = vandaag.strftime("%Y-%m-%d")
-        status_label = m.get("status") or "geen uitslag"
-        print(f"→ {status_label}")
-        bestaand[m["id"]] = m
-        time.sleep(0.35)
-
-    # NIEUW: moties die BUITEN het venster van 30 dagen vallen (op basis van
-    # datummotie) maar nog geen definitieve status hebben, worden hier
-    # alsnog hercontroleerd. Zonder dit gaat een openstaande motie na 30
-    # dagen stilletjes uit het venster en wordt hij nooit meer gecontroleerd
-    # — precies het scenario waarbij een aangehouden motie na verloop van
-    # tijd alsnog in stemming komt zonder dat het dashboard dat opmerkt.
-    # Kost weinig: alleen moties zonder aangenomen/verworpen/ingetrokken
-    # worden hier geraakt, en de meeste vallen toch al binnen het venster.
-    recente_ids = {row.get("DT_RowId") for row in recente_rows}
-    open_buiten_venster = [
-        (mid, mo) for mid, mo in bestaand.items()
-        if mid not in recente_ids
-        and (mo.get("status") or "") not in DEFINITIEVE_STATUSSEN
-    ]
-    if open_buiten_venster:
-        print(f"\nOpenstaande moties buiten het venster van 30 dagen: {len(open_buiten_venster)} — hercontroleren...")
-        for i, (mid, mo) in enumerate(open_buiten_venster):
-            print(f"  [{i+1}/{len(open_buiten_venster)}] {mo.get('datum')} {(mo.get('titel') or '')[:50]}", end=" ", flush=True)
-            detail = fetch_stemming_detail(opener, mid)
-            mo.update(detail)
-            mo["laatst_gecontroleerd"] = vandaag.strftime("%Y-%m-%d")
-            status_label = mo.get("status") or "nog steeds geen uitslag"
+            print(f"  [{i+1}/{len(recente_rows)}] {m['datum']} {m['titel'][:50]}", end=" ", flush=True)
+            detail = fetch_stemming_detail(opener, m["id"])
+            m.update(detail)
+            status_label = m.get("status") or "geen uitslag"
             print(f"→ {status_label}")
-            bestaand[mid] = mo
+
+            bestaand[m["id"]] = m
             time.sleep(0.35)
+        except Exception as e:
+            mislukt += 1
+            print(f"  [{i+1}/{len(recente_rows)}] FOUT bij verwerken rij, overgeslagen: {e}")
+            continue
 
     # Opslaan: nieuwste eerst
     resultaat = sorted(
@@ -378,6 +355,8 @@ def main():
 
     print(f"\n✓ Weggeschreven naar {OUTPUT}")
     print(f"  {len(recente_rows)} moties bekeken, {overgeslagen} overgeslagen (al definitief)")
+    if mislukt:
+        print(f"  {mislukt} rijen mislukt en overgeslagen (zie foutmeldingen hierboven)")
     print(f"  {len(resultaat)} totaal in JSON")
     met_status = sum(1 for m in resultaat if m.get("status"))
     print(f"  {met_status}/{len(resultaat)} met stemuitslag")
