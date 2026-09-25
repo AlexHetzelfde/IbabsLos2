@@ -1,5 +1,85 @@
 [
   {
+    "id": "EBS:1110:1233_2026-09-25",
+    "journey_id": "EBS:1110:1233",
+    "datum": "2026-09-25",
+    "lijn": "110",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "11:26",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Edam-Volendam"
+      }
+    ],
+    "eerste_tijd": "11:26",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-09-25 08:00:55",
+    "eerst_gezien": "2026-09-25 08:00:55"
+  },
+  {
+    "id": "EBS:1110:1220_2026-09-25",
+    "journey_id": "EBS:1110:1220",
+    "datum": "2026-09-25",
+    "lijn": "110",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": "Terminates at De Meermin",
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "10:04",
+        "vertraging_min": 0,
+        "status": "gereden",
+        "vertrokken": false,
+        "realtime": true,
+        "platform": "Perron A2",
+        "bestemming": "Volendam-Edam"
+      },
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "10:39",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron F",
+        "bestemming": "Purmerend"
+      }
+    ],
+    "eerste_tijd": "10:04",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-09-25 08:00:55",
+    "eerst_gezien": "2026-09-25 08:00:55"
+  },
+  {
     "id": "EBS:1307:1241_2026-09-25",
     "journey_id": "EBS:1307:1241",
     "datum": "2026-09-25",
