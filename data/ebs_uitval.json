@@ -25,12 +25,23 @@
         "realtime": false,
         "platform": "Perron A",
         "bestemming": "Edam-Volendam"
+      },
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "11:55",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Noord"
       }
     ],
     "eerste_tijd": "11:26",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-09-25 08:15:31",
-    "eerst_gezien": "2026-09-25 08:15:31"
+    "bijgewerkt": "2026-09-25 08:31:21",
+    "eerst_gezien": "2026-09-25 08:31:21"
   },
   {
     "id": "EBS:1110:1233_2026-09-25",
@@ -73,14 +84,61 @@
     ],
     "eerste_tijd": "11:26",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-09-25 08:31:21",
-    "eerst_gezien": "2026-09-25 08:31:21"
+    "bijgewerkt": "2026-09-25 08:45:31",
+    "eerst_gezien": "2026-09-25 08:45:31"
   },
   {
-    "id": "EBS:1110:1220_2026-09-25",
-    "journey_id": "EBS:1110:1220",
+    "id": "EBS:1103:1422_2026-09-25",
+    "journey_id": "EBS:1103:1422",
     "datum": "2026-09-25",
-    "lijn": "110",
+    "lijn": "103",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Materieel",
+      "Schade"
+    ],
+    "oorzaak_raw": "Cause: Materieel, Schade",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37392150",
+        "halte_naam": "Monnickendam, Swaensborch",
+        "geplande_tijd": "10:59",
+        "vertraging_min": -1,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Purmerend"
+      },
+      {
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "11:26",
+        "vertraging_min": 0,
+        "status": "gereden",
+        "vertrokken": false,
+        "realtime": true,
+        "platform": "Perron B",
+        "bestemming": "Amsterdam Sloterdijk"
+      }
+    ],
+    "eerste_tijd": "10:59",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-09-25 08:45:31",
+    "eerst_gezien": "2026-09-25 08:45:31"
+  },
+  {
+    "id": "EBS:1103:1415_2026-09-25",
+    "journey_id": "EBS:1103:1415",
+    "datum": "2026-09-25",
+    "lijn": "103",
     "lijnkleur": "#004899",
     "categorie": "M-net",
     "product_label": "MeerPlus",
@@ -93,21 +151,21 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:38491011",
-        "halte_naam": "Edam, Busstation",
-        "geplande_tijd": "10:39",
-        "vertraging_min": 0,
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "10:27",
+        "vertraging_min": 18,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron F",
-        "bestemming": "Purmerend"
+        "platform": "Perron C",
+        "bestemming": "Monnickendam"
       }
     ],
-    "eerste_tijd": "10:39",
+    "eerste_tijd": "10:27",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-09-25 08:31:21",
-    "eerst_gezien": "2026-09-25 08:31:21"
+    "bijgewerkt": "2026-09-25 08:45:31",
+    "eerst_gezien": "2026-09-25 08:45:31"
   },
   {
     "id": "EBS:1110:1220_2026-09-25",
