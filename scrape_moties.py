@@ -298,6 +298,23 @@ def main():
     bestaand = load_existing()
     print(f"Bestaande JSON: {len(bestaand)} moties")
 
+    # NIEUW: moties die al in de JSON staan, nog GEEN definitieve uitslag
+    # hebben, maar buiten dit scrape-venster vallen (grens_datum schuift
+    # elke succesvolle run op) alsnog meenemen. Zonder dit raakt een motie
+    # die wél al gepubliceerd is maar pas later een uitslag krijgt na een
+    # paar runs blijvend buiten beeld: hij valt uit recente_rows zodra
+    # grens_datum voorbij zijn datummotie schuift, en wordt dan nooit meer
+    # opnieuw gecontroleerd op een inmiddels binnengekomen uitslag.
+    recente_ids = {r.get("DT_RowId") for r in recente_rows}
+    open_buiten_venster = [
+        mid for mid, m in bestaand.items()
+        if mid not in recente_ids and (m.get("status") or "") not in DEFINITIEVE_STATUSSEN
+    ]
+    if open_buiten_venster:
+        print(f"{len(open_buiten_venster)} nog openstaande moties van buiten het venster opnieuw gecontroleerd")
+
+    totaal_te_verwerken = len(recente_rows) + len(open_buiten_venster)
+
     # Per motie detailpagina ophalen voor uitslag + stemresultaten
     print("Detailpagina's ophalen...")
     overgeslagen = 0
@@ -326,11 +343,11 @@ def main():
                 and (bestaande_motie.get("status") or "") in DEFINITIEVE_STATUSSEN
             )
             if al_verwerkt:
-                print(f"  [{i+1}/{len(recente_rows)}] {m['datum']} {m['titel'][:50]} → al definitief verwerkt, overgeslagen")
+                print(f"  [{i+1}/{totaal_te_verwerken}] {m['datum']} {m['titel'][:50]} → al definitief verwerkt, overgeslagen")
                 overgeslagen += 1
                 continue
 
-            print(f"  [{i+1}/{len(recente_rows)}] {m['datum']} {m['titel'][:50]}", end=" ", flush=True)
+            print(f"  [{i+1}/{totaal_te_verwerken}] {m['datum']} {m['titel'][:50]}", end=" ", flush=True)
             detail = fetch_stemming_detail(opener, m["id"])
             m.update(detail)
             status_label = m.get("status") or "geen uitslag"
@@ -340,7 +357,25 @@ def main():
             time.sleep(0.35)
         except Exception as e:
             mislukt += 1
-            print(f"  [{i+1}/{len(recente_rows)}] FOUT bij verwerken rij, overgeslagen: {e}")
+            print(f"  [{i+1}/{totaal_te_verwerken}] FOUT bij verwerken rij, overgeslagen: {e}")
+            continue
+
+    # NIEUW: openstaande moties van buiten het venster herchecken op een
+    # inmiddels binnengekomen uitslag. Deze staan al compleet geparsed in
+    # bestaand — er hoeft alleen de detailpagina opnieuw opgehaald te worden.
+    for j, mid in enumerate(open_buiten_venster):
+        i = len(recente_rows) + j
+        try:
+            m = bestaand[mid]
+            print(f"  [{i+1}/{totaal_te_verwerken}] {m.get('datum')} {(m.get('titel') or '')[:50]} (buiten venster)", end=" ", flush=True)
+            detail = fetch_stemming_detail(opener, mid)
+            m.update(detail)
+            status_label = m.get("status") or "geen uitslag"
+            print(f"→ {status_label}")
+            time.sleep(0.35)
+        except Exception as e:
+            mislukt += 1
+            print(f"  [{i+1}/{totaal_te_verwerken}] FOUT bij herchecken buiten venster, overgeslagen: {e}")
             continue
 
     # Opslaan: nieuwste eerst
