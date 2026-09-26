@@ -1,9 +1,9 @@
 [
   {
-    "id": "EBS:1315:6023_2026-09-26",
-    "journey_id": "EBS:1315:6023",
+    "id": "EBS:1308:6023_2026-09-26",
+    "journey_id": "EBS:1308:6023",
     "datum": "2026-09-26",
-    "lijn": "315",
+    "lijn": "308",
     "lijnkleur": "#e1251b",
     "categorie": "R-net",
     "product_label": "MeerPlus",
@@ -21,19 +21,19 @@
       {
         "halte_id": "NL:S:30001305",
         "halte_naam": "Amsterdam, Busstation Station Noord",
-        "geplande_tijd": "09:34",
+        "geplande_tijd": "10:08",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron A3",
-        "bestemming": "Monnickendam"
+        "platform": "Perron A1",
+        "bestemming": "Purmerend Weidevenne"
       }
     ],
-    "eerste_tijd": "09:34",
+    "eerste_tijd": "10:08",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-09-26 06:15:30",
-    "eerst_gezien": "2026-09-26 06:15:30"
+    "bijgewerkt": "2026-09-26 06:45:29",
+    "eerst_gezien": "2026-09-26 06:45:29"
   },
   {
     "id": "EBS:1315:6023_2026-09-26",
@@ -83,12 +83,12 @@
     "eerst_gezien": "2026-09-26 06:30:37"
   },
   {
-    "id": "EBS:1065:6005_2026-09-26",
-    "journey_id": "EBS:1065:6005",
+    "id": "EBS:1315:6023_2026-09-26",
+    "journey_id": "EBS:1315:6023",
     "datum": "2026-09-26",
-    "lijn": "65",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
+    "lijn": "315",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
     "product_label": "MeerPlus",
     "drukte_icoon": "crowd1.svg",
     "drukte_omschrijving": "Zitplaatsen beschikbaar",
@@ -102,21 +102,32 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "09:33",
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "09:34",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron B",
-        "bestemming": "Zaandam"
+        "platform": "Perron A3",
+        "bestemming": "Monnickendam"
+      },
+      {
+        "halte_id": "NL:S:37392150",
+        "halte_naam": "Monnickendam, Swaensborch",
+        "geplande_tijd": "09:51",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Amsterdam Noord"
       }
     ],
-    "eerste_tijd": "09:33",
+    "eerste_tijd": "09:34",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-09-26 06:15:30",
-    "eerst_gezien": "2026-09-26 06:15:30"
+    "bijgewerkt": "2026-09-26 06:45:29",
+    "eerst_gezien": "2026-09-26 06:45:29"
   },
   {
     "id": "EBS:1065:6005_2026-09-26",
@@ -150,6 +161,78 @@
       }
     ],
     "eerste_tijd": "09:33",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-09-26 06:30:37",
+    "eerst_gezien": "2026-09-26 06:30:37"
+  },
+  {
+    "id": "EBS:1065:6005_2026-09-26",
+    "journey_id": "EBS:1065:6005",
+    "datum": "2026-09-26",
+    "lijn": "65",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "09:33",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron B",
+        "bestemming": "Zaandam"
+      }
+    ],
+    "eerste_tijd": "09:33",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-09-26 06:45:29",
+    "eerst_gezien": "2026-09-26 06:45:29"
+  },
+  {
+    "id": "EBS:1307:6220_2026-09-26",
+    "journey_id": "EBS:1307:6220",
+    "datum": "2026-09-26",
+    "lijn": "307",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37400500",
+        "halte_naam": "Purmerend, Korenstraat",
+        "geplande_tijd": "09:06",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Amsterdam Noord"
+      }
+    ],
+    "eerste_tijd": "09:06",
     "dagdeel": "dal",
     "bijgewerkt": "2026-09-26 06:30:37",
     "eerst_gezien": "2026-09-26 06:30:37"
@@ -187,80 +270,8 @@
     ],
     "eerste_tijd": "09:06",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-09-26 06:15:30",
-    "eerst_gezien": "2026-09-26 06:15:30"
-  },
-  {
-    "id": "EBS:1307:6220_2026-09-26",
-    "journey_id": "EBS:1307:6220",
-    "datum": "2026-09-26",
-    "lijn": "307",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37400500",
-        "halte_naam": "Purmerend, Korenstraat",
-        "geplande_tijd": "09:06",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Amsterdam Noord"
-      }
-    ],
-    "eerste_tijd": "09:06",
-    "dagdeel": "dal",
-    "bijgewerkt": "2026-09-26 06:30:37",
-    "eerst_gezien": "2026-09-26 06:30:37"
-  },
-  {
-    "id": "EBS:1395:6015_2026-09-26",
-    "journey_id": "EBS:1395:6015",
-    "datum": "2026-09-26",
-    "lijn": "395",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "09:03",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron E",
-        "bestemming": "Zaandam ZMC"
-      }
-    ],
-    "eerste_tijd": "09:03",
-    "dagdeel": "dal",
-    "bijgewerkt": "2026-09-26 06:15:30",
-    "eerst_gezien": "2026-09-26 06:15:30"
+    "bijgewerkt": "2026-09-26 06:45:29",
+    "eerst_gezien": "2026-09-26 06:45:29"
   },
   {
     "id": "EBS:1395:6015_2026-09-26",
@@ -299,116 +310,8 @@
     "eerst_gezien": "2026-09-26 06:30:37"
   },
   {
-    "id": "EBS:1307:6213_2026-09-26",
-    "journey_id": "EBS:1307:6213",
-    "datum": "2026-09-26",
-    "lijn": "307",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:30001305",
-        "halte_naam": "Amsterdam, Busstation Station Noord",
-        "geplande_tijd": "08:42",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron A6",
-        "bestemming": "Purmerend De Purmer"
-      }
-    ],
-    "eerste_tijd": "08:42",
-    "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-09-26 06:15:30",
-    "eerst_gezien": "2026-09-26 06:15:30"
-  },
-  {
-    "id": "EBS:1307:6213_2026-09-26",
-    "journey_id": "EBS:1307:6213",
-    "datum": "2026-09-26",
-    "lijn": "307",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:30001305",
-        "halte_naam": "Amsterdam, Busstation Station Noord",
-        "geplande_tijd": "08:42",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron A6",
-        "bestemming": "Purmerend De Purmer"
-      }
-    ],
-    "eerste_tijd": "08:42",
-    "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-09-26 06:30:37",
-    "eerst_gezien": "2026-09-26 06:30:37"
-  },
-  {
-    "id": "EBS:1065:6004_2026-09-26",
-    "journey_id": "EBS:1065:6004",
-    "datum": "2026-09-26",
-    "lijn": "65",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "08:39",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron F",
-        "bestemming": "Beverwijk"
-      }
-    ],
-    "eerste_tijd": "08:39",
-    "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-09-26 06:30:37",
-    "eerst_gezien": "2026-09-26 06:30:37"
-  },
-  {
-    "id": "EBS:1395:6014_2026-09-26",
-    "journey_id": "EBS:1395:6014",
+    "id": "EBS:1395:6015_2026-09-26",
+    "journey_id": "EBS:1395:6015",
     "datum": "2026-09-26",
     "lijn": "395",
     "lijnkleur": "#e1251b",
@@ -428,19 +331,55 @@
       {
         "halte_id": "NL:S:37223552",
         "halte_naam": "De Vlinder",
-        "geplande_tijd": "08:36",
+        "geplande_tijd": "09:03",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron B",
-        "bestemming": "Amsterdam Sloterdijk"
+        "platform": "Perron E",
+        "bestemming": "Zaandam ZMC"
       }
     ],
-    "eerste_tijd": "08:36",
+    "eerste_tijd": "09:03",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-09-26 06:45:29",
+    "eerst_gezien": "2026-09-26 06:45:29"
+  },
+  {
+    "id": "EBS:1307:6213_2026-09-26",
+    "journey_id": "EBS:1307:6213",
+    "datum": "2026-09-26",
+    "lijn": "307",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "08:42",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A6",
+        "bestemming": "Purmerend De Purmer"
+      }
+    ],
+    "eerste_tijd": "08:42",
     "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-09-26 06:15:30",
-    "eerst_gezien": "2026-09-26 06:15:30"
+    "bijgewerkt": "2026-09-26 06:30:37",
+    "eerst_gezien": "2026-09-26 06:30:37"
   },
   {
     "id": "EBS:1395:6014_2026-09-26",
