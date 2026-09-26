@@ -89,7 +89,7 @@ def nl_kort(iso):
 
 
 def getal(n):
-    return f"{int(round(n)):,}".replace(",", ".")
+    return f"{int(round(float(n))):,}".replace(",", ".")
 
 
 def euro(n):
