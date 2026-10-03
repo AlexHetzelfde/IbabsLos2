@@ -36,6 +36,42 @@
     "eerst_gezien": "2026-10-03 07:30:42"
   },
   {
+    "id": "EBS:1391:6037_2026-10-03",
+    "journey_id": "EBS:1391:6037",
+    "datum": "2026-10-03",
+    "lijn": "391",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37221160",
+        "halte_naam": "Zaanse Schans",
+        "geplande_tijd": "11:09",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Amsterdam Centraal"
+      }
+    ],
+    "eerste_tijd": "11:09",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-10-03 07:45:29",
+    "eerst_gezien": "2026-10-03 07:45:29"
+  },
+  {
     "id": "EBS:1069:6020_2026-10-03",
     "journey_id": "EBS:1069:6020",
     "datum": "2026-10-03",
@@ -80,15 +116,15 @@
     "eerst_gezien": "2026-10-03 07:30:42"
   },
   {
-    "id": "EBS:1391:6022_2026-10-03",
-    "journey_id": "EBS:1391:6022",
+    "id": "EBS:1069:6020_2026-10-03",
+    "journey_id": "EBS:1069:6020",
     "datum": "2026-10-03",
-    "lijn": "391",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
+    "lijn": "69",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
     "product_label": "MeerPlus",
-    "drukte_icoon": null,
-    "drukte_omschrijving": null,
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
     "status": "cancelled",
     "oorzaak_categorieen": [],
     "oorzaak_raw": null,
@@ -96,21 +132,43 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "10:40",
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "10:48",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron D",
-        "bestemming": "Zaanse Schans"
+        "platform": "Perron I",
+        "bestemming": "Krommenie"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "10:50",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Krommenie"
+      },
+      {
+        "halte_id": "NL:S:37221160",
+        "halte_naam": "Zaanse Schans",
+        "geplande_tijd": "11:12",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Krommenie station"
       }
     ],
-    "eerste_tijd": "10:40",
+    "eerste_tijd": "10:48",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-10-03 07:15:35",
-    "eerst_gezien": "2026-10-03 07:15:35"
+    "bijgewerkt": "2026-10-03 07:45:29",
+    "eerst_gezien": "2026-10-03 07:45:29"
   },
   {
     "id": "EBS:1391:6022_2026-10-03",
@@ -146,15 +204,15 @@
     "eerst_gezien": "2026-10-03 07:30:42"
   },
   {
-    "id": "EBS:1391:6033_2026-10-03",
-    "journey_id": "EBS:1391:6033",
+    "id": "EBS:1391:6022_2026-10-03",
+    "journey_id": "EBS:1391:6022",
     "datum": "2026-10-03",
     "lijn": "391",
     "lijnkleur": "#e1251b",
     "categorie": "R-net",
     "product_label": "MeerPlus",
-    "drukte_icoon": "crowd0.svg",
-    "drukte_omschrijving": "leeg",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
     "status": "cancelled",
     "oorzaak_categorieen": [],
     "oorzaak_raw": null,
@@ -162,21 +220,21 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37221160",
-        "halte_naam": "Zaanse Schans",
-        "geplande_tijd": "10:39",
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "10:40",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": null,
-        "bestemming": "Amsterdam Centraal"
+        "platform": "Perron D",
+        "bestemming": "Zaanse Schans"
       }
     ],
-    "eerste_tijd": "10:39",
+    "eerste_tijd": "10:40",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-10-03 07:15:35",
-    "eerst_gezien": "2026-10-03 07:15:35"
+    "bijgewerkt": "2026-10-03 07:45:29",
+    "eerst_gezien": "2026-10-03 07:45:29"
   },
   {
     "id": "EBS:1391:6033_2026-10-03",
@@ -223,12 +281,12 @@
     "eerst_gezien": "2026-10-03 07:30:42"
   },
   {
-    "id": "EBS:1111:6030_2026-10-03",
-    "journey_id": "EBS:1111:6030",
+    "id": "EBS:1391:6033_2026-10-03",
+    "journey_id": "EBS:1391:6033",
     "datum": "2026-10-03",
-    "lijn": "111",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
+    "lijn": "391",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
     "product_label": "MeerPlus",
     "drukte_icoon": "crowd1.svg",
     "drukte_omschrijving": "Zitplaatsen beschikbaar",
@@ -239,32 +297,32 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "10:30",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron D",
-        "bestemming": "Marken"
-      },
-      {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "10:32",
+        "halte_id": "NL:S:37221160",
+        "halte_naam": "Zaanse Schans",
+        "geplande_tijd": "10:39",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
         "platform": null,
-        "bestemming": "Marken"
+        "bestemming": "Amsterdam Centraal"
+      },
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "11:03",
+        "vertraging_min": 0,
+        "status": "gereden",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Centraal"
       }
     ],
-    "eerste_tijd": "10:30",
+    "eerste_tijd": "10:39",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-10-03 07:15:35",
-    "eerst_gezien": "2026-10-03 07:15:35"
+    "bijgewerkt": "2026-10-03 07:45:29",
+    "eerst_gezien": "2026-10-03 07:45:29"
   },
   {
     "id": "EBS:1111:6030_2026-10-03",
@@ -322,15 +380,15 @@
     "eerst_gezien": "2026-10-03 07:30:42"
   },
   {
-    "id": "EBS:1316:6630_2026-10-03",
-    "journey_id": "EBS:1316:6630",
+    "id": "EBS:1111:6030_2026-10-03",
+    "journey_id": "EBS:1111:6030",
     "datum": "2026-10-03",
-    "lijn": "316",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
+    "lijn": "111",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
     "product_label": "MeerPlus",
-    "drukte_icoon": null,
-    "drukte_omschrijving": null,
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
     "status": "cancelled",
     "oorzaak_categorieen": [],
     "oorzaak_raw": null,
@@ -338,21 +396,54 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:38491011",
-        "halte_naam": "Edam, Busstation",
-        "geplande_tijd": "10:22",
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "10:30",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron A",
-        "bestemming": "Amsterdam Centraal"
+        "platform": "Perron D",
+        "bestemming": "Marken"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "10:32",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Marken"
+      },
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "10:47",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron E",
+        "bestemming": "Marken"
+      },
+      {
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "11:12",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A1",
+        "bestemming": "Marken"
       }
     ],
-    "eerste_tijd": "10:22",
+    "eerste_tijd": "10:30",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-10-03 07:15:35",
-    "eerst_gezien": "2026-10-03 07:15:35"
+    "bijgewerkt": "2026-10-03 07:45:29",
+    "eerst_gezien": "2026-10-03 07:45:29"
   },
   {
     "id": "EBS:1316:6630_2026-10-03",
@@ -383,6 +474,83 @@
       }
     ],
     "eerste_tijd": "10:22",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-10-03 07:30:42",
+    "eerst_gezien": "2026-10-03 07:30:42"
+  },
+  {
+    "id": "EBS:1316:6630_2026-10-03",
+    "journey_id": "EBS:1316:6630",
+    "datum": "2026-10-03",
+    "lijn": "316",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "10:22",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Amsterdam Centraal"
+      }
+    ],
+    "eerste_tijd": "10:22",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-10-03 07:45:29",
+    "eerst_gezien": "2026-10-03 07:45:29"
+  },
+  {
+    "id": "EBS:1065:6012_2026-10-03",
+    "journey_id": "EBS:1065:6012",
+    "datum": "2026-10-03",
+    "lijn": "65",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "10:20",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron E",
+        "bestemming": "Beverwijk"
+      },
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "10:39",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron F",
+        "bestemming": "Beverwijk"
+      }
+    ],
+    "eerste_tijd": "10:20",
     "dagdeel": "dal",
     "bijgewerkt": "2026-10-03 07:30:42",
     "eerst_gezien": "2026-10-03 07:30:42"
@@ -428,16 +596,16 @@
     ],
     "eerste_tijd": "10:20",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-10-03 07:15:35",
-    "eerst_gezien": "2026-10-03 07:15:35"
+    "bijgewerkt": "2026-10-03 07:45:29",
+    "eerst_gezien": "2026-10-03 07:45:29"
   },
   {
-    "id": "EBS:1065:6012_2026-10-03",
-    "journey_id": "EBS:1065:6012",
+    "id": "EBS:1391:6018_2026-10-03",
+    "journey_id": "EBS:1391:6018",
     "datum": "2026-10-03",
-    "lijn": "65",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
+    "lijn": "391",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
     "product_label": "MeerPlus",
     "drukte_icoon": "crowd1.svg",
     "drukte_omschrijving": "Zitplaatsen beschikbaar",
@@ -450,27 +618,16 @@
       {
         "halte_id": "NL:S:37223552",
         "halte_naam": "De Vlinder",
-        "geplande_tijd": "10:20",
+        "geplande_tijd": "10:10",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron E",
-        "bestemming": "Beverwijk"
-      },
-      {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "10:39",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron F",
-        "bestemming": "Beverwijk"
+        "platform": "Perron D",
+        "bestemming": "Zaanse Schans"
       }
     ],
-    "eerste_tijd": "10:20",
+    "eerste_tijd": "10:10",
     "dagdeel": "dal",
     "bijgewerkt": "2026-10-03 07:30:42",
     "eerst_gezien": "2026-10-03 07:30:42"
@@ -505,41 +662,8 @@
     ],
     "eerste_tijd": "10:10",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-10-03 07:15:35",
-    "eerst_gezien": "2026-10-03 07:15:35"
-  },
-  {
-    "id": "EBS:1391:6018_2026-10-03",
-    "journey_id": "EBS:1391:6018",
-    "datum": "2026-10-03",
-    "lijn": "391",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
-    "status": "cancelled",
-    "oorzaak_categorieen": [],
-    "oorzaak_raw": null,
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "10:10",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron D",
-        "bestemming": "Zaanse Schans"
-      }
-    ],
-    "eerste_tijd": "10:10",
-    "dagdeel": "dal",
-    "bijgewerkt": "2026-10-03 07:30:42",
-    "eerst_gezien": "2026-10-03 07:30:42"
+    "bijgewerkt": "2026-10-03 07:45:29",
+    "eerst_gezien": "2026-10-03 07:45:29"
   },
   {
     "id": "EBS:1391:6023_2026-10-03",
@@ -571,8 +695,8 @@
     ],
     "eerste_tijd": "09:48",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-10-03 07:30:42",
-    "eerst_gezien": "2026-10-03 07:30:42"
+    "bijgewerkt": "2026-10-03 07:45:29",
+    "eerst_gezien": "2026-10-03 07:45:29"
   },
   {
     "id": "EBS:1391:6023_2026-10-03",
