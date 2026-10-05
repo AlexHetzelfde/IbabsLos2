@@ -1,5 +1,41 @@
 [
   {
+    "id": "EBS:1112:1052_2026-10-05",
+    "journey_id": "EBS:1112:1052",
+    "datum": "2026-10-05",
+    "lijn": "112",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "13:19",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron B",
+        "bestemming": "Amsterdam Noord"
+      }
+    ],
+    "eerste_tijd": "13:19",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-10-05 10:00:57",
+    "eerst_gezien": "2026-10-05 10:00:57"
+  },
+  {
     "id": "EBS:1100:1057_2026-10-05",
     "journey_id": "EBS:1100:1057",
     "datum": "2026-10-05",
@@ -19,17 +55,6 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:30001305",
-        "halte_naam": "Amsterdam, Busstation Station Noord",
-        "geplande_tijd": "11:57",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron A4",
-        "bestemming": "Purmerend De Baanstee"
-      },
-      {
         "halte_id": "NL:S:37400100",
         "halte_naam": "Purmerend, Busstation Tramplein",
         "geplande_tijd": "12:14",
@@ -41,10 +66,10 @@
         "bestemming": "Edam"
       }
     ],
-    "eerste_tijd": "11:57",
+    "eerste_tijd": "12:14",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-10-05 09:30:48",
-    "eerst_gezien": "2026-10-05 09:30:48"
+    "bijgewerkt": "2026-10-05 10:00:57",
+    "eerst_gezien": "2026-10-05 10:00:57"
   },
   {
     "id": "EBS:1100:1057_2026-10-05",
@@ -89,39 +114,6 @@
       }
     ],
     "eerste_tijd": "11:57",
-    "dagdeel": "dal",
-    "bijgewerkt": "2026-10-05 09:45:33",
-    "eerst_gezien": "2026-10-05 09:45:33"
-  },
-  {
-    "id": "EBS:1102:1623_2026-10-05",
-    "journey_id": "EBS:1102:1623",
-    "datum": "2026-10-05",
-    "lijn": "102",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
-    "status": "cancelled",
-    "oorzaak_categorieen": [],
-    "oorzaak_raw": null,
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37403640",
-        "halte_naam": "Purmerend, Neckerstraat",
-        "geplande_tijd": "11:47",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Ringlijn Purmerend"
-      }
-    ],
-    "eerste_tijd": "11:47",
     "dagdeel": "dal",
     "bijgewerkt": "2026-10-05 09:45:33",
     "eerst_gezien": "2026-10-05 09:45:33"
