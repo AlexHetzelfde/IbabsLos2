@@ -1,7 +1,7 @@
 [
   {
-    "id": "EBS:1110:1257_2026-10-06",
-    "journey_id": "EBS:1110:1257",
+    "id": "EBS:1110:1255_2026-10-06",
+    "journey_id": "EBS:1110:1255",
     "datum": "2026-10-06",
     "lijn": "110",
     "lijnkleur": "#004899",
@@ -10,29 +10,15 @@
     "drukte_icoon": "crowd1.svg",
     "drukte_omschrijving": "Zitplaatsen beschikbaar",
     "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
     "terminus_alert": null,
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37400100",
-        "halte_naam": "Purmerend, Busstation Tramplein",
-        "geplande_tijd": "17:25",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron A",
-        "bestemming": "Edam-Volendam"
-      },
-      {
         "halte_id": "NL:S:38491011",
         "halte_naam": "Edam, Busstation",
-        "geplande_tijd": "17:56",
+        "geplande_tijd": "17:26",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
@@ -41,10 +27,10 @@
         "bestemming": "Amsterdam Noord"
       }
     ],
-    "eerste_tijd": "17:25",
+    "eerste_tijd": "17:26",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-10-06 14:30:38",
-    "eerst_gezien": "2026-10-06 14:30:38"
+    "bijgewerkt": "2026-10-06 15:00:52",
+    "eerst_gezien": "2026-10-06 15:00:52"
   },
   {
     "id": "EBS:1110:1257_2026-10-06",
@@ -92,6 +78,53 @@
     "dagdeel": "avondspits",
     "bijgewerkt": "2026-10-06 14:45:31",
     "eerst_gezien": "2026-10-06 14:45:31"
+  },
+  {
+    "id": "EBS:1110:1257_2026-10-06",
+    "journey_id": "EBS:1110:1257",
+    "datum": "2026-10-06",
+    "lijn": "110",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "17:25",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Edam-Volendam"
+      },
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "17:56",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Noord"
+      }
+    ],
+    "eerste_tijd": "17:25",
+    "dagdeel": "avondspits",
+    "bijgewerkt": "2026-10-06 15:00:52",
+    "eerst_gezien": "2026-10-06 15:00:52"
   },
   {
     "id": "EBS:1110:1255_2026-10-06",
