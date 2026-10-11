@@ -19,39 +19,6 @@
         "halte_id": "NL:S:38491011",
         "halte_naam": "Edam, Busstation",
         "geplande_tijd": "23:58",
-        "vertraging_min": 2,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron D",
-        "bestemming": "Amsterdam Centraal"
-      }
-    ],
-    "eerste_tijd": "23:58",
-    "dagdeel": "avond",
-    "bijgewerkt": "2026-10-11 22:00:53",
-    "eerst_gezien": "2026-10-11 22:00:53"
-  },
-  {
-    "id": "EBS:1314:7066_2026-10-11",
-    "journey_id": "EBS:1314:7066",
-    "datum": "2026-10-11",
-    "lijn": "314",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
-    "status": "cancelled",
-    "oorzaak_categorieen": [],
-    "oorzaak_raw": null,
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:38491011",
-        "halte_naam": "Edam, Busstation",
-        "geplande_tijd": "23:58",
         "vertraging_min": 17,
         "status": "cancelled",
         "vertrokken": false,
@@ -64,6 +31,42 @@
     "dagdeel": "avond",
     "bijgewerkt": "2026-10-11 22:15:27",
     "eerst_gezien": "2026-10-11 22:15:27"
+  },
+  {
+    "id": "EBS:1314:7066_2026-10-11",
+    "journey_id": "EBS:1314:7066",
+    "datum": "2026-10-11",
+    "lijn": "314",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "23:58",
+        "vertraging_min": 32,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron D",
+        "bestemming": "Amsterdam Centraal"
+      }
+    ],
+    "eerste_tijd": "23:58",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-10-11 22:30:37",
+    "eerst_gezien": "2026-10-11 22:30:37"
   },
   {
     "id": "EBS:1316:7696_2026-10-11",
@@ -1009,8 +1012,8 @@
     ],
     "eerste_tijd": "00:50",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-10-11 22:00:53",
-    "eerst_gezien": "2026-10-11 22:00:53"
+    "bijgewerkt": "2026-10-11 22:15:27",
+    "eerst_gezien": "2026-10-11 22:15:27"
   },
   {
     "id": "EBS:1305:7115_2026-10-11",
@@ -1020,11 +1023,14 @@
     "lijnkleur": "#e1251b",
     "categorie": "R-net",
     "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
     "status": "cancelled",
-    "oorzaak_categorieen": [],
-    "oorzaak_raw": null,
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
     "terminus_alert": null,
     "advies": null,
     "haltes": [
@@ -1042,7 +1048,7 @@
     ],
     "eerste_tijd": "00:50",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-10-11 22:15:27",
-    "eerst_gezien": "2026-10-11 22:15:27"
+    "bijgewerkt": "2026-10-11 22:30:37",
+    "eerst_gezien": "2026-10-11 22:30:37"
   }
 ]
