@@ -1,14 +1,14 @@
 [
   {
-    "id": "EBS:1103:7206_2026-10-11",
-    "journey_id": "EBS:1103:7206",
+    "id": "EBS:1110:7217_2026-10-11",
+    "journey_id": "EBS:1110:7217",
     "datum": "2026-10-11",
-    "lijn": "103",
+    "lijn": "110",
     "lijnkleur": "#004899",
     "categorie": "M-net",
     "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "drukte_icoon": "crowd0.svg",
+    "drukte_omschrijving": "leeg",
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Personeel",
@@ -19,21 +19,21 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37392150",
-        "halte_naam": "Monnickendam, Swaensborch",
-        "geplande_tijd": "10:00",
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "10:31",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": null,
-        "bestemming": "Purmerend"
+        "platform": "Perron A",
+        "bestemming": "Edam-Volendam"
       }
     ],
-    "eerste_tijd": "10:00",
+    "eerste_tijd": "10:31",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-10-11 06:45:25",
-    "eerst_gezien": "2026-10-11 06:45:25"
+    "bijgewerkt": "2026-10-11 07:15:26",
+    "eerst_gezien": "2026-10-11 07:15:26"
   },
   {
     "id": "EBS:1103:7206_2026-10-11",
@@ -70,6 +70,42 @@
     "dagdeel": "dal",
     "bijgewerkt": "2026-10-11 07:00:43",
     "eerst_gezien": "2026-10-11 07:00:43"
+  },
+  {
+    "id": "EBS:1103:7206_2026-10-11",
+    "journey_id": "EBS:1103:7206",
+    "datum": "2026-10-11",
+    "lijn": "103",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37392150",
+        "halte_naam": "Monnickendam, Swaensborch",
+        "geplande_tijd": "10:00",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Purmerend"
+      }
+    ],
+    "eerste_tijd": "10:00",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-10-11 07:15:26",
+    "eerst_gezien": "2026-10-11 07:15:26"
   },
   {
     "id": "EBS:1316:7602_2026-10-11",
