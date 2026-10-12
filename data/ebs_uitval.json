@@ -1,5 +1,41 @@
 [
   {
+    "id": "EBS:1305:1050_2026-10-12",
+    "journey_id": "EBS:1305:1050",
+    "datum": "2026-10-12",
+    "lijn": "305",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "10:17",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron B",
+        "bestemming": "Amsterdam Centraal"
+      }
+    ],
+    "eerste_tijd": "10:17",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-10-12 07:00:49",
+    "eerst_gezien": "2026-10-12 07:00:49"
+  },
+  {
     "id": "EBS:1102:1619_2026-10-12",
     "journey_id": "EBS:1102:1619",
     "datum": "2026-10-12",
@@ -36,10 +72,10 @@
     "eerst_gezien": "2026-10-12 06:45:29"
   },
   {
-    "id": "EBS:1103:1418_2026-10-12",
-    "journey_id": "EBS:1103:1418",
+    "id": "EBS:1102:1619_2026-10-12",
+    "journey_id": "EBS:1102:1619",
     "datum": "2026-10-12",
-    "lijn": "103",
+    "lijn": "102",
     "lijnkleur": "#004899",
     "categorie": "M-net",
     "product_label": "MeerPlus",
@@ -55,21 +91,32 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37392150",
-        "halte_naam": "Monnickendam, Swaensborch",
-        "geplande_tijd": "09:59",
+        "halte_id": "NL:S:37400500",
+        "halte_naam": "Purmerend, Korenstraat",
+        "geplande_tijd": "10:14",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
         "platform": null,
-        "bestemming": "Purmerend"
+        "bestemming": "Ringlijn Purmerend"
+      },
+      {
+        "halte_id": "NL:S:37402090",
+        "halte_naam": "Purmerend, Station Overwhere (Churchilllaan)",
+        "geplande_tijd": "10:31",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Ringlijn Purmerend"
       }
     ],
-    "eerste_tijd": "09:59",
+    "eerste_tijd": "10:14",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-10-12 06:30:38",
-    "eerst_gezien": "2026-10-12 06:30:38"
+    "bijgewerkt": "2026-10-12 07:00:49",
+    "eerst_gezien": "2026-10-12 07:00:49"
   },
   {
     "id": "EBS:1103:1418_2026-10-12",
@@ -103,6 +150,89 @@
       }
     ],
     "eerste_tijd": "09:59",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-10-12 06:45:29",
+    "eerst_gezien": "2026-10-12 06:45:29"
+  },
+  {
+    "id": "EBS:1103:1418_2026-10-12",
+    "journey_id": "EBS:1103:1418",
+    "datum": "2026-10-12",
+    "lijn": "103",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37392150",
+        "halte_naam": "Monnickendam, Swaensborch",
+        "geplande_tijd": "09:59",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Purmerend"
+      },
+      {
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "10:26",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron B",
+        "bestemming": "Amsterdam Sloterdijk"
+      }
+    ],
+    "eerste_tijd": "09:59",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-10-12 07:00:49",
+    "eerst_gezien": "2026-10-12 07:00:49"
+  },
+  {
+    "id": "EBS:1067:1014_2026-10-12",
+    "journey_id": "EBS:1067:1014",
+    "datum": "2026-10-12",
+    "lijn": "67",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "09:47",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Purmerend via Wormerveer"
+      }
+    ],
+    "eerste_tijd": "09:47",
     "dagdeel": "dal",
     "bijgewerkt": "2026-10-12 06:45:29",
     "eerst_gezien": "2026-10-12 06:45:29"
@@ -140,8 +270,8 @@
     ],
     "eerste_tijd": "09:47",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-10-12 06:45:29",
-    "eerst_gezien": "2026-10-12 06:45:29"
+    "bijgewerkt": "2026-10-12 07:00:49",
+    "eerst_gezien": "2026-10-12 07:00:49"
   },
   {
     "id": "EBS:1103:1411_2026-10-12",
@@ -212,8 +342,8 @@
     ],
     "eerste_tijd": "09:27",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-10-12 06:30:38",
-    "eerst_gezien": "2026-10-12 06:30:38"
+    "bijgewerkt": "2026-10-12 06:45:29",
+    "eerst_gezien": "2026-10-12 06:45:29"
   },
   {
     "id": "EBS:1307:1239_2026-10-12",
@@ -248,44 +378,8 @@
     ],
     "eerste_tijd": "09:27",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-10-12 06:45:29",
-    "eerst_gezien": "2026-10-12 06:45:29"
-  },
-  {
-    "id": "EBS:1305:1033_2026-10-12",
-    "journey_id": "EBS:1305:1033",
-    "datum": "2026-10-12",
-    "lijn": "305",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": null,
-    "drukte_omschrijving": null,
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37400100",
-        "halte_naam": "Purmerend, Busstation Tramplein",
-        "geplande_tijd": "09:26",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron C",
-        "bestemming": "De Rijp"
-      }
-    ],
-    "eerste_tijd": "09:26",
-    "dagdeel": "dal",
-    "bijgewerkt": "2026-10-12 06:30:38",
-    "eerst_gezien": "2026-10-12 06:30:38"
+    "bijgewerkt": "2026-10-12 07:00:49",
+    "eerst_gezien": "2026-10-12 07:00:49"
   },
   {
     "id": "EBS:1305:1033_2026-10-12",
@@ -324,12 +418,12 @@
     "eerst_gezien": "2026-10-12 06:45:29"
   },
   {
-    "id": "EBS:1100:1035_2026-10-12",
-    "journey_id": "EBS:1100:1035",
+    "id": "EBS:1305:1033_2026-10-12",
+    "journey_id": "EBS:1305:1033",
     "datum": "2026-10-12",
-    "lijn": "100",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
+    "lijn": "305",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
     "product_label": "MeerPlus",
     "drukte_icoon": null,
     "drukte_omschrijving": null,
@@ -343,32 +437,21 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:30001305",
-        "halte_naam": "Amsterdam, Busstation Station Noord",
-        "geplande_tijd": "09:12",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron A4",
-        "bestemming": "Purmerend Overwhere"
-      },
-      {
         "halte_id": "NL:S:37400100",
         "halte_naam": "Purmerend, Busstation Tramplein",
-        "geplande_tijd": "09:29",
+        "geplande_tijd": "09:26",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
         "platform": "Perron C",
-        "bestemming": "Purmerend Overwhere"
+        "bestemming": "De Rijp"
       }
     ],
-    "eerste_tijd": "09:12",
+    "eerste_tijd": "09:26",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-10-12 06:30:38",
-    "eerst_gezien": "2026-10-12 06:30:38"
+    "bijgewerkt": "2026-10-12 07:00:49",
+    "eerst_gezien": "2026-10-12 07:00:49"
   },
   {
     "id": "EBS:1100:1035_2026-10-12",
@@ -418,12 +501,12 @@
     "eerst_gezien": "2026-10-12 06:45:29"
   },
   {
-    "id": "EBS:1306:1038_2026-10-12",
-    "journey_id": "EBS:1306:1038",
+    "id": "EBS:1100:1035_2026-10-12",
+    "journey_id": "EBS:1100:1035",
     "datum": "2026-10-12",
-    "lijn": "306",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
+    "lijn": "100",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
     "product_label": "MeerPlus",
     "drukte_icoon": null,
     "drukte_omschrijving": null,
@@ -437,21 +520,32 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37402090",
-        "halte_naam": "Purmerend, Station Overwhere (Churchilllaan)",
-        "geplande_tijd": "09:05",
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "09:12",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": null,
-        "bestemming": "Amsterdam Noord"
+        "platform": "Perron A4",
+        "bestemming": "Purmerend Overwhere"
+      },
+      {
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "09:29",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "Purmerend Overwhere"
       }
     ],
-    "eerste_tijd": "09:05",
+    "eerste_tijd": "09:12",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-10-12 06:30:38",
-    "eerst_gezien": "2026-10-12 06:30:38"
+    "bijgewerkt": "2026-10-12 07:00:49",
+    "eerst_gezien": "2026-10-12 07:00:49"
   },
   {
     "id": "EBS:1306:1038_2026-10-12",
@@ -488,6 +582,42 @@
     "dagdeel": "dal",
     "bijgewerkt": "2026-10-12 06:45:29",
     "eerst_gezien": "2026-10-12 06:45:29"
+  },
+  {
+    "id": "EBS:1306:1038_2026-10-12",
+    "journey_id": "EBS:1306:1038",
+    "datum": "2026-10-12",
+    "lijn": "306",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37402090",
+        "halte_naam": "Purmerend, Station Overwhere (Churchilllaan)",
+        "geplande_tijd": "09:05",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Amsterdam Noord"
+      }
+    ],
+    "eerste_tijd": "09:05",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-10-12 07:00:49",
+    "eerst_gezien": "2026-10-12 07:00:49"
   },
   {
     "id": "EBS:1104:1034_2026-10-12",
