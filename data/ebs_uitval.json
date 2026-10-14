@@ -80491,6 +80491,17 @@
         "bestemming": "Amsterdam Centraal"
       },
       {
+        "halte_id": "NL:S:37402090",
+        "halte_naam": "Purmerend, Station Overwhere (Churchilllaan)",
+        "geplande_tijd": "02:53",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Amsterdam Centraal"
+      },
+      {
         "halte_id": "NL:S:37400500",
         "halte_naam": "Purmerend, Korenstraat",
         "geplande_tijd": "03:02",
@@ -80504,8 +80515,8 @@
     ],
     "eerste_tijd": "02:46",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-10-14 23:15:27",
-    "eerst_gezien": "2026-10-14 23:15:27"
+    "bijgewerkt": "2026-10-14 23:30:42",
+    "eerst_gezien": "2026-10-14 23:30:42"
   },
   {
     "id": "EBS:1006:1209_2026-10-14",
@@ -80562,8 +80573,8 @@
     ],
     "eerste_tijd": "02:46",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-10-14 23:30:42",
-    "eerst_gezien": "2026-10-14 23:30:42"
+    "bijgewerkt": "2026-10-14 23:45:35",
+    "eerst_gezien": "2026-10-14 23:45:35"
   },
   {
     "id": "EBS:1094:1004_2026-10-14",
@@ -80611,64 +80622,6 @@
     "dagdeel": "nacht",
     "bijgewerkt": "2026-10-14 22:45:27",
     "eerst_gezien": "2026-10-14 22:45:27"
-  },
-  {
-    "id": "EBS:1094:1002_2026-10-14",
-    "journey_id": "EBS:1094:1002",
-    "datum": "2026-10-14",
-    "lijn": "N94",
-    "lijnkleur": "#000000",
-    "categorie": "M-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": null,
-    "drukte_omschrijving": null,
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "01:52",
-        "vertraging_min": 0,
-        "status": "gereden",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron C",
-        "bestemming": "Amsterdam Centraal"
-      },
-      {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "01:54",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Amsterdam Centraal"
-      },
-      {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "02:01",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron C",
-        "bestemming": "Amsterdam Centraal"
-      }
-    ],
-    "eerste_tijd": "01:52",
-    "dagdeel": "nacht",
-    "bijgewerkt": "2026-10-14 23:15:27",
-    "eerst_gezien": "2026-10-14 23:15:27"
   },
   {
     "id": "EBS:1094:1002_2026-10-14",
@@ -80901,89 +80854,6 @@
       }
     ],
     "eerste_tijd": "01:36",
-    "dagdeel": "nacht",
-    "bijgewerkt": "2026-10-14 23:15:27",
-    "eerst_gezien": "2026-10-14 23:15:27"
-  },
-  {
-    "id": "EBS:1394:1200_2026-10-14",
-    "journey_id": "EBS:1394:1200",
-    "datum": "2026-10-14",
-    "lijn": "394",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": null,
-    "drukte_omschrijving": null,
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "01:36",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron C",
-        "bestemming": "Zaandam"
-      },
-      {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "01:38",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Zaandam"
-      }
-    ],
-    "eerste_tijd": "01:36",
-    "dagdeel": "nacht",
-    "bijgewerkt": "2026-10-14 23:30:42",
-    "eerst_gezien": "2026-10-14 23:30:42"
-  },
-  {
-    "id": "EBS:1394:1195_2026-10-14",
-    "journey_id": "EBS:1394:1195",
-    "datum": "2026-10-14",
-    "lijn": "394",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": null,
-    "drukte_omschrijving": null,
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "01:30",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Zaandam Station"
-      }
-    ],
-    "eerste_tijd": "01:30",
     "dagdeel": "nacht",
     "bijgewerkt": "2026-10-14 23:30:42",
     "eerst_gezien": "2026-10-14 23:30:42"
