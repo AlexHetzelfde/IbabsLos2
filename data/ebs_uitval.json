@@ -1,5 +1,38 @@
 [
   {
+    "id": "EBS:1112:1093_2026-10-15",
+    "journey_id": "EBS:1112:1093",
+    "datum": "2026-10-15",
+    "lijn": "112",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "19:07",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A2",
+        "bestemming": "Volendam-Edam"
+      }
+    ],
+    "eerste_tijd": "19:07",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-10-15 15:45:30",
+    "eerst_gezien": "2026-10-15 15:45:30"
+  },
+  {
     "id": "EBS:1111:1098_2026-10-15",
     "journey_id": "EBS:1111:1098",
     "datum": "2026-10-15",
@@ -47,10 +80,10 @@
     "eerst_gezien": "2026-10-15 15:30:42"
   },
   {
-    "id": "EBS:1065:1046_2026-10-15",
-    "journey_id": "EBS:1065:1046",
+    "id": "EBS:1111:1098_2026-10-15",
+    "journey_id": "EBS:1111:1098",
     "datum": "2026-10-15",
-    "lijn": "65",
+    "lijn": "111",
     "lijnkleur": "#004899",
     "categorie": "M-net",
     "product_label": "MeerPlus",
@@ -58,29 +91,40 @@
     "drukte_omschrijving": null,
     "status": "cancelled",
     "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
+      "Materieel",
+      "Storing"
     ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "oorzaak_raw": "Cause: Materieel, Storing",
     "terminus_alert": null,
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "18:05",
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "18:35",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron B",
-        "bestemming": "Zaandam"
+        "platform": "Perron A",
+        "bestemming": "Zaandam Station"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "18:47",
+        "vertraging_min": -3,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Zaandam Station"
       }
     ],
-    "eerste_tijd": "18:05",
+    "eerste_tijd": "18:35",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-10-15 15:15:28",
-    "eerst_gezien": "2026-10-15 15:15:28"
+    "bijgewerkt": "2026-10-15 15:45:30",
+    "eerst_gezien": "2026-10-15 15:45:30"
   },
   {
     "id": "EBS:1065:1046_2026-10-15",
@@ -117,6 +161,42 @@
     "dagdeel": "avondspits",
     "bijgewerkt": "2026-10-15 15:30:42",
     "eerst_gezien": "2026-10-15 15:30:42"
+  },
+  {
+    "id": "EBS:1065:1046_2026-10-15",
+    "journey_id": "EBS:1065:1046",
+    "datum": "2026-10-15",
+    "lijn": "65",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "18:05",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron B",
+        "bestemming": "Zaandam"
+      }
+    ],
+    "eerste_tijd": "18:05",
+    "dagdeel": "avondspits",
+    "bijgewerkt": "2026-10-15 15:45:30",
+    "eerst_gezien": "2026-10-15 15:45:30"
   },
   {
     "id": "EBS:1110:1257_2026-10-15",
@@ -148,8 +228,8 @@
     ],
     "eerste_tijd": "17:56",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-10-15 15:30:42",
-    "eerst_gezien": "2026-10-15 15:30:42"
+    "bijgewerkt": "2026-10-15 15:45:30",
+    "eerst_gezien": "2026-10-15 15:45:30"
   },
   {
     "id": "EBS:1110:1257_2026-10-15",
