@@ -1,9 +1,9 @@
 [
   {
-    "id": "EBS:1111:1069_2026-10-15",
-    "journey_id": "EBS:1111:1069",
+    "id": "EBS:1103:1434_2026-10-15",
+    "journey_id": "EBS:1103:1434",
     "datum": "2026-10-15",
-    "lijn": "111",
+    "lijn": "103",
     "lijnkleur": "#004899",
     "categorie": "M-net",
     "product_label": "MeerPlus",
@@ -19,43 +19,32 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "13:27",
+        "halte_id": "NL:S:37392150",
+        "halte_naam": "Monnickendam, Swaensborch",
+        "geplande_tijd": "13:58",
         "vertraging_min": 0,
-        "status": "cancelled",
+        "status": "gereden",
         "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron D",
-        "bestemming": "Marken"
-      },
-      {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "13:29",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
+        "realtime": true,
         "platform": null,
-        "bestemming": "Marken"
+        "bestemming": "Purmerend"
       },
       {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "13:46",
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "14:27",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron E",
-        "bestemming": "Marken"
+        "platform": "Perron B",
+        "bestemming": "Amsterdam Sloterdijk"
       }
     ],
-    "eerste_tijd": "13:27",
+    "eerste_tijd": "13:58",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-10-15 10:30:39",
-    "eerst_gezien": "2026-10-15 10:30:39"
+    "bijgewerkt": "2026-10-15 11:00:48",
+    "eerst_gezien": "2026-10-15 11:00:48"
   },
   {
     "id": "EBS:1111:1069_2026-10-15",
@@ -125,6 +114,75 @@
     "dagdeel": "dal",
     "bijgewerkt": "2026-10-15 10:45:34",
     "eerst_gezien": "2026-10-15 10:45:34"
+  },
+  {
+    "id": "EBS:1111:1069_2026-10-15",
+    "journey_id": "EBS:1111:1069",
+    "datum": "2026-10-15",
+    "lijn": "111",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "13:27",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron D",
+        "bestemming": "Marken"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "13:29",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Marken"
+      },
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "13:46",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron E",
+        "bestemming": "Marken"
+      },
+      {
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "14:11",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A1",
+        "bestemming": "Marken"
+      }
+    ],
+    "eerste_tijd": "13:27",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-10-15 11:00:48",
+    "eerst_gezien": "2026-10-15 11:00:48"
   },
   {
     "id": "EBS:1103:1426_2026-10-15",
