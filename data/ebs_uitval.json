@@ -1,5 +1,52 @@
 [
   {
+    "id": "EBS:1065:1047_2026-10-15",
+    "journey_id": "EBS:1065:1047",
+    "datum": "2026-10-15",
+    "lijn": "65",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "16:46",
+        "vertraging_min": -15,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron E",
+        "bestemming": "Beverwijk"
+      },
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "17:06",
+        "vertraging_min": -9,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron F",
+        "bestemming": "Beverwijk"
+      }
+    ],
+    "eerste_tijd": "16:46",
+    "dagdeel": "avondspits",
+    "bijgewerkt": "2026-10-15 14:30:51",
+    "eerst_gezien": "2026-10-15 14:30:51"
+  },
+  {
     "id": "EBS:1111:1089_2026-10-15",
     "journey_id": "EBS:1111:1089",
     "datum": "2026-10-15",
