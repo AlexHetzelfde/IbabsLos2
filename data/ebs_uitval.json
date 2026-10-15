@@ -1,5 +1,41 @@
 [
   {
+    "id": "EBS:1111:1072_2026-10-15",
+    "journey_id": "EBS:1111:1072",
+    "datum": "2026-10-15",
+    "lijn": "111",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "15:36",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Zaandam Station"
+      }
+    ],
+    "eerste_tijd": "15:36",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-10-15 12:15:30",
+    "eerst_gezien": "2026-10-15 12:15:30"
+  },
+  {
     "id": "EBS:1103:1434_2026-10-15",
     "journey_id": "EBS:1103:1434",
     "datum": "2026-10-15",
@@ -32,44 +68,8 @@
     ],
     "eerste_tijd": "14:27",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-10-15 12:00:51",
-    "eerst_gezien": "2026-10-15 12:00:51"
-  },
-  {
-    "id": "EBS:1111:1069_2026-10-15",
-    "journey_id": "EBS:1111:1069",
-    "datum": "2026-10-15",
-    "lijn": "111",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": null,
-    "drukte_omschrijving": null,
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:30001305",
-        "halte_naam": "Amsterdam, Busstation Station Noord",
-        "geplande_tijd": "14:11",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron A1",
-        "bestemming": "Marken"
-      }
-    ],
-    "eerste_tijd": "14:11",
-    "dagdeel": "dal",
-    "bijgewerkt": "2026-10-15 12:00:51",
-    "eerst_gezien": "2026-10-15 12:00:51"
+    "bijgewerkt": "2026-10-15 12:15:30",
+    "eerst_gezien": "2026-10-15 12:15:30"
   },
   {
     "id": "EBS:1103:1434_2026-10-15",
