@@ -36,12 +36,48 @@
     "eerst_gezien": "2026-10-15 20:30:40"
   },
   {
-    "id": "EBS:1305:1160_2026-10-15",
-    "journey_id": "EBS:1305:1160",
+    "id": "EBS:1112:1114_2026-10-15",
+    "journey_id": "EBS:1112:1114",
     "datum": "2026-10-15",
-    "lijn": "305",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
+    "lijn": "112",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "23:51",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron B",
+        "bestemming": "Amsterdam Noord"
+      }
+    ],
+    "eerste_tijd": "23:51",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-10-15 20:45:30",
+    "eerst_gezien": "2026-10-15 20:45:30"
+  },
+  {
+    "id": "EBS:1110:1279_2026-10-15",
+    "journey_id": "EBS:1110:1279",
+    "datum": "2026-10-15",
+    "lijn": "110",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
     "product_label": "MeerPlus",
     "drukte_icoon": null,
     "drukte_omschrijving": null,
@@ -57,19 +93,30 @@
       {
         "halte_id": "NL:S:37400100",
         "halte_naam": "Purmerend, Busstation Tramplein",
-        "geplande_tijd": "22:38",
+        "geplande_tijd": "23:02",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron B",
-        "bestemming": "Amsterdam Centraal"
+        "platform": "Perron A",
+        "bestemming": "Edam-Volendam"
+      },
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "23:29",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Noord"
       }
     ],
-    "eerste_tijd": "22:38",
+    "eerste_tijd": "23:02",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-10-15 20:15:36",
-    "eerst_gezien": "2026-10-15 20:15:36"
+    "bijgewerkt": "2026-10-15 20:45:30",
+    "eerst_gezien": "2026-10-15 20:45:30"
   },
   {
     "id": "EBS:1305:1160_2026-10-15",
