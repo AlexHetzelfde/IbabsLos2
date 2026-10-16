@@ -32,8 +32,8 @@
     ],
     "eerste_tijd": "10:08",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-10-16 07:00:53",
-    "eerst_gezien": "2026-10-16 07:00:53"
+    "bijgewerkt": "2026-10-16 07:15:30",
+    "eerst_gezien": "2026-10-16 07:15:30"
   },
   {
     "id": "EBS:1308:1043_2026-10-16",
@@ -68,6 +68,42 @@
     ],
     "eerste_tijd": "10:08",
     "dagdeel": "dal",
+    "bijgewerkt": "2026-10-16 07:30:38",
+    "eerst_gezien": "2026-10-16 07:30:38"
+  },
+  {
+    "id": "EBS:1067:1014_2026-10-16",
+    "journey_id": "EBS:1067:1014",
+    "datum": "2026-10-16",
+    "lijn": "67",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "-"
+    ],
+    "oorzaak_raw": "Cause: Personeel, -",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "09:47",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Purmerend via Wormerveer"
+      }
+    ],
+    "eerste_tijd": "09:47",
+    "dagdeel": "dal",
     "bijgewerkt": "2026-10-16 07:15:30",
     "eerst_gezien": "2026-10-16 07:15:30"
   },
@@ -104,41 +140,52 @@
     ],
     "eerste_tijd": "09:47",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-10-16 07:00:53",
-    "eerst_gezien": "2026-10-16 07:00:53"
+    "bijgewerkt": "2026-10-16 07:30:38",
+    "eerst_gezien": "2026-10-16 07:30:38"
   },
   {
-    "id": "EBS:1067:1014_2026-10-16",
-    "journey_id": "EBS:1067:1014",
+    "id": "EBS:1315:1045_2026-10-16",
+    "journey_id": "EBS:1315:1045",
     "datum": "2026-10-16",
-    "lijn": "67",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
+    "lijn": "315",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
     "product_label": "MeerPlus",
     "drukte_icoon": null,
     "drukte_omschrijving": null,
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Personeel",
-      "-"
+      "Logistiek"
     ],
-    "oorzaak_raw": "Cause: Personeel, -",
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
     "terminus_alert": null,
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "09:47",
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "09:34",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron A",
-        "bestemming": "Purmerend via Wormerveer"
+        "platform": "Perron A3",
+        "bestemming": "Monnickendam"
+      },
+      {
+        "halte_id": "NL:S:37392150",
+        "halte_naam": "Monnickendam, Swaensborch",
+        "geplande_tijd": "09:52",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Amsterdam Noord"
       }
     ],
-    "eerste_tijd": "09:47",
+    "eerste_tijd": "09:34",
     "dagdeel": "dal",
     "bijgewerkt": "2026-10-16 07:15:30",
     "eerst_gezien": "2026-10-16 07:15:30"
@@ -187,55 +234,8 @@
     ],
     "eerste_tijd": "09:34",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-10-16 07:00:53",
-    "eerst_gezien": "2026-10-16 07:00:53"
-  },
-  {
-    "id": "EBS:1315:1045_2026-10-16",
-    "journey_id": "EBS:1315:1045",
-    "datum": "2026-10-16",
-    "lijn": "315",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": null,
-    "drukte_omschrijving": null,
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:30001305",
-        "halte_naam": "Amsterdam, Busstation Station Noord",
-        "geplande_tijd": "09:34",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron A3",
-        "bestemming": "Monnickendam"
-      },
-      {
-        "halte_id": "NL:S:37392150",
-        "halte_naam": "Monnickendam, Swaensborch",
-        "geplande_tijd": "09:52",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Amsterdam Noord"
-      }
-    ],
-    "eerste_tijd": "09:34",
-    "dagdeel": "dal",
-    "bijgewerkt": "2026-10-16 07:15:30",
-    "eerst_gezien": "2026-10-16 07:15:30"
+    "bijgewerkt": "2026-10-16 07:30:38",
+    "eerst_gezien": "2026-10-16 07:30:38"
   },
   {
     "id": "EBS:1112:1036_2026-10-16",
