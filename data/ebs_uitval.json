@@ -1,5 +1,77 @@
 [
   {
+    "id": "EBS:1314:6040_2026-10-17",
+    "journey_id": "EBS:1314:6040",
+    "datum": "2026-10-17",
+    "lijn": "314",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "11:59",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron D",
+        "bestemming": "Amsterdam Centraal"
+      }
+    ],
+    "eerste_tijd": "11:59",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-10-17 08:30:46",
+    "eerst_gezien": "2026-10-17 08:30:46"
+  },
+  {
+    "id": "EBS:1111:6037_2026-10-17",
+    "journey_id": "EBS:1111:6037",
+    "datum": "2026-10-17",
+    "lijn": "111",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "11:50",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Zaandam Station"
+      }
+    ],
+    "eerste_tijd": "11:50",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-10-17 08:30:46",
+    "eerst_gezien": "2026-10-17 08:30:46"
+  },
+  {
     "id": "EBS:1104:6024_2026-10-17",
     "journey_id": "EBS:1104:6024",
     "datum": "2026-10-17",
@@ -36,15 +108,15 @@
     "eerst_gezien": "2026-10-17 08:15:33"
   },
   {
-    "id": "EBS:1104:6019_2026-10-17",
-    "journey_id": "EBS:1104:6019",
+    "id": "EBS:1104:6024_2026-10-17",
+    "journey_id": "EBS:1104:6024",
     "datum": "2026-10-17",
     "lijn": "104",
     "lijnkleur": "#004899",
     "categorie": "M-net",
     "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Personeel",
@@ -55,21 +127,21 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:30001305",
-        "halte_naam": "Amsterdam, Busstation Station Noord",
-        "geplande_tijd": "10:49",
+        "halte_id": "NL:S:37400500",
+        "halte_naam": "Purmerend, Korenstraat",
+        "geplande_tijd": "11:48",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron A5",
-        "bestemming": "Purmerend De Purmer"
+        "platform": null,
+        "bestemming": "Amsterdam Noord"
       }
     ],
-    "eerste_tijd": "10:49",
+    "eerste_tijd": "11:48",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-10-17 08:00:47",
-    "eerst_gezien": "2026-10-17 08:00:47"
+    "bijgewerkt": "2026-10-17 08:30:46",
+    "eerst_gezien": "2026-10-17 08:30:46"
   },
   {
     "id": "EBS:1104:6019_2026-10-17",
@@ -108,59 +180,40 @@
     "eerst_gezien": "2026-10-17 08:15:33"
   },
   {
-    "id": "EBS:1111:6032_2026-10-17",
-    "journey_id": "EBS:1111:6032",
+    "id": "EBS:1104:6019_2026-10-17",
+    "journey_id": "EBS:1104:6019",
     "datum": "2026-10-17",
-    "lijn": "111",
+    "lijn": "104",
     "lijnkleur": "#004899",
     "categorie": "M-net",
     "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
     "status": "cancelled",
-    "oorzaak_categorieen": [],
-    "oorzaak_raw": null,
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
     "terminus_alert": null,
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "10:45",
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "10:49",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron D",
-        "bestemming": "Amsterdam Noord"
-      },
-      {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "10:47",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Amsterdam Noord"
-      },
-      {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "11:02",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron E",
-        "bestemming": "Amsterdam Noord"
+        "platform": "Perron A5",
+        "bestemming": "Purmerend De Purmer"
       }
     ],
-    "eerste_tijd": "10:45",
+    "eerste_tijd": "10:49",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-10-17 08:00:47",
-    "eerst_gezien": "2026-10-17 08:00:47"
+    "bijgewerkt": "2026-10-17 08:30:46",
+    "eerst_gezien": "2026-10-17 08:30:46"
   },
   {
     "id": "EBS:1111:6032_2026-10-17",
@@ -221,6 +274,64 @@
     "eerst_gezien": "2026-10-17 08:15:33"
   },
   {
+    "id": "EBS:1111:6032_2026-10-17",
+    "journey_id": "EBS:1111:6032",
+    "datum": "2026-10-17",
+    "lijn": "111",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "10:45",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron D",
+        "bestemming": "Amsterdam Noord"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "10:47",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Amsterdam Noord"
+      },
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "11:02",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron E",
+        "bestemming": "Amsterdam Noord"
+      }
+    ],
+    "eerste_tijd": "10:45",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-10-17 08:30:46",
+    "eerst_gezien": "2026-10-17 08:30:46"
+  },
+  {
     "id": "EBS:1111:6025_2026-10-17",
     "journey_id": "EBS:1111:6025",
     "datum": "2026-10-17",
@@ -228,25 +339,17 @@
     "lijnkleur": "#004899",
     "categorie": "M-net",
     "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
     "status": "cancelled",
-    "oorzaak_categorieen": [],
-    "oorzaak_raw": null,
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
     "terminus_alert": null,
     "advies": null,
     "haltes": [
-      {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "10:20",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron A",
-        "bestemming": "Zaandam Station"
-      },
       {
         "halte_id": "NL:S:37223860",
         "halte_naam": "Gedempte Gracht",
@@ -259,10 +362,10 @@
         "bestemming": "Zaandam Station"
       }
     ],
-    "eerste_tijd": "10:20",
+    "eerste_tijd": "10:30",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-10-17 08:00:47",
-    "eerst_gezien": "2026-10-17 08:00:47"
+    "bijgewerkt": "2026-10-17 08:30:46",
+    "eerst_gezien": "2026-10-17 08:30:46"
   },
   {
     "id": "EBS:1111:6025_2026-10-17",
@@ -310,42 +413,6 @@
     "dagdeel": "dal",
     "bijgewerkt": "2026-10-17 08:15:33",
     "eerst_gezien": "2026-10-17 08:15:33"
-  },
-  {
-    "id": "EBS:1112:6018_2026-10-17",
-    "journey_id": "EBS:1112:6018",
-    "datum": "2026-10-17",
-    "lijn": "112",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": "crowd0.svg",
-    "drukte_omschrijving": "leeg",
-    "status": "cancelled",
-    "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
-    ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:38491011",
-        "halte_naam": "Edam, Busstation",
-        "geplande_tijd": "10:19",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron B",
-        "bestemming": "Amsterdam Noord"
-      }
-    ],
-    "eerste_tijd": "10:19",
-    "dagdeel": "dal",
-    "bijgewerkt": "2026-10-17 08:00:47",
-    "eerst_gezien": "2026-10-17 08:00:47"
   },
   {
     "id": "EBS:1112:6018_2026-10-17",
