@@ -1,7 +1,7 @@
 [
   {
-    "id": "EBS:1112:7032_2026-10-18",
-    "journey_id": "EBS:1112:7032",
+    "id": "EBS:1112:7035_2026-10-18",
+    "journey_id": "EBS:1112:7035",
     "datum": "2026-10-18",
     "lijn": "112",
     "lijnkleur": "#004899",
@@ -16,21 +16,21 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:38491011",
-        "halte_naam": "Edam, Busstation",
-        "geplande_tijd": "14:51",
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "15:51",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron B",
-        "bestemming": "Amsterdam Noord"
+        "platform": "Perron A2",
+        "bestemming": "Volendam-Edam"
       }
     ],
-    "eerste_tijd": "14:51",
+    "eerste_tijd": "15:51",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-10-18 12:00:48",
-    "eerst_gezien": "2026-10-18 12:00:48"
+    "bijgewerkt": "2026-10-18 12:30:37",
+    "eerst_gezien": "2026-10-18 12:30:37"
   },
   {
     "id": "EBS:1112:7032_2026-10-18",
@@ -67,6 +67,42 @@
     "dagdeel": "dal",
     "bijgewerkt": "2026-10-18 12:15:25",
     "eerst_gezien": "2026-10-18 12:15:25"
+  },
+  {
+    "id": "EBS:1112:7032_2026-10-18",
+    "journey_id": "EBS:1112:7032",
+    "datum": "2026-10-18",
+    "lijn": "112",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "14:51",
+        "vertraging_min": -20,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron B",
+        "bestemming": "Amsterdam Noord"
+      }
+    ],
+    "eerste_tijd": "14:51",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-10-18 12:30:37",
+    "eerst_gezien": "2026-10-18 12:30:37"
   },
   {
     "id": "EBS:1314:7029_2026-10-18",
