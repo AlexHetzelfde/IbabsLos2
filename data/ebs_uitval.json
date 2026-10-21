@@ -1,5 +1,41 @@
 [
   {
+    "id": "EBS:1104:1033_2026-10-21",
+    "journey_id": "EBS:1104:1033",
+    "datum": "2026-10-21",
+    "lijn": "104",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "09:06",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A5",
+        "bestemming": "Purmerend De Purmer"
+      }
+    ],
+    "eerste_tijd": "09:06",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-10-21 05:45:28",
+    "eerst_gezien": "2026-10-21 05:45:28"
+  },
+  {
     "id": "EBS:1112:1029_2026-10-21",
     "journey_id": "EBS:1112:1029",
     "datum": "2026-10-21",
@@ -36,10 +72,10 @@
     "eerst_gezien": "2026-10-21 05:30:38"
   },
   {
-    "id": "EBS:1100:1027_2026-10-21",
-    "journey_id": "EBS:1100:1027",
+    "id": "EBS:1112:1029_2026-10-21",
+    "journey_id": "EBS:1112:1029",
     "datum": "2026-10-21",
-    "lijn": "100",
+    "lijn": "112",
     "lijnkleur": "#004899",
     "categorie": "M-net",
     "product_label": "MeerPlus",
@@ -57,19 +93,19 @@
       {
         "halte_id": "NL:S:30001305",
         "halte_naam": "Amsterdam, Busstation Station Noord",
-        "geplande_tijd": "08:29",
+        "geplande_tijd": "08:49",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron A4",
-        "bestemming": "Purmerend De Baanstee"
+        "platform": "Perron A2",
+        "bestemming": "Volendam-Edam"
       }
     ],
-    "eerste_tijd": "08:29",
+    "eerste_tijd": "08:49",
     "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-10-21 05:15:30",
-    "eerst_gezien": "2026-10-21 05:15:30"
+    "bijgewerkt": "2026-10-21 05:45:28",
+    "eerst_gezien": "2026-10-21 05:45:28"
   },
   {
     "id": "EBS:1100:1027_2026-10-21",
@@ -119,8 +155,8 @@
     "eerst_gezien": "2026-10-21 05:30:38"
   },
   {
-    "id": "EBS:1100:1034_2026-10-21",
-    "journey_id": "EBS:1100:1034",
+    "id": "EBS:1100:1027_2026-10-21",
+    "journey_id": "EBS:1100:1027",
     "datum": "2026-10-21",
     "lijn": "100",
     "lijnkleur": "#004899",
@@ -138,21 +174,32 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:38491011",
-        "halte_naam": "Edam, Busstation",
-        "geplande_tijd": "08:20",
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "08:29",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A4",
+        "bestemming": "Purmerend De Baanstee"
+      },
+      {
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "08:46",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
         "platform": "Perron C",
-        "bestemming": "Purmerend"
+        "bestemming": "Edam"
       }
     ],
-    "eerste_tijd": "08:20",
+    "eerste_tijd": "08:29",
     "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-10-21 05:15:30",
-    "eerst_gezien": "2026-10-21 05:15:30"
+    "bijgewerkt": "2026-10-21 05:45:28",
+    "eerst_gezien": "2026-10-21 05:45:28"
   },
   {
     "id": "EBS:1100:1034_2026-10-21",
@@ -202,10 +249,10 @@
     "eerst_gezien": "2026-10-21 05:30:38"
   },
   {
-    "id": "EBS:1104:1026_2026-10-21",
-    "journey_id": "EBS:1104:1026",
+    "id": "EBS:1100:1034_2026-10-21",
+    "journey_id": "EBS:1100:1034",
     "datum": "2026-10-21",
-    "lijn": "104",
+    "lijn": "100",
     "lijnkleur": "#004899",
     "categorie": "M-net",
     "product_label": "MeerPlus",
@@ -221,21 +268,32 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37400500",
-        "halte_naam": "Purmerend, Korenstraat",
-        "geplande_tijd": "07:57",
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "08:20",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": null,
+        "platform": "Perron C",
+        "bestemming": "Purmerend"
+      },
+      {
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "08:46",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron B",
         "bestemming": "Amsterdam Noord"
       }
     ],
-    "eerste_tijd": "07:57",
+    "eerste_tijd": "08:20",
     "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-10-21 05:15:30",
-    "eerst_gezien": "2026-10-21 05:15:30"
+    "bijgewerkt": "2026-10-21 05:45:28",
+    "eerst_gezien": "2026-10-21 05:45:28"
   },
   {
     "id": "EBS:1104:1026_2026-10-21",
@@ -269,6 +327,78 @@
       }
     ],
     "eerste_tijd": "07:57",
+    "dagdeel": "ochtendspits",
+    "bijgewerkt": "2026-10-21 05:30:38",
+    "eerst_gezien": "2026-10-21 05:30:38"
+  },
+  {
+    "id": "EBS:1104:1026_2026-10-21",
+    "journey_id": "EBS:1104:1026",
+    "datum": "2026-10-21",
+    "lijn": "104",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37400500",
+        "halte_naam": "Purmerend, Korenstraat",
+        "geplande_tijd": "07:57",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Amsterdam Noord"
+      }
+    ],
+    "eerste_tijd": "07:57",
+    "dagdeel": "ochtendspits",
+    "bijgewerkt": "2026-10-21 05:45:28",
+    "eerst_gezien": "2026-10-21 05:45:28"
+  },
+  {
+    "id": "EBS:1100:1024_2026-10-21",
+    "journey_id": "EBS:1100:1024",
+    "datum": "2026-10-21",
+    "lijn": "100",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "07:56",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron B",
+        "bestemming": "Amsterdam Noord"
+      }
+    ],
+    "eerste_tijd": "07:56",
     "dagdeel": "ochtendspits",
     "bijgewerkt": "2026-10-21 05:30:38",
     "eerst_gezien": "2026-10-21 05:30:38"
@@ -306,14 +436,14 @@
     ],
     "eerste_tijd": "07:56",
     "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-10-21 05:15:30",
-    "eerst_gezien": "2026-10-21 05:15:30"
+    "bijgewerkt": "2026-10-21 05:45:28",
+    "eerst_gezien": "2026-10-21 05:45:28"
   },
   {
-    "id": "EBS:1100:1024_2026-10-21",
-    "journey_id": "EBS:1100:1024",
+    "id": "EBS:1112:1017_2026-10-21",
+    "journey_id": "EBS:1112:1017",
     "datum": "2026-10-21",
-    "lijn": "100",
+    "lijn": "112",
     "lijnkleur": "#004899",
     "categorie": "M-net",
     "product_label": "MeerPlus",
@@ -329,18 +459,18 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37400100",
-        "halte_naam": "Purmerend, Busstation Tramplein",
-        "geplande_tijd": "07:56",
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "07:49",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron B",
-        "bestemming": "Amsterdam Noord"
+        "platform": "Perron A2",
+        "bestemming": "Volendam-Edam"
       }
     ],
-    "eerste_tijd": "07:56",
+    "eerste_tijd": "07:49",
     "dagdeel": "ochtendspits",
     "bijgewerkt": "2026-10-21 05:30:38",
     "eerst_gezien": "2026-10-21 05:30:38"
@@ -378,44 +508,44 @@
     ],
     "eerste_tijd": "07:49",
     "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-10-21 05:15:30",
-    "eerst_gezien": "2026-10-21 05:15:30"
+    "bijgewerkt": "2026-10-21 05:45:28",
+    "eerst_gezien": "2026-10-21 05:45:28"
   },
   {
-    "id": "EBS:1112:1017_2026-10-21",
-    "journey_id": "EBS:1112:1017",
+    "id": "EBS:1394:1022_2026-10-21",
+    "journey_id": "EBS:1394:1022",
     "datum": "2026-10-21",
-    "lijn": "112",
-    "lijnkleur": "#004899",
-    "categorie": "M-net",
+    "lijn": "394",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
     "product_label": "MeerPlus",
     "drukte_icoon": null,
     "drukte_omschrijving": null,
     "status": "cancelled",
     "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
+      "Verkeer",
+      "Stremming/Omleiding"
     ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "oorzaak_raw": "Cause: Verkeer, Stremming/Omleiding",
     "terminus_alert": null,
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:30001305",
-        "halte_naam": "Amsterdam, Busstation Station Noord",
-        "geplande_tijd": "07:49",
-        "vertraging_min": 0,
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "07:27",
+        "vertraging_min": 17,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron A2",
-        "bestemming": "Volendam-Edam"
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Noorderpark"
       }
     ],
-    "eerste_tijd": "07:49",
+    "eerste_tijd": "07:27",
     "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-10-21 05:30:38",
-    "eerst_gezien": "2026-10-21 05:30:38"
+    "bijgewerkt": "2026-10-21 05:45:28",
+    "eerst_gezien": "2026-10-21 05:45:28"
   },
   {
     "id": "EBS:1104:1018_2026-10-21",
