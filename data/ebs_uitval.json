@@ -1,5 +1,99 @@
 [
   {
+    "id": "EBS:1316:1670_2026-10-22",
+    "journey_id": "EBS:1316:1670",
+    "datum": "2026-10-22",
+    "lijn": "316",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "12:54",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Amsterdam Centraal"
+      }
+    ],
+    "eerste_tijd": "12:54",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-10-22 09:30:37",
+    "eerst_gezien": "2026-10-22 09:30:37"
+  },
+  {
+    "id": "EBS:1111:1053_2026-10-22",
+    "journey_id": "EBS:1111:1053",
+    "datum": "2026-10-22",
+    "lijn": "111",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Verkeer",
+      "Vertraging"
+    ],
+    "oorzaak_raw": "Cause: Verkeer, Vertraging",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "11:31",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Marken"
+      },
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "11:46",
+        "vertraging_min": 1,
+        "status": "gereden",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron E",
+        "bestemming": "Marken"
+      },
+      {
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "12:11",
+        "vertraging_min": 0,
+        "status": "gereden",
+        "vertrokken": false,
+        "realtime": true,
+        "platform": "Perron A1",
+        "bestemming": "Marken"
+      }
+    ],
+    "eerste_tijd": "11:31",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-10-22 09:30:37",
+    "eerst_gezien": "2026-10-22 09:30:37"
+  },
+  {
     "id": "EBS:1308:1037_2026-10-22",
     "journey_id": "EBS:1308:1037",
     "datum": "2026-10-22",
