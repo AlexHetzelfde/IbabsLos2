@@ -1,7 +1,7 @@
 [
   {
-    "id": "EBS:1111:1047_2026-10-23",
-    "journey_id": "EBS:1111:1047",
+    "id": "EBS:1111:1046_2026-10-23",
+    "journey_id": "EBS:1111:1046",
     "datum": "2026-10-23",
     "lijn": "111",
     "lijnkleur": "#004899",
@@ -19,43 +19,32 @@
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
-        "geplande_tijd": "10:45",
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "11:49",
         "vertraging_min": 0,
-        "status": "gereden",
+        "status": "cancelled",
         "vertrokken": false,
-        "realtime": true,
-        "platform": "Perron D",
-        "bestemming": "Amsterdam Noord"
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Zaandam Station"
       },
       {
         "halte_id": "NL:S:37223860",
         "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "10:47",
-        "vertraging_min": 2,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Amsterdam Noord"
-      },
-      {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "11:02",
+        "geplande_tijd": "11:59",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron E",
-        "bestemming": "Amsterdam Noord"
+        "platform": null,
+        "bestemming": "Zaandam Station"
       }
     ],
-    "eerste_tijd": "10:45",
+    "eerste_tijd": "11:49",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-10-23 08:00:57",
-    "eerst_gezien": "2026-10-23 08:00:57"
+    "bijgewerkt": "2026-10-23 08:30:45",
+    "eerst_gezien": "2026-10-23 08:30:45"
   },
   {
     "id": "EBS:1111:1047_2026-10-23",
@@ -114,6 +103,64 @@
     "dagdeel": "dal",
     "bijgewerkt": "2026-10-23 08:15:35",
     "eerst_gezien": "2026-10-23 08:15:35"
+  },
+  {
+    "id": "EBS:1111:1047_2026-10-23",
+    "journey_id": "EBS:1111:1047",
+    "datum": "2026-10-23",
+    "lijn": "111",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "10:45",
+        "vertraging_min": 0,
+        "status": "gereden",
+        "vertrokken": false,
+        "realtime": true,
+        "platform": "Perron D",
+        "bestemming": "Amsterdam Noord"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "10:47",
+        "vertraging_min": 2,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Amsterdam Noord"
+      },
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "11:02",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron E",
+        "bestemming": "Amsterdam Noord"
+      }
+    ],
+    "eerste_tijd": "10:45",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-10-23 08:30:45",
+    "eerst_gezien": "2026-10-23 08:30:45"
   },
   {
     "id": "EBS:1111:1028_2026-10-23",
