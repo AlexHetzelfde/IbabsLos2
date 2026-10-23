@@ -616,6 +616,27 @@ def archiveer_oude_dagen(vandaag, teller, bestaand_ruw):
     return teller
 
 
+# ── HERSTEL- EN MERGE-HULPEN ──────────────────────────────────────────────────
+def is_hersteld(oud, nieuw):
+    """True als een eerder als cancelled opgeslagen rit nu op minstens één van
+    de eerder geannuleerde haltes weer ZONDER annulering te zien is. Een rit
+    die alleen nog op andere haltes zichtbaar is (omdat de geannuleerde halte
+    van het bord is verdwenen) telt dus NIET als hersteld."""
+    oud_cancelled = {h["halte_id"] for h in oud.get("haltes", []) if h.get("status") == "cancelled"}
+    nu_zichtbaar = {h["halte_id"] for h in nieuw["haltes"] if h["status"] != "cancelled"}
+    return bool(oud_cancelled & nu_zichtbaar)
+
+
+def voeg_haltes_samen(rit, oud):
+    """Behoudt haltebezoeken uit het oude record die inmiddels van het bord
+    zijn verdwenen, zodat eerste_tijd/dagdeel/per_halte stabiel blijven."""
+    per_sleutel = {(h["halte_id"], h["geplande_tijd"]): h for h in oud.get("haltes", [])}
+    per_sleutel.update({(h["halte_id"], h["geplande_tijd"]): h for h in rit["haltes"]})
+    rit["haltes"] = sorted(per_sleutel.values(), key=lambda h: h["geplande_tijd"])
+    rit["eerste_tijd"] = rit["haltes"][0]["geplande_tijd"]
+    rit["dagdeel"] = bepaal_dagdeel(rit["eerste_tijd"])
+
+
 # ── HOOFDPROGRAMMA ────────────────────────────────────────────────────────────
 def main():
     nu = datetime.now()
@@ -719,26 +740,29 @@ def main():
     nieuw_count = 0
     update_count = 0
     hersteld_count = 0
-    for rid, rit in nieuwe_ritten.items():
+    for rit in nieuwe_ritten.values():
         if rit["datum"] != vandaag:
             continue
+        # nieuwe_ritten is gekeyed op de tuple (journey_id, datum), bestaand op
+        # de string-id. Altijd op rit["id"] vergelijken, anders matcht nooit iets.
+        rid = rit["id"]
 
         if rit["status"] == "cancelled":
             rit["bijgewerkt"] = nu.strftime("%Y-%m-%d %H:%M:%S")
             if rid in bestaand:
-                rit["eerst_gezien"] = bestaand[rid].get("eerst_gezien", rit["bijgewerkt"])
+                oud = bestaand[rid]
+                rit["eerst_gezien"] = oud.get("eerst_gezien", rit["bijgewerkt"])
+                voeg_haltes_samen(rit, oud)
                 update_count += 1
             else:
                 rit["eerst_gezien"] = rit["bijgewerkt"]
                 nieuw_count += 1
             bestaand[rid] = rit
-        else:
-            # Rit stond nog op het bord maar is niet (meer) cancelled — als hij
-            # eerder wél als cancelled was opgeslagen, is de annulering
-            # kennelijk teruggedraaid. Verwijder 'm dan uit de uitval-lijst.
-            if rid in bestaand:
-                del bestaand[rid]
-                hersteld_count += 1
+        elif rid in bestaand and is_hersteld(bestaand[rid], rit):
+            # Eerder geannuleerde halte is weer zichtbaar zonder annulering:
+            # de annulering is teruggedraaid, dus uit de uitval-lijst halen.
+            del bestaand[rid]
+            hersteld_count += 1
 
     resultaat = sorted(
         bestaand.values(),
