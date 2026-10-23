@@ -22,7 +22,15 @@ Haltes:
 
 Resultaat:
     data/ebs_uitval.json              — alleen geannuleerde ritten VAN VANDAAG
-    data/ebs_totaal_teller.json       — totaal unieke ritten VAN VANDAAG
+    data/ebs_totaal_teller.json       — totaal unieke ritten VAN VANDAAG, plus
+                                         "gedeeltelijke_ritten": ritten met
+                                         minstens één geannuleerde halte die
+                                         (nog) onder de uitvaldrempel blijven.
+                                         Dat is alleen geheugen voor de
+                                         scraper zelf, zodat haltes die van
+                                         het bord verdwijnen toch in de noemer
+                                         blijven meetellen. Verdwijnt samen met
+                                         de rest van de dag bij de archivering.
     data/ebs_percentage_historie.json — 1 samengevatte regel per afgesloten dag:
                                          totaal, cancelled, pct, PLUS een
                                          compacte uitsplitsing per lijn,
@@ -70,13 +78,22 @@ Elke rit is een uniek record op (journey_id + datum). Eén fysieke rit die
 op meerdere van de haltes stopt, wordt samengevoegd tot één record
 met een lijst van haltebezoeken (elk met eigen tijd/status).
 
-Status per rit (op rit-niveau, "ergste" status wint over de haltes heen):
-    cancelled — geannuleerd op minstens één halte (dit is de ENIGE status
-                die als "uitval" telt in de aggregaten)
-    gereden   — normaal gereden (op tijd, vertraagd, al vertrokken, of
-                voortijdig beëindigd zonder cancel-status — dat laatste
-                wordt nog wel vastgelegd in "terminus_alert" als context,
-                maar telt niet meer mee als aparte "verkort"-categorie)
+Status per rit (op rit-niveau, bepaald door het AANDEEL geannuleerde haltes):
+    cancelled — de helft of meer van de haltes waarop we de rit kennen is
+                geannuleerd (UITVAL_DREMPEL, standaard 50%; 100% = de hele
+                rit is uitgevallen). Dit is de ENIGE status die als "uitval"
+                telt in de aggregaten.
+    gereden   — alles daaronder: ook een rit waarvan maar één of enkele
+                haltes geannuleerd zijn telt dus als gereden. Verder: op
+                tijd, vertraagd, al vertrokken, of voortijdig beëindigd
+                zonder cancel-status — dat laatste wordt nog wel vastgelegd
+                in "terminus_alert" als context, maar telt niet meer mee als
+                aparte "verkort"-categorie.
+
+"De haltes van de rit" zijn de haltes uit HALTES waarop die rit stopt en die
+we hebben gezien; niet de volledige route. Haltebezoeken die inmiddels van
+het bord zijn verdwenen blijven meetellen, zolang de rit één keer met een
+geannuleerde halte is gezien (zie voeg_haltes_samen en "gedeeltelijke_ritten").
 
 Elke rit legt ook, waar beschikbaar, "product_label" (bv. "MeerPlus") en
 "drukte_omschrijving"/"drukte_icoon" (de bezettingsindicatie die drgl.nl
@@ -115,6 +132,11 @@ OUTPUT           = "data/ebs_uitval.json"
 TELLER_BESTAND   = "data/ebs_totaal_teller.json"
 HISTORIE_BESTAND = "data/ebs_percentage_historie.json"
 MELDINGEN_BESTAND = "data/ebs_meldingen.json"
+
+# Vanaf welk aandeel geannuleerde haltes een rit als UITVAL telt. 0.5 = de helft
+# of meer van de haltes waarop we de rit zien. 1.0 = alleen als álle haltes
+# geannuleerd zijn. Dit is de enige plek om die regel aan te passen.
+UITVAL_DREMPEL = 0.5
 
 HALTES = [
     {"id": "NL:S:37223552", "naam": "De Vlinder"},
@@ -405,7 +427,14 @@ def fetch_halte(opener, halte_id):
 
 
 # ── SAMENVOEGEN OVER HALTES ───────────────────────────────────────────────────
-STATUS_PRIORITEIT = {"cancelled": 1, "gereden": 0}
+def bepaal_rit_status(haltes):
+    """'cancelled' als het aandeel geannuleerde haltes minstens UITVAL_DREMPEL
+    is, anders 'gereden'. Eén geannuleerde halte op een rit met meer haltes
+    haalt de drempel dus niet (bij de standaard 50%)."""
+    if not haltes:
+        return "gereden"
+    n_geannuleerd = sum(1 for h in haltes if h["status"] == "cancelled")
+    return "cancelled" if n_geannuleerd / len(haltes) >= UITVAL_DREMPEL else "gereden"
 
 
 def combineer_ritten(alle_vertrekken):
@@ -428,7 +457,7 @@ def combineer_ritten(alle_vertrekken):
                 "product_label": v["product_label"],
                 "drukte_icoon": v["drukte_icoon"],
                 "drukte_omschrijving": v["drukte_omschrijving"],
-                "status":      v["status"],
+                "status":      "gereden",  # wordt onderaan bepaald uit het aandeel geannuleerde haltes
                 "oorzaak_categorieen": list(v["oorzaak_categorieen"]),
                 "oorzaak_raw": v["oorzaak_raw"],
                 "terminus_alert": v["terminus_alert"],
@@ -437,9 +466,6 @@ def combineer_ritten(alle_vertrekken):
             }
         rit = ritten[key]
 
-        # Status: ergste status over alle haltebezoeken wint
-        if STATUS_PRIORITEIT[v["status"]] > STATUS_PRIORITEIT[rit["status"]]:
-            rit["status"] = v["status"]
         if v["oorzaak_raw"] and not rit["oorzaak_raw"]:
             rit["oorzaak_raw"] = v["oorzaak_raw"]
             rit["oorzaak_categorieen"] = list(v["oorzaak_categorieen"])
@@ -469,6 +495,8 @@ def combineer_ritten(alle_vertrekken):
         rit["eerste_tijd"] = tijden[0] if tijden else None
         rit["dagdeel"]     = bepaal_dagdeel(rit["eerste_tijd"]) if rit["eerste_tijd"] else "onbekend"
         rit["haltes"].sort(key=lambda h: h["geplande_tijd"])
+        # Rit-status = aandeel geannuleerde haltes t.o.v. UITVAL_DREMPEL
+        rit["status"] = bepaal_rit_status(rit["haltes"])
 
     return ritten
 
@@ -616,25 +644,37 @@ def archiveer_oude_dagen(vandaag, teller, bestaand_ruw):
     return teller
 
 
-# ── HERSTEL- EN MERGE-HULPEN ──────────────────────────────────────────────────
-def is_hersteld(oud, nieuw):
-    """True als een eerder als cancelled opgeslagen rit nu op minstens één van
-    de eerder geannuleerde haltes weer ZONDER annulering te zien is. Een rit
-    die alleen nog op andere haltes zichtbaar is (omdat de geannuleerde halte
-    van het bord is verdwenen) telt dus NIET als hersteld."""
-    oud_cancelled = {h["halte_id"] for h in oud.get("haltes", []) if h.get("status") == "cancelled"}
-    nu_zichtbaar = {h["halte_id"] for h in nieuw["haltes"] if h["status"] != "cancelled"}
-    return bool(oud_cancelled & nu_zichtbaar)
+# ── MERGE-HULPEN ──────────────────────────────────────────────────────────────
+# Velden die alleen op een geannuleerde halte staan en dus verdwijnen zodra die
+# halte van het bord is. Worden uit het geheugen overgenomen als de nieuwe scrape
+# ze niet meer heeft.
+CONTEXT_VELDEN = ("oorzaak_raw", "oorzaak_categorieen", "terminus_alert", "advies")
 
 
-def voeg_haltes_samen(rit, oud):
-    """Behoudt haltebezoeken uit het oude record die inmiddels van het bord
-    zijn verdwenen, zodat eerste_tijd/dagdeel/per_halte stabiel blijven."""
-    per_sleutel = {(h["halte_id"], h["geplande_tijd"]): h for h in oud.get("haltes", [])}
+def voeg_haltes_samen(rit, eerder):
+    """Voegt de haltebezoeken die we eerder van deze rit kenden (uit
+    ebs_uitval.json of uit 'gedeeltelijke_ritten') samen met wat nu op het bord
+    staat. Haltebezoeken die inmiddels van het bord zijn verdwenen blijven
+    behouden, zodat het aandeel geannuleerde haltes stabiel blijft. Staat een
+    haltebezoek in beide, dan wint de nieuwe status (= annulering teruggedraaid
+    of juist nieuw). Bepaalt daarna eerste_tijd, dagdeel en status opnieuw."""
+    per_sleutel = {(h["halte_id"], h["geplande_tijd"]): h for h in eerder.get("haltes", [])}
     per_sleutel.update({(h["halte_id"], h["geplande_tijd"]): h for h in rit["haltes"]})
     rit["haltes"] = sorted(per_sleutel.values(), key=lambda h: h["geplande_tijd"])
     rit["eerste_tijd"] = rit["haltes"][0]["geplande_tijd"]
     rit["dagdeel"] = bepaal_dagdeel(rit["eerste_tijd"])
+    for veld in CONTEXT_VELDEN:
+        if not rit.get(veld) and eerder.get(veld):
+            rit[veld] = eerder[veld]
+    rit["status"] = bepaal_rit_status(rit["haltes"])
+
+
+def maak_geheugen(rit):
+    """Compacte kopie van een rit voor 'gedeeltelijke_ritten' in de teller."""
+    geheugen = {"haltes": rit["haltes"]}
+    for veld in CONTEXT_VELDEN:
+        geheugen[veld] = rit.get(veld)
+    return geheugen
 
 
 # ── HOOFDPROGRAMMA ────────────────────────────────────────────────────────────
@@ -705,6 +745,10 @@ def main():
     if vandaag not in teller:
         teller[vandaag] = {"totaal": 0, "journeys": [], "totaal_per_lijn": {}}
     teller[vandaag].setdefault("totaal_per_lijn", {})
+    # Ritten met minstens één geannuleerde halte die (nog) onder de drempel zitten.
+    # Zonder dit geheugen zou een rit waarvan de eerdere haltes al van het bord
+    # zijn, ten onrechte op 50% of meer kunnen uitkomen.
+    gedeeltelijk = teller[vandaag].setdefault("gedeeltelijke_ritten", {})
 
     # Alle journey_id's van vandaag (alleen unieke, dat zijn ze al in 'nieuwe_ritten')
     ids_vandaag = {rit["journey_id"] for rit in nieuwe_ritten.values() if rit["datum"] == vandaag}
@@ -746,23 +790,38 @@ def main():
         # nieuwe_ritten is gekeyed op de tuple (journey_id, datum), bestaand op
         # de string-id. Altijd op rit["id"] vergelijken, anders matcht nooit iets.
         rid = rit["id"]
+        oud = bestaand.get(rid)
+
+        # Eerder geziene haltes erbij (ook die inmiddels van het bord zijn),
+        # en dan pas de status bepalen op het totaalbeeld van de rit.
+        eerder = oud or gedeeltelijk.get(rid)
+        if eerder:
+            voeg_haltes_samen(rit, eerder)
+        else:
+            rit["status"] = bepaal_rit_status(rit["haltes"])
 
         if rit["status"] == "cancelled":
             rit["bijgewerkt"] = nu.strftime("%Y-%m-%d %H:%M:%S")
-            if rid in bestaand:
-                oud = bestaand[rid]
+            if oud:
                 rit["eerst_gezien"] = oud.get("eerst_gezien", rit["bijgewerkt"])
-                voeg_haltes_samen(rit, oud)
                 update_count += 1
             else:
                 rit["eerst_gezien"] = rit["bijgewerkt"]
                 nieuw_count += 1
             bestaand[rid] = rit
-        elif rid in bestaand and is_hersteld(bestaand[rid], rit):
-            # Eerder geannuleerde halte is weer zichtbaar zonder annulering:
-            # de annulering is teruggedraaid, dus uit de uitval-lijst halen.
-            del bestaand[rid]
-            hersteld_count += 1
+            gedeeltelijk.pop(rid, None)
+        else:
+            if oud:
+                # Stond als uitval opgeslagen, maar na samenvoegen zit de rit
+                # onder de drempel (annulering teruggedraaid) — uit de lijst.
+                del bestaand[rid]
+                hersteld_count += 1
+            if any(h["status"] == "cancelled" for h in rit["haltes"]):
+                gedeeltelijk[rid] = maak_geheugen(rit)
+            else:
+                gedeeltelijk.pop(rid, None)
+
+    bewaar_teller(teller)
 
     resultaat = sorted(
         bestaand.values(),
@@ -777,8 +836,11 @@ def main():
     print(f"\n✓ Weggeschreven naar {OUTPUT}")
     print(f"  {nieuw_count} nieuwe geannuleerde ritten · {update_count} bijgewerkt")
     if hersteld_count:
-        print(f"  {hersteld_count} eerder geannuleerde rit(ten) bleken hersteld en zijn verwijderd")
-    print(f"  {len(resultaat)} geannuleerde ritten vandaag ({vandaag}) in JSON")
+        print(f"  {hersteld_count} eerder geannuleerde rit(ten) vielen onder de drempel en zijn verwijderd")
+    if gedeeltelijk:
+        print(f"  {len(gedeeltelijk)} rit(ten) met een geannuleerde halte maar onder de drempel "
+              f"van {UITVAL_DREMPEL:.0%} — niet als uitval geteld")
+    print(f"  {len(resultaat)} uitgevallen ritten vandaag ({vandaag}) in JSON")
 
 
 if __name__ == "__main__":
