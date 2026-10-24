@@ -1,5 +1,52 @@
 [
   {
+    "id": "EBS:1110:6252_2026-10-24",
+    "journey_id": "EBS:1110:6252",
+    "datum": "2026-10-24",
+    "lijn": "110",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Materieel",
+      "Storing"
+    ],
+    "oorzaak_raw": "Cause: Materieel, Storing",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "19:05",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A2",
+        "bestemming": "Volendam-Edam"
+      },
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "19:37",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron F",
+        "bestemming": "Purmerend"
+      }
+    ],
+    "eerste_tijd": "19:05",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-10-24 16:10:34",
+    "eerst_gezien": "2026-10-24 16:10:34"
+  },
+  {
     "id": "EBS:1370:6042_2026-10-24",
     "journey_id": "EBS:1370:6042",
     "datum": "2026-10-24",
