@@ -1,5 +1,41 @@
 [
   {
+    "id": "EBS:1100:7033_2026-10-25",
+    "journey_id": "EBS:1100:7033",
+    "datum": "2026-10-25",
+    "lijn": "100",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "15:34",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A4",
+        "bestemming": "Purmerend Overwhere"
+      }
+    ],
+    "eerste_tijd": "15:34",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-10-25 13:10:29",
+    "eerst_gezien": "2026-10-25 13:10:29"
+  },
+  {
     "id": "EBS:1110:7233_2026-10-25",
     "journey_id": "EBS:1110:7233",
     "datum": "2026-10-25",
@@ -43,7 +79,7 @@
     ],
     "eerste_tijd": "14:29",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-10-25 13:00:45",
+    "bijgewerkt": "2026-10-25 13:10:29",
     "eerst_gezien": "2026-10-25 12:00:45"
   },
   {
