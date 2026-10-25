@@ -1,5 +1,41 @@
 [
   {
+    "id": "EBS:1110:7233_2026-10-25",
+    "journey_id": "EBS:1110:7233",
+    "datum": "2026-10-25",
+    "lijn": "110",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "14:29",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Edam-Volendam"
+      }
+    ],
+    "eerste_tijd": "14:29",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-10-25 12:00:45",
+    "eerst_gezien": "2026-10-25 12:00:45"
+  },
+  {
     "id": "EBS:1112:7025_2026-10-25",
     "journey_id": "EBS:1112:7025",
     "datum": "2026-10-25",
@@ -32,7 +68,7 @@
     ],
     "eerste_tijd": "13:20",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-10-25 11:50:26",
+    "bijgewerkt": "2026-10-25 12:00:45",
     "eerst_gezien": "2026-10-25 11:00:50"
   },
   {
