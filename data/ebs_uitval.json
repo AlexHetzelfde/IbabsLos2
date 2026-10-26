@@ -1,39 +1,75 @@
 [
   {
-    "id": "EBS:1314:1126_2026-10-26",
-    "journey_id": "EBS:1314:1126",
+    "id": "EBS:1067:1052_2026-10-26",
+    "journey_id": "EBS:1067:1052",
     "datum": "2026-10-26",
-    "lijn": "314",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
+    "lijn": "67",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
     "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
     "status": "cancelled",
     "oorzaak_categorieen": [
-      "Personeel",
-      "Logistiek"
+      "Materieel",
+      "Storing"
     ],
-    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "oorzaak_raw": "Cause: Materieel, Storing",
     "terminus_alert": null,
-    "advies": null,
+    "advies": "Advice: Vanwege stremming Lagendijk rijdt bus 67 een andere route. Maak gebruik van de tijdelijke haltes op de Guisweg of op de Verzetstraat. Meer info? meerplus.nl",
     "haltes": [
       {
-        "halte_id": "NL:S:38491011",
-        "halte_naam": "Edam, Busstation",
-        "geplande_tijd": "18:18",
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "19:19",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
-        "platform": "Perron D",
-        "bestemming": "Amsterdam Centraal"
+        "platform": "Perron A",
+        "bestemming": "Purmerend via Wormerveer"
       }
     ],
-    "eerste_tijd": "18:18",
+    "eerste_tijd": "19:19",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-10-26 17:00:50",
+    "eerst_gezien": "2026-10-26 17:00:50"
+  },
+  {
+    "id": "EBS:1067:1053_2026-10-26",
+    "journey_id": "EBS:1067:1053",
+    "datum": "2026-10-26",
+    "lijn": "67",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Materieel",
+      "Storing"
+    ],
+    "oorzaak_raw": "Cause: Materieel, Storing",
+    "terminus_alert": null,
+    "advies": "Advice: Vanwege stremming Lagendijk rijdt bus 67 een andere route. Maak gebruik van de tijdelijke haltes op de Guisweg of op de Verzetstraat. Meer info? meerplus.nl",
+    "haltes": [
+      {
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "18:17",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Zaandam"
+      }
+    ],
+    "eerste_tijd": "18:17",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-10-26 16:50:28",
-    "eerst_gezien": "2026-10-26 15:50:30"
+    "bijgewerkt": "2026-10-26 17:00:50",
+    "eerst_gezien": "2026-10-26 17:00:50"
   },
   {
     "id": "EBS:1395:1118_2026-10-26",
@@ -43,8 +79,8 @@
     "lijnkleur": "#e1251b",
     "categorie": "R-net",
     "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Personeel",
@@ -68,7 +104,7 @@
     ],
     "eerste_tijd": "18:04",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-10-26 16:50:28",
+    "bijgewerkt": "2026-10-26 17:00:50",
     "eerst_gezien": "2026-10-26 15:40:31"
   },
   {
@@ -270,8 +306,8 @@
     "lijnkleur": "#e1251b",
     "categorie": "R-net",
     "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Personeel",
@@ -285,7 +321,7 @@
         "halte_id": "NL:S:37223552",
         "halte_naam": "De Vlinder",
         "geplande_tijd": "16:11",
-        "vertraging_min": 102,
+        "vertraging_min": 112,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
@@ -295,7 +331,7 @@
     ],
     "eerste_tijd": "16:11",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-10-26 16:50:28",
+    "bijgewerkt": "2026-10-26 17:00:50",
     "eerst_gezien": "2026-10-26 13:50:37"
   },
   {
