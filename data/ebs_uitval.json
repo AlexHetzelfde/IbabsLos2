@@ -1,5 +1,41 @@
 [
   {
+    "id": "EBS:1103:1412_2026-10-26",
+    "journey_id": "EBS:1103:1412",
+    "datum": "2026-10-26",
+    "lijn": "103",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37392150",
+        "halte_naam": "Monnickendam, Swaensborch",
+        "geplande_tijd": "08:28",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Purmerend"
+      }
+    ],
+    "eerste_tijd": "08:28",
+    "dagdeel": "ochtendspits",
+    "bijgewerkt": "2026-10-26 06:00:45",
+    "eerst_gezien": "2026-10-26 06:00:45"
+  },
+  {
     "id": "EBS:1314:1028_2026-10-26",
     "journey_id": "EBS:1314:1028",
     "datum": "2026-10-26",
@@ -32,7 +68,7 @@
     ],
     "eerste_tijd": "08:09",
     "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-10-26 05:50:26",
+    "bijgewerkt": "2026-10-26 06:00:45",
     "eerst_gezien": "2026-10-26 05:40:26"
   },
   {
@@ -68,7 +104,7 @@
     ],
     "eerste_tijd": "07:58",
     "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-10-26 05:50:26",
+    "bijgewerkt": "2026-10-26 06:00:45",
     "eerst_gezien": "2026-10-26 05:30:39"
   },
   {
@@ -122,11 +158,22 @@
         "realtime": false,
         "platform": "Perron A",
         "bestemming": "Ringlijn Purmerend"
+      },
+      {
+        "halte_id": "NL:S:37402090",
+        "halte_naam": "Purmerend, Station Overwhere (Churchilllaan)",
+        "geplande_tijd": "08:29",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Ringlijn Purmerend"
       }
     ],
     "eerste_tijd": "07:51",
     "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-10-26 05:50:26",
+    "bijgewerkt": "2026-10-26 06:00:45",
     "eerst_gezien": "2026-10-26 05:20:27"
   },
   {
@@ -170,7 +217,7 @@
     ],
     "eerste_tijd": "06:49",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-10-26 05:50:26",
+    "bijgewerkt": "2026-10-26 06:00:45",
     "eerst_gezien": "2026-10-26 05:30:39"
   },
   {
