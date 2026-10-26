@@ -1,5 +1,41 @@
 [
   {
+    "id": "EBS:1314:1109_2026-10-26",
+    "journey_id": "EBS:1314:1109",
+    "datum": "2026-10-26",
+    "lijn": "314",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "17:21",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron E",
+        "bestemming": "Hoorn"
+      }
+    ],
+    "eerste_tijd": "17:21",
+    "dagdeel": "avondspits",
+    "bijgewerkt": "2026-10-26 15:00:51",
+    "eerst_gezien": "2026-10-26 15:00:51"
+  },
+  {
     "id": "EBS:1391:1107_2026-10-26",
     "journey_id": "EBS:1391:1107",
     "datum": "2026-10-26",
@@ -32,7 +68,7 @@
     ],
     "eerste_tijd": "16:44",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-10-26 14:50:28",
+    "bijgewerkt": "2026-10-26 15:00:51",
     "eerst_gezien": "2026-10-26 14:20:36"
   },
   {
@@ -79,7 +115,7 @@
     ],
     "eerste_tijd": "16:27",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-10-26 14:50:28",
+    "bijgewerkt": "2026-10-26 15:00:51",
     "eerst_gezien": "2026-10-26 14:00:48"
   },
   {
@@ -105,7 +141,7 @@
         "halte_id": "NL:S:37223552",
         "halte_naam": "De Vlinder",
         "geplande_tijd": "16:11",
-        "vertraging_min": -1,
+        "vertraging_min": -2,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
@@ -115,8 +151,44 @@
     ],
     "eerste_tijd": "16:11",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-10-26 14:50:28",
+    "bijgewerkt": "2026-10-26 15:00:51",
     "eerst_gezien": "2026-10-26 13:50:37"
+  },
+  {
+    "id": "EBS:1316:1698_2026-10-26",
+    "journey_id": "EBS:1316:1698",
+    "datum": "2026-10-26",
+    "lijn": "316",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Verkeer",
+      "Vertraging"
+    ],
+    "oorzaak_raw": "Cause: Verkeer, Vertraging",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "16:00",
+        "vertraging_min": 8,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Amsterdam Centraal"
+      }
+    ],
+    "eerste_tijd": "16:00",
+    "dagdeel": "avondspits",
+    "bijgewerkt": "2026-10-26 15:00:51",
+    "eerst_gezien": "2026-10-26 15:00:51"
   },
   {
     "id": "EBS:1112:1066_2026-10-26",
