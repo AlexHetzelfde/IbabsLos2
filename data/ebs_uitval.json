@@ -43,7 +43,7 @@
     ],
     "eerste_tijd": "23:55",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-02 22:00:47",
+    "bijgewerkt": "2026-11-02 22:10:32",
     "eerst_gezien": "2026-11-02 21:30:40"
   },
   {
@@ -69,7 +69,7 @@
         "vertraging_min": 0,
         "status": "gereden",
         "vertrokken": false,
-        "realtime": true,
+        "realtime": false,
         "platform": "Perron E",
         "bestemming": "Zaandam Station"
       },
@@ -87,7 +87,7 @@
     ],
     "eerste_tijd": "23:47",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-02 22:00:47",
+    "bijgewerkt": "2026-11-02 22:10:32",
     "eerst_gezien": "2026-11-02 21:30:40"
   },
   {
@@ -1434,8 +1434,55 @@
     "eerst_gezien": "2026-11-02 04:20:37"
   },
   {
-    "id": "EBS:1111:1145_2026-11-02",
-    "journey_id": "EBS:1111:1145",
+    "id": "EBS:1394:1194_2026-11-02",
+    "journey_id": "EBS:1394:1194",
+    "datum": "2026-11-02",
+    "lijn": "394",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Verkeer",
+      "Stremming/Omleiding"
+    ],
+    "oorzaak_raw": "Cause: Verkeer, Stremming/Omleiding",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "00:35",
+        "vertraging_min": 0,
+        "status": "gereden",
+        "vertrokken": false,
+        "realtime": true,
+        "platform": "Perron C",
+        "bestemming": "Zaandam"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "00:37",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Zaandam"
+      }
+    ],
+    "eerste_tijd": "00:35",
+    "dagdeel": "nacht",
+    "bijgewerkt": "2026-11-02 22:10:32",
+    "eerst_gezien": "2026-11-02 22:10:32"
+  },
+  {
+    "id": "EBS:1111:1138_2026-11-02",
+    "journey_id": "EBS:1111:1138",
     "datum": "2026-11-02",
     "lijn": "111",
     "lijnkleur": "#004899",
@@ -1444,38 +1491,41 @@
     "drukte_icoon": "crowd1.svg",
     "drukte_omschrijving": "Zitplaatsen beschikbaar",
     "status": "cancelled",
-    "oorzaak_categorieen": [],
-    "oorzaak_raw": null,
+    "oorzaak_categorieen": [
+      "Verkeer",
+      "Stremming/Omleiding"
+    ],
+    "oorzaak_raw": "Cause: Verkeer, Stremming/Omleiding",
     "terminus_alert": null,
     "advies": null,
     "haltes": [
       {
-        "halte_id": "NL:S:37220130",
-        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
         "geplande_tijd": "00:26",
         "vertraging_min": 0,
         "status": "gereden",
         "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron D",
-        "bestemming": "Marken"
+        "realtime": true,
+        "platform": "Perron A",
+        "bestemming": "Zaandam Station"
       },
       {
         "halte_id": "NL:S:37223860",
         "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "00:28",
+        "geplande_tijd": "00:34",
         "vertraging_min": 0,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
         "platform": null,
-        "bestemming": "Marken"
+        "bestemming": "Zaandam Station"
       }
     ],
     "eerste_tijd": "00:26",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-11-02 22:00:47",
-    "eerst_gezien": "2026-11-02 22:00:47"
+    "bijgewerkt": "2026-11-02 22:10:32",
+    "eerst_gezien": "2026-11-02 22:10:32"
   },
   {
     "id": "EBS:1394:1187_2026-11-02",
@@ -1521,7 +1571,7 @@
     ],
     "eerste_tijd": "00:17",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-11-02 22:00:47",
+    "bijgewerkt": "2026-11-02 22:10:32",
     "eerst_gezien": "2026-11-02 22:00:47"
   },
   {
@@ -1557,7 +1607,7 @@
     ],
     "eerste_tijd": "00:16",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-11-02 22:00:47",
+    "bijgewerkt": "2026-11-02 22:10:32",
     "eerst_gezien": "2026-11-02 21:50:41"
   },
   {
@@ -1580,7 +1630,7 @@
         "halte_id": "NL:S:37223860",
         "halte_naam": "Gedempte Gracht",
         "geplande_tijd": "00:04",
-        "vertraging_min": 0,
+        "vertraging_min": 1,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
@@ -1601,7 +1651,7 @@
     ],
     "eerste_tijd": "00:04",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-11-02 22:00:47",
+    "bijgewerkt": "2026-11-02 22:10:32",
     "eerst_gezien": "2026-11-02 21:40:36"
   }
 ]

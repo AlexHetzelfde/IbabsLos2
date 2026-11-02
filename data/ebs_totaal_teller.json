@@ -1,6 +1,6 @@
 {
   "2026-11-02": {
-    "totaal": 2653,
+    "totaal": 2663,
     "journeys": [
       "EBS:1069:1001",
       "EBS:1308:1006",
@@ -2654,31 +2654,41 @@
       "EBS:1104:1142",
       "EBS:1314:1170",
       "EBS:1391:1160",
-      "EBS:1306:1165"
+      "EBS:1306:1165",
+      "EBS:1307:1365",
+      "EBS:1110:1282",
+      "EBS:1308:1168",
+      "EBS:1394:1194",
+      "EBS:1014:1400",
+      "EBS:1306:1166",
+      "EBS:1314:1171",
+      "EBS:1307:1366",
+      "EBS:1100:1143",
+      "EBS:1305:1168"
     ],
     "totaal_per_lijn": {
       "69": 74,
-      "308": 166,
+      "308": 167,
       "391": 162,
       "315": 78,
       "456": 36,
       "102": 31,
       "111": 135,
-      "100": 144,
-      "307": 165,
+      "100": 145,
+      "307": 167,
       "112": 117,
       "104": 143,
-      "306": 166,
-      "110": 83,
+      "306": 167,
+      "110": 84,
       "67": 64,
       "370": 56,
       "316": 75,
-      "394": 179,
+      "394": 180,
       "65": 64,
       "395": 152,
       "63": 33,
-      "305": 126,
-      "314": 157,
+      "305": 127,
+      "314": 158,
       "103": 55,
       "276": 13,
       "101": 31,
@@ -2689,7 +2699,8 @@
       "419": 14,
       "413": 16,
       "414": 11,
-      "800": 17
+      "800": 17,
+      "N14": 1
     },
     "gedeeltelijke_ritten": {
       "EBS:1069:1045_2026-11-02": {
@@ -2860,6 +2871,17 @@
             "realtime": false,
             "platform": "Perron E",
             "bestemming": "Marken"
+          },
+          {
+            "halte_id": "NL:S:30001305",
+            "halte_naam": "Amsterdam, Busstation Station Noord",
+            "geplande_tijd": "00:41",
+            "vertraging_min": 1,
+            "status": "gereden",
+            "vertrokken": false,
+            "realtime": false,
+            "platform": "Perron A1",
+            "bestemming": "Marken"
           }
         ],
         "oorzaak_raw": "Cause: Verkeer, Stremming/Omleiding",
@@ -2923,7 +2945,7 @@
             "vertraging_min": 0,
             "status": "gereden",
             "vertrokken": false,
-            "realtime": true,
+            "realtime": false,
             "platform": "Perron C",
             "bestemming": "Amsterdam Noorderpark"
           },
@@ -2942,12 +2964,56 @@
             "halte_id": "NL:S:37223552",
             "halte_naam": "De Vlinder",
             "geplande_tijd": "00:28",
-            "vertraging_min": 1,
+            "vertraging_min": 0,
             "status": "gereden",
             "vertrokken": false,
             "realtime": false,
             "platform": "Perron C",
             "bestemming": "Amsterdam Noorderpark"
+          }
+        ],
+        "oorzaak_raw": "Cause: Verkeer, Stremming/Omleiding",
+        "oorzaak_categorieen": [
+          "Verkeer",
+          "Stremming/Omleiding"
+        ],
+        "terminus_alert": null,
+        "advies": null
+      },
+      "EBS:1111:1145_2026-11-02": {
+        "haltes": [
+          {
+            "halte_id": "NL:S:37220130",
+            "halte_naam": "Station Zaandam (Provincialeweg)",
+            "geplande_tijd": "00:26",
+            "vertraging_min": 0,
+            "status": "gereden",
+            "vertrokken": false,
+            "realtime": true,
+            "platform": "Perron D",
+            "bestemming": "Marken"
+          },
+          {
+            "halte_id": "NL:S:37223860",
+            "halte_naam": "Gedempte Gracht",
+            "geplande_tijd": "00:28",
+            "vertraging_min": 0,
+            "status": "cancelled",
+            "vertrokken": false,
+            "realtime": false,
+            "platform": null,
+            "bestemming": "Marken"
+          },
+          {
+            "halte_id": "NL:S:37223552",
+            "halte_naam": "De Vlinder",
+            "geplande_tijd": "00:41",
+            "vertraging_min": 2,
+            "status": "gereden",
+            "vertrokken": false,
+            "realtime": false,
+            "platform": "Perron E",
+            "bestemming": "Marken"
           }
         ],
         "oorzaak_raw": "Cause: Verkeer, Stremming/Omleiding",
