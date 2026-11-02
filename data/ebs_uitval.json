@@ -10,8 +10,11 @@
     "drukte_icoon": "crowd1.svg",
     "drukte_omschrijving": "Zitplaatsen beschikbaar",
     "status": "cancelled",
-    "oorzaak_categorieen": [],
-    "oorzaak_raw": null,
+    "oorzaak_categorieen": [
+      "Verkeer",
+      "Stremming/Omleiding"
+    ],
+    "oorzaak_raw": "Cause: Verkeer, Stremming/Omleiding",
     "terminus_alert": null,
     "advies": null,
     "haltes": [
@@ -22,7 +25,7 @@
         "vertraging_min": 0,
         "status": "gereden",
         "vertrokken": false,
-        "realtime": false,
+        "realtime": true,
         "platform": "Perron I",
         "bestemming": "Krommenie"
       },
@@ -40,7 +43,7 @@
     ],
     "eerste_tijd": "23:57",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-02 21:30:40",
+    "bijgewerkt": "2026-11-02 21:40:36",
     "eerst_gezien": "2026-11-02 21:30:40"
   },
   {
@@ -54,8 +57,11 @@
     "drukte_icoon": "crowd0.svg",
     "drukte_omschrijving": "leeg",
     "status": "cancelled",
-    "oorzaak_categorieen": [],
-    "oorzaak_raw": null,
+    "oorzaak_categorieen": [
+      "Verkeer",
+      "Stremming/Omleiding"
+    ],
+    "oorzaak_raw": "Cause: Verkeer, Stremming/Omleiding",
     "terminus_alert": null,
     "advies": null,
     "haltes": [
@@ -66,7 +72,7 @@
         "vertraging_min": 0,
         "status": "gereden",
         "vertrokken": false,
-        "realtime": false,
+        "realtime": true,
         "platform": "Perron B",
         "bestemming": "Zaandam Kogerveld"
       },
@@ -84,7 +90,7 @@
     ],
     "eerste_tijd": "23:55",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-02 21:30:40",
+    "bijgewerkt": "2026-11-02 21:40:36",
     "eerst_gezien": "2026-11-02 21:30:40"
   },
   {
@@ -128,7 +134,7 @@
     ],
     "eerste_tijd": "23:47",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-02 21:30:40",
+    "bijgewerkt": "2026-11-02 21:40:36",
     "eerst_gezien": "2026-11-02 21:30:40"
   },
   {
@@ -175,7 +181,7 @@
     ],
     "eerste_tijd": "22:55",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-02 21:30:40",
+    "bijgewerkt": "2026-11-02 21:40:36",
     "eerst_gezien": "2026-11-02 20:30:42"
   },
   {
@@ -1473,5 +1479,143 @@
     "dagdeel": "nacht",
     "bijgewerkt": "2026-11-02 05:10:29",
     "eerst_gezien": "2026-11-02 04:20:37"
+  },
+  {
+    "id": "EBS:1394:1190_2026-11-02",
+    "journey_id": "EBS:1394:1190",
+    "datum": "2026-11-02",
+    "lijn": "394",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Verkeer",
+      "Stremming/Omleiding"
+    ],
+    "oorzaak_raw": "Cause: Verkeer, Stremming/Omleiding",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "00:10",
+        "vertraging_min": 0,
+        "status": "gereden",
+        "vertrokken": false,
+        "realtime": true,
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Noorderpark"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "00:12",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Amsterdam Noorderpark"
+      }
+    ],
+    "eerste_tijd": "00:10",
+    "dagdeel": "nacht",
+    "bijgewerkt": "2026-11-02 21:40:36",
+    "eerst_gezien": "2026-11-02 21:40:36"
+  },
+  {
+    "id": "EBS:1111:1136_2026-11-02",
+    "journey_id": "EBS:1111:1136",
+    "datum": "2026-11-02",
+    "lijn": "111",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "00:04",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Zaandam Station"
+      },
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "23:56",
+        "vertraging_min": 0,
+        "status": "gereden",
+        "vertrokken": false,
+        "realtime": true,
+        "platform": "Perron A",
+        "bestemming": "Zaandam Station"
+      }
+    ],
+    "eerste_tijd": "00:04",
+    "dagdeel": "nacht",
+    "bijgewerkt": "2026-11-02 21:40:36",
+    "eerst_gezien": "2026-11-02 21:40:36"
+  },
+  {
+    "id": "EBS:1111:1143_2026-11-02",
+    "journey_id": "EBS:1111:1143",
+    "datum": "2026-11-02",
+    "lijn": "111",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Verkeer",
+      "Stremming/Omleiding"
+    ],
+    "oorzaak_raw": "Cause: Verkeer, Stremming/Omleiding",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "00:03",
+        "vertraging_min": 0,
+        "status": "gereden",
+        "vertrokken": false,
+        "realtime": true,
+        "platform": "Perron D",
+        "bestemming": "Marken"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "00:05",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Marken"
+      }
+    ],
+    "eerste_tijd": "00:03",
+    "dagdeel": "nacht",
+    "bijgewerkt": "2026-11-02 21:40:36",
+    "eerst_gezien": "2026-11-02 21:40:36"
   }
 ]
