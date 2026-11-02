@@ -1,6 +1,6 @@
 {
   "2026-11-02": {
-    "totaal": 2599,
+    "totaal": 2608,
     "journeys": [
       "EBS:1069:1001",
       "EBS:1308:1006",
@@ -2600,30 +2600,39 @@
       "EBS:1111:1141",
       "EBS:1306:1162",
       "EBS:1110:1281",
-      "EBS:1110:1278"
+      "EBS:1110:1278",
+      "EBS:1394:1183",
+      "EBS:1100:1142",
+      "EBS:1069:1073",
+      "EBS:1104:1139",
+      "EBS:1112:1113",
+      "EBS:1315:1153",
+      "EBS:1305:1161",
+      "EBS:1391:1165",
+      "EBS:1394:1188"
     ],
     "totaal_per_lijn": {
-      "69": 71,
+      "69": 72,
       "308": 163,
-      "391": 158,
-      "315": 76,
+      "391": 159,
+      "315": 77,
       "456": 36,
       "102": 31,
       "111": 131,
-      "100": 141,
+      "100": 142,
       "307": 163,
-      "112": 113,
-      "104": 139,
+      "112": 114,
+      "104": 140,
       "306": 163,
       "110": 81,
       "67": 63,
       "370": 56,
       "316": 74,
-      "394": 174,
+      "394": 176,
       "65": 63,
       "395": 149,
       "63": 32,
-      "305": 123,
+      "305": 124,
       "314": 154,
       "103": 55,
       "276": 13,
@@ -2672,6 +2681,47 @@
             "realtime": false,
             "platform": null,
             "bestemming": "Zaandam Station"
+          }
+        ],
+        "oorzaak_raw": null,
+        "oorzaak_categorieen": [],
+        "terminus_alert": null,
+        "advies": null
+      },
+      "EBS:1111:1141_2026-11-02": {
+        "haltes": [
+          {
+            "halte_id": "NL:S:37220130",
+            "halte_naam": "Station Zaandam (Provincialeweg)",
+            "geplande_tijd": "23:33",
+            "vertraging_min": 0,
+            "status": "gereden",
+            "vertrokken": false,
+            "realtime": true,
+            "platform": "Perron D",
+            "bestemming": "Marken"
+          },
+          {
+            "halte_id": "NL:S:37223860",
+            "halte_naam": "Gedempte Gracht",
+            "geplande_tijd": "23:35",
+            "vertraging_min": 0,
+            "status": "cancelled",
+            "vertrokken": false,
+            "realtime": false,
+            "platform": null,
+            "bestemming": "Marken"
+          },
+          {
+            "halte_id": "NL:S:37223552",
+            "halte_naam": "De Vlinder",
+            "geplande_tijd": "23:48",
+            "vertraging_min": 0,
+            "status": "gereden",
+            "vertrokken": false,
+            "realtime": true,
+            "platform": "Perron E",
+            "bestemming": "Marken"
           }
         ],
         "oorzaak_raw": null,
