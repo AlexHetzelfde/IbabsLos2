@@ -1,5 +1,41 @@
 [
   {
+    "id": "EBS:1315:1031_2026-11-02",
+    "journey_id": "EBS:1315:1031",
+    "datum": "2026-11-02",
+    "lijn": "315",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd0.svg",
+    "drukte_omschrijving": "leeg",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "08:14",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A3",
+        "bestemming": "Monnickendam"
+      }
+    ],
+    "eerste_tijd": "08:14",
+    "dagdeel": "ochtendspits",
+    "bijgewerkt": "2026-11-02 05:50:28",
+    "eerst_gezien": "2026-11-02 05:50:28"
+  },
+  {
     "id": "EBS:1307:1226_2026-11-02",
     "journey_id": "EBS:1307:1226",
     "datum": "2026-11-02",
@@ -32,7 +68,7 @@
     ],
     "eerste_tijd": "07:45",
     "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-11-02 05:40:32",
+    "bijgewerkt": "2026-11-02 05:50:28",
     "eerst_gezien": "2026-11-02 05:20:40"
   },
   {
@@ -98,7 +134,7 @@
     ],
     "eerste_tijd": "06:44",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-11-02 05:40:32",
+    "bijgewerkt": "2026-11-02 05:50:28",
     "eerst_gezien": "2026-11-02 04:20:37"
   },
   {
