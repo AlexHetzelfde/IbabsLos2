@@ -1,6 +1,6 @@
 {
   "2026-11-02": {
-    "totaal": 2690,
+    "totaal": 2691,
     "journeys": [
       "EBS:1069:1001",
       "EBS:1308:1006",
@@ -2691,7 +2691,8 @@
       "EBS:1094:1002",
       "EBS:1014:1404",
       "EBS:1094:1001",
-      "EBS:1014:1401"
+      "EBS:1014:1401",
+      "EBS:1094:1004"
     ],
     "totaal_per_lijn": {
       "69": 75,
@@ -2729,7 +2730,7 @@
       "800": 17,
       "N14": 3,
       "N06": 2,
-      "N94": 2
+      "N94": 3
     },
     "gedeeltelijke_ritten": {
       "EBS:1069:1045_2026-11-02": {
@@ -2905,10 +2906,10 @@
             "halte_id": "NL:S:30001305",
             "halte_naam": "Amsterdam, Busstation Station Noord",
             "geplande_tijd": "00:41",
-            "vertraging_min": 0,
+            "vertraging_min": 4,
             "status": "gereden",
             "vertrokken": false,
-            "realtime": true,
+            "realtime": false,
             "platform": "Perron A1",
             "bestemming": "Marken"
           }
@@ -3037,7 +3038,7 @@
             "halte_id": "NL:S:37223552",
             "halte_naam": "De Vlinder",
             "geplande_tijd": "00:41",
-            "vertraging_min": 2,
+            "vertraging_min": 3,
             "status": "gereden",
             "vertrokken": false,
             "realtime": false,
@@ -3048,7 +3049,7 @@
             "halte_id": "NL:S:30001305",
             "halte_naam": "Amsterdam, Busstation Station Noord",
             "geplande_tijd": "01:04",
-            "vertraging_min": 1,
+            "vertraging_min": 3,
             "status": "gereden",
             "vertrokken": false,
             "realtime": false,
@@ -3144,8 +3145,11 @@
             "bestemming": "Amsterdam Centraal"
           }
         ],
-        "oorzaak_raw": null,
-        "oorzaak_categorieen": [],
+        "oorzaak_raw": "Cause: Verkeer, Stremming/Omleiding",
+        "oorzaak_categorieen": [
+          "Verkeer",
+          "Stremming/Omleiding"
+        ],
         "terminus_alert": null,
         "advies": null
       }
