@@ -1,6 +1,6 @@
 {
   "2026-11-02": {
-    "totaal": 2684,
+    "totaal": 2685,
     "journeys": [
       "EBS:1069:1001",
       "EBS:1308:1006",
@@ -2685,7 +2685,8 @@
       "EBS:1394:1198",
       "EBS:1111:1147",
       "EBS:1394:1195",
-      "EBS:1305:1167"
+      "EBS:1305:1167",
+      "EBS:1394:1200"
     ],
     "totaal_per_lijn": {
       "69": 75,
@@ -2704,7 +2705,7 @@
       "67": 64,
       "370": 56,
       "316": 75,
-      "394": 184,
+      "394": 185,
       "65": 64,
       "395": 152,
       "63": 33,
@@ -2772,10 +2773,10 @@
             "halte_id": "NL:S:30001305",
             "halte_naam": "Amsterdam, Busstation Station Noord",
             "geplande_tijd": "00:11",
-            "vertraging_min": 0,
+            "vertraging_min": 4,
             "status": "gereden",
             "vertrokken": false,
-            "realtime": true,
+            "realtime": false,
             "platform": "Perron A1",
             "bestemming": "Marken"
           },
@@ -2887,10 +2888,10 @@
             "halte_id": "NL:S:37223552",
             "halte_naam": "De Vlinder",
             "geplande_tijd": "00:18",
-            "vertraging_min": 2,
+            "vertraging_min": 0,
             "status": "gereden",
             "vertrokken": false,
-            "realtime": false,
+            "realtime": true,
             "platform": "Perron E",
             "bestemming": "Marken"
           },
@@ -2898,10 +2899,10 @@
             "halte_id": "NL:S:30001305",
             "halte_naam": "Amsterdam, Busstation Station Noord",
             "geplande_tijd": "00:41",
-            "vertraging_min": 1,
+            "vertraging_min": 0,
             "status": "gereden",
             "vertrokken": false,
-            "realtime": false,
+            "realtime": true,
             "platform": "Perron A1",
             "bestemming": "Marken"
           }
@@ -2920,7 +2921,7 @@
             "halte_id": "NL:S:37221160",
             "halte_naam": "Zaanse Schans",
             "geplande_tijd": "00:16",
-            "vertraging_min": 0,
+            "vertraging_min": -1,
             "status": "gereden",
             "vertrokken": false,
             "realtime": false,
