@@ -1,6 +1,6 @@
 {
   "2026-11-02": {
-    "totaal": 2632,
+    "totaal": 2642,
     "journeys": [
       "EBS:1069:1001",
       "EBS:1308:1006",
@@ -2633,26 +2633,36 @@
       "EBS:1307:1364",
       "EBS:1306:1164",
       "EBS:1305:1166",
-      "EBS:1110:1280"
+      "EBS:1110:1280",
+      "EBS:1394:1187",
+      "EBS:1112:1115",
+      "EBS:1394:1192",
+      "EBS:1069:1075",
+      "EBS:1100:1144",
+      "EBS:1391:1167",
+      "EBS:1067:1062",
+      "EBS:1104:1141",
+      "EBS:1064:1065",
+      "EBS:1315:1155"
     ],
     "totaal_per_lijn": {
-      "69": 73,
+      "69": 74,
       "308": 165,
-      "391": 160,
-      "315": 77,
+      "391": 161,
+      "315": 78,
       "456": 36,
       "102": 31,
       "111": 133,
-      "100": 143,
+      "100": 144,
       "307": 165,
-      "112": 115,
-      "104": 141,
+      "112": 116,
+      "104": 142,
       "306": 165,
       "110": 83,
-      "67": 63,
+      "67": 64,
       "370": 56,
       "316": 75,
-      "394": 177,
+      "394": 179,
       "65": 63,
       "395": 151,
       "63": 33,
@@ -2662,7 +2672,7 @@
       "276": 13,
       "101": 31,
       "272": 7,
-      "64": 63,
+      "64": 64,
       "273": 10,
       "614": 9,
       "419": 14,
@@ -2802,6 +2812,94 @@
         ],
         "oorzaak_raw": null,
         "oorzaak_categorieen": [],
+        "terminus_alert": null,
+        "advies": null
+      },
+      "EBS:1111:1143_2026-11-02": {
+        "haltes": [
+          {
+            "halte_id": "NL:S:37220130",
+            "halte_naam": "Station Zaandam (Provincialeweg)",
+            "geplande_tijd": "00:03",
+            "vertraging_min": 0,
+            "status": "gereden",
+            "vertrokken": false,
+            "realtime": true,
+            "platform": "Perron D",
+            "bestemming": "Marken"
+          },
+          {
+            "halte_id": "NL:S:37223860",
+            "halte_naam": "Gedempte Gracht",
+            "geplande_tijd": "00:05",
+            "vertraging_min": 0,
+            "status": "cancelled",
+            "vertrokken": false,
+            "realtime": false,
+            "platform": null,
+            "bestemming": "Marken"
+          },
+          {
+            "halte_id": "NL:S:37223552",
+            "halte_naam": "De Vlinder",
+            "geplande_tijd": "00:18",
+            "vertraging_min": 2,
+            "status": "gereden",
+            "vertrokken": false,
+            "realtime": false,
+            "platform": "Perron E",
+            "bestemming": "Marken"
+          }
+        ],
+        "oorzaak_raw": "Cause: Verkeer, Stremming/Omleiding",
+        "oorzaak_categorieen": [
+          "Verkeer",
+          "Stremming/Omleiding"
+        ],
+        "terminus_alert": null,
+        "advies": null
+      },
+      "EBS:1069:1074_2026-11-02": {
+        "haltes": [
+          {
+            "halte_id": "NL:S:37221160",
+            "halte_naam": "Zaanse Schans",
+            "geplande_tijd": "00:16",
+            "vertraging_min": 0,
+            "status": "gereden",
+            "vertrokken": false,
+            "realtime": true,
+            "platform": null,
+            "bestemming": "Krommenie station"
+          },
+          {
+            "halte_id": "NL:S:37220130",
+            "halte_naam": "Station Zaandam (Provincialeweg)",
+            "geplande_tijd": "23:57",
+            "vertraging_min": 0,
+            "status": "gereden",
+            "vertrokken": false,
+            "realtime": true,
+            "platform": "Perron I",
+            "bestemming": "Krommenie"
+          },
+          {
+            "halte_id": "NL:S:37223860",
+            "halte_naam": "Gedempte Gracht",
+            "geplande_tijd": "23:59",
+            "vertraging_min": 0,
+            "status": "cancelled",
+            "vertrokken": false,
+            "realtime": false,
+            "platform": null,
+            "bestemming": "Krommenie"
+          }
+        ],
+        "oorzaak_raw": "Cause: Verkeer, Stremming/Omleiding",
+        "oorzaak_categorieen": [
+          "Verkeer",
+          "Stremming/Omleiding"
+        ],
         "terminus_alert": null,
         "advies": null
       }
