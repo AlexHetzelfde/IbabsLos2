@@ -1,6 +1,6 @@
 {
   "2026-11-03": {
-    "totaal": 2643,
+    "totaal": 2652,
     "journeys": [
       "EBS:1069:1007",
       "EBS:1069:1005",
@@ -2644,32 +2644,41 @@
       "EBS:1394:1192",
       "EBS:1315:1155",
       "EBS:1067:1062",
-      "EBS:1111:1145"
+      "EBS:1111:1145",
+      "EBS:1308:1163",
+      "EBS:1391:1160",
+      "EBS:1111:1138",
+      "EBS:1306:1165",
+      "EBS:1305:1163",
+      "EBS:1112:1116",
+      "EBS:1314:1170",
+      "EBS:1395:1151",
+      "EBS:1104:1142"
     ],
     "totaal_per_lijn": {
       "69": 74,
       "315": 78,
-      "391": 161,
+      "391": 162,
       "102": 31,
-      "308": 165,
+      "308": 166,
       "456": 36,
-      "306": 165,
-      "104": 142,
-      "111": 134,
-      "112": 116,
+      "306": 166,
+      "104": 143,
+      "111": 135,
+      "112": 117,
       "100": 144,
       "110": 83,
       "307": 165,
       "316": 75,
       "394": 179,
       "63": 33,
-      "305": 125,
+      "305": 126,
       "65": 63,
       "370": 56,
-      "395": 151,
+      "395": 152,
       "67": 64,
       "103": 55,
-      "314": 156,
+      "314": 157,
       "276": 13,
       "101": 31,
       "272": 7,
@@ -2944,6 +2953,50 @@
             "realtime": false,
             "platform": null,
             "bestemming": "Krommenie"
+          }
+        ],
+        "oorzaak_raw": "Cause: Verkeer, Stremming/Omleiding",
+        "oorzaak_categorieen": [
+          "Verkeer",
+          "Stremming/Omleiding"
+        ],
+        "terminus_alert": null,
+        "advies": "Advice: Vanwege stremming Peperstraat rijden wij een omleiding. Meer info? meerplus.nl"
+      },
+      "EBS:1394:1190_2026-11-03": {
+        "haltes": [
+          {
+            "halte_id": "NL:S:37220130",
+            "halte_naam": "Station Zaandam (Provincialeweg)",
+            "geplande_tijd": "00:10",
+            "vertraging_min": 0,
+            "status": "gereden",
+            "vertrokken": false,
+            "realtime": true,
+            "platform": "Perron C",
+            "bestemming": "Amsterdam Noorderpark"
+          },
+          {
+            "halte_id": "NL:S:37223860",
+            "halte_naam": "Gedempte Gracht",
+            "geplande_tijd": "00:12",
+            "vertraging_min": 0,
+            "status": "cancelled",
+            "vertrokken": false,
+            "realtime": false,
+            "platform": null,
+            "bestemming": "Amsterdam Noorderpark"
+          },
+          {
+            "halte_id": "NL:S:37223552",
+            "halte_naam": "De Vlinder",
+            "geplande_tijd": "00:28",
+            "vertraging_min": 1,
+            "status": "gereden",
+            "vertrokken": false,
+            "realtime": false,
+            "platform": "Perron C",
+            "bestemming": "Amsterdam Noorderpark"
           }
         ],
         "oorzaak_raw": "Cause: Verkeer, Stremming/Omleiding",
