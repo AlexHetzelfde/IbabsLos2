@@ -1,6 +1,6 @@
 {
   "2026-11-03": {
-    "totaal": 2652,
+    "totaal": 2663,
     "journeys": [
       "EBS:1069:1007",
       "EBS:1069:1005",
@@ -2653,32 +2653,43 @@
       "EBS:1112:1116",
       "EBS:1314:1170",
       "EBS:1395:1151",
-      "EBS:1104:1142"
+      "EBS:1104:1142",
+      "EBS:1014:1400",
+      "EBS:1110:1282",
+      "EBS:1314:1171",
+      "EBS:1394:1194",
+      "EBS:1307:1365",
+      "EBS:1305:1168",
+      "EBS:1308:1168",
+      "EBS:1306:1166",
+      "EBS:1100:1143",
+      "EBS:1307:1366",
+      "EBS:1065:1062"
     ],
     "totaal_per_lijn": {
       "69": 74,
       "315": 78,
       "391": 162,
       "102": 31,
-      "308": 166,
+      "308": 167,
       "456": 36,
-      "306": 166,
+      "306": 167,
       "104": 143,
       "111": 135,
       "112": 117,
-      "100": 144,
-      "110": 83,
-      "307": 165,
+      "100": 145,
+      "110": 84,
+      "307": 167,
       "316": 75,
-      "394": 179,
+      "394": 180,
       "63": 33,
-      "305": 126,
-      "65": 63,
+      "305": 127,
+      "65": 64,
       "370": 56,
       "395": 152,
       "67": 64,
       "103": 55,
-      "314": 157,
+      "314": 158,
       "276": 13,
       "101": 31,
       "272": 7,
@@ -2688,7 +2699,8 @@
       "419": 14,
       "413": 16,
       "414": 11,
-      "800": 17
+      "800": 17,
+      "N14": 1
     },
     "gedeeltelijke_ritten": {
       "EBS:1111:1141_2026-11-03": {
@@ -2711,7 +2723,7 @@
             "vertraging_min": 0,
             "status": "gereden",
             "vertrokken": false,
-            "realtime": false,
+            "realtime": true,
             "platform": "Perron D",
             "bestemming": "Marken"
           },
@@ -2738,10 +2750,13 @@
             "bestemming": "Marken"
           }
         ],
-        "oorzaak_raw": null,
-        "oorzaak_categorieen": [],
+        "oorzaak_raw": "Cause: Verkeer, Stremming/Omleiding",
+        "oorzaak_categorieen": [
+          "Verkeer",
+          "Stremming/Omleiding"
+        ],
         "terminus_alert": null,
-        "advies": null
+        "advies": "Advice: Vanwege stremming Peperstraat rijden wij een omleiding. Meer info? meerplus.nl"
       },
       "EBS:1069:1072_2026-11-03": {
         "haltes": [
@@ -2997,6 +3012,50 @@
             "realtime": false,
             "platform": "Perron C",
             "bestemming": "Amsterdam Noorderpark"
+          }
+        ],
+        "oorzaak_raw": "Cause: Verkeer, Stremming/Omleiding",
+        "oorzaak_categorieen": [
+          "Verkeer",
+          "Stremming/Omleiding"
+        ],
+        "terminus_alert": null,
+        "advies": "Advice: Vanwege stremming Peperstraat rijden wij een omleiding. Meer info? meerplus.nl"
+      },
+      "EBS:1111:1145_2026-11-03": {
+        "haltes": [
+          {
+            "halte_id": "NL:S:37220130",
+            "halte_naam": "Station Zaandam (Provincialeweg)",
+            "geplande_tijd": "00:26",
+            "vertraging_min": 0,
+            "status": "gereden",
+            "vertrokken": false,
+            "realtime": true,
+            "platform": "Perron D",
+            "bestemming": "Marken"
+          },
+          {
+            "halte_id": "NL:S:37223860",
+            "halte_naam": "Gedempte Gracht",
+            "geplande_tijd": "00:28",
+            "vertraging_min": 0,
+            "status": "cancelled",
+            "vertrokken": false,
+            "realtime": false,
+            "platform": null,
+            "bestemming": "Marken"
+          },
+          {
+            "halte_id": "NL:S:37223552",
+            "halte_naam": "De Vlinder",
+            "geplande_tijd": "00:41",
+            "vertraging_min": 2,
+            "status": "gereden",
+            "vertrokken": false,
+            "realtime": false,
+            "platform": "Perron E",
+            "bestemming": "Marken"
           }
         ],
         "oorzaak_raw": "Cause: Verkeer, Stremming/Omleiding",
