@@ -765,6 +765,17 @@
     "advies": null,
     "haltes": [
       {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "01:52",
+        "vertraging_min": 0,
+        "status": "gereden",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "Amsterdam Centraal"
+      },
+      {
         "halte_id": "NL:S:37223860",
         "halte_naam": "Gedempte Gracht",
         "geplande_tijd": "01:54",
@@ -776,53 +787,9 @@
         "bestemming": "Amsterdam Centraal"
       }
     ],
-    "eerste_tijd": "01:54",
+    "eerste_tijd": "01:52",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-11-03 23:20:28",
-    "eerst_gezien": "2026-11-03 23:20:28"
-  },
-  {
-    "id": "EBS:1094:1001_2026-11-03",
-    "journey_id": "EBS:1094:1001",
-    "datum": "2026-11-03",
-    "lijn": "N94",
-    "lijnkleur": "#000000",
-    "categorie": "M-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
-    "status": "cancelled",
-    "oorzaak_categorieen": [],
-    "oorzaak_raw": null,
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "01:44",
-        "vertraging_min": 0,
-        "status": "gereden",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron E",
-        "bestemming": "Krommenie"
-      },
-      {
-        "halte_id": "NL:S:37223860",
-        "halte_naam": "Gedempte Gracht",
-        "geplande_tijd": "01:52",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": null,
-        "bestemming": "Krommenie station"
-      }
-    ],
-    "eerste_tijd": "01:44",
-    "dagdeel": "nacht",
-    "bijgewerkt": "2026-11-03 23:20:28",
+    "bijgewerkt": "2026-11-03 23:30:36",
     "eerst_gezien": "2026-11-03 23:20:28"
   },
   {
@@ -869,7 +836,7 @@
     ],
     "eerste_tijd": "01:36",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-11-03 23:20:28",
+    "bijgewerkt": "2026-11-03 23:30:36",
     "eerst_gezien": "2026-11-03 23:10:32"
   },
   {
@@ -916,7 +883,7 @@
     ],
     "eerste_tijd": "01:18",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-11-03 23:20:28",
+    "bijgewerkt": "2026-11-03 23:30:36",
     "eerst_gezien": "2026-11-03 23:00:51"
   },
   {
@@ -963,7 +930,7 @@
     ],
     "eerste_tijd": "01:11",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-11-03 23:20:28",
+    "bijgewerkt": "2026-11-03 23:30:36",
     "eerst_gezien": "2026-11-03 22:50:31"
   },
   {
@@ -1010,7 +977,7 @@
     ],
     "eerste_tijd": "01:05",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-11-03 23:20:28",
+    "bijgewerkt": "2026-11-03 23:30:36",
     "eerst_gezien": "2026-11-03 22:40:30"
   },
   {
@@ -1036,10 +1003,10 @@
         "halte_id": "NL:S:37223552",
         "halte_naam": "De Vlinder",
         "geplande_tijd": "00:56",
-        "vertraging_min": 0,
+        "vertraging_min": -3,
         "status": "gereden",
         "vertrokken": false,
-        "realtime": true,
+        "realtime": false,
         "platform": "Perron A",
         "bestemming": "Zaandam Station"
       },
@@ -1057,7 +1024,7 @@
     ],
     "eerste_tijd": "00:56",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-11-03 23:20:28",
+    "bijgewerkt": "2026-11-03 23:30:36",
     "eerst_gezien": "2026-11-03 22:40:30"
   },
   {
@@ -1104,7 +1071,7 @@
     ],
     "eerste_tijd": "00:47",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-11-03 23:20:28",
+    "bijgewerkt": "2026-11-03 23:30:36",
     "eerst_gezien": "2026-11-03 22:30:41"
   },
   {
@@ -1151,7 +1118,7 @@
     ],
     "eerste_tijd": "00:35",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-11-03 23:20:28",
+    "bijgewerkt": "2026-11-03 23:30:36",
     "eerst_gezien": "2026-11-03 22:10:35"
   },
   {
@@ -1162,8 +1129,8 @@
     "lijnkleur": "#004899",
     "categorie": "M-net",
     "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "drukte_icoon": "crowd0.svg",
+    "drukte_omschrijving": "leeg",
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Verkeer",
@@ -1198,7 +1165,7 @@
     ],
     "eerste_tijd": "00:26",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-11-03 23:20:28",
+    "bijgewerkt": "2026-11-03 23:30:36",
     "eerst_gezien": "2026-11-03 22:10:35"
   },
   {
@@ -1245,7 +1212,7 @@
     ],
     "eerste_tijd": "00:17",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-11-03 23:20:28",
+    "bijgewerkt": "2026-11-03 23:30:36",
     "eerst_gezien": "2026-11-03 22:00:55"
   },
   {
