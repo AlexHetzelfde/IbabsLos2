@@ -1,6 +1,6 @@
 {
   "2026-11-03": {
-    "totaal": 2600,
+    "totaal": 2607,
     "journeys": [
       "EBS:1069:1007",
       "EBS:1069:1005",
@@ -2601,24 +2601,31 @@
       "EBS:1394:1186",
       "EBS:1308:1164",
       "EBS:1308:1159",
-      "EBS:1111:1141"
+      "EBS:1111:1141",
+      "EBS:1394:1183",
+      "EBS:1104:1139",
+      "EBS:1394:1188",
+      "EBS:1100:1142",
+      "EBS:1391:1165",
+      "EBS:1112:1113",
+      "EBS:1315:1153"
     ],
     "totaal_per_lijn": {
       "69": 72,
-      "315": 76,
-      "391": 158,
+      "315": 77,
+      "391": 159,
       "102": 31,
       "308": 163,
       "456": 36,
       "306": 163,
-      "104": 139,
+      "104": 140,
       "111": 131,
-      "112": 113,
-      "100": 141,
+      "112": 114,
+      "100": 142,
       "110": 81,
       "307": 163,
       "316": 74,
-      "394": 174,
+      "394": 176,
       "63": 32,
       "305": 123,
       "65": 63,
@@ -2638,6 +2645,136 @@
       "414": 11,
       "800": 17
     },
-    "gedeeltelijke_ritten": {}
+    "gedeeltelijke_ritten": {
+      "EBS:1111:1141_2026-11-03": {
+        "haltes": [
+          {
+            "halte_id": "NL:S:37220130",
+            "halte_naam": "Station Zaandam (Provincialeweg)",
+            "geplande_tijd": "23:33",
+            "vertraging_min": 0,
+            "status": "gereden",
+            "vertrokken": false,
+            "realtime": false,
+            "platform": "Perron D",
+            "bestemming": "Marken"
+          },
+          {
+            "halte_id": "NL:S:37223860",
+            "halte_naam": "Gedempte Gracht",
+            "geplande_tijd": "23:35",
+            "vertraging_min": 0,
+            "status": "cancelled",
+            "vertrokken": false,
+            "realtime": false,
+            "platform": null,
+            "bestemming": "Marken"
+          },
+          {
+            "halte_id": "NL:S:37223552",
+            "halte_naam": "De Vlinder",
+            "geplande_tijd": "23:48",
+            "vertraging_min": 2,
+            "status": "gereden",
+            "vertrokken": false,
+            "realtime": false,
+            "platform": "Perron E",
+            "bestemming": "Marken"
+          }
+        ],
+        "oorzaak_raw": null,
+        "oorzaak_categorieen": [],
+        "terminus_alert": null,
+        "advies": null
+      },
+      "EBS:1069:1072_2026-11-03": {
+        "haltes": [
+          {
+            "halte_id": "NL:S:37220130",
+            "halte_naam": "Station Zaandam (Provincialeweg)",
+            "geplande_tijd": "23:27",
+            "vertraging_min": 0,
+            "status": "gereden",
+            "vertrokken": false,
+            "realtime": true,
+            "platform": "Perron I",
+            "bestemming": "Krommenie"
+          },
+          {
+            "halte_id": "NL:S:37223860",
+            "halte_naam": "Gedempte Gracht",
+            "geplande_tijd": "23:29",
+            "vertraging_min": 0,
+            "status": "cancelled",
+            "vertrokken": false,
+            "realtime": false,
+            "platform": null,
+            "bestemming": "Krommenie"
+          },
+          {
+            "halte_id": "NL:S:37221160",
+            "halte_naam": "Zaanse Schans",
+            "geplande_tijd": "23:46",
+            "vertraging_min": 0,
+            "status": "gereden",
+            "vertrokken": false,
+            "realtime": true,
+            "platform": null,
+            "bestemming": "Krommenie station"
+          }
+        ],
+        "oorzaak_raw": "Cause: Verkeer, Stremming/Omleiding",
+        "oorzaak_categorieen": [
+          "Verkeer",
+          "Stremming/Omleiding"
+        ],
+        "terminus_alert": null,
+        "advies": "Advice: Vanwege stremming Peperstraat rijden wij een omleiding. Meer info? meerplus.nl"
+      },
+      "EBS:1069:1071_2026-11-03": {
+        "haltes": [
+          {
+            "halte_id": "NL:S:37320410",
+            "halte_naam": "Assendelft/Krommenie-Assendelft, Rangeerder",
+            "geplande_tijd": "23:15",
+            "vertraging_min": 0,
+            "status": "gereden",
+            "vertrokken": false,
+            "realtime": true,
+            "platform": null,
+            "bestemming": "Zaandam"
+          },
+          {
+            "halte_id": "NL:S:37221160",
+            "halte_naam": "Zaanse Schans",
+            "geplande_tijd": "23:41",
+            "vertraging_min": -1,
+            "status": "gereden",
+            "vertrokken": false,
+            "realtime": false,
+            "platform": null,
+            "bestemming": "Zaandam Station"
+          },
+          {
+            "halte_id": "NL:S:37223860",
+            "halte_naam": "Gedempte Gracht",
+            "geplande_tijd": "23:57",
+            "vertraging_min": 0,
+            "status": "cancelled",
+            "vertrokken": false,
+            "realtime": false,
+            "platform": null,
+            "bestemming": "Zaandam Station"
+          }
+        ],
+        "oorzaak_raw": "Cause: Verkeer, Stremming/Omleiding",
+        "oorzaak_categorieen": [
+          "Verkeer",
+          "Stremming/Omleiding"
+        ],
+        "terminus_alert": null,
+        "advies": "Advice: Vanwege stremming Peperstraat rijden wij een omleiding. Meer info? meerplus.nl"
+      }
+    }
   }
 }
