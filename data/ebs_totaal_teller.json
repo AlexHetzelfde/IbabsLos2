@@ -2959,7 +2959,7 @@
             "halte_id": "NL:S:30001305",
             "halte_naam": "Amsterdam, Busstation Station Noord",
             "geplande_tijd": "00:41",
-            "vertraging_min": 21,
+            "vertraging_min": 15,
             "status": "gereden",
             "vertrokken": false,
             "realtime": false,
@@ -3102,10 +3102,10 @@
             "halte_id": "NL:S:30001305",
             "halte_naam": "Amsterdam, Busstation Station Noord",
             "geplande_tijd": "01:04",
-            "vertraging_min": 3,
+            "vertraging_min": 0,
             "status": "gereden",
             "vertrokken": false,
-            "realtime": false,
+            "realtime": true,
             "platform": "Perron A1",
             "bestemming": "Marken"
           }
@@ -3127,7 +3127,7 @@
             "vertraging_min": 0,
             "status": "gereden",
             "vertrokken": false,
-            "realtime": false,
+            "realtime": true,
             "platform": "Perron E",
             "bestemming": "Krommenie"
           },
@@ -3149,15 +3149,18 @@
             "vertraging_min": 0,
             "status": "gereden",
             "vertrokken": false,
-            "realtime": false,
+            "realtime": true,
             "platform": "Perron I",
             "bestemming": "Krommenie station"
           }
         ],
-        "oorzaak_raw": null,
-        "oorzaak_categorieen": [],
+        "oorzaak_raw": "Cause: Verkeer, Stremming/Omleiding",
+        "oorzaak_categorieen": [
+          "Verkeer",
+          "Stremming/Omleiding"
+        ],
         "terminus_alert": null,
-        "advies": null
+        "advies": "Advice: Vanwege stremming Peperstraat rijden wij een omleiding. Meer info? meerplus.nl"
       },
       "EBS:1094:1002_2026-11-03": {
         "haltes": [
