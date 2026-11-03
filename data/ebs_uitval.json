@@ -749,12 +749,12 @@
     "eerst_gezien": "2026-11-03 06:20:36"
   },
   {
-    "id": "EBS:1394:1200_2026-11-03",
-    "journey_id": "EBS:1394:1200",
+    "id": "EBS:1094:1002_2026-11-03",
+    "journey_id": "EBS:1094:1002",
     "datum": "2026-11-03",
-    "lijn": "394",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
+    "lijn": "N94",
+    "lijnkleur": "#000000",
+    "categorie": "M-net",
     "product_label": "MeerPlus",
     "drukte_icoon": "crowd0.svg",
     "drukte_omschrijving": "leeg",
@@ -765,13 +765,93 @@
     "advies": null,
     "haltes": [
       {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "01:54",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Amsterdam Centraal"
+      }
+    ],
+    "eerste_tijd": "01:54",
+    "dagdeel": "nacht",
+    "bijgewerkt": "2026-11-03 23:20:28",
+    "eerst_gezien": "2026-11-03 23:20:28"
+  },
+  {
+    "id": "EBS:1094:1001_2026-11-03",
+    "journey_id": "EBS:1094:1001",
+    "datum": "2026-11-03",
+    "lijn": "N94",
+    "lijnkleur": "#000000",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "01:44",
+        "vertraging_min": 0,
+        "status": "gereden",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron E",
+        "bestemming": "Krommenie"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "01:52",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Krommenie station"
+      }
+    ],
+    "eerste_tijd": "01:44",
+    "dagdeel": "nacht",
+    "bijgewerkt": "2026-11-03 23:20:28",
+    "eerst_gezien": "2026-11-03 23:20:28"
+  },
+  {
+    "id": "EBS:1394:1200_2026-11-03",
+    "journey_id": "EBS:1394:1200",
+    "datum": "2026-11-03",
+    "lijn": "394",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd0.svg",
+    "drukte_omschrijving": "leeg",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Verkeer",
+      "Stremming/Omleiding"
+    ],
+    "oorzaak_raw": "Cause: Verkeer, Stremming/Omleiding",
+    "terminus_alert": null,
+    "advies": "Advice: Vanwege stremming Peperstraat rijden wij een omleiding. Meer info? meerplus.nl",
+    "haltes": [
+      {
         "halte_id": "NL:S:37220130",
         "halte_naam": "Station Zaandam (Provincialeweg)",
         "geplande_tijd": "01:36",
         "vertraging_min": 0,
         "status": "gereden",
         "vertrokken": false,
-        "realtime": false,
+        "realtime": true,
         "platform": "Perron C",
         "bestemming": "Zaandam"
       },
@@ -789,7 +869,7 @@
     ],
     "eerste_tijd": "01:36",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-11-03 23:10:32",
+    "bijgewerkt": "2026-11-03 23:20:28",
     "eerst_gezien": "2026-11-03 23:10:32"
   },
   {
@@ -836,7 +916,7 @@
     ],
     "eerste_tijd": "01:18",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-11-03 23:10:32",
+    "bijgewerkt": "2026-11-03 23:20:28",
     "eerst_gezien": "2026-11-03 23:00:51"
   },
   {
@@ -883,7 +963,7 @@
     ],
     "eerste_tijd": "01:11",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-11-03 23:10:32",
+    "bijgewerkt": "2026-11-03 23:20:28",
     "eerst_gezien": "2026-11-03 22:50:31"
   },
   {
@@ -930,7 +1010,7 @@
     ],
     "eerste_tijd": "01:05",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-11-03 23:10:32",
+    "bijgewerkt": "2026-11-03 23:20:28",
     "eerst_gezien": "2026-11-03 22:40:30"
   },
   {
@@ -977,7 +1057,7 @@
     ],
     "eerste_tijd": "00:56",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-11-03 23:10:32",
+    "bijgewerkt": "2026-11-03 23:20:28",
     "eerst_gezien": "2026-11-03 22:40:30"
   },
   {
@@ -1024,7 +1104,7 @@
     ],
     "eerste_tijd": "00:47",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-11-03 23:10:32",
+    "bijgewerkt": "2026-11-03 23:20:28",
     "eerst_gezien": "2026-11-03 22:30:41"
   },
   {
@@ -1071,7 +1151,7 @@
     ],
     "eerste_tijd": "00:35",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-11-03 23:10:32",
+    "bijgewerkt": "2026-11-03 23:20:28",
     "eerst_gezien": "2026-11-03 22:10:35"
   },
   {
@@ -1118,7 +1198,7 @@
     ],
     "eerste_tijd": "00:26",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-11-03 23:10:32",
+    "bijgewerkt": "2026-11-03 23:20:28",
     "eerst_gezien": "2026-11-03 22:10:35"
   },
   {
@@ -1129,8 +1209,8 @@
     "lijnkleur": "#e1251b",
     "categorie": "R-net",
     "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "drukte_icoon": "crowd0.svg",
+    "drukte_omschrijving": "leeg",
     "status": "cancelled",
     "oorzaak_categorieen": [
       "Verkeer",
@@ -1155,7 +1235,7 @@
         "halte_id": "NL:S:37223860",
         "halte_naam": "Gedempte Gracht",
         "geplande_tijd": "00:29",
-        "vertraging_min": 0,
+        "vertraging_min": 1,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
@@ -1165,7 +1245,7 @@
     ],
     "eerste_tijd": "00:17",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-11-03 23:10:32",
+    "bijgewerkt": "2026-11-03 23:20:28",
     "eerst_gezien": "2026-11-03 22:00:55"
   },
   {
