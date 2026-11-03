@@ -1,6 +1,6 @@
 {
   "2026-11-03": {
-    "totaal": 2690,
+    "totaal": 2691,
     "journeys": [
       "EBS:1069:1007",
       "EBS:1069:1005",
@@ -2691,7 +2691,8 @@
       "EBS:1014:1404",
       "EBS:1094:1002",
       "EBS:1094:1001",
-      "EBS:1014:1401"
+      "EBS:1014:1401",
+      "EBS:1094:1004"
     ],
     "totaal_per_lijn": {
       "69": 75,
@@ -2729,7 +2730,7 @@
       "800": 17,
       "N14": 3,
       "N06": 2,
-      "N94": 2
+      "N94": 3
     },
     "gedeeltelijke_ritten": {
       "EBS:1111:1141_2026-11-03": {
@@ -2947,18 +2948,18 @@
             "halte_id": "NL:S:37223552",
             "halte_naam": "De Vlinder",
             "geplande_tijd": "00:18",
-            "vertraging_min": 11,
+            "vertraging_min": 21,
             "status": "gereden",
-            "vertrokken": false,
+            "vertrokken": true,
             "realtime": false,
-            "platform": "Perron E",
+            "platform": null,
             "bestemming": "Marken"
           },
           {
             "halte_id": "NL:S:30001305",
             "halte_naam": "Amsterdam, Busstation Station Noord",
             "geplande_tijd": "00:41",
-            "vertraging_min": 11,
+            "vertraging_min": 21,
             "status": "gereden",
             "vertrokken": false,
             "realtime": false,
@@ -3090,7 +3091,7 @@
             "halte_id": "NL:S:37223552",
             "halte_naam": "De Vlinder",
             "geplande_tijd": "00:41",
-            "vertraging_min": 2,
+            "vertraging_min": 3,
             "status": "gereden",
             "vertrokken": false,
             "realtime": false,
@@ -3101,7 +3102,7 @@
             "halte_id": "NL:S:30001305",
             "halte_naam": "Amsterdam, Busstation Station Noord",
             "geplande_tijd": "01:04",
-            "vertraging_min": 1,
+            "vertraging_min": 3,
             "status": "gereden",
             "vertrokken": false,
             "realtime": false,
@@ -3151,6 +3152,47 @@
             "realtime": false,
             "platform": "Perron I",
             "bestemming": "Krommenie station"
+          }
+        ],
+        "oorzaak_raw": null,
+        "oorzaak_categorieen": [],
+        "terminus_alert": null,
+        "advies": null
+      },
+      "EBS:1094:1002_2026-11-03": {
+        "haltes": [
+          {
+            "halte_id": "NL:S:37220130",
+            "halte_naam": "Station Zaandam (Provincialeweg)",
+            "geplande_tijd": "01:52",
+            "vertraging_min": 0,
+            "status": "gereden",
+            "vertrokken": false,
+            "realtime": false,
+            "platform": "Perron C",
+            "bestemming": "Amsterdam Centraal"
+          },
+          {
+            "halte_id": "NL:S:37223860",
+            "halte_naam": "Gedempte Gracht",
+            "geplande_tijd": "01:54",
+            "vertraging_min": 0,
+            "status": "cancelled",
+            "vertrokken": false,
+            "realtime": false,
+            "platform": null,
+            "bestemming": "Amsterdam Centraal"
+          },
+          {
+            "halte_id": "NL:S:37223552",
+            "halte_naam": "De Vlinder",
+            "geplande_tijd": "02:01",
+            "vertraging_min": 0,
+            "status": "gereden",
+            "vertrokken": false,
+            "realtime": false,
+            "platform": "Perron C",
+            "bestemming": "Amsterdam Centraal"
           }
         ],
         "oorzaak_raw": null,
