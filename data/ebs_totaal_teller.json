@@ -1,6 +1,6 @@
 {
   "2026-11-03": {
-    "totaal": 2663,
+    "totaal": 2670,
     "journeys": [
       "EBS:1069:1007",
       "EBS:1069:1005",
@@ -2664,24 +2664,31 @@
       "EBS:1306:1166",
       "EBS:1100:1143",
       "EBS:1307:1366",
-      "EBS:1065:1062"
+      "EBS:1065:1062",
+      "EBS:1100:1146",
+      "EBS:1394:1191",
+      "EBS:1104:1143",
+      "EBS:1391:1162",
+      "EBS:1069:1077",
+      "EBS:1394:1196",
+      "EBS:1112:1117"
     ],
     "totaal_per_lijn": {
-      "69": 74,
+      "69": 75,
       "315": 78,
-      "391": 162,
+      "391": 163,
       "102": 31,
       "308": 167,
       "456": 36,
       "306": 167,
-      "104": 143,
+      "104": 144,
       "111": 135,
-      "112": 117,
-      "100": 145,
+      "112": 118,
+      "100": 146,
       "110": 84,
       "307": 167,
       "316": 75,
-      "394": 180,
+      "394": 182,
       "63": 33,
       "305": 127,
       "65": 64,
@@ -2819,10 +2826,10 @@
             "halte_id": "NL:S:37221160",
             "halte_naam": "Zaanse Schans",
             "geplande_tijd": "23:41",
-            "vertraging_min": -1,
+            "vertraging_min": 0,
             "status": "gereden",
             "vertrokken": false,
-            "realtime": false,
+            "realtime": true,
             "platform": null,
             "bestemming": "Zaandam Station"
           },
@@ -2923,6 +2930,17 @@
             "vertrokken": false,
             "realtime": false,
             "platform": "Perron E",
+            "bestemming": "Marken"
+          },
+          {
+            "halte_id": "NL:S:30001305",
+            "halte_naam": "Amsterdam, Busstation Station Noord",
+            "geplande_tijd": "00:41",
+            "vertraging_min": 1,
+            "status": "gereden",
+            "vertrokken": false,
+            "realtime": false,
+            "platform": "Perron A1",
             "bestemming": "Marken"
           }
         ],
