@@ -1,5 +1,41 @@
 [
   {
+    "id": "EBS:1307:1222_2026-11-04",
+    "journey_id": "EBS:1307:1222",
+    "datum": "2026-11-04",
+    "lijn": "307",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37400500",
+        "halte_naam": "Purmerend, Korenstraat",
+        "geplande_tijd": "07:25",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Amsterdam Noord"
+      }
+    ],
+    "eerste_tijd": "07:25",
+    "dagdeel": "ochtendspits",
+    "bijgewerkt": "2026-11-04 05:00:48",
+    "eerst_gezien": "2026-11-04 05:00:48"
+  },
+  {
     "id": "EBS:1112:1010_2026-11-04",
     "journey_id": "EBS:1112:1010",
     "datum": "2026-11-04",
@@ -29,7 +65,7 @@
     ],
     "eerste_tijd": "06:43",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-11-04 04:50:29",
+    "bijgewerkt": "2026-11-04 05:00:48",
     "eerst_gezien": "2026-11-04 04:40:37"
   }
 ]
