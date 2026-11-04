@@ -1,5 +1,41 @@
 [
   {
+    "id": "EBS:1315:1045_2026-11-04",
+    "journey_id": "EBS:1315:1045",
+    "datum": "2026-11-04",
+    "lijn": "315",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "09:34",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A3",
+        "bestemming": "Monnickendam"
+      }
+    ],
+    "eerste_tijd": "09:34",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-11-04 07:10:35",
+    "eerst_gezien": "2026-11-04 07:10:35"
+  },
+  {
     "id": "EBS:1104:1038_2026-11-04",
     "journey_id": "EBS:1104:1038",
     "datum": "2026-11-04",
@@ -29,7 +65,7 @@
     ],
     "eerste_tijd": "09:12",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-11-04 07:00:47",
+    "bijgewerkt": "2026-11-04 07:10:35",
     "eerst_gezien": "2026-11-04 06:50:30"
   },
   {
@@ -65,7 +101,7 @@
     ],
     "eerste_tijd": "09:06",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-11-04 07:00:47",
+    "bijgewerkt": "2026-11-04 07:10:35",
     "eerst_gezien": "2026-11-04 06:40:29"
   },
   {
@@ -131,7 +167,7 @@
     ],
     "eerste_tijd": "08:51",
     "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-11-04 07:00:47",
+    "bijgewerkt": "2026-11-04 07:10:35",
     "eerst_gezien": "2026-11-04 06:50:30"
   },
   {
@@ -167,7 +203,7 @@
     ],
     "eerste_tijd": "08:31",
     "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-11-04 07:00:47",
+    "bijgewerkt": "2026-11-04 07:10:35",
     "eerst_gezien": "2026-11-04 06:00:58"
   },
   {
@@ -214,7 +250,7 @@
     ],
     "eerste_tijd": "07:54",
     "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-11-04 07:00:47",
+    "bijgewerkt": "2026-11-04 07:10:35",
     "eerst_gezien": "2026-11-04 05:30:44"
   },
   {
@@ -280,7 +316,7 @@
     ],
     "eerste_tijd": "07:51",
     "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-11-04 07:00:47",
+    "bijgewerkt": "2026-11-04 07:10:35",
     "eerst_gezien": "2026-11-04 06:50:30"
   },
   {
@@ -294,8 +330,11 @@
     "drukte_icoon": "crowd1.svg",
     "drukte_omschrijving": "Zitplaatsen beschikbaar",
     "status": "cancelled",
-    "oorzaak_categorieen": [],
-    "oorzaak_raw": null,
+    "oorzaak_categorieen": [
+      "Verkeer",
+      "Vertraging"
+    ],
+    "oorzaak_raw": "Cause: Verkeer, Vertraging",
     "terminus_alert": null,
     "advies": null,
     "haltes": [
@@ -314,7 +353,7 @@
         "halte_id": "NL:S:37400100",
         "halte_naam": "Purmerend, Busstation Tramplein",
         "geplande_tijd": "08:06",
-        "vertraging_min": 11,
+        "vertraging_min": 12,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
@@ -324,7 +363,7 @@
     ],
     "eerste_tijd": "07:49",
     "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-11-04 07:00:47",
+    "bijgewerkt": "2026-11-04 07:10:35",
     "eerst_gezien": "2026-11-04 06:50:30"
   },
   {
@@ -361,7 +400,7 @@
         "halte_id": "NL:S:37402090",
         "halte_naam": "Purmerend, Station Overwhere (Churchilllaan)",
         "geplande_tijd": "08:01",
-        "vertraging_min": 10,
+        "vertraging_min": 11,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
@@ -372,7 +411,7 @@
         "halte_id": "NL:S:37400100",
         "halte_naam": "Purmerend, Busstation Tramplein",
         "geplande_tijd": "08:14",
-        "vertraging_min": 3,
+        "vertraging_min": 5,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
@@ -383,7 +422,7 @@
         "halte_id": "NL:S:37403640",
         "halte_naam": "Purmerend, Neckerstraat",
         "geplande_tijd": "08:17",
-        "vertraging_min": 2,
+        "vertraging_min": 4,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
@@ -393,7 +432,7 @@
     ],
     "eerste_tijd": "07:44",
     "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-11-04 07:00:47",
+    "bijgewerkt": "2026-11-04 07:10:35",
     "eerst_gezien": "2026-11-04 07:00:47"
   },
   {
