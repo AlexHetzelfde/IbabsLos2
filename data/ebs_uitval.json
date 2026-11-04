@@ -1,5 +1,41 @@
 [
   {
+    "id": "EBS:1306:1091_2026-11-04",
+    "journey_id": "EBS:1306:1091",
+    "datum": "2026-11-04",
+    "lijn": "306",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "15:49",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A6",
+        "bestemming": "Purmerend Overwhere"
+      }
+    ],
+    "eerste_tijd": "15:49",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-11-04 13:20:33",
+    "eerst_gezien": "2026-11-04 13:20:33"
+  },
+  {
     "id": "EBS:1307:1290_2026-11-04",
     "journey_id": "EBS:1307:1290",
     "datum": "2026-11-04",
@@ -32,7 +68,7 @@
     ],
     "eerste_tijd": "15:23",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-11-04 13:10:38",
+    "bijgewerkt": "2026-11-04 13:20:33",
     "eerst_gezien": "2026-11-04 13:00:50"
   },
   {
@@ -65,7 +101,7 @@
     ],
     "eerste_tijd": "15:23",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-11-04 13:10:38",
+    "bijgewerkt": "2026-11-04 13:20:33",
     "eerst_gezien": "2026-11-04 13:00:50"
   },
   {
@@ -98,7 +134,7 @@
     ],
     "eerste_tijd": "14:49",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-11-04 13:10:38",
+    "bijgewerkt": "2026-11-04 13:20:33",
     "eerst_gezien": "2026-11-04 12:20:38"
   },
   {
@@ -145,7 +181,7 @@
     ],
     "eerste_tijd": "14:49",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-11-04 13:10:38",
+    "bijgewerkt": "2026-11-04 13:20:33",
     "eerst_gezien": "2026-11-04 12:20:38"
   },
   {
@@ -159,8 +195,11 @@
     "drukte_icoon": "crowd0.svg",
     "drukte_omschrijving": "leeg",
     "status": "cancelled",
-    "oorzaak_categorieen": [],
-    "oorzaak_raw": null,
+    "oorzaak_categorieen": [
+      "Personeel",
+      "Logistiek"
+    ],
+    "oorzaak_raw": "Cause: Personeel, Logistiek",
     "terminus_alert": null,
     "advies": null,
     "haltes": [
@@ -168,7 +207,7 @@
         "halte_id": "NL:S:37400500",
         "halte_naam": "Purmerend, Korenstraat",
         "geplande_tijd": "14:27",
-        "vertraging_min": 0,
+        "vertraging_min": -6,
         "status": "cancelled",
         "vertrokken": false,
         "realtime": false,
@@ -178,7 +217,7 @@
     ],
     "eerste_tijd": "14:27",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-11-04 13:10:38",
+    "bijgewerkt": "2026-11-04 13:20:33",
     "eerst_gezien": "2026-11-04 13:10:38"
   },
   {
@@ -214,7 +253,7 @@
     ],
     "eerste_tijd": "14:21",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-11-04 13:10:38",
+    "bijgewerkt": "2026-11-04 13:20:33",
     "eerst_gezien": "2026-11-04 12:00:51"
   },
   {
@@ -258,7 +297,7 @@
     ],
     "eerste_tijd": "14:08",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-11-04 13:10:38",
+    "bijgewerkt": "2026-11-04 13:20:33",
     "eerst_gezien": "2026-11-04 11:40:28"
   },
   {
