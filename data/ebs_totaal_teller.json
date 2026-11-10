@@ -1,6 +1,6 @@
 {
   "2026-11-10": {
-    "totaal": 2525,
+    "totaal": 2536,
     "journeys": [
       "EBS:1069:1004",
       "EBS:1315:1009",
@@ -2526,28 +2526,39 @@
       "EBS:1306:1158",
       "EBS:1306:1157",
       "EBS:1394:1178",
-      "EBS:1111:1128"
+      "EBS:1111:1128",
+      "EBS:1391:1161",
+      "EBS:1100:1138",
+      "EBS:1308:1155",
+      "EBS:1069:1069",
+      "EBS:1370:1108",
+      "EBS:1394:1180",
+      "EBS:1112:1109",
+      "EBS:1307:1357",
+      "EBS:1315:1149",
+      "EBS:1394:1175",
+      "EBS:1104:1735"
     ],
     "totaal_per_lijn": {
-      "69": 67,
-      "315": 74,
-      "308": 158,
+      "69": 68,
+      "315": 75,
+      "308": 159,
       "456": 36,
       "102": 31,
-      "391": 154,
+      "391": 155,
       "110": 77,
       "306": 159,
-      "112": 109,
+      "112": 110,
       "111": 127,
-      "100": 137,
-      "104": 135,
-      "307": 158,
+      "100": 138,
+      "104": 136,
+      "307": 159,
       "316": 72,
-      "394": 168,
+      "394": 170,
       "305": 119,
       "103": 55,
       "67": 61,
-      "370": 54,
+      "370": 55,
       "65": 61,
       "395": 145,
       "63": 31,
@@ -2598,6 +2609,88 @@
             "realtime": false,
             "platform": null,
             "bestemming": "Krommenie station"
+          }
+        ],
+        "oorzaak_raw": null,
+        "oorzaak_categorieen": [],
+        "terminus_alert": null,
+        "advies": null
+      },
+      "EBS:1111:1137_2026-11-10": {
+        "haltes": [
+          {
+            "halte_id": "NL:S:37220130",
+            "halte_naam": "Station Zaandam (Provincialeweg)",
+            "geplande_tijd": "22:33",
+            "vertraging_min": 0,
+            "status": "gereden",
+            "vertrokken": false,
+            "realtime": true,
+            "platform": "Perron D",
+            "bestemming": "Marken"
+          },
+          {
+            "halte_id": "NL:S:37223860",
+            "halte_naam": "Gedempte Gracht",
+            "geplande_tijd": "22:35",
+            "vertraging_min": 1,
+            "status": "gereden",
+            "vertrokken": false,
+            "realtime": false,
+            "platform": null,
+            "bestemming": "Marken"
+          },
+          {
+            "halte_id": "NL:S:37223552",
+            "halte_naam": "De Vlinder",
+            "geplande_tijd": "22:48",
+            "vertraging_min": 0,
+            "status": "cancelled",
+            "vertrokken": false,
+            "realtime": false,
+            "platform": "Perron E",
+            "bestemming": "Marken"
+          }
+        ],
+        "oorzaak_raw": null,
+        "oorzaak_categorieen": [],
+        "terminus_alert": "Terminates at Vijfhoek",
+        "advies": null
+      },
+      "EBS:1069:1063_2026-11-10": {
+        "haltes": [
+          {
+            "halte_id": "NL:S:37320410",
+            "halte_naam": "Assendelft/Krommenie-Assendelft, Rangeerder",
+            "geplande_tijd": "21:15",
+            "vertraging_min": 0,
+            "status": "cancelled",
+            "vertrokken": false,
+            "realtime": false,
+            "platform": null,
+            "bestemming": "Zaandam"
+          },
+          {
+            "halte_id": "NL:S:37221160",
+            "halte_naam": "Zaanse Schans",
+            "geplande_tijd": "21:41",
+            "vertraging_min": 0,
+            "status": "gereden",
+            "vertrokken": false,
+            "realtime": true,
+            "platform": null,
+            "bestemming": "Zaandam Station"
+          },
+          {
+            "halte_id": "NL:S:37223860",
+            "halte_naam": "Gedempte Gracht",
+            "geplande_tijd": "21:57",
+            "vertraging_min": 0,
+            "status": "gereden",
+            "vertrokken": false,
+            "realtime": true,
+            "platform": null,
+            "bestemming": "Zaandam Station"
           }
         ],
         "oorzaak_raw": null,
