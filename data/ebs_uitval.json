@@ -1,5 +1,38 @@
 [
   {
+    "id": "EBS:1308:1031_2026-11-11",
+    "journey_id": "EBS:1308:1031",
+    "datum": "2026-11-11",
+    "lijn": "308",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "08:51",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A3",
+        "bestemming": "Purmerend Weidevenne"
+      }
+    ],
+    "eerste_tijd": "08:51",
+    "dagdeel": "ochtendspits",
+    "bijgewerkt": "2026-11-11 06:30:42",
+    "eerst_gezien": "2026-11-11 06:30:42"
+  },
+  {
     "id": "EBS:1315:1031_2026-11-11",
     "journey_id": "EBS:1315:1031",
     "datum": "2026-11-11",
@@ -40,7 +73,7 @@
     ],
     "eerste_tijd": "08:14",
     "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-11-11 06:20:30",
+    "bijgewerkt": "2026-11-11 06:30:42",
     "eerst_gezien": "2026-11-11 05:50:29"
   },
   {
@@ -73,7 +106,7 @@
     ],
     "eerste_tijd": "07:51",
     "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-11-11 06:20:30",
+    "bijgewerkt": "2026-11-11 06:30:42",
     "eerst_gezien": "2026-11-11 05:30:40"
   },
   {
@@ -106,8 +139,41 @@
     ],
     "eerste_tijd": "07:45",
     "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-11-11 06:20:30",
+    "bijgewerkt": "2026-11-11 06:30:42",
     "eerst_gezien": "2026-11-11 05:20:29"
+  },
+  {
+    "id": "EBS:1370:1020_2026-11-11",
+    "journey_id": "EBS:1370:1020",
+    "datum": "2026-11-11",
+    "lijn": "370",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "07:32",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron B",
+        "bestemming": "Amsterdam Zuidoost"
+      }
+    ],
+    "eerste_tijd": "07:32",
+    "dagdeel": "ochtendspits",
+    "bijgewerkt": "2026-11-11 06:30:42",
+    "eerst_gezien": "2026-11-11 06:30:42"
   },
   {
     "id": "EBS:1314:1014_2026-11-11",
