@@ -1,5 +1,38 @@
 [
   {
+    "id": "EBS:1305:1102_2026-11-11",
+    "journey_id": "EBS:1305:1102",
+    "datum": "2026-11-11",
+    "lijn": "305",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "16:27",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron B",
+        "bestemming": "Amsterdam Centraal"
+      }
+    ],
+    "eerste_tijd": "16:27",
+    "dagdeel": "avondspits",
+    "bijgewerkt": "2026-11-11 14:00:49",
+    "eerst_gezien": "2026-11-11 14:00:49"
+  },
+  {
     "id": "EBS:1101:1639_2026-11-11",
     "journey_id": "EBS:1101:1639",
     "datum": "2026-11-11",
@@ -47,11 +80,22 @@
         "realtime": false,
         "platform": "Perron A",
         "bestemming": "Ringlijn Purmerend"
+      },
+      {
+        "halte_id": "NL:S:37402090",
+        "halte_naam": "Purmerend, Station Overwhere (Churchilllaan)",
+        "geplande_tijd": "16:29",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Ringlijn Purmerend"
       }
     ],
     "eerste_tijd": "15:51",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-11-11 13:50:31",
+    "bijgewerkt": "2026-11-11 14:00:49",
     "eerst_gezien": "2026-11-11 13:30:41"
   },
   {
