@@ -1,5 +1,104 @@
 [
   {
+    "id": "EBS:1314:1121_2026-11-12",
+    "journey_id": "EBS:1314:1121",
+    "datum": "2026-11-12",
+    "lijn": "314",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": null,
+    "drukte_omschrijving": null,
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "18:21",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron E",
+        "bestemming": "Hoorn"
+      }
+    ],
+    "eerste_tijd": "18:21",
+    "dagdeel": "avondspits",
+    "bijgewerkt": "2026-11-12 16:00:48",
+    "eerst_gezien": "2026-11-12 16:00:48"
+  },
+  {
+    "id": "EBS:1112:1090_2026-11-12",
+    "journey_id": "EBS:1112:1090",
+    "datum": "2026-11-12",
+    "lijn": "112",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd0.svg",
+    "drukte_omschrijving": "leeg",
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "18:04",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron B",
+        "bestemming": "Amsterdam Noord"
+      }
+    ],
+    "eerste_tijd": "18:04",
+    "dagdeel": "avondspits",
+    "bijgewerkt": "2026-11-12 16:00:48",
+    "eerst_gezien": "2026-11-12 16:00:48"
+  },
+  {
+    "id": "EBS:1110:1252_2026-11-12",
+    "journey_id": "EBS:1110:1252",
+    "datum": "2026-11-12",
+    "lijn": "110",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "17:24",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A2",
+        "bestemming": "Volendam-Edam"
+      }
+    ],
+    "eerste_tijd": "17:24",
+    "dagdeel": "avondspits",
+    "bijgewerkt": "2026-11-12 16:00:48",
+    "eerst_gezien": "2026-11-12 16:00:48"
+  },
+  {
     "id": "EBS:1305:1112_2026-11-12",
     "journey_id": "EBS:1305:1112",
     "datum": "2026-11-12",
@@ -29,8 +128,41 @@
     ],
     "eerste_tijd": "17:17",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-11-12 15:50:33",
+    "bijgewerkt": "2026-11-12 16:00:48",
     "eerst_gezien": "2026-11-12 14:50:55"
+  },
+  {
+    "id": "EBS:1316:1312_2026-11-12",
+    "journey_id": "EBS:1316:1312",
+    "datum": "2026-11-12",
+    "lijn": "316",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "17:10",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A",
+        "bestemming": "Amsterdam Centraal"
+      }
+    ],
+    "eerste_tijd": "17:10",
+    "dagdeel": "avondspits",
+    "bijgewerkt": "2026-11-12 16:00:48",
+    "eerst_gezien": "2026-11-12 16:00:48"
   },
   {
     "id": "EBS:1308:1103_2026-11-12",
@@ -62,7 +194,7 @@
     ],
     "eerste_tijd": "17:09",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-11-12 15:50:33",
+    "bijgewerkt": "2026-11-12 16:00:48",
     "eerst_gezien": "2026-11-12 15:50:33"
   },
   {
@@ -95,7 +227,7 @@
     ],
     "eerste_tijd": "17:00",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-11-12 15:50:33",
+    "bijgewerkt": "2026-11-12 16:00:48",
     "eerst_gezien": "2026-11-12 15:50:33"
   },
   {
