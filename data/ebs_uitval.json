@@ -1,5 +1,38 @@
 [
   {
+    "id": "EBS:1314:1056_2026-11-13",
+    "journey_id": "EBS:1314:1056",
+    "datum": "2026-11-13",
+    "lijn": "314",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "10:58",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron D",
+        "bestemming": "Amsterdam Centraal"
+      }
+    ],
+    "eerste_tijd": "10:58",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-11-13 08:30:38",
+    "eerst_gezien": "2026-11-13 08:30:38"
+  },
+  {
     "id": "EBS:1314:1043_2026-11-13",
     "journey_id": "EBS:1314:1043",
     "datum": "2026-11-13",
@@ -29,7 +62,7 @@
     ],
     "eerste_tijd": "10:01",
     "dagdeel": "dal",
-    "bijgewerkt": "2026-11-13 08:20:33",
+    "bijgewerkt": "2026-11-13 08:30:38",
     "eerst_gezien": "2026-11-13 07:40:52"
   },
   {
@@ -64,6 +97,72 @@
     "dagdeel": "dal",
     "bijgewerkt": "2026-11-13 08:00:46",
     "eerst_gezien": "2026-11-13 06:40:53"
+  },
+  {
+    "id": "EBS:1111:1033_2026-11-13",
+    "journey_id": "EBS:1111:1033",
+    "datum": "2026-11-13",
+    "lijn": "111",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37220130",
+        "halte_naam": "Station Zaandam (Provincialeweg)",
+        "geplande_tijd": "09:00",
+        "vertraging_min": 29,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron D",
+        "bestemming": "Marken"
+      },
+      {
+        "halte_id": "NL:S:37223860",
+        "halte_naam": "Gedempte Gracht",
+        "geplande_tijd": "09:02",
+        "vertraging_min": 30,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Marken"
+      },
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "09:17",
+        "vertraging_min": 28,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron E",
+        "bestemming": "Marken"
+      },
+      {
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "09:42",
+        "vertraging_min": 26,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A1",
+        "bestemming": "Marken"
+      }
+    ],
+    "eerste_tijd": "09:00",
+    "dagdeel": "dal",
+    "bijgewerkt": "2026-11-13 08:30:38",
+    "eerst_gezien": "2026-11-13 08:30:38"
   },
   {
     "id": "EBS:1305:1013_2026-11-13",
