@@ -1,5 +1,38 @@
 [
   {
+    "id": "EBS:1111:6106_2026-11-14",
+    "journey_id": "EBS:1111:6106",
+    "datum": "2026-11-14",
+    "lijn": "111",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37223552",
+        "halte_naam": "De Vlinder",
+        "geplande_tijd": "20:04",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron E",
+        "bestemming": "Amsterdam Noord"
+      }
+    ],
+    "eerste_tijd": "20:04",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-11-14 17:30:50",
+    "eerst_gezien": "2026-11-14 17:30:50"
+  },
+  {
     "id": "EBS:1100:6053_2026-11-14",
     "journey_id": "EBS:1100:6053",
     "datum": "2026-11-14",
@@ -25,11 +58,22 @@
         "realtime": false,
         "platform": "Perron A4",
         "bestemming": "Purmerend Overwhere"
+      },
+      {
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "19:50",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "Purmerend Overwhere"
       }
     ],
     "eerste_tijd": "19:34",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-14 17:20:39",
+    "bijgewerkt": "2026-11-14 17:30:50",
     "eerst_gezien": "2026-11-14 17:11:00"
   },
   {
@@ -62,41 +106,8 @@
     ],
     "eerste_tijd": "19:21",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-14 17:20:39",
+    "bijgewerkt": "2026-11-14 17:30:50",
     "eerst_gezien": "2026-11-14 17:00:49"
-  },
-  {
-    "id": "EBS:1391:6088_2026-11-14",
-    "journey_id": "EBS:1391:6088",
-    "datum": "2026-11-14",
-    "lijn": "391",
-    "lijnkleur": "#e1251b",
-    "categorie": "R-net",
-    "product_label": "MeerPlus",
-    "drukte_icoon": "crowd1.svg",
-    "drukte_omschrijving": "Zitplaatsen beschikbaar",
-    "status": "cancelled",
-    "oorzaak_categorieen": [],
-    "oorzaak_raw": null,
-    "terminus_alert": null,
-    "advies": null,
-    "haltes": [
-      {
-        "halte_id": "NL:S:37223552",
-        "halte_naam": "De Vlinder",
-        "geplande_tijd": "18:56",
-        "vertraging_min": 0,
-        "status": "cancelled",
-        "vertrokken": false,
-        "realtime": false,
-        "platform": "Perron D",
-        "bestemming": "Zaandam 't Kalf"
-      }
-    ],
-    "eerste_tijd": "18:56",
-    "dagdeel": "avondspits",
-    "bijgewerkt": "2026-11-14 17:20:39",
-    "eerst_gezien": "2026-11-14 16:30:40"
   },
   {
     "id": "EBS:1100:6050_2026-11-14",
@@ -128,7 +139,7 @@
     ],
     "eerste_tijd": "18:45",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-11-14 17:20:39",
+    "bijgewerkt": "2026-11-14 17:30:50",
     "eerst_gezien": "2026-11-14 16:20:31"
   },
   {
