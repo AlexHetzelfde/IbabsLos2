@@ -1,6 +1,6 @@
 {
   "2026-11-15": {
-    "totaal": 562,
+    "totaal": 581,
     "journeys": [
       "EBS:1315:7005",
       "EBS:1315:7003",
@@ -563,26 +563,45 @@
       "EBS:1111:7032",
       "EBS:1306:7034",
       "EBS:1306:7033",
-      "EBS:1100:7023"
+      "EBS:1100:7023",
+      "EBS:1112:7025",
+      "EBS:1069:7026",
+      "EBS:1394:7049",
+      "EBS:1104:7726",
+      "EBS:1801:7214",
+      "EBS:1306:7036",
+      "EBS:1394:7052",
+      "EBS:1800:7030",
+      "EBS:1067:7010",
+      "EBS:1069:7025",
+      "EBS:1104:7725",
+      "EBS:1100:7024",
+      "EBS:1069:7027",
+      "EBS:1307:7333",
+      "EBS:1305:7032",
+      "EBS:1370:7024",
+      "EBS:1067:7013",
+      "EBS:1102:7317",
+      "EBS:1306:7035"
     ],
     "totaal_per_lijn": {
       "315": 13,
       "308": 25,
-      "69": 23,
+      "69": 26,
       "391": 38,
-      "102": 8,
-      "100": 24,
-      "307": 35,
-      "104": 25,
+      "102": 9,
+      "100": 25,
+      "307": 36,
+      "104": 27,
       "111": 34,
       "110": 27,
-      "306": 35,
-      "112": 25,
-      "394": 44,
+      "306": 37,
+      "112": 26,
+      "394": 46,
       "316": 19,
-      "370": 12,
-      "305": 27,
-      "67": 11,
+      "370": 13,
+      "305": 28,
+      "67": 13,
       "314": 24,
       "395": 23,
       "103": 15,
@@ -590,8 +609,8 @@
       "64": 21,
       "63": 9,
       "101": 7,
-      "800": 15,
-      "801": 7
+      "800": 16,
+      "801": 8
     },
     "gedeeltelijke_ritten": {
       "EBS:1102:7313_2026-11-15": {
@@ -690,6 +709,99 @@
             "vertrokken": false,
             "realtime": true,
             "platform": null,
+            "bestemming": "Ringlijn Purmerend"
+          }
+        ],
+        "oorzaak_raw": null,
+        "oorzaak_categorieen": [],
+        "terminus_alert": null,
+        "advies": null
+      },
+      "EBS:1102:7315_2026-11-15": {
+        "haltes": [
+          {
+            "halte_id": "NL:S:37400500",
+            "halte_naam": "Purmerend, Korenstraat",
+            "geplande_tijd": "12:44",
+            "vertraging_min": 0,
+            "status": "gereden",
+            "vertrokken": false,
+            "realtime": true,
+            "platform": null,
+            "bestemming": "Ringlijn Purmerend"
+          },
+          {
+            "halte_id": "NL:S:37402090",
+            "halte_naam": "Purmerend, Station Overwhere (Churchilllaan)",
+            "geplande_tijd": "13:01",
+            "vertraging_min": 0,
+            "status": "gereden",
+            "vertrokken": false,
+            "realtime": true,
+            "platform": null,
+            "bestemming": "Ringlijn Purmerend"
+          },
+          {
+            "halte_id": "NL:S:37400100",
+            "halte_naam": "Purmerend, Busstation Tramplein",
+            "geplande_tijd": "13:14",
+            "vertraging_min": 0,
+            "status": "cancelled",
+            "vertrokken": false,
+            "realtime": false,
+            "platform": "Perron A",
+            "bestemming": "Ringlijn Purmerend"
+          },
+          {
+            "halte_id": "NL:S:37403640",
+            "halte_naam": "Purmerend, Neckerstraat",
+            "geplande_tijd": "13:17",
+            "vertraging_min": 0,
+            "status": "gereden",
+            "vertrokken": false,
+            "realtime": true,
+            "platform": null,
+            "bestemming": "Ringlijn Purmerend"
+          }
+        ],
+        "oorzaak_raw": null,
+        "oorzaak_categorieen": [],
+        "terminus_alert": null,
+        "advies": null
+      },
+      "EBS:1101:7312_2026-11-15": {
+        "haltes": [
+          {
+            "halte_id": "NL:S:37400500",
+            "halte_naam": "Purmerend, Korenstraat",
+            "geplande_tijd": "12:51",
+            "vertraging_min": 0,
+            "status": "gereden",
+            "vertrokken": false,
+            "realtime": true,
+            "platform": null,
+            "bestemming": "Ringlijn Purmerend"
+          },
+          {
+            "halte_id": "NL:S:37403640",
+            "halte_naam": "Purmerend, Neckerstraat",
+            "geplande_tijd": "13:14",
+            "vertraging_min": -2,
+            "status": "gereden",
+            "vertrokken": false,
+            "realtime": false,
+            "platform": null,
+            "bestemming": "Ringlijn Purmerend"
+          },
+          {
+            "halte_id": "NL:S:37400100",
+            "halte_naam": "Purmerend, Busstation Tramplein",
+            "geplande_tijd": "13:18",
+            "vertraging_min": 0,
+            "status": "cancelled",
+            "vertrokken": false,
+            "realtime": false,
+            "platform": "Perron A",
             "bestemming": "Ringlijn Purmerend"
           }
         ],
