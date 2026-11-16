@@ -1,5 +1,38 @@
 [
   {
+    "id": "EBS:1112:1021_2026-11-16",
+    "journey_id": "EBS:1112:1021",
+    "datum": "2026-11-16",
+    "lijn": "112",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "08:09",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A2",
+        "bestemming": "Volendam-Edam"
+      }
+    ],
+    "eerste_tijd": "08:09",
+    "dagdeel": "ochtendspits",
+    "bijgewerkt": "2026-11-16 05:40:45",
+    "eerst_gezien": "2026-11-16 05:40:45"
+  },
+  {
     "id": "EBS:1100:1019_2026-11-16",
     "journey_id": "EBS:1100:1019",
     "datum": "2026-11-16",
@@ -25,11 +58,22 @@
         "realtime": false,
         "platform": "Perron A4",
         "bestemming": "Purmerend Overwhere"
+      },
+      {
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "08:06",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "Purmerend Overwhere"
       }
     ],
     "eerste_tijd": "07:49",
     "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-11-16 05:30:48",
+    "bijgewerkt": "2026-11-16 05:40:45",
     "eerst_gezien": "2026-11-16 05:20:31"
   },
   {
@@ -58,11 +102,22 @@
         "realtime": false,
         "platform": null,
         "bestemming": "Ringlijn Purmerend"
+      },
+      {
+        "halte_id": "NL:S:37402090",
+        "halte_naam": "Purmerend, Station Overwhere (Churchilllaan)",
+        "geplande_tijd": "08:01",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Ringlijn Purmerend"
       }
     ],
     "eerste_tijd": "07:44",
     "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-11-16 05:30:48",
+    "bijgewerkt": "2026-11-16 05:40:45",
     "eerst_gezien": "2026-11-16 05:20:31"
   },
   {
@@ -95,7 +150,7 @@
     ],
     "eerste_tijd": "07:08",
     "dagdeel": "ochtendspits",
-    "bijgewerkt": "2026-11-16 05:30:48",
+    "bijgewerkt": "2026-11-16 05:40:45",
     "eerst_gezien": "2026-11-16 04:40:33"
   },
   {
@@ -128,7 +183,7 @@
     ],
     "eerste_tijd": "06:57",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-11-16 05:30:48",
+    "bijgewerkt": "2026-11-16 05:40:45",
     "eerst_gezien": "2026-11-16 04:50:46"
   },
   {
@@ -172,7 +227,7 @@
     ],
     "eerste_tijd": "06:51",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-11-16 05:30:48",
+    "bijgewerkt": "2026-11-16 05:40:45",
     "eerst_gezien": "2026-11-16 04:20:45"
   },
   {
@@ -238,7 +293,7 @@
     ],
     "eerste_tijd": "06:51",
     "dagdeel": "nacht",
-    "bijgewerkt": "2026-11-16 05:30:48",
+    "bijgewerkt": "2026-11-16 05:40:45",
     "eerst_gezien": "2026-11-16 04:30:58"
   }
 ]
