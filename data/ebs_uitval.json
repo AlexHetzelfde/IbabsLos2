@@ -1,5 +1,71 @@
 [
   {
+    "id": "EBS:1104:1713_2026-11-18",
+    "journey_id": "EBS:1104:1713",
+    "datum": "2026-11-18",
+    "lijn": "104",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "18:23",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A4",
+        "bestemming": "Purmerend De Purmer"
+      }
+    ],
+    "eerste_tijd": "18:23",
+    "dagdeel": "avondspits",
+    "bijgewerkt": "2026-11-18 15:50:47",
+    "eerst_gezien": "2026-11-18 15:50:47"
+  },
+  {
+    "id": "EBS:1306:1122_2026-11-18",
+    "journey_id": "EBS:1306:1122",
+    "datum": "2026-11-18",
+    "lijn": "306",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37402090",
+        "halte_naam": "Purmerend, Station Overwhere (Churchilllaan)",
+        "geplande_tijd": "18:17",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Amsterdam Noord"
+      }
+    ],
+    "eerste_tijd": "18:17",
+    "dagdeel": "avondspits",
+    "bijgewerkt": "2026-11-18 15:50:47",
+    "eerst_gezien": "2026-11-18 15:50:47"
+  },
+  {
     "id": "EBS:1308:1124_2026-11-18",
     "journey_id": "EBS:1308:1124",
     "datum": "2026-11-18",
@@ -29,8 +95,41 @@
     ],
     "eerste_tijd": "18:07",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-11-18 15:40:33",
+    "bijgewerkt": "2026-11-18 15:50:47",
     "eerst_gezien": "2026-11-18 15:40:33"
+  },
+  {
+    "id": "EBS:1112:1090_2026-11-18",
+    "journey_id": "EBS:1112:1090",
+    "datum": "2026-11-18",
+    "lijn": "112",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd0.svg",
+    "drukte_omschrijving": "leeg",
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "18:04",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron B",
+        "bestemming": "Amsterdam Noord"
+      }
+    ],
+    "eerste_tijd": "18:04",
+    "dagdeel": "avondspits",
+    "bijgewerkt": "2026-11-18 15:50:47",
+    "eerst_gezien": "2026-11-18 15:50:47"
   },
   {
     "id": "EBS:1100:1116_2026-11-18",
@@ -62,7 +161,7 @@
     ],
     "eerste_tijd": "18:01",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-11-18 15:40:33",
+    "bijgewerkt": "2026-11-18 15:50:47",
     "eerst_gezien": "2026-11-18 15:40:33"
   },
   {
@@ -95,7 +194,7 @@
     ],
     "eerste_tijd": "17:58",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-11-18 15:40:33",
+    "bijgewerkt": "2026-11-18 15:50:47",
     "eerst_gezien": "2026-11-18 15:30:39"
   },
   {
@@ -139,7 +238,7 @@
     ],
     "eerste_tijd": "17:40",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-11-18 15:40:33",
+    "bijgewerkt": "2026-11-18 15:50:47",
     "eerst_gezien": "2026-11-18 15:10:32"
   },
   {
@@ -168,12 +267,56 @@
         "realtime": false,
         "platform": "Perron A2",
         "bestemming": "Volendam-Edam"
+      },
+      {
+        "halte_id": "NL:S:38491011",
+        "halte_naam": "Edam, Busstation",
+        "geplande_tijd": "18:12",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron F",
+        "bestemming": "Purmerend"
       }
     ],
     "eerste_tijd": "17:34",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-11-18 15:40:33",
+    "bijgewerkt": "2026-11-18 15:50:47",
     "eerst_gezien": "2026-11-18 15:40:33"
+  },
+  {
+    "id": "EBS:1110:1252_2026-11-18",
+    "journey_id": "EBS:1110:1252",
+    "datum": "2026-11-18",
+    "lijn": "110",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "17:24",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A2",
+        "bestemming": "Volendam-Edam"
+      }
+    ],
+    "eerste_tijd": "17:24",
+    "dagdeel": "avondspits",
+    "bijgewerkt": "2026-11-18 15:50:47",
+    "eerst_gezien": "2026-11-18 15:50:47"
   },
   {
     "id": "EBS:1306:1107_2026-11-18",
@@ -216,7 +359,7 @@
     ],
     "eerste_tijd": "17:14",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-11-18 15:40:33",
+    "bijgewerkt": "2026-11-18 15:50:47",
     "eerst_gezien": "2026-11-18 14:50:37"
   },
   {
@@ -249,7 +392,7 @@
     ],
     "eerste_tijd": "17:14",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-11-18 15:40:33",
+    "bijgewerkt": "2026-11-18 15:50:47",
     "eerst_gezien": "2026-11-18 15:20:30"
   },
   {
@@ -293,7 +436,7 @@
     ],
     "eerste_tijd": "17:09",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-11-18 15:40:33",
+    "bijgewerkt": "2026-11-18 15:50:47",
     "eerst_gezien": "2026-11-18 15:10:32"
   },
   {
@@ -326,7 +469,7 @@
     ],
     "eerste_tijd": "17:09",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-11-18 15:40:33",
+    "bijgewerkt": "2026-11-18 15:50:47",
     "eerst_gezien": "2026-11-18 15:30:39"
   },
   {
@@ -359,7 +502,7 @@
     ],
     "eerste_tijd": "17:07",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-11-18 15:40:33",
+    "bijgewerkt": "2026-11-18 15:50:47",
     "eerst_gezien": "2026-11-18 15:10:32"
   },
   {
@@ -403,7 +546,7 @@
     ],
     "eerste_tijd": "17:04",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-11-18 15:40:33",
+    "bijgewerkt": "2026-11-18 15:50:47",
     "eerst_gezien": "2026-11-18 15:20:30"
   },
   {
@@ -436,7 +579,7 @@
     ],
     "eerste_tijd": "17:00",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-11-18 15:40:33",
+    "bijgewerkt": "2026-11-18 15:50:47",
     "eerst_gezien": "2026-11-18 15:40:33"
   },
   {
@@ -469,7 +612,7 @@
     ],
     "eerste_tijd": "16:56",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-11-18 15:40:33",
+    "bijgewerkt": "2026-11-18 15:50:47",
     "eerst_gezien": "2026-11-18 15:20:30"
   },
   {
@@ -513,7 +656,7 @@
     ],
     "eerste_tijd": "16:55",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-11-18 15:40:33",
+    "bijgewerkt": "2026-11-18 15:50:47",
     "eerst_gezien": "2026-11-18 15:10:32"
   },
   {
@@ -557,7 +700,7 @@
     ],
     "eerste_tijd": "16:50",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-11-18 15:40:33",
+    "bijgewerkt": "2026-11-18 15:50:47",
     "eerst_gezien": "2026-11-18 15:40:33"
   },
   {
@@ -777,7 +920,7 @@
     ],
     "eerste_tijd": "16:14",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-11-18 15:40:33",
+    "bijgewerkt": "2026-11-18 15:50:47",
     "eerst_gezien": "2026-11-18 15:20:30"
   },
   {
