@@ -1,5 +1,71 @@
 [
   {
+    "id": "EBS:1370:1110_2026-11-24",
+    "journey_id": "EBS:1370:1110",
+    "datum": "2026-11-24",
+    "lijn": "370",
+    "lijnkleur": "#e1251b",
+    "categorie": "R-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd0.svg",
+    "drukte_omschrijving": "leeg",
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "23:19",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron B",
+        "bestemming": "Amsterdam Zuidoost"
+      }
+    ],
+    "eerste_tijd": "23:19",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-11-24 20:50:34",
+    "eerst_gezien": "2026-11-24 20:50:34"
+  },
+  {
+    "id": "EBS:1112:1111_2026-11-24",
+    "journey_id": "EBS:1112:1111",
+    "datum": "2026-11-24",
+    "lijn": "112",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "23:19",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A2",
+        "bestemming": "Volendam-Edam"
+      }
+    ],
+    "eerste_tijd": "23:19",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-11-24 20:50:34",
+    "eerst_gezien": "2026-11-24 20:50:34"
+  },
+  {
     "id": "EBS:1306:1160_2026-11-24",
     "journey_id": "EBS:1306:1160",
     "datum": "2026-11-24",
@@ -29,7 +95,7 @@
     ],
     "eerste_tijd": "23:13",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 20:40:30"
   },
   {
@@ -62,7 +128,7 @@
     ],
     "eerste_tijd": "23:08",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 20:40:30"
   },
   {
@@ -95,7 +161,7 @@
     ],
     "eerste_tijd": "23:04",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 20:40:30"
   },
   {
@@ -128,7 +194,7 @@
     ],
     "eerste_tijd": "23:04",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 20:40:30"
   },
   {
@@ -161,7 +227,7 @@
     ],
     "eerste_tijd": "23:02",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 20:40:30"
   },
   {
@@ -194,7 +260,7 @@
     ],
     "eerste_tijd": "23:01",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 20:40:30"
   },
   {
@@ -227,7 +293,7 @@
     ],
     "eerste_tijd": "23:00",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 20:30:43"
   },
   {
@@ -260,7 +326,7 @@
     ],
     "eerste_tijd": "22:58",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 20:30:43"
   },
   {
@@ -293,7 +359,7 @@
     ],
     "eerste_tijd": "22:57",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 20:30:43"
   },
   {
@@ -322,11 +388,22 @@
         "realtime": false,
         "platform": "Perron A3",
         "bestemming": "Monnickendam"
+      },
+      {
+        "halte_id": "NL:S:37392150",
+        "halte_naam": "Monnickendam, Swaensborch",
+        "geplande_tijd": "23:14",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": null,
+        "bestemming": "Amsterdam Noord"
       }
     ],
     "eerste_tijd": "22:57",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 20:30:43"
   },
   {
@@ -359,7 +436,7 @@
     ],
     "eerste_tijd": "22:51",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 20:30:43"
   },
   {
@@ -392,7 +469,7 @@
     ],
     "eerste_tijd": "22:50",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 20:30:43"
   },
   {
@@ -425,7 +502,7 @@
     ],
     "eerste_tijd": "22:49",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 20:20:32"
   },
   {
@@ -458,7 +535,7 @@
     ],
     "eerste_tijd": "22:47",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 20:20:32"
   },
   {
@@ -491,7 +568,7 @@
     ],
     "eerste_tijd": "22:43",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 20:10:37"
   },
   {
@@ -535,7 +612,7 @@
     ],
     "eerste_tijd": "22:34",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 20:10:37"
   },
   {
@@ -579,7 +656,7 @@
     ],
     "eerste_tijd": "22:34",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 20:10:37"
   },
   {
@@ -612,7 +689,7 @@
     ],
     "eerste_tijd": "22:32",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 20:00:48"
   },
   {
@@ -656,7 +733,7 @@
     ],
     "eerste_tijd": "22:32",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 20:10:37"
   },
   {
@@ -700,7 +777,7 @@
     ],
     "eerste_tijd": "22:27",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 19:50:32"
   },
   {
@@ -733,7 +810,7 @@
     ],
     "eerste_tijd": "22:23",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 20:00:48"
   },
   {
@@ -766,7 +843,7 @@
     ],
     "eerste_tijd": "22:21",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 20:00:48"
   },
   {
@@ -799,7 +876,7 @@
     ],
     "eerste_tijd": "22:19",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 19:50:32"
   },
   {
@@ -832,7 +909,7 @@
     ],
     "eerste_tijd": "22:17",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 19:50:32"
   },
   {
@@ -865,7 +942,7 @@
     ],
     "eerste_tijd": "22:16",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 19:50:32"
   },
   {
@@ -898,7 +975,7 @@
     ],
     "eerste_tijd": "22:15",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 19:50:32"
   },
   {
@@ -931,7 +1008,7 @@
     ],
     "eerste_tijd": "22:09",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 19:40:31"
   },
   {
@@ -964,7 +1041,7 @@
     ],
     "eerste_tijd": "22:07",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 19:40:31"
   },
   {
@@ -1008,7 +1085,7 @@
     ],
     "eerste_tijd": "22:04",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 19:40:31"
   },
   {
@@ -1052,7 +1129,7 @@
     ],
     "eerste_tijd": "22:04",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 19:40:31"
   },
   {
@@ -1096,7 +1173,7 @@
     ],
     "eerste_tijd": "22:02",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 19:40:31"
   },
   {
@@ -1129,7 +1206,7 @@
     ],
     "eerste_tijd": "22:01",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 19:40:31"
   },
   {
@@ -1162,7 +1239,7 @@
     ],
     "eerste_tijd": "21:58",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 19:30:43"
   },
   {
@@ -1195,7 +1272,7 @@
     ],
     "eerste_tijd": "21:57",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 19:30:43"
   },
   {
@@ -1228,7 +1305,7 @@
     ],
     "eerste_tijd": "21:52",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 19:30:43"
   },
   {
@@ -1261,7 +1338,7 @@
     ],
     "eerste_tijd": "21:52",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 19:30:43"
   },
   {
@@ -1294,7 +1371,7 @@
     ],
     "eerste_tijd": "21:51",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 19:30:43"
   },
   {
@@ -1327,7 +1404,7 @@
     ],
     "eerste_tijd": "21:50",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 19:30:43"
   },
   {
@@ -1437,7 +1514,7 @@
     ],
     "eerste_tijd": "21:49",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 19:20:42"
   },
   {
@@ -1580,7 +1657,7 @@
     ],
     "eerste_tijd": "21:34",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 19:10:34"
   },
   {
@@ -1624,7 +1701,7 @@
     ],
     "eerste_tijd": "21:34",
     "dagdeel": "avond",
-    "bijgewerkt": "2026-11-24 20:40:30",
+    "bijgewerkt": "2026-11-24 20:50:34",
     "eerst_gezien": "2026-11-24 19:10:34"
   },
   {
