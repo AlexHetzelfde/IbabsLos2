@@ -1,5 +1,49 @@
 [
   {
+    "id": "EBS:1100:1121_2026-11-27",
+    "journey_id": "EBS:1100:1121",
+    "datum": "2026-11-27",
+    "lijn": "100",
+    "lijnkleur": "#004899",
+    "categorie": "M-net",
+    "product_label": "MeerPlus",
+    "drukte_icoon": "crowd1.svg",
+    "drukte_omschrijving": "Zitplaatsen beschikbaar",
+    "status": "cancelled",
+    "oorzaak_categorieen": [],
+    "oorzaak_raw": null,
+    "terminus_alert": null,
+    "advies": null,
+    "haltes": [
+      {
+        "halte_id": "NL:S:30001305",
+        "halte_naam": "Amsterdam, Busstation Station Noord",
+        "geplande_tijd": "19:12",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron A4",
+        "bestemming": "Purmerend De Baanstee"
+      },
+      {
+        "halte_id": "NL:S:37400100",
+        "halte_naam": "Purmerend, Busstation Tramplein",
+        "geplande_tijd": "19:28",
+        "vertraging_min": 0,
+        "status": "cancelled",
+        "vertrokken": false,
+        "realtime": false,
+        "platform": "Perron C",
+        "bestemming": "Purmerend De Baanstee"
+      }
+    ],
+    "eerste_tijd": "19:12",
+    "dagdeel": "avond",
+    "bijgewerkt": "2026-11-27 17:30:45",
+    "eerst_gezien": "2026-11-27 17:30:45"
+  },
+  {
     "id": "EBS:1306:1123_2026-11-27",
     "journey_id": "EBS:1306:1123",
     "datum": "2026-11-27",
@@ -40,7 +84,7 @@
     ],
     "eerste_tijd": "18:34",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-11-27 17:20:31",
+    "bijgewerkt": "2026-11-27 17:30:45",
     "eerst_gezien": "2026-11-27 16:10:31"
   },
   {
@@ -216,7 +260,7 @@
     ],
     "eerste_tijd": "18:00",
     "dagdeel": "avondspits",
-    "bijgewerkt": "2026-11-27 17:20:31",
+    "bijgewerkt": "2026-11-27 17:30:45",
     "eerst_gezien": "2026-11-27 16:30:42"
   },
   {
